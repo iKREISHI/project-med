@@ -29,3 +29,9 @@ def validate_last_name_symbols(last_name: str) -> None:
     """
     if last_name and not re.match(r'^[a-zA-Zа-яА-ЯёЁ]+$', last_name):
         _raise_last_name_validation_error(_('Фамилия должна содержать только буквы.'))
+
+
+def validate_last_name(last_name: str) -> None:
+    validate_last_name_required(last_name)
+    validate_last_name_length(last_name)
+    validate_last_name_symbols(last_name)

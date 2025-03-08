@@ -31,3 +31,9 @@ def validate_username_symbols(username: str) -> None:
         _raise_validation_error(
             _('Имя пользователя должно содержать только латинские буквы, цифры и символ подчеркивания.')
         )
+
+
+def validate_username(username: str) -> None:
+    validate_username_length(username)
+    validate_username_symbols(username)
+    validate_username_unique(username)

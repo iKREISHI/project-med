@@ -29,3 +29,8 @@ def validate_email_unique(email: str) -> None:
     """
     if email and User.objects.filter(email=email).exists():
         _raise_email_validation_error(_('Пользователь с данной почтой уже существует.'))
+
+
+def validate_email(email: str) -> None:
+    validate_email_format(email)
+    validate_email_unique(email)

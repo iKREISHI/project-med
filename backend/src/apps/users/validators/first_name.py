@@ -29,3 +29,9 @@ def validate_first_name_symbols(first_name: str) -> None:
     """
     if first_name and not re.match(r'^[a-zA-Zа-яА-ЯёЁ]+$', first_name):
         _raise_first_name_validation_error(_('Имя должно содержать только буквы.'))
+
+
+def validate_first_name(first_name: str) -> None:
+    validate_first_name_required(first_name)
+    validate_first_name_length(first_name)
+    validate_first_name_symbols(first_name)

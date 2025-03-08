@@ -21,3 +21,8 @@ def validate_patronymic_symbols(patronymic: str) -> None:
     """
     if patronymic and not re.match(r'^[a-zA-Zа-яА-ЯёЁ]+$', patronymic):
         _raise_patronymic_validation_error(_('Отчество должно содержать только буквы.'))
+
+
+def validate_patronymic(patronymic: str) -> None:
+    validate_patronymic_length(patronymic)
+    validate_patronymic_symbols(patronymic)
