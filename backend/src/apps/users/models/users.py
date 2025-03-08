@@ -1,4 +1,6 @@
 from datetime import timedelta
+
+import uuid
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
@@ -59,6 +61,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
     username = models.CharField(
         verbose_name='Имя пользователя',
         unique=True,
