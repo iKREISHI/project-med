@@ -30,6 +30,8 @@ $RECYCLE.BIN/
 *.code-workspace
 *Zone.Identifier
 
+migrations/
+migration/
 .idea/
 .idea/*
 media/
