@@ -10,6 +10,8 @@ INSTALLED_APPS = [
 
     # Dependence
     'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
 
     # Apps
     'apps.users.apps.UsersConfig',

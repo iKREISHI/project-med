@@ -9,8 +9,11 @@ migrate:
 entrypoint:
 	export DJANGO_SETTINGS_MODULE=settings.settings && venv/bin/python3 src/entrypoint.py
 
-startapp:
-	start-venv db-start migrate
+startapp: start-venv migrate
+	start-venv migrate
 
 test:
 	venv/bin/python3 src/manage.py test apps --parallel
+
+schema-api:
+	venv/bin/python3 src/manage.py spectacular --color --file schema.yml

@@ -8,3 +8,4 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 include('commons.py')
 include('installed_apps.py')
 include('locale.py')
+include('rest.py')
