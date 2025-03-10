@@ -14,12 +14,7 @@ class UserModelTests(TestCase):
         user = User.objects.create_user(
             username='johndoe',
             password='securepassword123',
-            email='user@example.com',
-            first_name='John',
-            last_name='Doe'
         )
-        self.assertEqual(user.username, 'johndoe')
-        self.assertEqual(user.email, 'user@example.com')
         self.assertTrue(user.check_password('securepassword123'))
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
@@ -31,9 +26,6 @@ class UserModelTests(TestCase):
         superuser = User.objects.create_superuser(
             username='admin',
             password='adminpassword123',
-            email='admin@example.com',
-            first_name='Admin',
-            last_name='User'
         )
         self.assertTrue(superuser.is_staff)
         self.assertTrue(superuser.is_superuser)
@@ -44,35 +36,11 @@ class UserModelTests(TestCase):
         User.objects.create_user(
             username='uniqueuser',
             password='securepassword123',
-            email='unique1@example.com',
-            first_name='Test',
-            last_name='User'
         )
         with self.assertRaises(IntegrityError):
             User.objects.create_user(
                 username='uniqueuser',
                 password='securepassword123',
-                email='unique2@example.com',
-                first_name='Another',
-                last_name='User'
-            )
-
-    def test_email_uniqueness(self):
-        """Проверка уникальности поля email."""
-        User.objects.create_user(
-            username='user1',
-            password='securepassword123',
-            email='unique@example.com',
-            first_name='Test',
-            last_name='User'
-        )
-        with self.assertRaises(IntegrityError):
-            User.objects.create_user(
-                username='user2',
-                password='securepassword123',
-                email='unique@example.com',
-                first_name='Another',
-                last_name='User'
             )
 
     def test_missing_username_raises_error(self):
@@ -81,9 +49,6 @@ class UserModelTests(TestCase):
             User.objects.create_user(
                 username='',
                 password='securepassword123',
-                email='test@example.com',
-                first_name='Test',
-                last_name='User'
             )
         self.assertEqual(str(context.exception), 'The username must be set')
 
@@ -93,9 +58,6 @@ class UserModelTests(TestCase):
             User.objects.create_user(
                 username='testuser',
                 password='',
-                email='test@example.com',
-                first_name='Test',
-                last_name='User'
             )
         self.assertEqual(str(context.exception), 'The password must be set')
 
@@ -104,31 +66,22 @@ class UserModelTests(TestCase):
         user = User.objects.create_user(
             username='johndoe',
             password='securepassword123',
-            email='user@example.com',
-            first_name='John',
-            last_name='Doe'
         )
-        self.assertEqual(user.get_full_name(), 'John Doe')
+        self.assertEqual(user.get_full_name(), 'johndoe')
 
     def test_get_short_name(self):
         """Проверка работы метода get_short_name()."""
         user = User.objects.create_user(
             username='janedoe',
             password='securepassword123',
-            email='jane@example.com',
-            first_name='Jane',
-            last_name='Doe'
         )
-        self.assertEqual(user.get_short_name(), 'Jane')
+        self.assertEqual(user.get_short_name(), 'janedoe')
 
     def test_avatar_field(self):
         """Проверка сохранения значения поля avatar."""
         user = User.objects.create_user(
             username='avataruser',
             password='securepassword123',
-            email='avatar@example.com',
-            first_name='Avatar',
-            last_name='User',
             avatar='avatars/test.jpg'
         )
         self.assertEqual(user.avatar.name, 'avatars/test.jpg')
@@ -138,9 +91,6 @@ class UserModelTests(TestCase):
         user = User.objects.create_user(
             username='dateuser',
             password='securepassword123',
-            email='date@example.com',
-            first_name='Date',
-            last_name='User'
         )
         self.assertIsNotNone(user.date_joined)
         # Проверяем, что разница между текущим временем и date_joined не превышает 5 секунд
@@ -155,9 +105,6 @@ class UserModelTests(TestCase):
             User.objects._create_user(
                 username='invalidpassworduser',
                 password='short',
-                email='invalid@example.com',
-                first_name='Invalid',
-                last_name='User'
             )
         self.assertEqual(
             str(context.exception),

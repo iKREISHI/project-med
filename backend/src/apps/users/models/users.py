@@ -75,35 +75,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             'required': 'Пожалуйста, заполните поле пароля.',
         }
     )
-    # Email теперь не используется как основной идентификатор, но может храниться
-    email = models.EmailField(
-        verbose_name='Почта',
-        unique=True,
-        blank=True,
-        null=True,
-        error_messages={
-            'required': 'Пожалуйста, заполните поле почты.',
-        }
-    )
-    first_name = models.CharField(
-        verbose_name='Имя',
-        max_length=100,
-        error_messages={
-            'required': 'Пожалуйста, заполните поле имени.',
-        }
-    )
-    last_name = models.CharField(
-        verbose_name='Фамилия',
-        max_length=100,
-        error_messages={
-            'required': 'Пожалуйста, заполните поле фамилии.',
-        }
-    )
-    patronymic = models.CharField(
-        verbose_name='Отчество',
-        max_length=100,
-        blank=True
-    )
     date_joined = models.DateTimeField(
         verbose_name='Дата создания аккаунта',
         default=timezone.now
@@ -133,11 +104,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         Returns the first_name plus the last_name, with a space in between.
         """
-        full_name = '%s %s' % (self.first_name, self.last_name)
+        full_name = '%s' % self.username
         return full_name.strip()
 
     def get_short_name(self):
         """
         Returns the short name for the user.
         """
-        return self.first_name
+        return self.username

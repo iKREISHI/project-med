@@ -15,9 +15,6 @@ class RegistrationViewSetTest(APITestCase):
             'password': 'Validpass123',
             'password2': 'Validpass123',
             'email': 'newuser@example.com',
-            'first_name': 'Ivan',
-            'last_name': 'Ivanov',
-            'patronymic': 'Ivanovich',
             'avatar': None,
         }
         # Данные с несовпадающими паролями
@@ -26,9 +23,6 @@ class RegistrationViewSetTest(APITestCase):
             'password': 'Validpass123',
             'password2': 'DifferentPass123',
             'email': 'newuser2@example.com',
-            'first_name': 'Ivan',
-            'last_name': 'Ivanov',
-            'patronymic': 'Ivanovich',
             'avatar': None,
         }
         # Данные с отсутствием обязательных полей (например, username и password)
