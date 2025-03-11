@@ -7,7 +7,7 @@ from .validators import (
 )
 
 
-class AbstractPerson(models.Model):
+class AbstractPersonModel(models.Model):
     last_name = models.CharField(
         max_length=150,
         verbose_name=_("Фамилия"),
