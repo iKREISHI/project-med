@@ -15,7 +15,8 @@ INSTALLED_APPS = [
 
     # Apps
     'apps.users.apps.UsersConfig',
+    'apps.clients.apps.ClientsConfig',
 
     # API apps
-    'apps.api.v0.apps.V0Config',
+    'api.v0.apps.V0Config',
 ]

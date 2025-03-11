@@ -2,7 +2,7 @@ import os
 import django
 
 # Установка переменной окружения для конфигурации Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'base.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 # Инициализация приложений Django
 django.setup()
