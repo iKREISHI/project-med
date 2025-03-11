@@ -1,27 +1,29 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from .validators import (
+    validate_last_name, validate_first_name, validate_patronymic,
+    validate_gender, validate_date_of_birth, validate_snils,
+    validate_inn, validate_photo_size, validate_phone, validate_address
+)
 
 
-class AbstractPersonModel(models.Model):
-    """
-    Абстрактная модель человека. Не может быть использована напрямую,
-    но может служить родительской для других моделей (например, Пациент, Врач).
-    """
-
-    # Поля
+class AbstractPerson(models.Model):
     last_name = models.CharField(
         max_length=150,
-        verbose_name=_("Фамилия")
+        verbose_name=_("Фамилия"),
+        validators=[validate_last_name],
     )
     first_name = models.CharField(
         max_length=150,
-        verbose_name=_("Имя")
+        verbose_name=_("Имя"),
+        validators=[validate_first_name],
     )
     patronymic = models.CharField(
         max_length=150,
         blank=True,
         null=True,
-        verbose_name=_("Отчество")
+        verbose_name=_("Отчество"),
+        validators=[validate_patronymic],
     )
 
     GENDER_CHOICES = [
@@ -33,13 +35,15 @@ class AbstractPersonModel(models.Model):
         max_length=1,
         choices=GENDER_CHOICES,
         default='U',
-        verbose_name=_("Пол")
+        verbose_name=_("Пол"),
+        validators=[validate_gender],
     )
 
     date_of_birth = models.DateField(
         blank=True,
         null=True,
-        verbose_name=_("Дата рождения")
+        verbose_name=_("Дата рождения"),
+        validators=[validate_date_of_birth],
     )
     date_created = models.DateTimeField(
         auto_now_add=True,
@@ -51,33 +55,38 @@ class AbstractPersonModel(models.Model):
         blank=True,
         null=True,
         verbose_name=_("СНИЛС"),
+        validators=[validate_snils],
         help_text=_("Укажите СНИЛС в формате 123-456-789 01 или 12345678901")
     )
     inn = models.CharField(
         max_length=12,
         blank=True,
         null=True,
-        verbose_name=_("ИНН")
+        verbose_name=_("ИНН"),
+        validators=[validate_inn],
     )
 
     photo = models.ImageField(
         upload_to="photos/",
         blank=True,
         null=True,
-        verbose_name=_("Фото")
+        verbose_name=_("Фото"),
+        validators=[validate_photo_size],
     )
 
     registration_address = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=_("Адрес регистрации")
+        verbose_name=_("Адрес регистрации"),
+        validators=[validate_address],
     )
     actual_address = models.CharField(
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=_("Адрес фактического проживания")
+        verbose_name=_("Адрес фактического проживания"),
+        validators=[validate_address],
     )
 
     email = models.EmailField(
@@ -89,7 +98,8 @@ class AbstractPersonModel(models.Model):
         max_length=20,
         blank=True,
         null=True,
-        verbose_name=_("Номер телефона")
+        verbose_name=_("Номер телефона"),
+        validators=[validate_phone],
     )
 
     class Meta:
@@ -98,10 +108,8 @@ class AbstractPersonModel(models.Model):
         verbose_name_plural = _("Люди (абстрактные)")
 
     def __str__(self):
-        """Удобное представление объекта (фамилия и имя)."""
         return f"{self.last_name} {self.first_name}".strip()
 
     def get_full_name(self):
-        """Возвращает полное ФИО."""
         parts = [self.last_name, self.first_name, self.patronymic]
         return " ".join(filter(None, parts))
