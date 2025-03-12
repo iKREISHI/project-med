@@ -1,11 +1,20 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import ValidationError
+
+from apps.staffing.validators.position import (
+    validate_position_name,
+    validate_position_short_name
+)
+import uuid
 
 
 class Position(models.Model):
     """
-    Пример модели «Должность».
+    Модель «Должность».
     """
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
     name = models.CharField(
         max_length=255,
         verbose_name=_("Наименование должности")
@@ -35,3 +44,16 @@ class Position(models.Model):
 
     def get_short_name(self):
         return self.short_name
+
+    def clean(self):
+        super().clean()
+
+        try:
+            validate_position_name(self.name)
+        except ValidationError as error:
+            raise ValidationError({'name': error})
+
+        try:
+            validate_position_short_name(self.short_name)
+        except ValidationError as error:
+            raise ValidationError({'short_name': error})

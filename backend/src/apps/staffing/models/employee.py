@@ -1,13 +1,22 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import ValidationError
+
 from apps.abstract_models.person import AbstractPersonModel
 from .position import Position
+from apps.staffing.validators.employee import (
+    validate_appointment_duration,
+    validate_short_description
+)
+import uuid
 
 
 class Employee(AbstractPersonModel):
     """
     Модель «Сотрудник». Наследует поля от абстрактной модели «Человек» (AbstractPersonModel).
     """
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
     # TODO: поменять на ForeignKey
     department = models.CharField(
         # on_delete=models.SET_NULL,
@@ -40,3 +49,17 @@ class Employee(AbstractPersonModel):
 
     def __str__(self):
         return f"Сотрудник {self.get_full_name()}"
+
+    def clean(self):
+        super().clean()
+
+        try:
+            validate_appointment_duration(self.appointment_duration)
+        except ValidationError as error:
+            raise ValidationError({'appointment_duration': error})
+
+        try:
+            validate_short_description(self.short_description)
+        except ValidationError as error:
+            raise ValidationError({'short_description': error})
+
