@@ -23,7 +23,7 @@ class Contractor(models.Model):
         verbose_name=_("КПП")
     )
     bank_account = models.CharField(
-        max_length=50,
+        max_length=128,
         blank=True,
         null=True,
         verbose_name=_("Основной банковский счёт")
