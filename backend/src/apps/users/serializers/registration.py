@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
+
+from apps.users.services import CreateUserService
 from apps.users.validators import (
     validate_username, validate_password,
 )
@@ -43,4 +45,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        username = validated_data.pop('username')
+        password = validated_data.pop('password')
+        create_user = CreateUserService(username, password)
+        return create_user.create_user(**validated_data)
