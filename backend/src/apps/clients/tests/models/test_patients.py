@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from apps.clients.models import Patient
-from apps.clients.models.counterparty import Contractor
+from apps.clients.models.contractor import Contractor
 
 
 class PatientModelTest(TestCase):

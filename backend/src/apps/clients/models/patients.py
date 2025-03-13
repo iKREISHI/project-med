@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from apps.abstract_models.person import AbstractPersonModel
-from apps.clients.models.counterparty import Contractor
+from apps.clients.models.contractor import Contractor
 from apps.clients.validators import (
     validate_place_of_work,
     validate_additional_place_of_work,
