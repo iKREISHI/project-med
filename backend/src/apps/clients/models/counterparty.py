@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 
 class Contractor(models.Model):
     """
     Модель «Контрагент».
     """
-
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     full_name = models.CharField(
         max_length=255,
         verbose_name=_("Полное наименование")
