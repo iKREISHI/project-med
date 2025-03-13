@@ -10,7 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "openapi-fetch": "^0.13.4",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.7",
+    "@mui/material": "^6.4.7",
+    "@mui/x-charts": "^7.27.1",
+    "@mui/x-date-pickers": "^7.27.3",
+    "dayjs": "^1.11.13",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0"
