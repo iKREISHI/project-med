@@ -17,9 +17,6 @@ try:
         User.objects.create_superuser(
             username=SUPERUSER_USERNAME,
             password=SUPERUSER_PASSWORD,
-            first_name='Admin',
-            last_name='Admin',
-            patronymic='Admin',
         )
         print(f"Суперпользователь успешно создан.")
     else:
