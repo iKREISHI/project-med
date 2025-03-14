@@ -4,7 +4,6 @@ import { Chat } from "../../1_pages/chat";
 import { DashBoard } from "../../1_pages/dashboard";
 import { Registry } from "../../1_pages/registry";
 import { Main } from "../../1_pages/main";
-import { Registration } from "../../1_pages/registration"
 import { Login } from "../../1_pages/login"
 
 export const RouterComponent: FC = () => {
@@ -17,8 +16,8 @@ export const RouterComponent: FC = () => {
           <Route path="document" element={<div>document</div>} />
           <Route path="schedule" element={<div>schedule</div>} />
           <Route path="registry" element={<Registry />} />
+          <Route path="registry/new-patient" element={<h1>Новый пациент</h1>} />
         </Route>
-        <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>

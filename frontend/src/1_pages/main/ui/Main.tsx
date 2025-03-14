@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { CustomDrawer, Plane, Calendar, Header } from '../../../5_Shared';
+import { CustomDrawer, Plane, Calendar, Header } from '../../../6_Shared';
 import { Toolbar, CssBaseline, Box } from '@mui/material';
-import { MainSx } from './MainSx.ts';
+// import { MainSx } from './MainSx.ts';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles'; 
-import { globalsStyle } from '../../../5_Shared/styles/globalsStyle';
+import { globalsStyle } from '../../../6_Shared/styles/globalsStyle';
 
 export function Main() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -25,13 +25,13 @@ export function Main() {
   ];
 
   const tasks = [
-    { task: 'Задача 1', date: '12.02.2024' },
-    { task: 'Задача 2', date: '13.02.2024' },
-    { task: 'Задача 3', date: '14.02.2024' },
+    { task: 'Задача 1', date: '12.02.2025' },
+    { task: 'Задача 2', date: '13.02.2025' },
+    { task: 'Задача 3', date: '14.02.2025' },
   ];
 
-  const currentMenuItem = listItems.find((item) => item.path === location.pathname) || listItems[0];
-
+  const currentMenuItem = listItems.find((item) => item.path === `/${location.pathname.split('/')[1]}`) || listItems[0];
+  console.log(currentMenuItem)
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -46,6 +46,7 @@ export function Main() {
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
         listItems={listItems}
+        
       />
 
       <Box
@@ -57,10 +58,10 @@ export function Main() {
         }}
       >
         <Toolbar />
-        <Box sx={{ m: 3, mt: 8 }}>
+        <Box sx={{ m: 3, mt: 5 }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, lg: 9, md: 12 }}>
-              <Box sx={MainSx.container}>
+              <Box>
                 <Outlet />
               </Box>
             </Grid>
