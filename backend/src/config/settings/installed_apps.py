@@ -17,6 +17,9 @@ INSTALLED_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.clients.apps.ClientsConfig',
     'apps.staffing.apps.StaffingConfig',
+    'apps.company_structure.apps.CompanyStructureConfig',
+    'apps.medical_activity.apps.MedicalActivityConfig',
+    'apps.registry.apps.RegistryConfig',
 
     # API apps
     'api.v0.apps.V0Config',

@@ -1,7 +1,9 @@
 import uuid
 from django.db import models
+from django.db.models import SET_NULL
 
 from apps.clients.models import Patient
+from apps.registry.models import MedicalCard
 
 
 class DoctorAppointment(models.Model):
@@ -16,9 +18,8 @@ class DoctorAppointment(models.Model):
         help_text='Внешний ключ на пациента направленного на приём'
     )
 
-    # TODO: Заменить на врача
-    assigned_doctor = models.CharField(
-        max_length='255',
+    assigned_doctor = models.ForeignKey(
+        'staffing.Employee',
         verbose_name='Назначенный врач',
         blank=True,
         null=True,
@@ -76,11 +77,12 @@ class DoctorAppointment(models.Model):
         verbose_name="Дата создания"
     )
 
-    # TODO: Добавить как сделаем
-    medical_card = models.CharField(
+    medical_card = models.ForeignKey(
+        'registry.MedicalCard',
         max_length=255,
         blank=True,
         null=True,
+        on_delete=SET_NULL,
     )
 
     # TODO: Поменять как будет готов врач

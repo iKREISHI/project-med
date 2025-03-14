@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class MedicalActivityConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'medical_activity'
+    name = 'apps.medical_activity'

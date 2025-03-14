@@ -3,7 +3,7 @@ start-venv:
 	venv/bin/pip install -r requirements.txt
 
 migrate:
-	venv/bin/python3 src/manage.py makemigrations users clients staffing
+	venv/bin/python3 src/manage.py makemigrations users clients staffing company_structure medical_activity registry
 	venv/bin/python3 src/manage.py migrate
 
 entrypoint:

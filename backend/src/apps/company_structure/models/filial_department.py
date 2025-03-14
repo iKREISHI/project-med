@@ -1,11 +1,10 @@
 import uuid
 from django.db import models
-from apps.company_structure.models.filial import Filial
 
 
 class FilialDepartment(models.Model):
     """
-        Подразделение
+        Подразделение филиала
     """
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
@@ -14,14 +13,17 @@ class FilialDepartment(models.Model):
         verbose_name='Название подразделения'
     )
 
-    # TODO: Заменить поле на ключ к сотрудникам
-    director = models.CharField(
-        max_length='100',
+    director = models.ForeignKey(
+        'staffing.Employee',  # Используем строковую ссылку
+        on_delete=models.SET_NULL,
         verbose_name='Руководитель',
+        null=True,
+        blank=True,
+        related_name='managed_departments'
     )
 
     filial = models.ForeignKey(
-        Filial,
+        'company_structure.Filial',
         on_delete=models.SET_NULL,
         verbose_name='Филиал',
         blank=True,

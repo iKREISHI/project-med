@@ -3,6 +3,9 @@ from django.db import models
 
 # Дом улица город корпус
 class Filial(models.Model):
+    """
+        Филиал
+    """
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     house = models.CharField(
