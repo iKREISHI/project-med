@@ -5,6 +5,9 @@ from .views.auth import (
     LoginViewSet, LogoutViewSet, CurrentUserViewSet
 )
 from .views.registration import RegistrationViewSet
+from .views.clients import (
+    PatientViewSet
+)
 
 
 router = DefaultRouter()
@@ -12,5 +15,6 @@ router.register('login', LoginViewSet, basename='login')
 router.register('logout', LogoutViewSet, basename='logout')
 router.register('registration', RegistrationViewSet, basename='registration')
 router.register('current-user', CurrentUserViewSet, basename='current-user')
+router.register('patient', PatientViewSet, basename='patient')
 
 urlpatterns = router.urls
