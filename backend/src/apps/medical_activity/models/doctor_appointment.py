@@ -7,6 +7,10 @@ from apps.registry.models import MedicalCard
 
 
 class DoctorAppointment(models.Model):
+    """
+    Прием к врачу
+    """
+
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     patient = models.ForeignKey(
