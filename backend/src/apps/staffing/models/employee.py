@@ -17,10 +17,20 @@ class Employee(AbstractPersonModel):
     """
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
+    user = models.OneToOneField(
+        'users.User',
+        on_delete=models.SET_NULL,
+        related_name='employee_profile',
+        verbose_name='Пользователь',
+        null=True,
+        blank=True,
+    )
+
     # TODO: поменять на ForeignKey
-    department = models.CharField(
+    department = models.ForeignKey(
         # on_delete=models.SET_NULL,
-        max_length=128,
+        'company_structure.FilialDepartment',
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name=_("Подразделение")
