@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Permission, Group
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
@@ -14,6 +15,15 @@ class Position(models.Model):
     Модель «Должность».
     """
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    group = models.ForeignKey(
+        Group,
+        on_delete=models.CASCADE,
+        verbose_name=_("Группа доступа"),
+        null=True,
+        blank=True,
+        related_name='permission_group',
+    )
 
     name = models.CharField(
         max_length=255,
