@@ -6,6 +6,7 @@ import { AvatarPerson } from '../../../5_Entities/Avatar';
 import { useThemeContext } from '../ThemeContext';
 import { globalsStyle } from '../../../6_Shared/styles/globalsStyle';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
+
 interface User {
   name: string;
   surname: string;
@@ -24,6 +25,37 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
   const { toggleTheme, mode } = useThemeContext();
   const theme = useTheme();
 
+  // Загрузка скриптов для версии для слабовидящих
+  useEffect(() => {
+    const loadScript = (src: string, id: string): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        if (document.getElementById(id)) {
+          resolve();
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.id = id;
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error(`Ошибка загрузки скрипта: ${src}`));
+        document.body.appendChild(script);
+      });
+    };
+
+    const loadScripts = async () => {
+      try {
+        await loadScript('https://lidrekon.ru/slep/js/jquery.js', 'jquery-script');
+        await loadScript('https://lidrekon.ru/slep/js/uhpv-hover-full.min.js', 'uhpv-script');
+      } catch (error) {
+        console.error('Ошибка при загрузке скриптов:', error);
+      }
+    };
+    loadScripts();
+  }, []);
+
+  // Отслеживание события прокрутки страницы (для изменения стилей шапки страницы)
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 25) {
@@ -32,13 +64,12 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
         setIsScrolled(false);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
 
   const appBarStyles = {
     ...headerSx.appBar,
@@ -62,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
           <Box sx={{ flexGrow: 1 }}>
             <Typography
               noWrap
-              component="h3"
+              component="h1"
               sx={{
                 fontSize: {
                   sm: theme.typography.h4.fontSize,
@@ -88,10 +119,20 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
 
           <Box sx={headerSx.userInfoBox}>
             <Box sx={headerSx.userTextContainer}>
-              <Switch checked={mode === 'dark'} onChange={toggleTheme} color="primary" />              
+              <Switch checked={mode === 'dark'} onChange={toggleTheme} color="primary" />
               <ModeNightIcon sx={{ color: theme.palette.primary.main }} />
-
             </Box>
+            {/* Кнопка для слабовидящих */}
+            <img
+              id="specialButton"
+              src="https://lidrekon.ru/images/special.png"
+              alt="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
+              title="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
+              style={{
+                cursor: 'pointer',
+                filter: theme.palette.mode === 'dark' ? 'invert(100%)' : 'none', 
+              }}
+            />
             <AvatarPerson name={user.name[0]} />
           </Box>
         </Box>
@@ -100,4 +141,4 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
   );
 };
 
-export default Header;
+export default Header

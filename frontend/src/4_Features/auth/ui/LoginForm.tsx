@@ -7,7 +7,7 @@ interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+export const  LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,6 +32,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           fullWidth
+          
         />
       </Box>
       <Box sx={{ marginTop: 1 }}>
@@ -52,4 +53,3 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default LoginForm;

@@ -30,6 +30,7 @@ const InputSearch: React.FC<InputProps> = ({ type, value, onChange, fullWidth, p
               <IconButton
                 onClick={onSearch}
                 sx={inputSearchSx.iconSearch}
+                aria-label="Найти"
               >
                 <SearchIcon fontSize="small" />
               </IconButton>

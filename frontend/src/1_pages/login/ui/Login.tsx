@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Container, GlobalStyles } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from '../../../4_Features/auth/ui/LoginForm';
+import {LoginForm} from '../../../4_Features/auth';
 import { loginSx } from './loginSx';
 
 export const Login: React.FC = () => {

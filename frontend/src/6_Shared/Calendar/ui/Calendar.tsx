@@ -5,7 +5,7 @@ import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { Box } from '@mui/material'; 
+import { Box } from '@mui/material';
 import { calendarSx } from './calendarSx';
 
 dayjs.locale('ru');
@@ -21,7 +21,14 @@ export default function Calendar() {
             <DateCalendar
               value={value}
               onChange={(newValue) => setValue(newValue)}
-              sx={calendarSx.calendar}
+              sx={{
+                ...calendarSx.calendar,
+                '& .MuiButtonBase-root': {
+                  '& .MuiTouchRipple-root': {
+                    display: 'none', 
+                  },
+                },
+              }}
             />
           </DemoItem>
         </DemoContainer>

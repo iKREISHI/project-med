@@ -17,10 +17,13 @@
     "@mui/x-charts": "^7.27.1",
     "@mui/x-data-grid": "^7.27.3",
     "@mui/x-date-pickers": "^7.27.3",
+    "bvi": "^1.0.2",
     "dayjs": "^1.11.13",
     "react": "^19.0.0",
+    "react-accessibility": "^0.13.1",
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",
+    "react-input-mask": "^2.0.4",
     "react-router-dom": "^7.3.0"
   },
   "devDependencies": {

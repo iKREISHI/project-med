@@ -9,9 +9,10 @@ interface CustomButtonProps {
   fullWidth?: boolean;
   variant?: 'text' | 'contained' | 'outlined';
   startIcon?: React.ReactNode;
+  type?: 'button' | 'submit' | 'reset'
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ children, onClick, fullWidth = false, variant = 'contained', startIcon, }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ children, onClick, fullWidth = false, variant = 'contained', startIcon, type}) => {
   return (
     <Button
       variant={variant}
@@ -19,6 +20,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({ children, onClick, fullWidt
       onClick={onClick}
       fullWidth={fullWidth}
       startIcon={startIcon}
+      disableRipple
+      type={type}
     >
       <Typography style={{ textTransform: 'none' }}>
         {children}

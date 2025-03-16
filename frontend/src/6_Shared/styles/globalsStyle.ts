@@ -19,5 +19,8 @@ export const globalsStyle = {
         lg: '20px',
         base: '10px'
     },
+    boxShadow: {
+        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+    },
     widthDrawer: '230px'
 };

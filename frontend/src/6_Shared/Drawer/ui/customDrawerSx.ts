@@ -3,6 +3,16 @@ import { globalsStyle } from '../../styles/globalsStyle';
 
 
 export const customDrawerSx = {
+  topContainer: {
+    display: 'flex',
+    justifyContent: {
+        xs: 'space-between',
+        md: 'center',
+    },
+    alignItems: 'center',
+    width: '100%',
+    p: 1,
+  },
   sideContainer: {
     display: 'flex',
     alignItems: 'center',

@@ -2,6 +2,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { globalsStyle } from '../../../../6_Shared/styles/globalsStyle';
 import { useRef, useState, useEffect } from 'react';
 import { Box } from '@mui/material';
+import { globalsStyleSx } from '../../../styles/globalsStyleSx';
 
 export default function PatientVisitsChart() {
   const containerRef = useRef<HTMLElement>(null);
@@ -20,7 +21,7 @@ export default function PatientVisitsChart() {
   }, []);
 
   return (
-    <Box ref={containerRef} style={{ width: '100%' }}>
+    <Box ref={containerRef} style={{ width: '100%' }} sx={globalsStyleSx.container}>
       <LineChart
         xAxis={[
           {
@@ -42,7 +43,7 @@ export default function PatientVisitsChart() {
           },
         ]}
         width={chartWidth}
-        height={500}
+        height={400}
       />
     </Box>
   );

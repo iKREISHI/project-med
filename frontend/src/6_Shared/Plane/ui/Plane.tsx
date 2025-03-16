@@ -13,6 +13,7 @@ interface PlaneProps {
   tasks: Task[];
 }
 
+// Отображение списка задач с возможностью добавлять новые и удалять существующие
 const Plane: React.FC<PlaneProps> = ({ tasks }) => {
   const theme = useTheme(); 
 
@@ -41,7 +42,7 @@ const Plane: React.FC<PlaneProps> = ({ tasks }) => {
               {task.date}
             </Typography>
           </Box>
-          <IconButton>
+          <IconButton aria-label='Удалить' title="Удалить" disableRipple>
             <DeleteOutlineIcon sx={planeSx.deleteIcon} />
           </IconButton>
         </Box>

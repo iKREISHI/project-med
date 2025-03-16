@@ -1,13 +1,14 @@
 import React from 'react';
-import { Logout } from '@mui/icons-material'; 
+import { Logout } from '@mui/icons-material';
 import { Tooltip, IconButton, ListItemIcon, MenuItem, Menu, Avatar } from '@mui/material';
 import { avatarPersonSx } from './avatarPersonSx';
 import { useNavigate } from 'react-router-dom';
 
 interface AvatarPersonProps {
-  name: string; 
+  name: string;
 }
 
+// аватар профиля прользователя
 const AvatarPerson: React.FC<AvatarPersonProps> = ({ name }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -28,7 +29,9 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name }) => {
   return (
     <React.Fragment>
       <Tooltip title="Профиль">
+        {/* Иконка профиля */}
         <IconButton
+          disableRipple
           onClick={handleClick}
           size="small"
           sx={avatarPersonSx.iconButton}
@@ -55,8 +58,8 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name }) => {
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      > 
-        <MenuItem onClick={handleLogout}>
+      >
+        <MenuItem onClick={handleLogout} disableRipple>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

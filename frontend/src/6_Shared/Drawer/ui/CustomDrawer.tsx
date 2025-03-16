@@ -28,23 +28,10 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
     const drawer = (
         <Box sx={customDrawerSx.sideContainer}>
             <Box sx={customDrawerSx.linkContainer}>
-                <Toolbar
-                    sx={customDrawerSx.toolbar}
-                >
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: {
-                                xs: 'space-between',
-                                md: 'center',
-                            },
-                            alignItems: 'center',
-                            width: '100%',
-                            p: 1,
-                        }}
-                    >
+                <Toolbar sx={customDrawerSx.toolbar}>
+                    <Box sx={customDrawerSx.topContainer}>
                         <Box>
-                            {/* <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize }}>медvед код</Typography> */}
+                            <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white }}>медvед код</Typography>
                         </Box>
                         <IconButton onClick={handleDrawerToggle} sx={{ display: { xs: 'block', sm: 'none' } }}>
                             <CloseIcon sx={{ color: theme.palette.common.white }} />
@@ -66,7 +53,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                 <List>
                     {listItems.map((item, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton
+                            <ListItemButton disableRipple
                                 component={Link}
                                 to={item.path}
                                 sx={{

@@ -2,9 +2,9 @@ import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Button, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { InputForm } from '../../../6_Shared';
+import { CustomButton, InputForm } from '../../../../6_Shared';
 import { ruRU } from '@mui/x-data-grid/locales';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 interface Patient {
@@ -24,11 +24,12 @@ const columns: GridColDef[] = [
   { field: 'fullName', headerName: 'ФИО', width: 250 },
   { field: 'lastVisit', headerName: 'Дата последнего приема', width: 150 },
 ];
-
+ // Главная старница со списокм пациентов 
 export const Registry: React.FC = () => {
   const screenWidth = window.screen.width;
   const [patients, setPatients] = React.useState(Patients);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const navigate = useNavigate()
 
   const filteredPatients = patients.filter((patient) =>
     patient.fullName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -46,16 +47,15 @@ export const Registry: React.FC = () => {
           placeholder='Поиск'
         />
       </Box>
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        onClick={() => console.log('Добавить пациента')}
-        sx={{ mb: 2 }}
-        component={Link} 
-        to="/registry/new-patient"
-      >
-        Добавить пациента
-      </Button>
+      <Box sx={{ mb: 1 }}>
+        <CustomButton
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => navigate('/registry/patient')}
+        >
+          Добавить пациента
+        </CustomButton>
+      </Box>
       <Box sx={{ overflowX: 'auto', width: `calc(${screenWidth}px` }}>
         <Paper>
           <DataGrid
