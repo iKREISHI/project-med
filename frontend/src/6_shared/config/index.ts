@@ -1,1 +1,1 @@
-export { backendBaseUrl } from './backend'
+export { backendBaseUrl } from './backend.ts'
