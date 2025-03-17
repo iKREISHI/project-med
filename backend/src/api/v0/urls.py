@@ -11,6 +11,9 @@ from .views.clients import (
 from .views.staffing import (
     EmployeeViewSet
 )
+from .views.registry import (
+    MedicalCardViewSet
+)
 
 
 router = DefaultRouter()
@@ -20,5 +23,6 @@ router.register('registration', RegistrationViewSet, basename='registration')
 router.register('current-user', CurrentUserViewSet, basename='current-user')
 router.register('patient', PatientViewSet, basename='patient')
 router.register('employee', EmployeeViewSet, basename='employee')
+router.register('medical-card', MedicalCardViewSet, basename='medical-card')
 
 urlpatterns = router.urls
