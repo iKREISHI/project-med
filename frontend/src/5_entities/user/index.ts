@@ -1,0 +1,1 @@
+export { LoginModel } from "./model/model"

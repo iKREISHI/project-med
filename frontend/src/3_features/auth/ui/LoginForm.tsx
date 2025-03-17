@@ -1,11 +1,11 @@
-import { Login } from "../../../5_entities/user/model/model.ts";
+import { LoginModel } from "../../../5_entities/user/model/model.ts";
 import {FC, useState} from "react";
 import {login} from "../api/login.ts";
 
 export const LoginForm = () => {
 
   //Состояние реквизитов для входа
-  const [credentials, setCredentials] = useState<Login>({
+  const [credentials, setCredentials] = useState<LoginModel>({
     username:"",
     password:""
   })
