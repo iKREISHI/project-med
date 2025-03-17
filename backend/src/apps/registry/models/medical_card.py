@@ -8,12 +8,7 @@ class MedicalCard(models.Model):
     Медицинская карта
     """
 
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        verbose_name='Номер карты'
-    )
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     client = models.ForeignKey(
         'clients.Patient',
