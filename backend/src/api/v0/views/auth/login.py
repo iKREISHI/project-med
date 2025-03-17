@@ -21,6 +21,11 @@ class LoginViewSet(viewsets.ViewSet):
             user = serializer.validated_data['user']
             login(request, user)
 
-            return Response({'detail': _('Успешный вход')}, status=status.HTTP_200_OK)
+            return Response({
+                'detail': _('Успешный вход'),
+                'user_uuid': user.uuid,
+                'position_uuid': user.employee_profile.position.uuid,
+                'position': user.employee_profile.position.name,
+            }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
