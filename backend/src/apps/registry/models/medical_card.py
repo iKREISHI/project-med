@@ -2,8 +2,10 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
 
+from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 
-class MedicalCard(models.Model):
+
+class MedicalCard(AbstractElectronicSignature):
     """
     Медицинская карта
     """
@@ -43,10 +45,6 @@ class MedicalCard(models.Model):
         verbose_name='Филиал'
     )
 
-    is_signed = models.BooleanField(
-        default=False,
-        verbose_name='Подписано ЭП'
-    )
 
     class Meta:
         verbose_name = "Медицинская карта"
