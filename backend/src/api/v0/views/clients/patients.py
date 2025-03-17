@@ -29,7 +29,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     lookup_field = 'uuid'
     pagination_class = PatientPagination
     # Используем BasicAuthentication, чтобы при отсутствии аутентификации возвращался 401
-    authentication_classes = [BasicAuthentication]
+    # authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, *args, **kwargs):

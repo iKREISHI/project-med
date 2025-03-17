@@ -125,4 +125,5 @@ class PatientViewSetPaginationTestCase(APITestCase):
         patient = self.patients[3]
         detail_url = reverse('patient-detail', kwargs={'uuid': patient.uuid})
         response = self.client.delete(detail_url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        # self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
