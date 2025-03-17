@@ -9,7 +9,7 @@ django.setup()
 
 from apps.users.models import User
 from django.contrib.auth.models import Group, Permission
-from apps.staffing.models import Position
+from apps.staffing.models import Position, Employee
 
 SUPERUSER_USERNAME = 'root'
 SUPERUSER_PASSWORD = 'root'
@@ -27,8 +27,7 @@ try:
 except Exception as e:
     print(f"Ошибка при создании суперпользователя: {e}")
 
-# Определяем группы и права для них.
-# Формат прав: "app_label.codename"
+# Создание групп с правами (код из предыдущего примера)
 group_permissions = {
     "Врачи": [
         "medical_activity.add_doctorappointment",
@@ -94,14 +93,12 @@ group_permissions = {
     ]
 }
 
-# Создание или обновление групп с правами
 for group_name, perms in group_permissions.items():
     group, created = Group.objects.get_or_create(name=group_name)
     if created:
         print(f"Группа '{group_name}' создана.")
     else:
         print(f"Группа '{group_name}' уже существует.")
-    # Очистим текущие права и назначим новые
     group.permissions.clear()
     for perm_str in perms:
         try:
@@ -113,7 +110,7 @@ for group_name, perms in group_permissions.items():
     group.save()
     print(f"Группа '{group_name}' обновлена с правами: {', '.join(perms)}")
 
-# Данные для создания должностей, связанных с группами
+# Создание должностей, связанных с группами
 positions_data = [
     {
         'name': 'Врач',
@@ -141,7 +138,6 @@ positions_data = [
     },
 ]
 
-# Создание или обновление должностей для каждой группы
 for data in positions_data:
     try:
         group = Group.objects.get(name=data['group_name'])
@@ -161,3 +157,34 @@ for data in positions_data:
         print(f"Создана должность: {position.name} для группы {group.name}")
     else:
         print(f"Должность {position.name} для группы {group.name} уже существует")
+
+# Создание записи Employee для суперпользователя root и добавление пользователя в группу "Администраторы"
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+try:
+    root_user = User.objects.get(username=SUPERUSER_USERNAME)
+    employee, created = Employee.objects.get_or_create(
+        user=root_user,
+        defaults={
+            'first_name': 'Root',
+            'last_name': 'User',
+            # При необходимости можно задать другие поля, например, appointment_duration, short_description и т.д.
+            'position': Position.objects.get(name='Администратор'),
+        }
+    )
+    if created:
+        print("Сотрудник для пользователя root успешно создан.")
+    else:
+        print("Сотрудник для пользователя root уже существует.")
+        employee.position = Position.objects.get(name='Администратор')
+        employee.save()
+except Exception as e:
+    print(f"Ошибка при создании сотрудника для root: {e}")
+
+try:
+    admin_group = Group.objects.get(name="Администраторы")
+    root_user.groups.add(admin_group)
+    print("Пользователь root добавлен в группу 'Администраторы'.")
+except Group.DoesNotExist:
+    print("Группа 'Администраторы' не найдена.")
