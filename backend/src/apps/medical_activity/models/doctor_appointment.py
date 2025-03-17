@@ -1,16 +1,15 @@
 import uuid
 from django.db import models
 from django.db.models import SET_NULL
-
+from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 from apps.clients.models import Patient
 from apps.registry.models import MedicalCard
 
 
-class DoctorAppointment(models.Model):
+class DoctorAppointment(AbstractElectronicSignature):
     """
     Прием к врачу
     """
-
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     patient = models.ForeignKey(
@@ -28,21 +27,28 @@ class DoctorAppointment(models.Model):
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        help_text='Внешний ключ на врача к которому был записан пациент'
+        help_text='Внешний ключ на врача, к которому был записан пациент',
+        related_name='doctorappointment_assigned'
     )
 
-    # Шаблон осмотра
+    # Переопределяем поле signed_by для установки уникального related_name.
+    signed_by = models.ForeignKey(
+        'staffing.Employee',
+        on_delete=models.PROTECT,
+        verbose_name='Кем подписан',
+        related_name='doctorappointment_signed'
+    )
 
     is_first_appointment = models.BooleanField(
         default=True,
         verbose_name='Флаг первого приема',
-        help_text='Флаг означающий что это первичный прием пациента'
+        help_text='Флаг, означающий, что это первичный прием пациента'
     )
 
     is_closed = models.BooleanField(
         default=False,
         verbose_name='Приём закрыт',
-        help_text='Флаг, того что приём закрыт'
+        help_text='Флаг, указывающий, что приём закрыт'
     )
 
     reason_for_inspection = models.TextField(
@@ -71,11 +77,6 @@ class DoctorAppointment(models.Model):
         verbose_name='Тип обследования'
     )
 
-    is_signed = models.BooleanField(
-        default=False,
-        verbose_name='Подписано ЭП'
-    )
-
     date_created = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата создания"
@@ -89,7 +90,6 @@ class DoctorAppointment(models.Model):
         on_delete=SET_NULL,
     )
 
-    # TODO: Поменять как будет готов врач
     def __str__(self):
         return f"{self.patient} - {self.assigned_doctor} {self.date_created}"
 
