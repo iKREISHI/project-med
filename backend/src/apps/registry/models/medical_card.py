@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
-
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 
 
@@ -17,24 +16,24 @@ class MedicalCard(AbstractElectronicSignature):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name='Пациент',
+        verbose_name=_('Пациент'),
         related_name='medical_cards'
     )
 
     card_type = models.CharField(
         max_length=20,
-        verbose_name='Тип карты'
+        verbose_name=_('Тип карты')
     )
 
     date_created = models.DateTimeField(
         auto_now_add=True,
-        verbose_name='Дата регистрации'
+        verbose_name=_('Дата регистрации')
     )
 
     comment = models.TextField(
         blank=True,
         null=True,
-        verbose_name='Комментарий'
+        verbose_name=_('Комментарий')
     )
 
     filial = models.ForeignKey(
@@ -42,13 +41,16 @@ class MedicalCard(AbstractElectronicSignature):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name='Филиал'
+        verbose_name=_('Филиал')
     )
 
 
     class Meta:
-        verbose_name = "Медицинская карта"
-        verbose_name_plural = "Медицинские карты"
+        verbose_name = _("Медицинская карта")
+        verbose_name_plural = _("Медицинские карты")
+
+    def get_card_type_display(self):
+        return self.card_type
 
     def __str__(self):
         return f"Мед. карта {self.client} ({self.get_card_type_display()})"
