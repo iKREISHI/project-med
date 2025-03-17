@@ -19,6 +19,7 @@
     "@mui/x-date-pickers": "^7.27.3",
     "bvi": "^1.0.2",
     "dayjs": "^1.11.13",
+    "openapi-fetch": "^0.13.5",
     "react": "^19.0.0",
     "react-accessibility": "^0.13.1",
     "react-dom": "^19.0.0",

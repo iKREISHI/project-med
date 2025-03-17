@@ -1,7 +1,7 @@
 import { POST } from "../../../6_shared/api";
-import type { Login } from "../../../5_entities/user/model/model.ts";
+import type { LoginModel } from "../../../5_entities/user/";
 
-export const login = async (credentials: Login) => {
+export const login = async (credentials: LoginModel) => {
   const { data } = await POST("/api/v0/login/", {
     body: credentials,
   });

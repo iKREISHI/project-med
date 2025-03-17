@@ -8,5 +8,3 @@ export const getUsers = async (): Promise<User[]> => {
     }
     return data;
 };
-
-export const getUser
