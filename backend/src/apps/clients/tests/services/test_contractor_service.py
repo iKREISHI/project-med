@@ -63,14 +63,13 @@ class ContractorServiceTests(TestCase):
             ContractorService.update_contractor(contractor, non_existent_field="value")
         self.assertIn("Контрагент не имеет поля", str(context.exception))
 
-    def test_get_contractor_by_uuid_found(self):
+    def test_get_contractor_by_id_found(self):
         """
         Проверяет, что метод get_contractor_by_uuid возвращает контрагента,
         если объект с указанным UUID существует.
         """
         contractor = ContractorService.create_contractor(**self.valid_data)
-        contractor_uuid_str = str(contractor.uuid)
-        fetched_contractor = ContractorService.get_contractor_by_uuid(contractor_uuid_str)
+        fetched_contractor = ContractorService.get_contractor_by_id(contractor.pk)
         self.assertIsNotNone(fetched_contractor)
         self.assertEqual(fetched_contractor.pk, contractor.pk)
 
@@ -79,8 +78,8 @@ class ContractorServiceTests(TestCase):
         Проверяет, что метод get_contractor_by_uuid возвращает None,
         если контрагент с указанным UUID отсутствует.
         """
-        fake_uuid = str(uuid.uuid4())
-        fetched_contractor = ContractorService.get_contractor_by_uuid(fake_uuid)
+        fake_id = 65238795634986
+        fetched_contractor = ContractorService.get_contractor_by_id(fake_id)
         self.assertIsNone(fetched_contractor)
 
     def test_delete_contractor(self):

@@ -7,14 +7,12 @@ from apps.staffing.validators.position import (
     validate_position_name,
     validate_position_short_name
 )
-import uuid
 
 
 class Position(models.Model):
     """
     Модель «Должность».
     """
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     group = models.ForeignKey(
         Group,

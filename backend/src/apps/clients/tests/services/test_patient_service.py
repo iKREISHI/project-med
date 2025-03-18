@@ -67,17 +67,16 @@ class PatientServiceTests(TestCase):
         Проверяет, что метод get_patient_by_uuid возвращает пациента, если он существует.
         """
         patient = PatientService.create_patient(**self.valid_data)
-        patient_uuid_str = str(patient.uuid)
-        retrieved = PatientService.get_patient_by_uuid(patient_uuid_str)
+        retrieved = PatientService.get_patient_by_id(patient.pk)
         self.assertIsNotNone(retrieved)
         self.assertEqual(retrieved.pk, patient.pk)
 
-    def test_get_patient_by_uuid_not_found(self):
+    def test_get_patient_by_id_not_found(self):
         """
         Проверяет, что метод get_patient_by_uuid возвращает None, если пациента с данным UUID нет.
         """
-        fake_uuid = str(uuid.uuid4())
-        retrieved = PatientService.get_patient_by_uuid(fake_uuid)
+        fake_id = 654367345890673
+        retrieved = PatientService.get_patient_by_id(fake_id)
         self.assertIsNone(retrieved)
 
     def test_delete_patient(self):

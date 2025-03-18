@@ -8,6 +8,7 @@ backend/.env
 .env.docker
 myvenv/
 venv/
+.env
 
 # Database
 db.sqlite3
