@@ -3,6 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from apps.chat.models import ChatRoom, Message
 from apps.users.models import User
+from django.utils import timezone
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -28,7 +29,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         message = data.get('message')
-        sender = self.scope["user"].username if self.scope["user"].is_authenticated else "anonymous"
+        sender = await self.get_employee_name(self.scope["user"].pk)
+        print(timezone.now().strftime("%H:%M:%S"))
+        time = timezone.now().strftime("%H:%M:%S")
         # Сохраняем сообщение в базе данных
         await self.save_message(self.room_id, self.scope["user"].id, message)
 
@@ -39,6 +42,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'type': 'chat_message',
                 'message': message,
                 'sender': sender,
+                'time': time
             }
         )
 
@@ -47,6 +51,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': event['message'],
             'sender': event['sender'],
+            'time': event['time']
         }))
 
     @database_sync_to_async
@@ -59,3 +64,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         user = User.objects.get(id=user_id)
         msg = Message.objects.create(room=room, sender=user, content=message)
         print(f"Сообщение сохранено: {msg}")
+
+    @database_sync_to_async
+    def get_employee_name(self, user_pk) -> str:
+        employee = User.objects.get(pk=user_pk).employee_profile
+        if not employee:
+            return f'{User.objects.get(pk=user_pk).username}'
+
+        return (f''
+                f'{employee.last_name}'
+                f' {employee.first_name[0] + '.' if employee.first_name else ''}'
+                f'{employee.patronymic[0] + '.' if employee.patronymic else ''}'
+                f'')
