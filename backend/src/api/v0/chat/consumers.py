@@ -2,7 +2,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from apps.chat.models import ChatRoom, Message
-from django.contrib.auth.models import User
+from apps.users.models import User
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -29,7 +29,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         message = data.get('message')
         sender = self.scope["user"].username if self.scope["user"].is_authenticated else "anonymous"
-        print(f'Message: {message}')
         # Сохраняем сообщение в базе данных
         await self.save_message(self.room_id, self.scope["user"].id, message)
 
@@ -55,6 +54,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         try:
             room = ChatRoom.objects.get(id=room_id)
         except ChatRoom.DoesNotExist:
+            print(f"Комната с id {room_id} не найдена")
             return
         user = User.objects.get(id=user_id)
-        Message.objects.create(room=room, sender=user, content=message)
+        msg = Message.objects.create(room=room, sender=user, content=message)
+        print(f"Сообщение сохранено: {msg}")
