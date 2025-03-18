@@ -24,24 +24,23 @@ class EmployeeViewSet(viewsets.ModelViewSet):
       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
     """
-    queryset = Employee.objects.all()
+    queryset = Employee.objects.all().order_by('id')
     serializer_class = EmployeeSerializer
-    lookup_field = 'uuid'
     pagination_class = EmployeePagination
     # authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def retrieve(self, request, *args, **kwargs):
-        uuid = kwargs.get('uuid')
-        employee = EmployeeService.get_employee_by_uuid(uuid)
+        pk = kwargs.get('pk')
+        employee = EmployeeService.get_employee_by_pk(pk)
         if not employee:
             return Response({"detail": "Сотрудник не найден."}, status=status.HTTP_404_NOT_FOUND)
         serializer = self.get_serializer(employee)
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
-        uuid = kwargs.get('uuid')
-        employee = EmployeeService.get_employee_by_uuid(uuid)
+        pk = kwargs.get('pk')
+        employee = EmployeeService.get_employee_by_pk(pk)
         if not employee:
             return Response({"detail": "Сотрудник не найден."}, status=status.HTTP_404_NOT_FOUND)
         EmployeeService.delete_employee(employee)

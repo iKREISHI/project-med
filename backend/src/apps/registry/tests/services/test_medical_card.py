@@ -93,10 +93,10 @@ class MedicalCardServiceTestCase(TestCase):
             MedicalCardService.update_medical_card(card, nonexistent="value")
         self.assertIn("MedicalCard has no field", str(context.exception))
 
-    def test_get_medical_card_by_uuid(self):
+    def test_get_medical_card_by_id(self):
         """Проверяет, что поиск медицинской карты по UUID возвращает правильный объект."""
         card = MedicalCardService.create_medical_card(**self.valid_data)
-        retrieved = MedicalCardService.get_medical_card_by_uuid(str(card.uuid))
+        retrieved = MedicalCardService.get_medical_card_by_id(card.id)
         self.assertIsNotNone(retrieved)
         self.assertEqual(retrieved.pk, card.pk)
 

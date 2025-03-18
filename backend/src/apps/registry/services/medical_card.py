@@ -52,7 +52,7 @@ class MedicalCardService:
         return card
 
     @staticmethod
-    def get_medical_card_by_uuid(uuid_str: str) -> MedicalCard:
+    def get_medical_card_by_id(id: int) -> MedicalCard:
         """
         Возвращает медицинскую карту по ее UUID.
 
@@ -62,7 +62,7 @@ class MedicalCardService:
         Возвращает:
             Объект MedicalCard или None, если карта с указанным UUID не найдена.
         """
-        return MedicalCard.objects.filter(uuid=uuid_str).first()
+        return MedicalCard.objects.filter(id=id).first()
 
     @staticmethod
     def delete_medical_card(card: MedicalCard) -> None:

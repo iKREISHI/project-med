@@ -54,9 +54,9 @@ class PositionServiceTestCase(TestCase):
         self.assertIn("Position has no field", str(context.exception))
 
     def test_get_position_by_uuid(self):
-        """Проверяет получение должности по UUID."""
+        """Проверяет получение должности по ID."""
         position = PositionService.create_position(**self.valid_data)
-        retrieved = PositionService.get_position_by_uuid(str(position.uuid))
+        retrieved = PositionService.get_position_by_pk(position.pk)
         self.assertIsNotNone(retrieved)
         self.assertEqual(retrieved.pk, position.pk)
 

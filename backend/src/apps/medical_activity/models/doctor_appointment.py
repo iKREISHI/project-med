@@ -1,4 +1,3 @@
-import uuid
 from django.db import models
 from django.db.models import SET_NULL
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
@@ -10,7 +9,6 @@ class DoctorAppointment(AbstractElectronicSignature):
     """
     Прием к врачу
     """
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     patient = models.ForeignKey(
         Patient,

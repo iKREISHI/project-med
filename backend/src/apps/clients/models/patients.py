@@ -13,7 +13,6 @@ import uuid
 
 
 class Patient(AbstractPersonModel):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     registered_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,

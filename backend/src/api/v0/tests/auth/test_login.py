@@ -82,6 +82,6 @@ class LoginViewSetTest(APITestCase):
         response = self.client.post(self.login_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['detail'], 'Успешный вход')
-        self.assertIn('user_uuid', response.data)
-        self.assertIn('position_uuid', response.data)
+        self.assertIn('user_id', response.data)
+        self.assertIn('position_id', response.data)
         self.assertIn('position', response.data)

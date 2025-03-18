@@ -53,7 +53,7 @@ class PatientService:
         return patient
 
     @staticmethod
-    def get_patient_by_uuid(uuid: str) -> Patient:
+    def get_patient_by_id(pk: int) -> Patient:
         """
         Возвращает пациента по его UUID.
 
@@ -63,7 +63,7 @@ class PatientService:
         Возвращает:
             Объект Patient или None, если пациент с указанным UUID не найден.
         """
-        return Patient.objects.filter(uuid=uuid).first()
+        return Patient.objects.filter(pk=pk).first()
 
     @staticmethod
     def delete_patient(patient: Patient) -> None:

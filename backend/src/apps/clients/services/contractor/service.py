@@ -53,7 +53,7 @@ class ContractorService:
         return contractor
 
     @staticmethod
-    def get_contractor_by_uuid(uuid_str: str) -> Contractor:
+    def get_contractor_by_id(pk: int) -> Contractor:
         """
         Возвращает контрагента по его UUID.
 
@@ -63,7 +63,7 @@ class ContractorService:
         Возвращает:
             Объект Contractor или None, если контрагент с таким UUID не найден.
         """
-        return Contractor.objects.filter(uuid=uuid_str).first()
+        return Contractor.objects.filter(pk=pk).first()
 
     @staticmethod
     def delete_contractor(contractor: Contractor) -> None:
