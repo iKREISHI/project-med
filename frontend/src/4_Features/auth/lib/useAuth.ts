@@ -1,26 +1,24 @@
 import { useState } from "react";
-import {login} from "../api/login.ts";
-import {LoginModel} from "../../../5_entities/user";
-import {serviceworker} from "globals";
+import { login } from '../api/login.ts';
+import { logout } from '../api/logout.ts';
+import { LoginModel } from "../../../5_entities/user";
+
+export interface AuthResponse {
+  detail: string;
+  user_uuid: string;
+  position_uuid:string;
+  position:string;
+};
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const creditials= {'user', '123'};
-  const handleLogin = async ( credentials: LoginModel) => {
-    try{
-      const {username, password}  = await  login(credentials);
-      localStorage.setItem("token", username, password);
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error(error);
+  const [userData, setUserData] = useState<AuthResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
+  const handleLogin = async (credentials: LoginModel) => {
+    try {
+      const response: AuthResponse = await login(credentials);
+      localStorage.setItem("user_uuid", response.user_uuid);
     }
-  };
-  const logout = async () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
   }
-
-  //return {isAuthenticated, handleLogin, logout};
-
 }

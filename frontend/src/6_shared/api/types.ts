@@ -20,6 +20,80 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v0/employee/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с сотрудниками с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+         *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+         *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+         *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+        get: operations["v0_employee_list"];
+        put?: never;
+        /** @description API для работы с сотрудниками с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+         *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+         *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+         *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+        post: operations["v0_employee_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/employee/{uuid}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с сотрудниками с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+         *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+         *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+         *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+        get: operations["v0_employee_retrieve"];
+        /** @description API для работы с сотрудниками с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+         *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+         *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+         *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+        put: operations["v0_employee_update"];
+        post?: never;
+        /** @description API для работы с сотрудниками с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+         *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+         *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+         *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+        delete: operations["v0_employee_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с сотрудниками с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+         *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+         *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+         *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+        patch: operations["v0_employee_partial_update"];
+        trace?: never;
+    };
     "/api/v0/login/": {
         parameters: {
             query?: never;
@@ -52,6 +126,160 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v0/medical-card/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с медицинскими картами с поддержкой пагинации.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+         *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+         *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
+        get: operations["v0_medical_card_list"];
+        put?: never;
+        /** @description API для работы с медицинскими картами с поддержкой пагинации.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+         *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+         *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
+        post: operations["v0_medical_card_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/medical-card/{uuid}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с медицинскими картами с поддержкой пагинации.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+         *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+         *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
+        get: operations["v0_medical_card_retrieve"];
+        /** @description API для работы с медицинскими картами с поддержкой пагинации.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+         *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+         *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
+        put: operations["v0_medical_card_update"];
+        post?: never;
+        /** @description API для работы с медицинскими картами с поддержкой пагинации.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+         *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+         *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
+        delete: operations["v0_medical_card_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с медицинскими картами с поддержкой пагинации.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+         *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+         *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
+        patch: operations["v0_medical_card_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/patient/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка пациентов с пагинацией,
+         *       - retrieve: получение пациента по UUID,
+         *       - create: создание нового пациента,
+         *       - update / partial_update: обновление пациента,
+         *       - destroy: удаление пациента. */
+        get: operations["v0_patient_list"];
+        put?: never;
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка пациентов с пагинацией,
+         *       - retrieve: получение пациента по UUID,
+         *       - create: создание нового пациента,
+         *       - update / partial_update: обновление пациента,
+         *       - destroy: удаление пациента. */
+        post: operations["v0_patient_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/patient/{uuid}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка пациентов с пагинацией,
+         *       - retrieve: получение пациента по UUID,
+         *       - create: создание нового пациента,
+         *       - update / partial_update: обновление пациента,
+         *       - destroy: удаление пациента. */
+        get: operations["v0_patient_retrieve"];
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка пациентов с пагинацией,
+         *       - retrieve: получение пациента по UUID,
+         *       - create: создание нового пациента,
+         *       - update / partial_update: обновление пациента,
+         *       - destroy: удаление пациента. */
+        put: operations["v0_patient_update"];
+        post?: never;
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка пациентов с пагинацией,
+         *       - retrieve: получение пациента по UUID,
+         *       - create: создание нового пациента,
+         *       - update / partial_update: обновление пациента,
+         *       - destroy: удаление пациента. */
+        delete: operations["v0_patient_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка пациентов с пагинацией,
+         *       - retrieve: получение пациента по UUID,
+         *       - create: создание нового пациента,
+         *       - update / partial_update: обновление пациента,
+         *       - destroy: удаление пациента. */
+        patch: operations["v0_patient_partial_update"];
+        trace?: never;
+    };
     "/api/v0/registration/": {
         parameters: {
             query?: never;
@@ -72,9 +300,337 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        Employee: {
+            readonly id: number;
+            short_description?: string | null;
+            /** Фамилия */
+            last_name: string;
+            /** Имя */
+            first_name: string;
+            /** Отчество */
+            patronymic?: string | null;
+            /** Пол */
+            gender?: components["schemas"]["GenderEnum"];
+            /**
+             * Дата рождения
+             * Format: date
+             */
+            date_of_birth?: string | null;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created: string;
+            /**
+             * СНИЛС
+             * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+             */
+            snils?: string | null;
+            /** ИНН */
+            inn?: string | null;
+            /**
+             * Фото
+             * Format: uri
+             */
+            photo?: string | null;
+            /** Адрес регистрации */
+            registration_address?: string | null;
+            /** Адрес фактического проживания */
+            actual_address?: string | null;
+            /**
+             * Почта
+             * Format: email
+             */
+            email?: string | null;
+            /** Номер телефона */
+            phone?: string | null;
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Длительность приёма */
+            appointment_duration?: string | null;
+            /** Пользователь */
+            user?: number | null;
+            /** Подразделение */
+            department?: number | null;
+            /** Должность */
+            position?: number | null;
+        };
+        /**
+         * @description * `M` - Мужской
+         *     * `F` - Женский
+         *     * `U` - Не указан
+         * @enum {string}
+         */
+        GenderEnum: "M" | "F" | "U";
         Login: {
             username: string;
             password: string;
+        };
+        MedicalCard: {
+            readonly id: number;
+            card_type: string;
+            /** Подписано ЭП */
+            is_signed?: boolean;
+            /**
+             * Дата подписания
+             * Format: date
+             */
+            readonly signed_date: string;
+            /** Format: uuid */
+            readonly uuid: string;
+            /**
+             * Дата регистрации
+             * Format: date-time
+             */
+            readonly date_created: string;
+            /** Комментарий */
+            comment?: string | null;
+            /** Кем подписан */
+            signed_by: number;
+            /** Пациент */
+            client?: number | null;
+            /** Филиал */
+            filial?: number | null;
+        };
+        PaginatedEmployeeList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Employee"][];
+        };
+        PaginatedMedicalCardList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["MedicalCard"][];
+        };
+        PaginatedPatientList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Patient"][];
+        };
+        PatchedEmployee: {
+            readonly id?: number;
+            short_description?: string | null;
+            /** Фамилия */
+            last_name?: string;
+            /** Имя */
+            first_name?: string;
+            /** Отчество */
+            patronymic?: string | null;
+            /** Пол */
+            gender?: components["schemas"]["GenderEnum"];
+            /**
+             * Дата рождения
+             * Format: date
+             */
+            date_of_birth?: string | null;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created?: string;
+            /**
+             * СНИЛС
+             * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+             */
+            snils?: string | null;
+            /** ИНН */
+            inn?: string | null;
+            /**
+             * Фото
+             * Format: uri
+             */
+            photo?: string | null;
+            /** Адрес регистрации */
+            registration_address?: string | null;
+            /** Адрес фактического проживания */
+            actual_address?: string | null;
+            /**
+             * Почта
+             * Format: email
+             */
+            email?: string | null;
+            /** Номер телефона */
+            phone?: string | null;
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Длительность приёма */
+            appointment_duration?: string | null;
+            /** Пользователь */
+            user?: number | null;
+            /** Подразделение */
+            department?: number | null;
+            /** Должность */
+            position?: number | null;
+        };
+        PatchedMedicalCard: {
+            readonly id?: number;
+            card_type?: string;
+            /** Подписано ЭП */
+            is_signed?: boolean;
+            /**
+             * Дата подписания
+             * Format: date
+             */
+            readonly signed_date?: string;
+            /** Format: uuid */
+            readonly uuid?: string;
+            /**
+             * Дата регистрации
+             * Format: date-time
+             */
+            readonly date_created?: string;
+            /** Комментарий */
+            comment?: string | null;
+            /** Кем подписан */
+            signed_by?: number;
+            /** Пациент */
+            client?: number | null;
+            /** Филиал */
+            filial?: number | null;
+        };
+        PatchedPatient: {
+            readonly id?: number;
+            place_of_work?: string | null;
+            /** Фамилия */
+            last_name?: string;
+            /** Имя */
+            first_name?: string;
+            /** Отчество */
+            patronymic?: string | null;
+            /** Пол */
+            gender?: components["schemas"]["GenderEnum"];
+            /**
+             * Дата рождения
+             * Format: date
+             */
+            date_of_birth?: string | null;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created?: string;
+            /**
+             * СНИЛС
+             * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+             */
+            snils?: string | null;
+            /** ИНН */
+            inn?: string | null;
+            /**
+             * Фото
+             * Format: uri
+             */
+            photo?: string | null;
+            /** Адрес регистрации */
+            registration_address?: string | null;
+            /** Адрес фактического проживания */
+            actual_address?: string | null;
+            /**
+             * Почта
+             * Format: email
+             */
+            email?: string | null;
+            /** Номер телефона */
+            phone?: string | null;
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Дополнительное место работы */
+            additional_place_of_work?: string | null;
+            /** Профессия */
+            profession?: string | null;
+            /** Человек, который зарегистрировал пациента */
+            registered_by?: number | null;
+            /** Контрагент (работодатель клиента) */
+            contractor?: number | null;
+            /** Законный представитель */
+            legal_representative?: number | null;
+        };
+        Patient: {
+            readonly id: number;
+            place_of_work?: string | null;
+            /** Фамилия */
+            last_name: string;
+            /** Имя */
+            first_name: string;
+            /** Отчество */
+            patronymic?: string | null;
+            /** Пол */
+            gender?: components["schemas"]["GenderEnum"];
+            /**
+             * Дата рождения
+             * Format: date
+             */
+            date_of_birth?: string | null;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created: string;
+            /**
+             * СНИЛС
+             * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+             */
+            snils?: string | null;
+            /** ИНН */
+            inn?: string | null;
+            /**
+             * Фото
+             * Format: uri
+             */
+            photo?: string | null;
+            /** Адрес регистрации */
+            registration_address?: string | null;
+            /** Адрес фактического проживания */
+            actual_address?: string | null;
+            /**
+             * Почта
+             * Format: email
+             */
+            email?: string | null;
+            /** Номер телефона */
+            phone?: string | null;
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Дополнительное место работы */
+            additional_place_of_work?: string | null;
+            /** Профессия */
+            profession?: string | null;
+            /** Человек, который зарегистрировал пациента */
+            registered_by?: number | null;
+            /** Контрагент (работодатель клиента) */
+            contractor?: number | null;
+            /** Законный представитель */
+            legal_representative?: number | null;
         };
         Registration: {
             /** Имя пользователя */
@@ -94,6 +650,8 @@ export interface components {
             readonly uuid: string;
             /** Имя пользователя */
             username: string;
+            readonly position_uuid: string;
+            readonly position_name: string;
         };
     };
     responses: never;
@@ -119,6 +677,144 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["User"][];
+                };
+            };
+        };
+    };
+    v0_employee_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedEmployeeList"];
+                };
+            };
+        };
+    };
+    v0_employee_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Employee"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Employee"];
+                };
+            };
+        };
+    };
+    v0_employee_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Employee"];
+                };
+            };
+        };
+    };
+    v0_employee_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Employee"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Employee"];
+                };
+            };
+        };
+    };
+    v0_employee_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_employee_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedEmployee"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Employee"];
                 };
             };
         };
@@ -161,6 +857,282 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    v0_medical_card_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedMedicalCardList"];
+                };
+            };
+        };
+    };
+    v0_medical_card_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalCard"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCard"];
+                };
+            };
+        };
+    };
+    v0_medical_card_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCard"];
+                };
+            };
+        };
+    };
+    v0_medical_card_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalCard"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCard"];
+                };
+            };
+        };
+    };
+    v0_medical_card_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_medical_card_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedMedicalCard"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCard"];
+                };
+            };
+        };
+    };
+    v0_patient_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPatientList"];
+                };
+            };
+        };
+    };
+    v0_patient_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Patient"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    v0_patient_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    v0_patient_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Patient"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    v0_patient_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_patient_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedPatient"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Patient"];
+                };
             };
         };
     };

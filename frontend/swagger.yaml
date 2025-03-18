@@ -20,6 +20,188 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
           description: ''
+  /api/v0/employee/:
+    get:
+      operationId: v0_employee_list
+      description: |-
+        API для работы с сотрудниками с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+          - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+          - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+          - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+          - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEmployeeList'
+          description: ''
+    post:
+      operationId: v0_employee_create
+      description: |-
+        API для работы с сотрудниками с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+          - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+          - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+          - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+          - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+  /api/v0/employee/{uuid}/:
+    get:
+      operationId: v0_employee_retrieve
+      description: |-
+        API для работы с сотрудниками с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+          - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+          - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+          - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+          - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+    put:
+      operationId: v0_employee_update
+      description: |-
+        API для работы с сотрудниками с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+          - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+          - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+          - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+          - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+    patch:
+      operationId: v0_employee_partial_update
+      description: |-
+        API для работы с сотрудниками с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+          - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+          - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+          - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+          - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEmployee'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: ''
+    delete:
+      operationId: v0_employee_destroy
+      description: |-
+        API для работы с сотрудниками с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
+          - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
+          - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
+          - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
+          - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v0/login/:
     post:
       operationId: v0_login_create
@@ -52,6 +234,376 @@ paths:
       responses:
         '201':
           description: No response body
+  /api/v0/medical-card/:
+    get:
+      operationId: v0_medical_card_list
+      description: |-
+        API для работы с медицинскими картами с поддержкой пагинации.
+
+        Поддерживаются операции:
+          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMedicalCardList'
+          description: ''
+    post:
+      operationId: v0_medical_card_create
+      description: |-
+        API для работы с медицинскими картами с поддержкой пагинации.
+
+        Поддерживаются операции:
+          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalCard'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCard'
+          description: ''
+  /api/v0/medical-card/{uuid}/:
+    get:
+      operationId: v0_medical_card_retrieve
+      description: |-
+        API для работы с медицинскими картами с поддержкой пагинации.
+
+        Поддерживаются операции:
+          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCard'
+          description: ''
+    put:
+      operationId: v0_medical_card_update
+      description: |-
+        API для работы с медицинскими картами с поддержкой пагинации.
+
+        Поддерживаются операции:
+          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalCard'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCard'
+          description: ''
+    patch:
+      operationId: v0_medical_card_partial_update
+      description: |-
+        API для работы с медицинскими картами с поддержкой пагинации.
+
+        Поддерживаются операции:
+          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicalCard'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCard'
+          description: ''
+    delete:
+      operationId: v0_medical_card_destroy
+      description: |-
+        API для работы с медицинскими картами с поддержкой пагинации.
+
+        Поддерживаются операции:
+          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v0/patient/:
+    get:
+      operationId: v0_patient_list
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка пациентов с пагинацией,
+          - retrieve: получение пациента по UUID,
+          - create: создание нового пациента,
+          - update / partial_update: обновление пациента,
+          - destroy: удаление пациента.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPatientList'
+          description: ''
+    post:
+      operationId: v0_patient_create
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка пациентов с пагинацией,
+          - retrieve: получение пациента по UUID,
+          - create: создание нового пациента,
+          - update / partial_update: обновление пациента,
+          - destroy: удаление пациента.
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+  /api/v0/patient/{uuid}/:
+    get:
+      operationId: v0_patient_retrieve
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка пациентов с пагинацией,
+          - retrieve: получение пациента по UUID,
+          - create: создание нового пациента,
+          - update / partial_update: обновление пациента,
+          - destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+    put:
+      operationId: v0_patient_update
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка пациентов с пагинацией,
+          - retrieve: получение пациента по UUID,
+          - create: создание нового пациента,
+          - update / partial_update: обновление пациента,
+          - destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+    patch:
+      operationId: v0_patient_partial_update
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка пациентов с пагинацией,
+          - retrieve: получение пациента по UUID,
+          - create: создание нового пациента,
+          - update / partial_update: обновление пациента,
+          - destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPatient'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+    delete:
+      operationId: v0_patient_destroy
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          - list: получение списка пациентов с пагинацией,
+          - retrieve: получение пациента по UUID,
+          - create: создание нового пациента,
+          - update / partial_update: обновление пациента,
+          - destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v0/registration/:
     post:
       operationId: v0_registration_create
@@ -75,6 +627,115 @@ paths:
           description: ''
 components:
   schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        short_description:
+          type: string
+          nullable: true
+        last_name:
+          type: string
+          title: Фамилия
+          maxLength: 150
+        first_name:
+          type: string
+          title: Имя
+          maxLength: 150
+        patronymic:
+          type: string
+          nullable: true
+          title: Отчество
+          maxLength: 150
+        gender:
+          allOf:
+          - $ref: '#/components/schemas/GenderEnum'
+          title: Пол
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          title: Дата рождения
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        snils:
+          type: string
+          nullable: true
+          title: СНИЛС
+          description: Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+          maxLength: 14
+        inn:
+          type: string
+          nullable: true
+          title: ИНН
+          maxLength: 12
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          title: Фото
+        registration_address:
+          type: string
+          nullable: true
+          title: Адрес регистрации
+          maxLength: 255
+        actual_address:
+          type: string
+          nullable: true
+          title: Адрес фактического проживания
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          nullable: true
+          title: Почта
+          maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          title: Номер телефона
+          maxLength: 20
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        appointment_duration:
+          type: string
+          nullable: true
+          title: Длительность приёма
+        user:
+          type: integer
+          nullable: true
+          title: Пользователь
+        department:
+          type: integer
+          nullable: true
+          title: Подразделение
+        position:
+          type: integer
+          nullable: true
+          title: Должность
+      required:
+      - date_created
+      - first_name
+      - id
+      - last_name
+      - uuid
+    GenderEnum:
+      enum:
+      - M
+      - F
+      - U
+      type: string
+      description: |-
+        * `M` - Мужской
+        * `F` - Женский
+        * `U` - Не указан
     Login:
       type: object
       properties:
@@ -85,6 +746,459 @@ components:
       required:
       - password
       - username
+    MedicalCard:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        card_type:
+          type: string
+        is_signed:
+          type: boolean
+          title: Подписано ЭП
+        signed_date:
+          type: string
+          format: date
+          readOnly: true
+          title: Дата подписания
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата регистрации
+        comment:
+          type: string
+          nullable: true
+          title: Комментарий
+        signed_by:
+          type: integer
+          title: Кем подписан
+        client:
+          type: integer
+          nullable: true
+          title: Пациент
+        filial:
+          type: integer
+          nullable: true
+          title: Филиал
+      required:
+      - card_type
+      - date_created
+      - id
+      - signed_by
+      - signed_date
+      - uuid
+    PaginatedEmployeeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+    PaginatedMedicalCardList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MedicalCard'
+    PaginatedPatientList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Patient'
+    PatchedEmployee:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        short_description:
+          type: string
+          nullable: true
+        last_name:
+          type: string
+          title: Фамилия
+          maxLength: 150
+        first_name:
+          type: string
+          title: Имя
+          maxLength: 150
+        patronymic:
+          type: string
+          nullable: true
+          title: Отчество
+          maxLength: 150
+        gender:
+          allOf:
+          - $ref: '#/components/schemas/GenderEnum'
+          title: Пол
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          title: Дата рождения
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        snils:
+          type: string
+          nullable: true
+          title: СНИЛС
+          description: Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+          maxLength: 14
+        inn:
+          type: string
+          nullable: true
+          title: ИНН
+          maxLength: 12
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          title: Фото
+        registration_address:
+          type: string
+          nullable: true
+          title: Адрес регистрации
+          maxLength: 255
+        actual_address:
+          type: string
+          nullable: true
+          title: Адрес фактического проживания
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          nullable: true
+          title: Почта
+          maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          title: Номер телефона
+          maxLength: 20
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        appointment_duration:
+          type: string
+          nullable: true
+          title: Длительность приёма
+        user:
+          type: integer
+          nullable: true
+          title: Пользователь
+        department:
+          type: integer
+          nullable: true
+          title: Подразделение
+        position:
+          type: integer
+          nullable: true
+          title: Должность
+    PatchedMedicalCard:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        card_type:
+          type: string
+        is_signed:
+          type: boolean
+          title: Подписано ЭП
+        signed_date:
+          type: string
+          format: date
+          readOnly: true
+          title: Дата подписания
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата регистрации
+        comment:
+          type: string
+          nullable: true
+          title: Комментарий
+        signed_by:
+          type: integer
+          title: Кем подписан
+        client:
+          type: integer
+          nullable: true
+          title: Пациент
+        filial:
+          type: integer
+          nullable: true
+          title: Филиал
+    PatchedPatient:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        place_of_work:
+          type: string
+          nullable: true
+        last_name:
+          type: string
+          title: Фамилия
+          maxLength: 150
+        first_name:
+          type: string
+          title: Имя
+          maxLength: 150
+        patronymic:
+          type: string
+          nullable: true
+          title: Отчество
+          maxLength: 150
+        gender:
+          allOf:
+          - $ref: '#/components/schemas/GenderEnum'
+          title: Пол
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          title: Дата рождения
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        snils:
+          type: string
+          nullable: true
+          title: СНИЛС
+          description: Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+          maxLength: 14
+        inn:
+          type: string
+          nullable: true
+          title: ИНН
+          maxLength: 12
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          title: Фото
+        registration_address:
+          type: string
+          nullable: true
+          title: Адрес регистрации
+          maxLength: 255
+        actual_address:
+          type: string
+          nullable: true
+          title: Адрес фактического проживания
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          nullable: true
+          title: Почта
+          maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          title: Номер телефона
+          maxLength: 20
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        additional_place_of_work:
+          type: string
+          nullable: true
+          title: Дополнительное место работы
+          maxLength: 255
+        profession:
+          type: string
+          nullable: true
+          title: Профессия
+          maxLength: 255
+        registered_by:
+          type: integer
+          nullable: true
+          title: Человек, который зарегистрировал пациента
+        contractor:
+          type: integer
+          nullable: true
+          title: Контрагент (работодатель клиента)
+        legal_representative:
+          type: integer
+          nullable: true
+          title: Законный представитель
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        place_of_work:
+          type: string
+          nullable: true
+        last_name:
+          type: string
+          title: Фамилия
+          maxLength: 150
+        first_name:
+          type: string
+          title: Имя
+          maxLength: 150
+        patronymic:
+          type: string
+          nullable: true
+          title: Отчество
+          maxLength: 150
+        gender:
+          allOf:
+          - $ref: '#/components/schemas/GenderEnum'
+          title: Пол
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          title: Дата рождения
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата создания
+        snils:
+          type: string
+          nullable: true
+          title: СНИЛС
+          description: Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+          maxLength: 14
+        inn:
+          type: string
+          nullable: true
+          title: ИНН
+          maxLength: 12
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          title: Фото
+        registration_address:
+          type: string
+          nullable: true
+          title: Адрес регистрации
+          maxLength: 255
+        actual_address:
+          type: string
+          nullable: true
+          title: Адрес фактического проживания
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          nullable: true
+          title: Почта
+          maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          title: Номер телефона
+          maxLength: 20
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        additional_place_of_work:
+          type: string
+          nullable: true
+          title: Дополнительное место работы
+          maxLength: 255
+        profession:
+          type: string
+          nullable: true
+          title: Профессия
+          maxLength: 255
+        registered_by:
+          type: integer
+          nullable: true
+          title: Человек, который зарегистрировал пациента
+        contractor:
+          type: integer
+          nullable: true
+          title: Контрагент (работодатель клиента)
+        legal_representative:
+          type: integer
+          nullable: true
+          title: Законный представитель
+      required:
+      - date_created
+      - first_name
+      - id
+      - last_name
+      - uuid
     Registration:
       type: object
       properties:
@@ -120,7 +1234,15 @@ components:
           type: string
           title: Имя пользователя
           maxLength: 128
+        position_uuid:
+          type: string
+          readOnly: true
+        position_name:
+          type: string
+          readOnly: true
       required:
+      - position_name
+      - position_uuid
       - username
       - uuid
   securitySchemes:
