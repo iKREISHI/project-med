@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Project Med API
+  version: 1.0.0
+  description: Automated workstation for the doctor on duty
+paths:
+  /api/v0/current-user/:
+    get:
+      operationId: v0_current_user_list
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+  /api/v0/login/:
+    post:
+      operationId: v0_login_create
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: ''
+  /api/v0/logout/:
+    post:
+      operationId: v0_logout_create
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/v0/registration/:
+    post:
+      operationId: v0_registration_create
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registration'
+          description: ''
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+      - password
+      - username
+    Registration:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Имя пользователя
+          maxLength: 128
+        password:
+          type: string
+          writeOnly: true
+          title: Пароль
+        password2:
+          type: string
+          writeOnly: true
+          title: Подтверждение пароля
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          title: Аватар
+      required:
+      - password
+      - password2
+      - username
+    User:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        username:
+          type: string
+          title: Имя пользователя
+          maxLength: 128
+      required:
+      - username
+      - uuid
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

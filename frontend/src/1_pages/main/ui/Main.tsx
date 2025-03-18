@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { CustomDrawer, Plane, Calendar, Header } from '../../../6_Shared';
 import { Toolbar, CssBaseline, Box, IconButton } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+// import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import { globalsStyle } from '../../../6_Shared/styles/globalsStyle';
@@ -27,6 +28,8 @@ export function Main() {
     { name: 'Документооборот', path: '/document' },
     { name: 'Расписание', path: '/schedule' },
     { name: 'Пациенты', path: '/registry' },
+    { name: 'Прием', path: '/admission' },
+    { name: 'Запись', path: '/record' },
   ];
 
   const tasks = [
@@ -81,10 +84,10 @@ export function Main() {
             {/* Правое меню */}
             {isRightMenuVisible && (
               <Grid size={{ xs: 12, lg: 3, md: 12 }} sx={{ ml: 'auto' }}>
-                <Box sx={{ flexGrow: 1, maxWidth: '350px', mb: 2, ml: 'auto' }}>
+                <Box sx={{ flexGrow: 1, mb: 2, ml: 'auto' }}>
                   <Plane tasks={tasks} />
                 </Box>
-                <Box sx={{ flexGrow: 1, maxWidth: '350px', ml: 'auto' }}>
+                <Box sx={{ flexGrow: 1, ml: 'auto' }}>
                   <Calendar />
                 </Box>
               </Grid>

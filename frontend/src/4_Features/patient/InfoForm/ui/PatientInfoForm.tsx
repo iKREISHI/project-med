@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { Box } from "@mui/material";
-import { InputForm } from "../../../../6_Shared/Input";
+import { InputForm } from "../../../../6_shared/Input";
 import { patientInfoFormSx } from "./patientInfoFormSx";
-import { CustomButton } from "../../../../6_Shared/Button";
-import { CustomSnackbar } from "../../../../6_Shared/Snackbar";
+import { CustomButton } from "../../../../6_shared/Button";
+import { CustomSnackbar } from "../../../../6_shared/Snackbar";
 
 export const PacientInfoForm: FC = () => {
   const [email, setEmail] = useState("");
@@ -57,32 +57,41 @@ export const PacientInfoForm: FC = () => {
   return (
     <Box>
       <form onSubmit={handleSubmit}>
-        <Box>
-          <Box sx={patientInfoFormSx.inputContainer}>
-            <InputForm
-              type="text"
-              label="Домашний телефон"
-              value={hometel}
-              onChange={handleHomeTelChange}
-            />
-            <InputForm
-              type="text"
-              label="Мобильный телефон"
-              value={mobiletel}
-              onChange={handleMobileTelChange}
-            />
-          </Box>
-        </Box>
-        <InputForm
-          type="email"
-          label="Адрес электронной почты"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 11, lg: 9 }}>
+            <Box>
+              <Box sx={globalsStyleSx.inputContainer2}>
+                <InputForm
+                  type="text"
+                  label="Домашний телефон"
+                  value={hometel}
+                  onChange={handleHomeTelChange}
+                  fullWidth
+                />
+                <InputForm
+                  type="text"
+                  label="Мобильный телефон"
+                  value={mobiletel}
+                  onChange={handleMobileTelChange}
+                  fullWidth
+                />
+              </Box>
+            </Box>
+            <Box sx={globalsStyleSx.inputContainer1}>
+              <InputForm
+                type="email"
+                label="Адрес электронной почты"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                fullWidth
+              />
+            </Box>
 
-        <CustomButton type="submit" variant="contained">
-          Сохранить
-        </CustomButton>
+            <CustomButton type="submit" variant="contained">
+              Сохранить
+            </CustomButton>
+          </Grid>
+        </Grid>
       </form>
       <CustomSnackbar
         open={snackbarOpen}

@@ -1,9 +1,10 @@
 import { FC, useState } from "react";
 import { Box } from "@mui/material";
-import { InputForm } from "../../../../6_Shared/Input";
-import { patientPassportFormSx } from "./patientPassportFormSx";
-import { CustomButton } from "../../../../6_Shared/Button";
-import { CustomSnackbar } from "../../../../6_Shared/Snackbar";
+import { InputForm } from "../../../../6_shared/Input";
+import { CustomButton } from "../../../../6_shared/Button";
+import { CustomSnackbar } from "../../../../6_shared/Snackbar";
+import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
+import Grid from '@mui/material/Grid2';
 
 export const PatientPassportForm: FC = () => {
   const [registrationAddress, setRegistrationAddress] = useState("");
@@ -26,14 +27,14 @@ export const PatientPassportForm: FC = () => {
 
   // Форматирование серии паспорта 
   const formatPassportSeries = (value: string) => {
-    const cleaned = value.replace(/\D/g, ""); 
-    const limited = cleaned.slice(0, 4); 
+    const cleaned = value.replace(/\D/g, "");
+    const limited = cleaned.slice(0, 4);
     return limited;
   };
 
   // Форматирование номера паспорта 
   const formatPassportNumber = (value: string) => {
-    const cleaned = value.replace(/\D/g, ""); 
+    const cleaned = value.replace(/\D/g, "");
     const limited = cleaned.slice(0, 6);
     return limited;
   };
@@ -51,43 +52,58 @@ export const PatientPassportForm: FC = () => {
   return (
     <Box>
       <form onSubmit={handleSubmit}>
-        <Box>
-          <Box sx={patientPassportFormSx.inputContainer}>
-            <InputForm
-              type="text"
-              label="Серия"
-              value={passportSeries}
-              onChange={handlePassportSeriesChange}
-            />
-            <InputForm
-              type="text"
-              label="Номер"
-              value={passportNumber}
-              onChange={handlePassportNumberChange}
-            />
-          </Box>
-          <InputForm
-            type="text"
-            label="Прописка"
-            value={registrationAddress}
-            onChange={(e) => setRegistrationAddress(e.target.value)}
-          />
-          <InputForm
-            type="date"
-            label="Дата выдачи"
-            value={issueDate}
-            onChange={(e) => setIssueDate(e.target.value)}
-          />
-          <InputForm
-            type="text"
-            label="Выдавший орган"
-            value={issuingAuthority}
-            onChange={(e) => setIssuingAuthority(e.target.value)}
-          />
-        </Box>
-        <CustomButton type="submit" variant="contained">
-          Сохранить
-        </CustomButton>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 11, lg: 9 }}>
+            <Box>
+              <Box sx={globalsStyleSx.inputContainer2}>
+                <InputForm
+                  type="text"
+                  label="Серия"
+                  value={passportSeries}
+                  onChange={handlePassportSeriesChange}
+                  fullWidth
+                />
+                <InputForm
+                  type="text"
+                  label="Номер"
+                  value={passportNumber}
+                  onChange={handlePassportNumberChange}
+                  fullWidth
+                />
+              </Box>
+              <Box sx={globalsStyleSx.inputContainer1}>
+                <InputForm
+                  type="text"
+                  label="Прописка"
+                  value={registrationAddress}
+                  onChange={(e) => setRegistrationAddress(e.target.value)}
+                  fullWidth
+                />
+              </Box>
+              <Box sx={globalsStyleSx.inputContainer1}>
+                <InputForm
+                  type="date"
+                  label="Дата выдачи"
+                  value={issueDate}
+                  onChange={(e) => setIssueDate(e.target.value)}
+                  fullWidth
+                />
+              </Box>
+              <Box sx={globalsStyleSx.inputContainer1}>
+                <InputForm
+                  type="text"
+                  label="Выдавший орган"
+                  value={issuingAuthority}
+                  onChange={(e) => setIssuingAuthority(e.target.value)}
+                  fullWidth
+                />
+              </Box>
+            </Box>
+            <CustomButton type="submit" variant="contained">
+              Сохранить
+            </CustomButton>
+          </Grid>
+        </Grid>
       </form>
       <CustomSnackbar
         open={snackbarOpen}

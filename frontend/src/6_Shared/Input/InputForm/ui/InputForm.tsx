@@ -1,6 +1,12 @@
+<<<<<<< HEAD:frontend/src/6_Shared/Input/InputForm/ui/InputForm.tsx
 import React from 'react';
 import { TextField, Box, Typography } from '@mui/material';
 import { inputFormSx } from './inputFormSx';
+=======
+import React from "react";
+import { TextField, Box, Typography } from "@mui/material";
+import { inputFormSx } from "./inputFormSx.ts";
+>>>>>>> 57f26553 (add patient admission and recording):frontend/src/6_shared/Input/InputForm/ui/InputForm.tsx
 
 interface InputProps {
   type: string;
@@ -10,11 +16,17 @@ interface InputProps {
   fullWidth?: boolean;
   placeholder?: string;
   required?: boolean;
+  disabled?: boolean;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>; 
 }
-const InputForm: React.FC<InputProps> = ({ type, value, onChange, fullWidth, placeholder = "", label = "", required = false, }) => {
+
+const InputForm: React.FC<InputProps> = ({ type, value, onChange, fullWidth, placeholder = "", label = "", required = false, disabled = false, inputProps = {} }) => {
   return (
-    <Box sx={{ textAlign: 'start' }}>
-      <Typography variant='body2' sx={{ padding: '.2em 0' }}>{label}</Typography>
+    <Box sx={{ textAlign: "start" }}>
+      {/* sx={{ padding: ".2em 0" }} */}
+      <Typography variant="body2">
+        {label}
+      </Typography>
       <TextField
         type={type}
         value={value}
@@ -24,6 +36,8 @@ const InputForm: React.FC<InputProps> = ({ type, value, onChange, fullWidth, pla
         placeholder={placeholder}
         sx={inputFormSx.input}
         required={required}
+        disabled={disabled}
+        inputProps={inputProps}
       />
     </Box>
   );

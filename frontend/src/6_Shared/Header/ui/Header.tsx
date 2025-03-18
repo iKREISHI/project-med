@@ -6,6 +6,7 @@ import { AvatarPerson } from '../../../5_Entities/Avatar';
 import { useThemeContext } from '../ThemeContext';
 import { globalsStyle } from '../../../6_Shared/styles/globalsStyle';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 interface User {
   name: string;
@@ -120,7 +121,11 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
           <Box sx={headerSx.userInfoBox}>
             <Box sx={headerSx.userTextContainer}>
               <Switch checked={mode === 'dark'} onChange={toggleTheme} color="primary" />
-              <ModeNightIcon sx={{ color: theme.palette.primary.main }} />
+              {mode === 'dark' ? (
+                <LightModeIcon sx={{ color: theme.palette.primary.main }} /> // Солнышко
+              ) : (
+                <ModeNightIcon sx={{ color: theme.palette.primary.main }} /> // Луна 
+              )}
             </Box>
             {/* Кнопка для слабовидящих */}
             <img
@@ -130,7 +135,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
               title="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
               style={{
                 cursor: 'pointer',
-                filter: theme.palette.mode === 'dark' ? 'invert(100%)' : 'none', 
+                filter: theme.palette.mode === 'dark' ? 'invert(100%)' : 'none',
               }}
             />
             <AvatarPerson name={user.name[0]} />

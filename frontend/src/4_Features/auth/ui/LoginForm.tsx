@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputForm, CustomButton } from '../../../6_Shared';
+import { InputForm, CustomButton } from '../../../6_shared';
 import { Typography, Box, Paper } from '@mui/material';
 import { loginFormSx } from './loginFormSx';
 

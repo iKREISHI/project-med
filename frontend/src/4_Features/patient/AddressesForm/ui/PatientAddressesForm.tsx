@@ -1,9 +1,12 @@
 import { FC, useState, useEffect } from "react";
-import { Box, Typography, FormControlLabel, Checkbox } from "@mui/material";
-import { InputForm } from "../../../../6_Shared/Input";
+import { Box, FormControlLabel, Checkbox } from "@mui/material";
+import { InputForm } from "../../../../6_shared/Input";
 // import { pacientInfoFormSx } from "./pacientInfoFormSx";
-import { CustomButton } from "../../../../6_Shared/Button";
-import { CustomSnackbar } from "../../../../6_Shared/Snackbar";
+import { CustomButton } from "../../../../6_shared/Button";
+import { CustomSnackbar } from "../../../../6_shared/Snackbar";
+import Grid from '@mui/material/Grid2';
+import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
+
 
 export const PatientAddressesForm: FC = () => {
   const [registrationAddress, setRegistrationAddress] = useState('');
@@ -46,40 +49,49 @@ export const PatientAddressesForm: FC = () => {
   return (
     <Box>
       <form onSubmit={handleSubmit}>
-        <Box>
-          <Box>
-            <InputForm
-              type="text"
-              label="Адрес прописки*"
-              value={registrationAddress}
-              onChange={(e) => setRegistrationAddress(e.target.value)}
-              required
-            />
-            <InputForm
-              type="text"
-              label="Адрес проживания*"
-              value={residenceAddress}
-              onChange={(e) => setResidenceAddress(e.target.value)}
-              required
-            />
-          </Box>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isSameAddress}
-                onChange={handleCheckboxChange}
-                disableRipple
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 11, lg: 9 }}>
+            <Box>
+              <Box sx={globalsStyleSx.inputContainer1}>
+                <InputForm
+                  type="text"
+                  label="Адрес прописки"
+                  value={registrationAddress}
+                  onChange={(e) => setRegistrationAddress(e.target.value)}
+                  required
+                  fullWidth
+                />
+              </Box>
+              <Box sx={globalsStyleSx.inputContainer1}>
+                <InputForm
+                  type="text"
+                  label="Адрес проживания"
+                  value={residenceAddress}
+                  onChange={(e) => setResidenceAddress(e.target.value)}
+                  required
+                  fullWidth
+                />
+              </Box>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isSameAddress}
+                    onChange={handleCheckboxChange}
+                    disableRipple
+                  />
+                }
+                label="Адрес прописки совпадает с адресом проживания"
               />
-            }
-            label="Адрес проживания совпадает с адресом прописки"
-          />
-        </Box>
-        <CustomButton
-          type="submit"
-          variant="contained"
-        >
-          Сохранить
-        </CustomButton>
+            </Box>
+            <CustomButton
+              type="submit"
+              variant="contained"
+            >
+              Сохранить
+            </CustomButton>
+          </Grid>
+        </Grid>
       </form>
       <CustomSnackbar
         open={snackbarOpen}

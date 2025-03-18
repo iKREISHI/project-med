@@ -1,0 +1,1 @@
+export { Diagnosis } from './ui/Diagnosis'
