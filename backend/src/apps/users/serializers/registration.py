@@ -80,5 +80,5 @@ class RegistrationModelSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         username = validated_data.pop('username')
         password = validated_data.pop('password')
-        create_user = CreateUserService(username, password)
-        return create_user.create_user(**validated_data)
+        # create_user = CreateUserService(username, password)
+        # return create_user.create_user(**validated_data)
