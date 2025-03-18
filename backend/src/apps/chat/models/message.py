@@ -1,16 +1,28 @@
 from django.db import models
 from .chat import ChatRoom
-from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class Message(models.Model):
-    room = models.ForeignKey(ChatRoom, related_name='messages', on_delete=models.CASCADE)
-    sender = models.ForeignKey(
-    'users.User',
-        on_delete=models.CASCADE
+    room = models.ForeignKey(
+        ChatRoom,
+        related_name='messages',
+        on_delete=models.CASCADE,
+        verbose_name=_('Чат')
+
     )
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    sender = models.ForeignKey(
+        'users.User',
+        on_delete=models.CASCADE,
+        verbose_name=_('Отправитель')
+    )
+    content = models.TextField(
+        verbose_name=_('Текст сообщение')
+    )
+    timestamp = models.DateTimeField(
+        auto_now=True,
+        verbose_name=_('Время отправки')
+    )
 
     def __str__(self):
         return f"{self.sender.username}: {self.content[:20]}"
