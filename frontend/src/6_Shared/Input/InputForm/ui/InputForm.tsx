@@ -1,12 +1,6 @@
-<<<<<<< HEAD:frontend/src/6_Shared/Input/InputForm/ui/InputForm.tsx
-import React from 'react';
-import { TextField, Box, Typography } from '@mui/material';
-import { inputFormSx } from './inputFormSx';
-=======
 import React from "react";
 import { TextField, Box, Typography } from "@mui/material";
 import { inputFormSx } from "./inputFormSx.ts";
->>>>>>> 57f26553 (add patient admission and recording):frontend/src/6_shared/Input/InputForm/ui/InputForm.tsx
 
 interface InputProps {
   type: string;

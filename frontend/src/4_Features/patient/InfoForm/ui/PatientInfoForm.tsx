@@ -1,9 +1,11 @@
 import { FC, useState } from "react";
 import { Box } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
-import { patientInfoFormSx } from "./patientInfoFormSx";
 import { CustomButton } from "../../../../6_shared/Button";
 import { CustomSnackbar } from "../../../../6_shared/Snackbar";
+import Grid from '@mui/material/Grid2';
+import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
+
 
 export const PacientInfoForm: FC = () => {
   const [email, setEmail] = useState("");

@@ -33,7 +33,7 @@ export const PatientRegisterForm: FC = () => {
           <Grid size={{ xs: 11, lg: 8 }}>
             <Box sx={globalsStyleSx.inputContainer}>
               <Typography component="p">ФИО</Typography>
-              <Box sx={{...globalsStyleSx.inputContainer, gridTemplateColumns: {ld: '1fr 1fr 1fr'}}}>
+              <Box sx={{...globalsStyleSx.inputContainer, gridTemplateColumns: {sm: '1fr 1fr 1fr'}}}>
                 <InputForm
                   type="text"
                   placeholder="Фамилия"

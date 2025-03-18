@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { CustomButton, InputForm } from '../../../../6_shared';
+import { CustomButton, InputForm } from '../../../6_shared';
 import { ruRU } from '@mui/x-data-grid/locales';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Patient {
