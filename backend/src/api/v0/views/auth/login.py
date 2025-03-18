@@ -23,8 +23,8 @@ class LoginViewSet(viewsets.ViewSet):
 
             return Response({
                 'detail': _('Успешный вход'),
-                'user_uuid': user.uuid,
-                'position_uuid': user.employee_profile.position.uuid,
+                'user_id': user.id,
+                'position_id': user.employee_profile.position.id,
                 'position': user.employee_profile.position.name,
             }, status=status.HTTP_200_OK)
 

@@ -53,7 +53,7 @@ class EmployeeService:
         return employee
 
     @staticmethod
-    def get_employee_by_uuid(uuid_str: str) -> Employee:
+    def get_employee_by_pk(pk: int) -> Employee:
         """
         Возвращает сотрудника по его UUID.
 
@@ -63,7 +63,7 @@ class EmployeeService:
         Возвращает:
             Объект Employee или None, если сотрудник с указанным UUID не найден.
         """
-        return Employee.objects.filter(uuid=uuid_str).first()
+        return Employee.objects.filter(pk=pk).first()
 
     @staticmethod
     def delete_employee(employee: Employee) -> None:

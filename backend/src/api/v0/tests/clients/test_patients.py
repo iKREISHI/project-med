@@ -75,7 +75,7 @@ class PatientViewSetPaginationTestCase(APITestCase):
         """Проверяем получение пациента по UUID."""
         self.client.force_authenticate(user=self.superuser)
         patient = self.patients[0]
-        detail_url = reverse('patient-detail', kwargs={'uuid': patient.uuid})
+        detail_url = reverse('patient-detail', kwargs={'pk': patient.pk})
         response = self.client.get(detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['first_name'], patient.first_name)
@@ -88,7 +88,7 @@ class PatientViewSetPaginationTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.superuser)
         patient = self.patients[0]
-        detail_url = reverse('patient-detail', kwargs={'uuid': patient.uuid})
+        detail_url = reverse('patient-detail', kwargs={'pk': patient.pk})
         response = self.client.delete(detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         # Повторный запрос – 404
@@ -101,7 +101,7 @@ class PatientViewSetPaginationTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.doctor)
         patient = self.patients[1]
-        detail_url = reverse('patient-detail', kwargs={'uuid': patient.uuid})
+        detail_url = reverse('patient-detail', kwargs={'pk': patient.pk})
         response = self.client.delete(detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         response_get = self.client.get(detail_url)
@@ -113,7 +113,7 @@ class PatientViewSetPaginationTestCase(APITestCase):
         """
         self.client.force_authenticate(user=self.regular_user)
         patient = self.patients[2]
-        detail_url = reverse('patient-detail', kwargs={'uuid': patient.uuid})
+        detail_url = reverse('patient-detail', kwargs={'pk': patient.pk})
         response = self.client.delete(detail_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -123,7 +123,7 @@ class PatientViewSetPaginationTestCase(APITestCase):
         """
         self.client.force_authenticate(user=None)
         patient = self.patients[3]
-        detail_url = reverse('patient-detail', kwargs={'uuid': patient.uuid})
+        detail_url = reverse('patient-detail', kwargs={'pk': patient.pk})
         response = self.client.delete(detail_url)
         # self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

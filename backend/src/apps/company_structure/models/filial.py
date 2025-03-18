@@ -6,7 +6,6 @@ class Filial(models.Model):
     """
         Филиал
     """
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     house = models.CharField(
         max_length=255,

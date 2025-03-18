@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-import uuid
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 
 
@@ -8,8 +7,6 @@ class MedicalCard(AbstractElectronicSignature):
     """
     Медицинская карта
     """
-
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     client = models.ForeignKey(
         'clients.Patient',

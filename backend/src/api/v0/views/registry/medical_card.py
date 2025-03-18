@@ -26,21 +26,20 @@ class MedicalCardViewSet(viewsets.ModelViewSet):
     """
     queryset = MedicalCard.objects.all()
     serializer_class = MedicalCardSerializer
-    lookup_field = 'uuid'
     pagination_class = MedicalCardPagination
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def retrieve(self, request, *args, **kwargs):
-        uuid = kwargs.get('uuid')
-        card = MedicalCardService.get_medical_card_by_uuid(uuid)
+        uuid = kwargs.get('pk')
+        card = MedicalCardService.get_medical_card_by_id(uuid)
         if not card:
             return Response({"detail": "Медицинская карта не найдена."}, status=status.HTTP_404_NOT_FOUND)
         serializer = self.get_serializer(card)
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
-        uuid = kwargs.get('uuid')
-        card = MedicalCardService.get_medical_card_by_uuid(uuid)
+        uuid = kwargs.get('pk')
+        card = MedicalCardService.get_medical_card_by_id(uuid)
         if not card:
             return Response({"detail": "Медицинская карта не найдена."}, status=status.HTTP_404_NOT_FOUND)
         MedicalCardService.delete_medical_card(card)

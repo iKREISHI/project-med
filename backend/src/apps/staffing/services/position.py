@@ -53,7 +53,7 @@ class PositionService:
         return position
 
     @staticmethod
-    def get_position_by_uuid(uuid_str: str) -> Position:
+    def get_position_by_pk(pk: int) -> Position:
         """
         Возвращает должность по её UUID.
 
@@ -63,7 +63,7 @@ class PositionService:
         Возвращает:
             Объект Position или None, если должность с указанным UUID не найдена.
         """
-        return Position.objects.filter(uuid=uuid_str).first()
+        return Position.objects.filter(pk=pk).first()
 
     @staticmethod
     def delete_position(position: Position) -> None:

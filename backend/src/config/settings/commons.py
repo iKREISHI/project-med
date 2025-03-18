@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-z@837e%v9^@r!_0js(l-h@(rt+2xvtcurc#yen*zam@*xc5f_+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 MIDDLEWARE = [
@@ -52,7 +52,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
+ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

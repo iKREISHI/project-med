@@ -1,6 +1,7 @@
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -20,6 +21,7 @@ INSTALLED_APPS = [
     'apps.company_structure.apps.CompanyStructureConfig',
     'apps.medical_activity.apps.MedicalActivityConfig',
     'apps.registry.apps.RegistryConfig',
+    'apps.chat.apps.ChatConfig',
 
     # API apps
     'api.v0.apps.V0Config',

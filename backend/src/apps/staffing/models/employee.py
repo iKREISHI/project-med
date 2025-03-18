@@ -8,14 +8,12 @@ from apps.staffing.validators.employee import (
     validate_appointment_duration,
     validate_short_description
 )
-import uuid
 
 
 class Employee(AbstractPersonModel):
     """
     Модель «Сотрудник». Наследует поля от абстрактной модели «Человек» (AbstractPersonModel).
     """
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     user = models.OneToOneField(
         'users.User',

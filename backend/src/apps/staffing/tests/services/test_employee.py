@@ -79,10 +79,10 @@ class EmployeeServiceTestCase(TestCase):
             EmployeeService.update_employee(employee, non_existent_field='value')
         self.assertIn("Сотрудник не имеет поля", str(context.exception))
 
-    def test_get_employee_by_uuid(self):
+    def test_get_employee_by_id(self):
         """Проверяет получение сотрудника по UUID."""
         employee = EmployeeService.create_employee(**self.valid_data)
-        retrieved = EmployeeService.get_employee_by_uuid(str(employee.uuid))
+        retrieved = EmployeeService.get_employee_by_pk(employee.id)
         self.assertIsNotNone(retrieved)
         self.assertEqual(retrieved.pk, employee.pk)
 
