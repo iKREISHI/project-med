@@ -82,7 +82,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Employee'
           description: ''
-  /api/v0/employee/{uuid}/:
+  /api/v0/employee/{id}/:
     get:
       operationId: v0_employee_retrieve
       description: |-
@@ -95,10 +95,10 @@ paths:
           - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
         required: true
       tags:
       - v0
@@ -123,10 +123,10 @@ paths:
           - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
         required: true
       tags:
       - v0
@@ -157,10 +157,10 @@ paths:
           - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
         required: true
       tags:
       - v0
@@ -190,10 +190,10 @@ paths:
           - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Сотрудник.
         required: true
       tags:
       - v0
@@ -298,7 +298,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MedicalCard'
           description: ''
-  /api/v0/medical-card/{uuid}/:
+  /api/v0/medical-card/{id}/:
     get:
       operationId: v0_medical_card_retrieve
       description: |-
@@ -312,10 +312,10 @@ paths:
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Медицинская карта.
         required: true
       tags:
       - v0
@@ -341,10 +341,10 @@ paths:
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Медицинская карта.
         required: true
       tags:
       - v0
@@ -376,10 +376,10 @@ paths:
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Медицинская карта.
         required: true
       tags:
       - v0
@@ -410,10 +410,133 @@ paths:
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Медицинская карта.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v0/messages/:
+    get:
+      operationId: v0_messages_list
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+          description: ''
+    post:
+      operationId: v0_messages_create
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+  /api/v0/messages/{id}/:
+    get:
+      operationId: v0_messages_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    put:
+      operationId: v0_messages_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    patch:
+      operationId: v0_messages_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMessage'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    delete:
+      operationId: v0_messages_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
         required: true
       tags:
       - v0
@@ -484,7 +607,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Patient'
           description: ''
-  /api/v0/patient/{uuid}/:
+  /api/v0/patient/{id}/:
     get:
       operationId: v0_patient_retrieve
       description: |-
@@ -497,10 +620,10 @@ paths:
           - destroy: удаление пациента.
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Пациент.
         required: true
       tags:
       - v0
@@ -525,10 +648,10 @@ paths:
           - destroy: удаление пациента.
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Пациент.
         required: true
       tags:
       - v0
@@ -559,10 +682,10 @@ paths:
           - destroy: удаление пациента.
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Пациент.
         required: true
       tags:
       - v0
@@ -592,10 +715,10 @@ paths:
           - destroy: удаление пациента.
       parameters:
       - in: path
-        name: uuid
+        name: id
         schema:
-          type: string
-          format: uuid
+          type: integer
+        description: A unique integer value identifying this Пациент.
         required: true
       tags:
       - v0
@@ -625,8 +748,159 @@ paths:
               schema:
                 $ref: '#/components/schemas/Registration'
           description: ''
+  /api/v0/rooms/:
+    get:
+      operationId: v0_rooms_list
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    post:
+      operationId: v0_rooms_create
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+  /api/v0/rooms/{id}/:
+    get:
+      operationId: v0_rooms_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    put:
+      operationId: v0_rooms_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    patch:
+      operationId: v0_rooms_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChatRoom'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    delete:
+      operationId: v0_rooms_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
 components:
   schemas:
+    ChatRoom:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        room_type:
+          $ref: '#/components/schemas/RoomTypeEnum'
+        participants:
+          type: array
+          items:
+            type: string
+            title: Имя пользователя
+          readOnly: true
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+          readOnly: true
+      required:
+      - id
+      - messages
+      - participants
+      - room_type
     Employee:
       type: object
       properties:
@@ -700,10 +974,6 @@ components:
           nullable: true
           title: Номер телефона
           maxLength: 20
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
         appointment_duration:
           type: string
           nullable: true
@@ -725,7 +995,6 @@ components:
       - first_name
       - id
       - last_name
-      - uuid
     GenderEnum:
       enum:
       - M
@@ -762,10 +1031,6 @@ components:
           format: date
           readOnly: true
           title: Дата подписания
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
         date_created:
           type: string
           format: date-time
@@ -792,7 +1057,29 @@ components:
       - id
       - signed_by
       - signed_date
-      - uuid
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        room:
+          type: integer
+        sender:
+          type: string
+          readOnly: true
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - content
+      - id
+      - room
+      - sender
+      - timestamp
     PaginatedEmployeeList:
       type: object
       required:
@@ -862,6 +1149,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Patient'
+    PatchedChatRoom:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        room_type:
+          $ref: '#/components/schemas/RoomTypeEnum'
+        participants:
+          type: array
+          items:
+            type: string
+            title: Имя пользователя
+          readOnly: true
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+          readOnly: true
     PatchedEmployee:
       type: object
       properties:
@@ -935,10 +1245,6 @@ components:
           nullable: true
           title: Номер телефона
           maxLength: 20
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
         appointment_duration:
           type: string
           nullable: true
@@ -971,10 +1277,6 @@ components:
           format: date
           readOnly: true
           title: Дата подписания
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
         date_created:
           type: string
           format: date-time
@@ -995,6 +1297,23 @@ components:
           type: integer
           nullable: true
           title: Филиал
+    PatchedMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        room:
+          type: integer
+        sender:
+          type: string
+          readOnly: true
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedPatient:
       type: object
       properties:
@@ -1068,10 +1387,6 @@ components:
           nullable: true
           title: Номер телефона
           maxLength: 20
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
         additional_place_of_work:
           type: string
           nullable: true
@@ -1167,10 +1482,6 @@ components:
           nullable: true
           title: Номер телефона
           maxLength: 20
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
         additional_place_of_work:
           type: string
           nullable: true
@@ -1198,7 +1509,6 @@ components:
       - first_name
       - id
       - last_name
-      - uuid
     Registration:
       type: object
       properties:
@@ -1223,28 +1533,35 @@ components:
       - password
       - password2
       - username
+    RoomTypeEnum:
+      enum:
+      - private
+      - group
+      type: string
+      description: |-
+        * `private` - Личный
+        * `group` - Групповой
     User:
       type: object
       properties:
-        uuid:
-          type: string
-          format: uuid
+        id:
+          type: integer
           readOnly: true
         username:
           type: string
           title: Имя пользователя
           maxLength: 128
-        position_uuid:
+        position_id:
           type: string
           readOnly: true
         position_name:
           type: string
           readOnly: true
       required:
+      - id
+      - position_id
       - position_name
-      - position_uuid
       - username
-      - uuid
   securitySchemes:
     cookieAuth:
       type: apiKey

@@ -50,7 +50,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v0/employee/{uuid}/": {
+    "/api/v0/employee/{id}/": {
         parameters: {
             query?: never;
             header?: never;
@@ -158,7 +158,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v0/medical-card/{uuid}/": {
+    "/api/v0/medical-card/{id}/": {
         parameters: {
             query?: never;
             header?: never;
@@ -206,6 +206,38 @@ export interface paths {
         patch: operations["v0_medical_card_partial_update"];
         trace?: never;
     };
+    "/api/v0/messages/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_messages_list"];
+        put?: never;
+        post: operations["v0_messages_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/messages/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_messages_retrieve"];
+        put: operations["v0_messages_update"];
+        post?: never;
+        delete: operations["v0_messages_destroy"];
+        options?: never;
+        head?: never;
+        patch: operations["v0_messages_partial_update"];
+        trace?: never;
+    };
     "/api/v0/patient/": {
         parameters: {
             query?: never;
@@ -236,7 +268,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v0/patient/{uuid}/": {
+    "/api/v0/patient/{id}/": {
         parameters: {
             query?: never;
             header?: never;
@@ -296,10 +328,49 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v0/rooms/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_rooms_list"];
+        put?: never;
+        post: operations["v0_rooms_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/rooms/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_rooms_retrieve"];
+        put: operations["v0_rooms_update"];
+        post?: never;
+        delete: operations["v0_rooms_destroy"];
+        options?: never;
+        head?: never;
+        patch: operations["v0_rooms_partial_update"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        ChatRoom: {
+            readonly id: number;
+            name?: string | null;
+            room_type: components["schemas"]["RoomTypeEnum"];
+            readonly participants: string[];
+            readonly messages: components["schemas"]["Message"][];
+        };
         Employee: {
             readonly id: number;
             short_description?: string | null;
@@ -344,8 +415,6 @@ export interface components {
             email?: string | null;
             /** Номер телефона */
             phone?: string | null;
-            /** Format: uuid */
-            readonly uuid: string;
             /** Длительность приёма */
             appointment_duration?: string | null;
             /** Пользователь */
@@ -376,8 +445,6 @@ export interface components {
              * Format: date
              */
             readonly signed_date: string;
-            /** Format: uuid */
-            readonly uuid: string;
             /**
              * Дата регистрации
              * Format: date-time
@@ -391,6 +458,14 @@ export interface components {
             client?: number | null;
             /** Филиал */
             filial?: number | null;
+        };
+        Message: {
+            readonly id: number;
+            room: number;
+            readonly sender: string;
+            content: string;
+            /** Format: date-time */
+            readonly timestamp: string;
         };
         PaginatedEmployeeList: {
             /** @example 123 */
@@ -437,6 +512,13 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Patient"][];
         };
+        PatchedChatRoom: {
+            readonly id?: number;
+            name?: string | null;
+            room_type?: components["schemas"]["RoomTypeEnum"];
+            readonly participants?: string[];
+            readonly messages?: components["schemas"]["Message"][];
+        };
         PatchedEmployee: {
             readonly id?: number;
             short_description?: string | null;
@@ -481,8 +563,6 @@ export interface components {
             email?: string | null;
             /** Номер телефона */
             phone?: string | null;
-            /** Format: uuid */
-            readonly uuid?: string;
             /** Длительность приёма */
             appointment_duration?: string | null;
             /** Пользователь */
@@ -502,8 +582,6 @@ export interface components {
              * Format: date
              */
             readonly signed_date?: string;
-            /** Format: uuid */
-            readonly uuid?: string;
             /**
              * Дата регистрации
              * Format: date-time
@@ -517,6 +595,14 @@ export interface components {
             client?: number | null;
             /** Филиал */
             filial?: number | null;
+        };
+        PatchedMessage: {
+            readonly id?: number;
+            room?: number;
+            readonly sender?: string;
+            content?: string;
+            /** Format: date-time */
+            readonly timestamp?: string;
         };
         PatchedPatient: {
             readonly id?: number;
@@ -562,8 +648,6 @@ export interface components {
             email?: string | null;
             /** Номер телефона */
             phone?: string | null;
-            /** Format: uuid */
-            readonly uuid?: string;
             /** Дополнительное место работы */
             additional_place_of_work?: string | null;
             /** Профессия */
@@ -619,8 +703,6 @@ export interface components {
             email?: string | null;
             /** Номер телефона */
             phone?: string | null;
-            /** Format: uuid */
-            readonly uuid: string;
             /** Дополнительное место работы */
             additional_place_of_work?: string | null;
             /** Профессия */
@@ -645,12 +727,17 @@ export interface components {
              */
             avatar?: string | null;
         };
+        /**
+         * @description * `private` - Личный
+         *     * `group` - Групповой
+         * @enum {string}
+         */
+        RoomTypeEnum: "private" | "group";
         User: {
-            /** Format: uuid */
-            readonly uuid: string;
+            readonly id: number;
             /** Имя пользователя */
             username: string;
-            readonly position_uuid: string;
+            readonly position_id: string;
             readonly position_name: string;
         };
     };
@@ -733,7 +820,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Сотрудник. */
+                id: number;
             };
             cookie?: never;
         };
@@ -754,7 +842,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Сотрудник. */
+                id: number;
             };
             cookie?: never;
         };
@@ -779,7 +868,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Сотрудник. */
+                id: number;
             };
             cookie?: never;
         };
@@ -799,7 +889,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Сотрудник. */
+                id: number;
             };
             cookie?: never;
         };
@@ -912,7 +1003,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Медицинская карта. */
+                id: number;
             };
             cookie?: never;
         };
@@ -933,7 +1025,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Медицинская карта. */
+                id: number;
             };
             cookie?: never;
         };
@@ -958,7 +1051,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Медицинская карта. */
+                id: number;
             };
             cookie?: never;
         };
@@ -978,7 +1072,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Медицинская карта. */
+                id: number;
             };
             cookie?: never;
         };
@@ -994,6 +1089,143 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MedicalCard"];
+                };
+            };
+        };
+    };
+    v0_messages_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Message"][];
+                };
+            };
+        };
+    };
+    v0_messages_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Message"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Message"];
+                };
+            };
+        };
+    };
+    v0_messages_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this message. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Message"];
+                };
+            };
+        };
+    };
+    v0_messages_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this message. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Message"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Message"];
+                };
+            };
+        };
+    };
+    v0_messages_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this message. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_messages_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this message. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedMessage"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Message"];
                 };
             };
         };
@@ -1050,7 +1282,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Пациент. */
+                id: number;
             };
             cookie?: never;
         };
@@ -1071,7 +1304,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Пациент. */
+                id: number;
             };
             cookie?: never;
         };
@@ -1096,7 +1330,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Пациент. */
+                id: number;
             };
             cookie?: never;
         };
@@ -1116,7 +1351,8 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                uuid: string;
+                /** @description A unique integer value identifying this Пациент. */
+                id: number;
             };
             cookie?: never;
         };
@@ -1155,6 +1391,143 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Registration"];
+                };
+            };
+        };
+    };
+    v0_rooms_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatRoom"][];
+                };
+            };
+        };
+    };
+    v0_rooms_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChatRoom"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatRoom"];
+                };
+            };
+        };
+    };
+    v0_rooms_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this chat room. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatRoom"];
+                };
+            };
+        };
+    };
+    v0_rooms_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this chat room. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChatRoom"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatRoom"];
+                };
+            };
+        };
+    };
+    v0_rooms_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this chat room. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_rooms_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this chat room. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedChatRoom"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatRoom"];
                 };
             };
         };
