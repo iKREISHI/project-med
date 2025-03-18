@@ -1,46 +1,79 @@
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.users.services import CreateUserService
-from apps.users.validators import (
-    validate_username, validate_password,
-)
+from apps.abstract_models.person.validators import validate_last_name, validate_first_name, validate_patronymic, \
+    validate_gender, validate_date_of_birth, validate_snils, validate_phone, validate_address, validate_inn, \
+    person_validate_email
+from apps.company_structure.models import FilialDepartment
+from apps.staffing.models import Employee, Position
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        write_only=True,
-        label=_("Пароль"),
-        style={'input_type': 'password'}
-    )
-    password2 = serializers.CharField(
-        write_only=True,
-        label=_("Подтверждение пароля"),
-        style={'input_type': 'password'}
+class RegistrationModelSerializer(serializers.ModelSerializer):
+    is_django_user = serializers.BooleanField(
+
     )
 
     class Meta:
-        model = User
+        model = Employee
         fields = (
-            'username', 'password', 'password2',
-            'avatar'
+            'first_name',
+            'last_name',
+            'patronymic',
+            'is_django_user',
+            'gender',
+            'date_of_birth',
+            'snils',
+            'inn',
+            'registration_address',
+            'actual_address',
+            'email',
+            'phone',
+            'department',
+            'position',
+            'short_description'
         )
+
         extra_kwargs = {
-            'avatar': {'required': False, 'allow_null': True},
+            'first_name': {'required': True, 'error_messages': {'blank': _('Пожалуйста, напишите имя.')}},
+            'last_name': {'required': True, 'error_messages': {'blank': _('Пожалуйста, напишите фамилию.')}},
+            'patronymic': {'required': True, 'error_messages': {'blank': _('Пожалуйста, напишите отчество.')}},
+            'gender': {'required': True, 'error_messages': {'blank': _('Пожалуйста, укажите пол.')}},
+            'is_django_user': {'required': True, 'error_messages':
+                {'blank': _('Пожалуйста, укажите может ли пользователь заходить в систему и пользоваться ей')}},
+            'date_of_birth': {'error_messages': {'blank': _('Пожалуйста, укажите дату рождения.')}},
+            'snils': {'error_messages': {'blank': _('Пожалуйста, укажите СНИЛС.')}},
+            'inn': {'error_messages': {'blank': _('Пожалуйста, укажите ИНН.')}},
+            'registration_address': {'error_messages': {'blank': _('Пожалуйста, укажите адрес регистрации.')}},
+            'actual_address': {'error_messages': {'blank': _('Пожалуйста, укажите фактический адрес.')}},
+            'email': {'error_messages': {'blank': _('Пожалуйста, укажите email.')}},
+            'phone': {'error_messages': {'blank': _('Пожалуйста, укажите номер телефона.')}},
+            'department': {'error_messages': {'blank': _('Пожалуйста, укажите отдел.')}},
+            'position': {'error_messages': {'blank': _('Пожалуйста, укажите должность.')}},
+            'short_description': {'error_messages': {'blank': _('Пожалуйста, заполните краткое описание.')}},
         }
 
+
     def validate(self, data):
-        password = data.get('password')
-        password2 = data.pop('password2', None)
-        if password != password2:
-            raise serializers.ValidationError(
-                {'password':  _("Пароли не совпадают.")}
-            )
-        validate_username(data.get('username'))
-        validate_password(password)
+        validate_last_name(data.get("last_name"))
+        validate_first_name(data.get("first_name"))
+        validate_patronymic(data.get("patronymic"))
+        validate_gender(data.get("gender"))
+        validate_date_of_birth(data.get("date_of_birth"))
+        validate_snils(data.get("snils"))
+        validate_inn(data.get("inn"))
+        validate_phone(data.get("phone"))
+        validate_address(data.get("registration_address"))
+        validate_address(data.get("actual_address"))
+        person_validate_email(data.get("email"))
+
+        if not FilialDepartment.objects.exists():
+            raise serializers.ValidationError(_("Не найдено ни одного отдела, создайте хотя бы один."))
+
+        if not Position.objects.exists():
+            raise serializers.ValidationError(_("Не найдено ни одной должности, создайте хотя бы одну."))
 
         return data
 

@@ -11,6 +11,8 @@ from django.utils import timezone
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
+from apps.staffing.models import Position
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -27,6 +29,11 @@ class UserManager(BaseUserManager):
             validate_password(password, user=None)
         except ValidationError:
             raise ValueError('The given password must be at least 8 characters long')
+
+        if not Position.objects.filter(name="Администратор").exists():
+            raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
+                               "для создания групп пользователей")
+
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -40,6 +47,12 @@ class UserManager(BaseUserManager):
             raise ValueError('The username must be set')
         if not password:
             raise ValueError('The password must be set')
+
+        if not Position.objects.filter(name="Администратор").exists():
+            raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
+                               "для создания групп пользователей")
+
+
         user = self.model(username=username, **extra_fields)
         user.password = make_password(password)
         user.save(using=self._db)
@@ -52,6 +65,10 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
+
+        if not Position.objects.filter(name="Администратор").exists():
+            raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
+                               "для создания групп пользователей")
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')

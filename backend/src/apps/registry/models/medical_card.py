@@ -20,6 +20,9 @@ class MedicalCard(AbstractElectronicSignature):
         related_name='medical_cards'
     )
 
+
+
+
     card_type = models.CharField(
         max_length=20,
         verbose_name=_('Тип карты')

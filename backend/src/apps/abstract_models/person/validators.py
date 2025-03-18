@@ -1,6 +1,7 @@
 import re
 from datetime import date
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.utils.translation import gettext_lazy as _
 
 
@@ -101,3 +102,14 @@ def validate_address(value: str) -> None:
         raise ValidationError(
             _("Адрес должен содержать не менее 5 символов.")
         )
+
+
+def person_validate_email(email: str) -> None:
+    """
+    Валидация email при помощи
+    валидации Django
+    """
+    try:
+        validate_email(email)
+    except ValidationError:
+        raise ValidationError(_('Некорректная почта'))
