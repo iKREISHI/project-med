@@ -3,26 +3,35 @@ from .chat import ChatRoom
 from django.utils.translation import gettext_lazy as _
 
 
-class Message(models.Model):
+class BaseMessage(models.Model):
     room = models.ForeignKey(
         ChatRoom,
-        related_name='messages',
-        on_delete=models.CASCADE,
-        verbose_name=_('Чат')
+        related_name="%(class)s_messages",
+        on_delete=models.CASCADE
+    )
+    sender = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
 
-    )
-    sender = models.ForeignKey(
-        'users.User',
-        on_delete=models.CASCADE,
-        verbose_name=_('Отправитель')
-    )
-    content = models.TextField(
-        verbose_name=_('Текст сообщение')
-    )
-    timestamp = models.DateTimeField(
-        auto_now=True,
-        verbose_name=_('Время отправки')
-    )
+    class Meta:
+        abstract = True
+
+
+class TextMessage(BaseMessage):
+    content = models.TextField()
 
     def __str__(self):
         return f"{self.sender.username}: {self.content[:20]}"
+
+
+class ImageMessage(BaseMessage):
+    image = models.ImageField(upload_to='chat_images/')
+
+    def __str__(self):
+        return f"{self.sender.username}: Изображение"
+
+
+class FileMessage(BaseMessage):
+    file = models.FileField(upload_to='chat_files/')
+
+    def __str__(self):
+        return f"{self.sender.username}: Файл"

@@ -1,2 +1,4 @@
 from .chat import ChatRoom
-from .message import Message
+from .message import (
+    TextMessage, FileMessage, ImageMessage
+)

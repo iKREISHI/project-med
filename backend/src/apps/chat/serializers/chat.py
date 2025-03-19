@@ -1,11 +1,24 @@
 from rest_framework import serializers
-from apps.chat.models import ChatRoom, Message
-from .message import MessageSerializer
+from apps.chat.models import ChatRoom, TextMessage, ImageMessage, FileMessage
 from django.utils.translation import gettext_lazy as _
+from .message import TextMessageSerializer, ImageMessageSerializer, FileMessageSerializer
+
+
+class PolymorphicMessageSerializer(serializers.Serializer):
+    def to_representation(self, instance):
+        if isinstance(instance, TextMessage):
+            serializer = TextMessageSerializer(instance, context=self.context)
+        elif isinstance(instance, ImageMessage):
+            serializer = ImageMessageSerializer(instance, context=self.context)
+        elif isinstance(instance, FileMessage):
+            serializer = FileMessageSerializer(instance, context=self.context)
+        else:
+            raise Exception(_("Неизвестный тип сообщения"))
+        return serializer.data
 
 
 class ChatRoomSerializer(serializers.ModelSerializer):
-    messages = MessageSerializer(many=True, read_only=True)
+    messages = PolymorphicMessageSerializer(many=True, read_only=True)
     participants = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field='id'
     )

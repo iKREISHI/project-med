@@ -13,10 +13,6 @@ from .views.staffing import (
 from .views.registry import (
     MedicalCardViewSet
 )
-from .chat.views import (
-    ChatRoomViewSet,
-    MessageViewSet
-)
 
 
 router = DefaultRouter()
