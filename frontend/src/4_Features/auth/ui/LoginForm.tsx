@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { InputForm, CustomButton } from '../../../6_shared';
 import { Typography, Box, Paper } from '@mui/material';
 import { loginFormSx } from './loginFormSx';
+import {useAuth} from "../lib/useAuth.ts";
 
-interface LoginFormProps {
-  onSubmit: (username: string, password: string) => void;
-}
 
-export const  LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+
+export const  LoginForm: React.FC = () => {
+  const {handleLogin, error} = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleSubmit = () => {
-    onSubmit(username, password);
-  };
-
+  const handleSubmit = async() =>{
+    if (!username || !password){
+      return;
+    }
+    await handleLogin({username: username, password: password});
+  }
   return (
     <Paper elevation={0} sx={loginFormSx.paper}>
       <Box sx={{ marginBottom: '1em' }}>
@@ -44,6 +45,11 @@ export const  LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           fullWidth
         />
       </Box>
+      {error && (
+        <Typography color="error" sx={{ marginTop: 1 }}>
+          {error}
+        </Typography>
+      )}
       <Box sx={{ padding: '1em 0' }}>
         <CustomButton onClick={handleSubmit} fullWidth>
           Войти

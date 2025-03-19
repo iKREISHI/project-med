@@ -1,82 +1,108 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Paper, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { CustomButton, InputForm } from '../../../../6_shared';
 import { ruRU } from '@mui/x-data-grid/locales';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { getAllPatients } from '../../../../5_entities/patient';
+import type { Patient } from '../../../../5_entities/patient';
 
-
-interface Patient {
-  id: number;
-  fullName: string;
-  lastVisit: string;
-}
-
-const Patients: Patient[] = [
-  { id: 1, fullName: "Иванов Иван Иванович", lastVisit: "2025-03-14" },
-  { id: 2, fullName: "Петров Петр Петрович", lastVisit: "2025-03-14" },
-
-
-];
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 80 },
-  { field: 'fullName', headerName: 'ФИО', width: 250 },
-  { field: 'lastVisit', headerName: 'Дата последнего приема', width: 150 },
+  { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
+  { field: 'last_name', headerName: 'Фамилия', flex: 1, minWidth: 130 },
+  { field: 'first_name', headerName: 'Имя', flex: 1, minWidth: 130 },
+  { field: 'patronymic', headerName: 'Отчество', flex: 1, minWidth: 130 },
+  { field: 'date_created', headerName: 'Дата регистрации', flex: 1.5, minWidth: 150 },
 ];
- // Главная старница со списокм пациентов 
+
 export const Registry: React.FC = () => {
-  const screenWidth = window.screen.width;
-  const [patients, setPatients] = React.useState(Patients);
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const navigate = useNavigate()
+  const theme = useTheme();
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllPatients({ page: 1, page_size: 50 })
+      .then((data) => {
+        const safePatients = data?.results || [];
+        const transformedPatients = safePatients.map((patient) => ({
+          ...patient,
+          id: patient.id || Math.random(),
+        }));
+        setPatients(transformedPatients);
+      })
+      .catch((error) => {
+        console.error('Ошибка получения списка пациентов', error);
+      });
+  }, []);
 
   const filteredPatients = patients.filter((patient) =>
-    patient.fullName.toLowerCase().includes(searchQuery.toLowerCase())
+    `${patient.last_name} ${patient.first_name} ${patient.patronymic}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
   );
 
   return (
-    <Box>
-      <Box sx={{ pt: 1, pb: 1 }}>
+    <Box sx={{
+      width: '100%',
+      p: theme.spacing(2),
+      boxSizing: 'border-box'
+    }}>
+      <Box sx={{
+        mb: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: theme.spacing(2)
+      }}>
         <InputForm
           label=""
-          type='text'
+          type="text"
           fullWidth
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder='Поиск'
+          placeholder="Поиск"
         />
-      </Box>
-      <Box sx={{ mb: 1 }}>
+
         <CustomButton
           variant="contained"
           startIcon={<AddIcon />}
           onClick={() => navigate('/registry/patient')}
+          sx={{ alignSelf: 'flex-start' }}
         >
           Добавить пациента
         </CustomButton>
       </Box>
-      <Box sx={{ overflowX: 'auto', width: `calc(${screenWidth}px` }}>
-        <Paper>
-          <DataGrid
-            rows={filteredPatients}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 13 },
-              },
-            }}
-            onRowClick={(params) => console.log(params.row)}
-            sx={{
-              width: {
-                xs: `calc(${screenWidth}px - 49px)`,
-                sm: '100%'
-              }
-            }}
-            localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-          />
-        </Paper>
-      </Box>
+
+      <Paper sx={{
+        width: '100%',
+        overflow: 'hidden',
+        boxShadow: theme.shadows[3]
+      }}>
+        <DataGrid
+          rows={filteredPatients}
+          columns={columns}
+          autoHeight
+          disableRowSelectionOnClick
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 13 },
+            },
+          }}
+          sx={{
+            '& .MuiDataGrid-cell': {
+              whiteSpace: 'normal',
+              lineHeight: '1.5',
+              padding: theme.spacing(1),
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: theme.palette.grey[100],
+            },
+          }}
+          localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+        />
+      </Paper>
     </Box>
   );
 };

@@ -4,6 +4,252 @@ info:
   version: 1.0.0
   description: Automated workstation for the doctor on duty
 paths:
+  /api/v0/chat/messages/:
+    get:
+      operationId: v0_chat_messages_list
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+          description: ''
+    post:
+      operationId: v0_chat_messages_create
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+  /api/v0/chat/messages/{id}/:
+    get:
+      operationId: v0_chat_messages_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    put:
+      operationId: v0_chat_messages_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    patch:
+      operationId: v0_chat_messages_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMessage'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+    delete:
+      operationId: v0_chat_messages_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v0/chat/rooms/:
+    get:
+      operationId: v0_chat_rooms_list
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    post:
+      operationId: v0_chat_rooms_create
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+  /api/v0/chat/rooms/{id}/:
+    get:
+      operationId: v0_chat_rooms_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    put:
+      operationId: v0_chat_rooms_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRoom'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    patch:
+      operationId: v0_chat_rooms_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChatRoom'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatRoom'
+          description: ''
+    delete:
+      operationId: v0_chat_rooms_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this chat room.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v0/current-user/:
     get:
       operationId: v0_current_user_list
@@ -217,11 +463,36 @@ paths:
       - cookieAuth: []
       - {}
       responses:
-        '201':
+        '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Login'
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  user_id:
+                    type: integer
+                  position_id:
+                    type: integer
+                  position:
+                    type: string
+                example:
+                  detail: Успешный вход
+                  user_id: 1
+                  position_id: 2
+                  position: Менеджер
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                example:
+                  detail: Вы уже авторизованы
           description: ''
   /api/v0/logout/:
     post:
@@ -422,129 +693,6 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v0/messages/:
-    get:
-      operationId: v0_messages_list
-      tags:
-      - v0
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Message'
-          description: ''
-    post:
-      operationId: v0_messages_create
-      tags:
-      - v0
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Message'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-          description: ''
-  /api/v0/messages/{id}/:
-    get:
-      operationId: v0_messages_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this message.
-        required: true
-      tags:
-      - v0
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-          description: ''
-    put:
-      operationId: v0_messages_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this message.
-        required: true
-      tags:
-      - v0
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Message'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-          description: ''
-    patch:
-      operationId: v0_messages_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this message.
-        required: true
-      tags:
-      - v0
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedMessage'
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-          description: ''
-    delete:
-      operationId: v0_messages_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this message.
-        required: true
-      tags:
-      - v0
-      security:
-      - cookieAuth: []
-      responses:
-        '204':
-          description: No response body
   /api/v0/patient/:
     get:
       operationId: v0_patient_list
@@ -719,150 +867,6 @@ paths:
         schema:
           type: integer
         description: A unique integer value identifying this Пациент.
-        required: true
-      tags:
-      - v0
-      security:
-      - cookieAuth: []
-      responses:
-        '204':
-          description: No response body
-  /api/v0/registration/:
-    post:
-      operationId: v0_registration_create
-      tags:
-      - v0
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Registration'
-        required: true
-      security:
-      - cookieAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Registration'
-          description: ''
-  /api/v0/rooms/:
-    get:
-      operationId: v0_rooms_list
-      tags:
-      - v0
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ChatRoom'
-          description: ''
-    post:
-      operationId: v0_rooms_create
-      tags:
-      - v0
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChatRoom'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ChatRoom'
-          description: ''
-  /api/v0/rooms/{id}/:
-    get:
-      operationId: v0_rooms_retrieve
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this chat room.
-        required: true
-      tags:
-      - v0
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ChatRoom'
-          description: ''
-    put:
-      operationId: v0_rooms_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this chat room.
-        required: true
-      tags:
-      - v0
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChatRoom'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ChatRoom'
-          description: ''
-    patch:
-      operationId: v0_rooms_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this chat room.
-        required: true
-      tags:
-      - v0
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedChatRoom'
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ChatRoom'
-          description: ''
-    delete:
-      operationId: v0_rooms_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this chat room.
         required: true
       tags:
       - v0
@@ -1509,30 +1513,6 @@ components:
       - first_name
       - id
       - last_name
-    Registration:
-      type: object
-      properties:
-        username:
-          type: string
-          title: Имя пользователя
-          maxLength: 128
-        password:
-          type: string
-          writeOnly: true
-          title: Пароль
-        password2:
-          type: string
-          writeOnly: true
-          title: Подтверждение пароля
-        avatar:
-          type: string
-          format: uri
-          nullable: true
-          title: Аватар
-      required:
-      - password
-      - password2
-      - username
     RoomTypeEnum:
       enum:
       - private

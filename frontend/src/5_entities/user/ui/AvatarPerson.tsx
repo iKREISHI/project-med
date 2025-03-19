@@ -3,13 +3,17 @@ import { Logout } from '@mui/icons-material';
 import { Tooltip, IconButton, ListItemIcon, MenuItem, Menu, Avatar } from '@mui/material';
 import { avatarPersonSx } from './avatarPersonSx.ts';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../../../4_Features/auth/lib/useAuth.ts";
+
 
 interface AvatarPersonProps {
   name: string;
 }
 
+
 // аватар профиля прользователя
 const AvatarPerson: React.FC<AvatarPersonProps> = ({ name }) => {
+  const {handleLogout} = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -22,7 +26,8 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name }) => {
     setAnchorEl(null);
     console.log("Close")
   };
-  const handleLogout = () => {
+  const handleLogoutComponent = () => {
+    handleLogout();
     navigate('/login');
   };
 
@@ -59,7 +64,7 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name }) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleLogout} disableRipple>
+        <MenuItem onClick={handleLogoutComponent} disableRipple>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
