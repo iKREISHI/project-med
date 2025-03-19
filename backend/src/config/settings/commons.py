@@ -10,6 +10,7 @@ For the full list of config and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 from config.settings import BASE_DIR
+import os
 
 # Quick-start development config - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -95,6 +96,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

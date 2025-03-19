@@ -9,15 +9,53 @@ from apps.chat.serializers import (
     FileMessageSerializer, PolymorphicMessageSerializer
 )
 from ..permissions import IsChatMember
+from drf_spectacular.utils import (
+    extend_schema_view,
+    extend_schema,
+    OpenApiResponse,
+    OpenApiParameter
+)
+from drf_spectacular.types import OpenApiTypes
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Список сообщений чата",
+        description="Возвращает список сообщений в указанной чат-комнате. Доступ разрешён только участникам чата.",
+        parameters=[
+            OpenApiParameter(name="room_id", location=OpenApiParameter.PATH, type=OpenApiTypes.INT, description="Идентификатор чат-комнаты")
+        ],
+        responses=PolymorphicMessageSerializer
+    ),
+    create=extend_schema(
+        summary="Создание сообщения",
+        description=(
+            "Создаёт новое сообщение в чат-комнате. "
+            "Тип сообщения определяется полем `message_type` (например, 'text', 'image', 'file')."
+        ),
+        parameters=[
+            OpenApiParameter(name="room_id", location=OpenApiParameter.PATH, type=OpenApiTypes.INT, description="Идентификатор чат-комнаты")
+        ],
+        request=OpenApiTypes.OBJECT,
+        responses=PolymorphicMessageSerializer
+    ),
+    destroy=extend_schema(
+        summary="Удаление сообщения",
+        description="Удаляет сообщение, если текущий пользователь является его отправителем.",
+        parameters=[
+            OpenApiParameter(name="room_id", location=OpenApiParameter.PATH, type=OpenApiTypes.INT, description="Идентификатор чат-комнаты"),
+            OpenApiParameter(name="pk", location=OpenApiParameter.PATH, type=OpenApiTypes.INT, description="Идентификатор сообщения")
+        ],
+        responses={204: OpenApiResponse(description="Сообщение успешно удалено.")}
+    )
+)
 class MessageViewSet(viewsets.ViewSet):
     """
     ViewSet для работы с сообщениями в чат-комнате.
     URL должен содержать параметр room_id, например:
-    /api/chatrooms/<room_id>/messages/
+    api/v0/chat/<room_id>/messages/
     Для детальных операций (удаление) ожидается URL вида:
-    /api/chatrooms/<room_id>/messages/<pk>/
+    api/v0/chat/<room_id>/messages/<pk>
     """
 
     permission_classes = [permissions.IsAuthenticated, IsChatMember]
