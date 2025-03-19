@@ -1,8 +1,7 @@
-# views.py
 from rest_framework import viewsets, permissions
 from apps.chat.models import ChatRoom
 from apps.chat.serializers import ChatRoomSerializer
-from ..permissions import IsChatMember
+from rest_framework.exceptions import PermissionDenied
 
 
 class ChatRoomViewSet(viewsets.ModelViewSet):
@@ -12,9 +11,16 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
     что пользователь входит в список участников.
     """
     serializer_class = ChatRoomSerializer
-    permission_classes = [permissions.IsAuthenticated, IsChatMember]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # Возвращаем только те комнаты, в которых пользователь является участником
-        user = self.request.user
-        return ChatRoom.objects.filter(participants=user)
+        if self.action == 'list':
+            user = self.request.user
+            return ChatRoom.objects.filter(participants=user)
+        return ChatRoom.objects.all()
+
+    def get_object(self):
+        obj = super().get_object()
+        if self.request.user not in obj.participants.all():
+            raise PermissionDenied("Доступ запрещён. Вы не являетесь участником чата.")
+        return obj
