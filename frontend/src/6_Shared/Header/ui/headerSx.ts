@@ -1,5 +1,5 @@
 import { SxProps, Theme } from '@mui/material/styles';
-import { globalsStyle } from '../../../6_Shared/styles/globalsStyle';
+import { globalsStyle } from "../../styles/globalsStyle";
 
 export const headerSx = {
   appBar: {
@@ -24,7 +24,7 @@ export const headerSx = {
   container: {
     display: 'flex',
     alignItems: 'center',
-    gap: (theme: Theme) => theme.spacing(2), 
+    gap: (theme: Theme) => theme.spacing(1), 
     width: '100%',
   } as SxProps<Theme>,
   userInfoBox: {

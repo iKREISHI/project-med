@@ -1,8 +1,7 @@
 import { SxProps, Theme } from '@mui/material/styles';
-import { globalsStyle } from '../../styles/globalsStyle.ts';
+import { globalsStyle } from '../../styles/globalsStyle';
 
-
-export const patientMenuSx = {
+export const chatMenuSx = {
   sideContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -14,8 +13,7 @@ export const patientMenuSx = {
 
   listButton: {
     paddingLeft: (theme: Theme) => theme.spacing(3),
-    bgcolor: (theme: Theme) => theme.palette.grey[200],
-    marginBottom: 0.5
+    marginBottom: 0.5,
   },
   listButtonHover: {
     transition: 'all 0.2s ease-in-out',

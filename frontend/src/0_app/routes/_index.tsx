@@ -24,9 +24,13 @@ export const RouterComponent: FC = () => {
       <Routes>
         <Route path="*" element={<Main />}>
           <Route path="" element={<DashBoard />} />
-          <Route path="chat" element={<Chat />} />
+          {/* <Route path="chat" element={<Chat />} /> */}
+          <Route path="chat">
+            <Route index element={<Chat />} />
+            <Route path=":id" element={<Chat />} />
+          </Route>
           <Route path="document" element={<div>document</div>} />
-          <Route path="schedule" element={<div>schedule</div>} />
+          {/* <Route path="schedule" element={<div>schedule</div>} /> */}
           <Route path="registry" element={<Registry />} />
           <Route path="admission" element={<Admission />} >
             <Route path="patient-checkup" element={<PatientCheckup />} />

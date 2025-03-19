@@ -1,7 +1,6 @@
-import { FC, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
-// import { admissionInfoFormSx } from "./admissionInfoFormSx";
 import { CustomButton } from "../../../../6_shared/Button";
 import { CustomSnackbar } from "../../../../6_shared/Snackbar";
 import { CustomSelect } from "../../../../6_shared/Select";
@@ -11,7 +10,11 @@ import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
 
 
 // Форма приема пациента
-export const AdmissionInfoForm: FC = () => {
+interface AdmissionInfoFormProps {
+    patientName?: string;
+}
+
+export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientName }) => {
     const [doctor, setDoctor] = useState("");
     const [client, setClient] = useState("");
     const [date, setDate] = useState("");
@@ -26,7 +29,7 @@ export const AdmissionInfoForm: FC = () => {
     const clients = [
         { id: 1, name: "Иван Иванов" },
         { id: 2, name: "Петр Петров" },
-
+        { id: 3, name: "Анна Аннова" },
     ];
 
     const medcards = [
@@ -39,7 +42,14 @@ export const AdmissionInfoForm: FC = () => {
         const today = new Date().toISOString().split("T")[0];
         setDate(today);
     }, []);
-
+    // Устанавливаем дефолтное значение 
+    useEffect(() => {
+        if (patientName) {
+            setClient(patientName);
+        } else {
+            setClient(client);
+        }
+    }, [patientName, clients]);
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setSnackbarOpen(true); // Показываем уведомление об успешной отправке
@@ -96,6 +106,7 @@ export const AdmissionInfoForm: FC = () => {
                                 onChange={setClient}
                                 options={clients}
                                 placeholder="Введите имя клиента"
+                                disabled={patientName ? true : false}
                             />
                         </Box>
 

@@ -1,12 +1,15 @@
 import { SxProps, Theme } from '@mui/material/styles';
 
 export const inputSearchSx = {
-  input: {
+  input: (shadowColor: string, isDarkText?: boolean) => ({
     backgroundColor: 'transparent',
-    padding: '0',
+    padding: 0.7,
+    pl: 1.5,
     width: '100%',
+    color: (theme: Theme) => 
+      isDarkText ? theme.palette.common.black : theme.palette.common.white, 
     borderRadius: (theme: Theme) => theme.shape.borderRadius,
-    boxShadow: '0 0 5px rgba(255, 255, 255, 0.2)',
+    boxShadow: `0 0 5px ${shadowColor}`,
 
     '&::placeholder': {
       color: (theme: Theme) => theme.palette.text.secondary, 
@@ -24,24 +27,27 @@ export const inputSearchSx = {
       },
       '& .MuiOutlinedInput-input': {
         padding: (theme: Theme) => theme.spacing(1.7),
-        color: (theme: Theme) => theme.palette.common.white,
+        color: (theme: Theme) => 
+          isDarkText ? theme.palette.common.black : theme.palette.common.white, 
       },
     },
-  } as SxProps<Theme>,
+  }) as SxProps<Theme>,
   container: {
     padding: (theme: Theme) => theme.spacing(1),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    overflow: 'hidden'
   } as SxProps<Theme>,
-  iconSearch: {
+  iconSearch: (isDarkText?: boolean) => ({
     minWidth: 0,
     height: '100%',
-    padding: 0,
-    color: (theme: Theme) => theme.palette.common.white,
+    pr: 1,
+    color: (theme: Theme) => 
+      isDarkText ? theme.palette.common.black : theme.palette.common.white, 
     '&:hover': {
       backgroundColor: 'transparent !important',
     },
-  } as SxProps<Theme>,
+  }) as SxProps<Theme>,
 };

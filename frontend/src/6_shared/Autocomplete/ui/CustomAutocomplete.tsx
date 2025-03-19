@@ -1,16 +1,16 @@
 import { FC } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-// import { globalsStyle } from "../../styles/globalsStyle";
 
 interface ClientAutocompleteProps {
     value: string;
     fullWidth?: boolean;
+    disabled?: boolean;
     placeholder: string;
     onChange: (value: string) => void;
     options: Array<{ id: number; name: string }>;
 }
 
-export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({ value, onChange, options, placeholder, fullWidth=false}) => {
+export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({ value, onChange, options, placeholder, fullWidth=false, disabled=false}) => {
     return (
         <Autocomplete
             options={options}
@@ -26,12 +26,12 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({ value, onChang
                     sx={{
                         "& .css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input": {
                             zIndex: 1, 
-                            
                         },
                     }}
                 />
             )}
             fullWidth={fullWidth}
+            disabled={disabled}
             sx={{
                 minWidth: "230px",
                 "& .MuiOutlinedInput-root": {

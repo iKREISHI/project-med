@@ -1,5 +1,5 @@
 import { LineChart } from '@mui/x-charts/LineChart';
-import { globalsStyle } from '../../../../6_Shared/styles/globalsStyle';
+import { globalsStyle } from '../../../styles/globalsStyle';
 import { useRef, useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { globalsStyleSx } from '../../../styles/globalsStyleSx';

@@ -43,5 +43,5 @@ export const Patient: FC = () => {
         </Box>
       </Box>
       </Box>
-  );
+  ); 
 };

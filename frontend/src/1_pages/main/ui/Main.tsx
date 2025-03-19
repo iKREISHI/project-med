@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { CustomDrawer, Plane, Calendar, Header } from '../../../6_Shared';
+import { CustomDrawer, Plane, Calendar, Header } from '../../../6_shared';
 import { Toolbar, CssBaseline, Box, IconButton } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-// import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
-import { globalsStyle } from '../../../6_Shared/styles/globalsStyle';
+import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
 
 export function Main() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -26,7 +25,7 @@ export function Main() {
     { name: 'Главная', path: '/' },
     { name: 'Чат', path: '/chat' },
     { name: 'Документооборот', path: '/document' },
-    { name: 'Расписание', path: '/schedule' },
+    // { name: 'Расписание', path: '/schedule' },
     { name: 'Пациенты', path: '/registry' },
     { name: 'Прием', path: '/admission' },
     { name: 'Запись', path: '/record' },
@@ -66,7 +65,7 @@ export function Main() {
         }}
       >
         <Toolbar />
-        <Box sx={{ m: 3, mt: 5 }}>
+        <Box sx={{ m: 2, mt: 5 }}>
           <Box sx={{ textAlign: 'right', width: '100%', mb:1, color: theme.palette.background.default, display: {xs: 'none', sm: 'block'}}}>
             <IconButton disableRipple onClick={toggleRightMenu} title={isRightMenuVisible ? 'Закрыть' : 'Открыть'}>
               <CalendarMonthIcon />

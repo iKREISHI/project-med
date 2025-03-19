@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, Box, Typography } from "@mui/material";
+import { Box, Typography, InputBase } from "@mui/material";
 import { inputFormSx } from "./inputFormSx.ts";
 
 interface InputProps {
@@ -7,6 +7,7 @@ interface InputProps {
   value: string;
   label?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   fullWidth?: boolean;
   placeholder?: string;
   required?: boolean;
@@ -14,19 +15,18 @@ interface InputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>; 
 }
 
-const InputForm: React.FC<InputProps> = ({ type, value, onChange, fullWidth, placeholder = "", label = "", required = false, disabled = false, inputProps = {} }) => {
+const InputForm: React.FC<InputProps> = ({ type, value, onChange, onKeyPress, fullWidth, placeholder = "", label = "", required = false, disabled = false, inputProps = {} }) => {
   return (
     <Box sx={{ textAlign: "start" }}>
-      {/* sx={{ padding: ".2em 0" }} */}
       <Typography variant="body2">
         {label}
       </Typography>
-      <TextField
+      <InputBase
         type={type}
         value={value}
         onChange={onChange}
+        onKeyPress={onKeyPress}
         fullWidth={fullWidth}
-        variant="outlined"
         placeholder={placeholder}
         sx={inputFormSx.input}
         required={required}

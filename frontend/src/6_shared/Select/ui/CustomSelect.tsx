@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { globalsStyle } from "../../styles/globalsStyle";
+import { Theme } from '@mui/material/styles';
+
 
 interface SelectProps {
   value: string;
@@ -11,7 +12,8 @@ interface SelectProps {
   options: Array<{ id: number; name: string; disabled?: boolean }>;
 }
 
-export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeholder, disabled = false, fullWidth=false }) => {
+// Селектор
+export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeholder, disabled = false, fullWidth = false }) => {
   return (
     <FormControl fullWidth={fullWidth}>
       <Select
@@ -19,7 +21,6 @@ export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeh
         value={value}
         onChange={(e: SelectChangeEvent) => onChange(e.target.value as string)}
         required
-        
         disabled={disabled}
         renderValue={(selected) => {
           if (!selected) {
@@ -31,7 +32,22 @@ export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeh
           "& .MuiSelect-select": {
             padding: 1,
             zIndex: 1,
-          }
+            backgroundColor: "transparent", 
+            border: (theme: Theme) => `1px solid ${theme.palette.grey[400]}`,
+            boxShadow: "none",
+            "&:focus": {
+              backgroundColor: "transparent",
+            },
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: "none",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            border: "none", 
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: "none",
+          },
         }}
       >
         <MenuItem disabled value="">

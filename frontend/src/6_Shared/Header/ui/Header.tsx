@@ -3,10 +3,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, Typography, Toolbar, AppBar, Switch, useTheme } from '@mui/material';
 import { headerSx } from './headerSx';
 import { AvatarPerson } from '../../../5_Entities/Avatar';
-import { useThemeContext } from '../ThemeContext';
-import { globalsStyle } from '../../../6_Shared/styles/globalsStyle';
+import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { useThemeContext } from '../../../6_shared/Header/ThemeContext';
 
 interface User {
   name: string;
@@ -98,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
               sx={{
                 fontSize: {
                   sm: theme.typography.h4.fontSize,
-                  xs: theme.typography.h6.fontSize,
+                  xs: theme.typography.body1.fontSize,
                 },
                 color: theme.palette.text.primary,
               }}
@@ -138,7 +138,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
                 filter: theme.palette.mode === 'dark' ? 'invert(100%)' : 'none',
               }}
             />
-            <AvatarPerson name={user.name[0]} />
+            <AvatarPerson name={user.name} />
           </Box>
         </Box>
       </Toolbar>

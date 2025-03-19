@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { Box, FormControlLabel, Checkbox } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
-// import { pacientInfoFormSx } from "./pacientInfoFormSx";
 import { CustomButton } from "../../../../6_shared/Button";
 import { CustomSnackbar } from "../../../../6_shared/Snackbar";
 import Grid from '@mui/material/Grid2';

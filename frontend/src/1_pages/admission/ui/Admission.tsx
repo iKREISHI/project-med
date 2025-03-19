@@ -1,12 +1,14 @@
-import {FC} from "react";
+import { FC } from "react";
 import { admissionSx } from "./admissionSx";
 import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
 import { PatientMenu } from "../../../6_shared/PatientMenu";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { AdmissionInfoForm } from "../../../4_Features/admission/AdmissionInfoForm";
 
 export const Admission: FC = () => {
-  const isMobile = useMediaQuery("(max-width: 600px)"); 
+  const location = useLocation();
+  const { patientName } = location.state || {};
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const menuItems = [
     { name: "Осмотр", path: "patient-checkup" },
     { name: "Диагноз", path: "diagnosis" },
@@ -15,20 +17,20 @@ export const Admission: FC = () => {
   ];
   return (
     <Box sx={admissionSx.containerMain}>
-      <Box sx={{p: 4 }}>
+      <Box sx={{ p: 4 }}>
         <Typography variant="h1" gutterBottom>Прием</Typography>
-        <AdmissionInfoForm />
+        <AdmissionInfoForm patientName={patientName}/>
       </Box>
       <Divider />
       <Box sx={{
-        position: 'relative', 
+        position: 'relative',
       }}>
         {isMobile && (
           <Box sx={{
             width: '100%',
             zIndex: 1,
           }}>
-            <PatientMenu menuItems={menuItems}/>
+            <PatientMenu menuItems={menuItems} />
           </Box>
         )}
         <Box sx={admissionSx.container}>
