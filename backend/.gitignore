@@ -36,3 +36,6 @@ migration/
 .idea/
 .idea/*
 media/
+
+# log
+*.log
