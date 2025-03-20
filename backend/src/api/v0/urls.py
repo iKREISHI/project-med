@@ -15,7 +15,7 @@ from .views.staffing import (
 from .views.registry import (
     MedicalCardViewSet
 )
-
+from .views.staffing.reception_time import ReceptionTimeViewSet
 
 router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
@@ -26,6 +26,7 @@ router.register('employee', EmployeeViewSet, basename='employee')
 router.register('medical-card', MedicalCardViewSet, basename='medical-card')
 router.register('register-new-employee', RegistrationViewSet, basename='register-new-employee')
 router.register(r'appointments', DoctorAppointmentViewSet, basename='doctorappointment')
+router.register('reception-time', ReceptionTimeViewSet, basename='reception-time')
 
 urlpatterns = (
 [

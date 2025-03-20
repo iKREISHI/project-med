@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models import SET_NULL
+from rest_framework.exceptions import ValidationError
+
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 from apps.clients.models import Patient
-from apps.registry.models import MedicalCard
-import uuid
+from django.utils import timezone
+from datetime import timedelta
 
 class DoctorAppointment(AbstractElectronicSignature):
     """
@@ -102,8 +104,47 @@ class DoctorAppointment(AbstractElectronicSignature):
         on_delete=SET_NULL,
     )
 
+    def clean(self):
+        super().clean()
+
+        # Проверка что время окончания после времени начала
+        if self.start_time and self.end_time:
+            if self.end_time <= self.start_time:
+                raise ValidationError({
+                    'end_time': _('Время окончания должно быть позже времени начала')
+                })
+
+        # Проверка что дата приема не в прошлом
+        if self.appointment_date and self.appointment_date < timezone.now().date():
+            raise ValidationError({
+                'appointment_date': _('Нельзя создавать приемы с прошедшей датой')
+            })
+
+    @property
+    def duration(self):
+        """Рассчитывает продолжительность приёма с учетом перехода через полночь"""
+        if self.start_time and self.end_time:
+            start_dt = timezone.make_aware(
+                timezone.datetime.combine(self.appointment_date, self.start_time))
+
+            end_dt = timezone.make_aware(
+                timezone.datetime.combine(self.appointment_date, self.end_time))
+
+            if end_dt < start_dt:
+                end_dt += timedelta(days=1)
+
+            return end_dt - start_dt
+        return None
+
     def __str__(self):
-        return f"{self.patient} - {self.assigned_doctor} ({self.appointment_date} {self.start_time}-{self.end_time})"
+        patient = self.patient or _("Не указан")
+        doctor = self.assigned_doctor or _("Врач не назначен")
+        return (
+            f"{patient} - {doctor} | "
+            f"{self.appointment_date.strftime('%d.%m.%Y')} "
+            f"{self.start_time.strftime('%H:%M')}-{self.end_time.strftime('%H:%M')}"
+        )
+
 
     class Meta:
         verbose_name = 'Приём к врачу'

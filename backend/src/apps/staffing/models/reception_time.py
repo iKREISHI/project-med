@@ -11,7 +11,7 @@ class ReceptionTime(models.Model):
     )
     reception_day = models.DateField(
         verbose_name=_("День приёма"),
-        help_text=_("Укажите дату приёма (YYYY-MM-DD)")
+        help_text=_("Укажите дату (YYYY-MM-DD)")
     )
     start_time = models.TimeField(
         verbose_name=_("Время начала"),
