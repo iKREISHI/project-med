@@ -31,9 +31,9 @@ class UserManager(BaseUserManager):
         except ValidationError:
             raise ValueError('The given password must be at least 8 characters long')
 
-        if not Position.objects.filter(name="Администратор").exists():
-            raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
-                               "для создания групп пользователей")
+        # if not Position.objects.filter(name="Администратор").exists():
+        #     raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
+        #                        "для создания групп пользователей")
 
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
@@ -49,9 +49,9 @@ class UserManager(BaseUserManager):
         if not password:
             raise ValueError('The password must be set')
 
-        if not Position.objects.filter(name="Администратор").exists():
-            raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
-                               "для создания групп пользователей")
+        # if not Position.objects.filter(name="Администратор").exists():
+        #     raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
+        #                        "для создания групп пользователей")
 
 
         user = self.model(username=username, **extra_fields)
@@ -67,9 +67,9 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
 
-        if not Position.objects.filter(name="Администратор").exists():
-            raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
-                               "для создания групп пользователей")
+        # if not Position.objects.filter(name="Администратор").exists():
+        #     raise RuntimeError("Перед созданием суперпользователя необходимо выполнить `make entrypoint`"
+        #                        "для создания групп пользователей")
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
