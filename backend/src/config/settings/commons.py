@@ -21,6 +21,13 @@ SECRET_KEY = 'django-insecure-z@837e%v9^@r!_0js(l-h@(rt+2xvtcurc#yen*zam@*xc5f_+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    '*',
+]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_HTTPONLY = True
 
 
 MIDDLEWARE = [
@@ -31,6 +38,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
