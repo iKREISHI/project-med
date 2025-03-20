@@ -6,6 +6,7 @@ from http.cookies import SimpleCookie
 
 User = get_user_model()
 
+
 @database_sync_to_async
 def get_user_from_session(session_key):
     try:
@@ -18,6 +19,7 @@ def get_user_from_session(session_key):
         pass
     return AnonymousUser()
 
+
 class HeaderSessionAuthMiddleware:
     def __init__(self, inner):
         self.inner = inner
@@ -25,14 +27,15 @@ class HeaderSessionAuthMiddleware:
     async def __call__(self, scope, receive, send):
         headers = dict(scope.get("headers", []))
         session_key = None
-
         # Получаем значение заголовка cookie (если оно есть)
-        cookie_header = headers.get(b'cookie')
+        cookie_header = headers.get(b"cookie")
         if cookie_header:
             cookie = SimpleCookie()
             cookie.load(cookie_header.decode())
             if 'sessionid' in cookie:
                 session_key = cookie['sessionid'].value
+            else:
+                raise ValueError('User not authenticated')
 
         # Теперь можно использовать session_key для аутентификации
         # Например, получить пользователя из сессии:

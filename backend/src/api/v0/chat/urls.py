@@ -3,7 +3,7 @@ from api.v0.chat.views import ChatRoomViewSet, MessageViewSet
 
 
 router = DefaultRouter()
-router.register(r'rooms', ChatRoomViewSet)
-router.register(r'messages', MessageViewSet)
+router.register(r'rooms', ChatRoomViewSet, basename='rooms')
+router.register(r'rooms/(?P<room_id>\d+)/messages', MessageViewSet, basename='chatroom-messages')
 
 urlpatterns = router.urls
