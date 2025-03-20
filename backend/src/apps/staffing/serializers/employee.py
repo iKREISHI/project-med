@@ -16,6 +16,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
+        read_only_fields = ('id',)
 
     def to_internal_value(self, data):
         # Если в data присутствуют ключи, которых нет в описании сериализатора – выбрасываем ошибку.
