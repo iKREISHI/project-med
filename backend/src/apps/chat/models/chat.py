@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class ChatRoom(models.Model):
@@ -6,23 +7,29 @@ class ChatRoom(models.Model):
         ('private', 'Личный'),
         ('group', 'Групповой'),
     )
-    # Для группового чата можно задать имя, для личного можно оставить пустым
-    name = models.CharField(max_length=100, blank=True, null=True)
-    room_type = models.CharField(max_length=10, choices=ROOM_TYPE_CHOICES)
+    name = models.CharField(
+        max_length=100,
+        blank=True, null=True,
+        verbose_name=_('Название чата')
+    )
+    room_type = models.CharField(
+        max_length=10,
+        choices=ROOM_TYPE_CHOICES,
+        verbose_name=_('Тип чата')
+    )
     participants = models.ManyToManyField(
         'users.User',
-        related_name='chat_rooms'
+        related_name='chat_rooms',
+        verbose_name=_('Участники чата')
     )
 
     def __str__(self):
         if self.room_type == 'private':
-            # Формирование имени для личного чата по именам участников
             usernames = [user.username for user in self.participants.all()]
             return "Личный чат: " + " & ".join(usernames)
         return self.name or "Групповой чат"
 
     def clean(self):
-        # Если чат личный, то участников должно быть ровно два
         if self.room_type == 'private' and self.participants.count() != 2:
             from django.core.exceptions import ValidationError
             raise ValidationError("Личный чат должен содержать ровно двух участников.")

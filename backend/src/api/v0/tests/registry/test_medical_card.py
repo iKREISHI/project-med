@@ -71,14 +71,14 @@ class MedicalCardViewSetTestCase(APITestCase):
     def test_retrieve_medical_card_valid(self):
         """Проверяем получение существующей медицинской карты по UUID."""
         card = MedicalCardService.create_medical_card(**self.valid_data_service)
-        detail_url = reverse('medical-card-detail', kwargs={'uuid': card.uuid})
+        detail_url = reverse('medical-card-detail', kwargs={'pk': card.id})
         response = self.client.get(detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["card_type"], card.card_type)
 
     def test_retrieve_medical_card_not_found(self):
         """Проверяем, что при запросе несуществующей карты возвращается 404."""
-        detail_url = reverse('medical-card-detail', kwargs={'uuid': '00000000-0000-0000-0000-000000000000'})
+        detail_url = reverse('medical-card-detail', kwargs={'pk': 10000534523})
         response = self.client.get(detail_url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data["detail"], "Медицинская карта не найдена.")
@@ -87,8 +87,8 @@ class MedicalCardViewSetTestCase(APITestCase):
         """Проверяем создание медицинской карты через POST запрос с корректными данными."""
         response = self.client.post(self.list_url, self.valid_data_api, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        card_uuid = response.data.get("uuid")
-        card = MedicalCard.objects.filter(uuid=card_uuid).first()
+        card_id = response.data.get("id")
+        card = MedicalCard.objects.filter(id=card_id).first()
         self.assertIsNotNone(card)
         self.assertEqual(card.card_type, self.valid_data_api["card_type"])
 
@@ -103,7 +103,7 @@ class MedicalCardViewSetTestCase(APITestCase):
     def test_update_medical_card_valid(self):
         """Проверяем частичное обновление медицинской карты через PATCH запрос."""
         card = MedicalCardService.create_medical_card(**self.valid_data_service)
-        detail_url = reverse('medical-card-detail', kwargs={'uuid': card.uuid})
+        detail_url = reverse('medical-card-detail', kwargs={'pk': card.id})
         update_data = {
             "card_type": "UpdatedType",
             "comment": "Updated comment"
@@ -117,7 +117,7 @@ class MedicalCardViewSetTestCase(APITestCase):
     def test_destroy_medical_card_valid(self):
         """Проверяем удаление медицинской карты через DELETE запрос."""
         card = MedicalCardService.create_medical_card(**self.valid_data_service)
-        detail_url = reverse('medical-card-detail', kwargs={'uuid': card.uuid})
+        detail_url = reverse('medical-card-detail', kwargs={'pk': card.pk})
         response = self.client.delete(detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertIsNone(MedicalCard.objects.filter(uuid=card.uuid).first())
+        self.assertIsNone(MedicalCard.objects.filter(pk=card.pk).first())

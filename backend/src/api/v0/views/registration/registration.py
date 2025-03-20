@@ -23,10 +23,12 @@ class RegistrationViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        employee = serializer.save()
+        if serializer.is_valid():
 
-        response_data = serializer.data
-        response_data['user'] = serializer.generated_user
+            employee = serializer.save()
 
-        return Response(response_data, status=status.HTTP_201_CREATED)
+            response_data = serializer.data
+
+            return Response(response_data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

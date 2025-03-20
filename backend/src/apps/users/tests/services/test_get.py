@@ -39,21 +39,21 @@ class GetUserServiceTests(TestCase):
         result = GetUserService.get_user_by_username('nonexistent')
         self.assertIsNone(result)
 
-    def test_get_user_by_uuid_found(self):
+    def test_get_user_by_id_found(self):
         """
         Проверяет, что метод возвращает пользователя по валидному uuid.
         """
-        uuid_str = str(self.user2.uuid)
-        result = GetUserService.get_user_by_uuid(uuid_str)
+        pk = self.user2.pk
+        result = GetUserService.get_user_by_id(pk)
         self.assertIsNotNone(result)
-        self.assertEqual(str(result.uuid), uuid_str)
+        self.assertEqual(result.pk, pk)
 
-    def test_get_user_by_uuid_not_found(self):
+    def test_get_user_by_id_not_found(self):
         """
         Проверяет, что при несуществующем uuid метод возвращает None.
         """
-        fake_uuid = '00000000-0000-0000-0000-000000000000'
-        result = GetUserService.get_user_by_uuid(fake_uuid)
+        fake_pk = 10004324230
+        result = GetUserService.get_user_by_id(fake_pk)
         self.assertIsNone(result)
 
     def test_get_users_by_date_joined_found(self):

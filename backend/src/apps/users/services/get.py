@@ -14,8 +14,8 @@ class GetUserService:
         return User.objects.filter(username=username).first()
 
     @staticmethod
-    def get_user_by_uuid(uuid: str) -> User:
-        return User.objects.filter(uuid=uuid).first()
+    def get_user_by_id(pk: int) -> User:
+        return User.objects.filter(pk=pk).first()
 
     @staticmethod
     def get_users_by_date_joined(date: datetime) -> list[User]:

@@ -1,6 +1,7 @@
+import string
 from datetime import timedelta
+import random
 
-import uuid
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
@@ -39,7 +40,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, password, **extra_fields):
+    def create_user(self, username : str, password : str, **extra_fields):
         """
         Create and save a User with the given username and password.
         """
@@ -76,9 +77,18 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
         return self.create_user(username, password, **extra_fields)
 
+    def make_random_password(self):
+        """
+        Генерирует случайный пароль длиной от 10 до 14 символов.
+        Включает буквы, цифры и специальные символы.
+        """
+        length = random.randint(10, 14)  # Генерируем случайную длину пароля
+        chars = string.ascii_letters + string.digits  # Символы для пароля
+        password = ''.join(random.choice(chars) for _ in range(length))  # Генерация пароля
+        return password
+
 
 class User(AbstractBaseUser, PermissionsMixin):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     username = models.CharField(
         verbose_name='Имя пользователя',

@@ -1,28 +1,40 @@
+import re
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-
 from apps.company_structure.models import FilialDepartment
-from apps.company_structure.models.model.filial import Filial
+from apps.company_structure.models.filial import Filial
 from apps.staffing.models import Employee, Position
 
 
 class FilialDepartmentModelTest(TestCase):
     def setUp(self):
-        # Создаем тестовые данные
+        # Создаем тестовый филиал
         self.filial = Filial.objects.create(
             city="Москва",
             street="Тверская",
             house="1"
         )
 
+        # Создаем тестовую должность для сотрудника
         self.position = Position.objects.create(
             name="Руководитель отдела",
             short_name="Руководитель"
         )
 
+        # Создаем тестового сотрудника (без привязки к подразделению)
         self.employee = Employee.objects.create(
             first_name="Иван",
             last_name="Иванов",
+            patronymic="Иванович",
+            gender="M",
+            date_of_birth="1990-01-01",
+            snils="111-222-333 44",
+            inn="1234567890",
+            photo=None,
+            registration_address="Test address 1",
+            actual_address="Test address 2",
+            email="employee@test.com",
+            phone="+7 111 222-33-44",
             position=self.position
         )
 
@@ -46,18 +58,16 @@ class FilialDepartmentModelTest(TestCase):
         self.assertIn(department, self.filial.filialdepartment_set.all())
 
     def test_director_assignment(self):
-        """Тест назначения руководителя подразделения"""
+        """Тест назначения руководителя подразделения и каскадное удаление"""
         department = FilialDepartment.objects.create(
             name="IT-отдел",
             filial=self.filial,
             director=self.employee
         )
-
         # Проверяем связь
         self.assertEqual(department.director, self.employee)
         self.assertIn(department, self.employee.managed_departments.all())
-
-        # Проверяем каскадное удаление
+        # При удалении сотрудника связь должна обнулиться
         self.employee.delete()
         department.refresh_from_db()
         self.assertIsNone(department.director)
@@ -65,40 +75,40 @@ class FilialDepartmentModelTest(TestCase):
     def test_name_validation(self):
         """Тест валидации названия подразделения"""
         # Слишком короткое название
+        dept = FilialDepartment(name="А")
         with self.assertRaises(ValidationError):
-            FilialDepartment.objects.create(name="А").full_clean()
+            dept.full_clean()
 
-        # Недопустимые символы
+        # Недопустимые символы: разрешены только буквы, пробелы и дефисы
+        dept = FilialDepartment(name="Отдел!@#")
         with self.assertRaises(ValidationError):
-            FilialDepartment.objects.create(name="Отдел!@#").full_clean()
+            dept.full_clean()
 
     def test_unique_name_per_filial(self):
         """Тест уникальности названия в рамках филиала"""
-        FilialDepartment.objects.create(
+        # Создаем первую запись
+        dept1 = FilialDepartment.objects.create(
             name="Бухгалтерия",
             filial=self.filial
         )
-
-        # Дубликат в том же филиале
+        # Попытка создать дубликат в том же филиале – создаём объект без сохранения
+        dept2 = FilialDepartment(name="Бухгалтерия", filial=self.filial)
         with self.assertRaises(ValidationError):
-            FilialDepartment.objects.create(
-                name="Бухгалтерия",
-                filial=self.filial
-            ).full_clean()
-
-        # Разные филиалы
+            dept2.full_clean()
+        # Создаем подразделение с тем же именем, но в другом филиале
         another_filial = Filial.objects.create(
             city="Санкт-Петербург",
             street="Невский",
             house="2"
         )
-        FilialDepartment.objects.create(
+        dept3 = FilialDepartment.objects.create(
             name="Бухгалтерия",
             filial=another_filial
         )
+        # В базе должны быть две записи: dept1 и dept3
         self.assertEqual(FilialDepartment.objects.count(), 2)
 
-    def test_string_representation(self):
+    def test_str_method(self):
         """Тест строкового представления"""
         department = FilialDepartment.objects.create(
             name="Отдел кадров"
@@ -111,17 +121,19 @@ class FilialDepartmentModelTest(TestCase):
             name="Отдел разработки",
             filial=self.filial
         )
-
-        # Сотрудник не из этого подразделения
+        # Если сотрудник не принадлежит данному подразделению, ожидаем ошибку
+        department.director = self.employee
         with self.assertRaises(ValidationError):
-            department.director = self.employee
             department.full_clean()
-
-        # Назначаем сотрудника в подразделение
+        # Назначаем сотруднику это подразделение
         self.employee.department = department
         self.employee.save()
         department.director = self.employee
-        department.full_clean()  # Не должно быть ошибки
+        # Теперь валидация должна пройти
+        try:
+            department.full_clean()
+        except ValidationError as e:
+            self.fail(f"full_clean() raised ValidationError unexpectedly: {e}")
 
     def test_filial_deletion(self):
         """Тест удаления связанного филиала"""
