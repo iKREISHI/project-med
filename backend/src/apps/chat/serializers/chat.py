@@ -32,6 +32,7 @@ class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = ['id', 'name', 'room_type', 'participants', 'participant_ids', 'messages']
+        read_only_fields = ('id',)
 
     def validate(self, data):
         if data.get('room_type') == 'private':

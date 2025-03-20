@@ -9,6 +9,7 @@ class TextMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = TextMessage
         fields = ['id', 'room', 'sender', 'timestamp', 'message_type', 'content']
+        read_only_fields = ('id',)
 
     def get_message_type(self, obj):
         return 'text'
