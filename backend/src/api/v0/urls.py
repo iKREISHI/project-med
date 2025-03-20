@@ -7,6 +7,8 @@ from .views.auth import (
 from .views.clients import (
     PatientViewSet
 )
+from .views.company_structure.filial import FilialViewSet
+from .views.company_structure.filial_department import FilialDepartmentViewSet
 from .views.medical_activity.doctor_appointment import DoctorAppointmentViewSet
 from .views.registration import RegistrationViewSet
 from .views.staffing import (
@@ -29,6 +31,8 @@ router.register('register-new-employee', RegistrationViewSet, basename='register
 router.register(r'appointments', DoctorAppointmentViewSet, basename='doctorappointment')
 router.register(r'position', PositionViewSet, basename='position')
 router.register(r'reception-time', ReceptionTimeViewSet, basename='reception-time')
+router.register(r'filial', FilialViewSet, basename='filial')
+router.register(r'filial-departments', FilialDepartmentViewSet, basename='filialdepartment')
 
 urlpatterns = (
 [
