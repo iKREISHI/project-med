@@ -10,24 +10,23 @@ User = get_user_model()
 
 
 class RegistrationViewSet(viewsets.ModelViewSet):
-    http_method_names = ['post']
-    permission_classes = [permissions.IsAdminUser]
+    http_method_names = ['post']  # Разрешаем только создание
+    permission_classes = [permissions.IsAdminUser]  # Только администратор может вызывать API
     serializer_class = RegistrationModelSerializer
 
     def get_queryset(self):
+
         if self.request.user.is_authenticated:
             return Employee.objects.filter(user=self.request.user)
+        return Employee.objects.none()
+
 
     def create(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return Response({'detail': _('Вы уже авторизованы')}, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {'message': _('Вы успешно зарегистрировались.')},
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(
-            serializer.errors, status=status.HTTP_400_BAD_REQUEST
-        )
+        serializer.is_valid(raise_exception=True)
+        employee = serializer.save()
+
+        response_data = serializer.data
+        response_data['user'] = serializer.generated_user
+
+        return Response(response_data, status=status.HTTP_201_CREATED)
