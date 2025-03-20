@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { JSX, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ListItemText, ListItemButton, ListItem, List, Toolbar, Drawer, Box, IconButton, Typography, useTheme, SxProps, Theme, Divider } from '@mui/material';
+import { ListItemText, ListItemButton, ListItem, List, Toolbar, Drawer, Box, IconButton, Typography, useTheme, SxProps, Theme, Divider, ListItemIcon, } from '@mui/material';
 import { customDrawerSx } from './customDrawerSx';
 import { InputSearch } from '../../Input';
 import CloseIcon from '@mui/icons-material/Close';
@@ -9,6 +9,7 @@ import { globalsStyle } from '../../styles/globalsStyle';
 interface ListItem {
     name: string;
     path: string;
+    icon?: JSX.Element;
 }
 
 interface CustomDrawerProps {
@@ -21,6 +22,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
     const [search, setSearch] = useState('');
     const location = useLocation();
     const theme = useTheme();
+
     const handleSearch = () => {
         console.log(search);
     };
@@ -31,7 +33,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                 <Toolbar sx={customDrawerSx.toolbar}>
                     <Box sx={customDrawerSx.topContainer}>
                         <Box>
-                            <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white }}>медvед код</Typography>
+                            <Typography component="p" sx={{ fontSize: theme.typography.body1.fontSize, color: theme.palette.common.white }}>медvед код</Typography>
                         </Box>
                         <IconButton onClick={handleDrawerToggle} sx={{ display: { xs: 'block', sm: 'none' } }}>
                             <CloseIcon sx={{ color: theme.palette.common.white }} />
@@ -46,14 +48,15 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                         onSearch={handleSearch}
                     />
                 </Toolbar>
-                <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white, p: 1 }}>
+                {/* <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white, p: 1 }}>
                     Меню
-                </Typography>
-                <Divider sx={{ backgroundColor: theme.palette.common.white }} />
+                </Typography> */}
+                <Divider sx={{ backgroundColor: theme.palette.common.white, mt: 1}} />
                 <List>
                     {listItems.map((item, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton disableRipple
+                            <ListItemButton
+                                disableRipple
                                 component={Link}
                                 to={item.path}
                                 sx={{
@@ -65,6 +68,8 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                                     }),
                                 } as SxProps<Theme>}
                             >
+                                {/* Отображаем иконку, если она есть */}
+                                {item.icon && <ListItemIcon sx={{ color: 'inherit' }}>{item.icon}</ListItemIcon>}
                                 <ListItemText primary={item.name} />
                             </ListItemButton>
                         </ListItem>

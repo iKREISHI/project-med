@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { PatientVisitsChart } from '../../../6_shared';
 import { Schedule } from '../../../6_shared/Schedule';
 import { Box } from '@mui/material';
+import { globalsStyleSx } from '../../../6_shared/styles/globalsStyleSx';
 
 export const DashBoard: FC = () => {
   interface ScheduleEntry {
@@ -45,7 +46,7 @@ export const DashBoard: FC = () => {
 
   return (
     <>
-      <Box sx={{ mb: 1 }}>
+      <Box sx={{...globalsStyleSx.container, mb: 1}}>
         <Schedule schedule={schedule} />
       </Box>
       <PatientVisitsChart />

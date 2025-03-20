@@ -9,7 +9,10 @@ export const inputSearchSx = {
     color: (theme: Theme) => 
       isDarkText ? theme.palette.common.black : theme.palette.common.white, 
     borderRadius: (theme: Theme) => theme.shape.borderRadius,
-    boxShadow: `0 0 5px ${shadowColor}`,
+    // boxShadow: `0 0 5px ${shadowColor}`,
+    // border: (theme: Theme) => `1px solid ${theme.palette.grey[500]}`,
+    border: (theme: Theme) => 
+      isDarkText ? `1px solid ${theme.palette.grey[500]}` : `1px solid ${theme.palette.common.white}`,
 
     '&::placeholder': {
       color: (theme: Theme) => theme.palette.text.secondary, 

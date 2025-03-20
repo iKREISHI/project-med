@@ -39,6 +39,6 @@ export const darkTheme = createTheme({
     body2: { fontSize: globalsStyle.fontSizes.body2 }, 
   },
   shape: {
-    borderRadius: 5, 
+    borderRadius: 4, 
   },
 });

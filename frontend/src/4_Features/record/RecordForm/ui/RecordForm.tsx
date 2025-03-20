@@ -63,12 +63,12 @@ export const RecordForm: FC = () => {
 
                         {/* Поиск клиента */}
                         <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Клиент</Typography>
+                            <Typography component="p">Пациент</Typography>
                             <CustomAutocomplete
                                 value={client}
                                 onChange={setClient}
                                 options={clients}
-                                placeholder="Введите имя клиента"
+                                placeholder="Введите имя пациента"
                             />
                         </Box>
 

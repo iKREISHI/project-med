@@ -5,6 +5,7 @@ import { inputFormSx } from "./inputFormSx.ts";
 interface InputProps {
   type: string;
   value: string;
+  rows?: number;
   label?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -12,10 +13,11 @@ interface InputProps {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
+  multiline?: boolean;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>; 
 }
 
-const InputForm: React.FC<InputProps> = ({ type, value, onChange, onKeyPress, fullWidth, placeholder = "", label = "", required = false, disabled = false, inputProps = {} }) => {
+const InputForm: React.FC<InputProps> = ({ type, value, onChange, onKeyPress, fullWidth, placeholder = "", label = "", required = false, disabled = false, inputProps = {}, multiline=false, rows }) => {
   return (
     <Box sx={{ textAlign: "start" }}>
       <Typography variant="body2">
@@ -32,6 +34,8 @@ const InputForm: React.FC<InputProps> = ({ type, value, onChange, onKeyPress, fu
         required={required}
         disabled={disabled}
         inputProps={inputProps}
+        multiline={multiline}
+        rows={rows}
       />
     </Box>
   );

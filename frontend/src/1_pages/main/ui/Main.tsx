@@ -7,6 +7,13 @@ import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
 
+import HomeIcon from '@mui/icons-material/Home';
+import ChatIcon from '@mui/icons-material/Chat';
+import DescriptionIcon from '@mui/icons-material/Description';
+import PeopleIcon from '@mui/icons-material/People';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+
 export function Main() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isRightMenuVisible, setRightMenuVisible] = React.useState(true);
@@ -22,13 +29,13 @@ export function Main() {
   };
 
   const listItems = [
-    { name: 'Главная', path: '/' },
-    { name: 'Чат', path: '/chat' },
-    { name: 'Документооборот', path: '/document' },
+    { name: 'Главная', path: '/', icon: <HomeIcon /> },
+    { name: 'Чат', path: '/chat', icon: <ChatIcon /> },
+    { name: 'Документооборот', path: '/document', icon: <DescriptionIcon /> },
     // { name: 'Расписание', path: '/schedule' },
-    { name: 'Пациенты', path: '/registry' },
-    { name: 'Прием', path: '/admission' },
-    { name: 'Запись', path: '/record' },
+    { name: 'Пациенты', path: '/registry', icon: <PeopleIcon /> },
+    { name: 'Прием', path: '/admission', icon: <MedicalServicesIcon /> },
+    { name: 'Запись', path: '/record', icon: <EventNoteIcon /> },
   ];
 
   const tasks = [
@@ -66,7 +73,7 @@ export function Main() {
       >
         <Toolbar />
         <Box sx={{ m: 2, mt: 5 }}>
-          <Box sx={{ textAlign: 'right', width: '100%', mb:1, color: theme.palette.background.default, display: {xs: 'none', sm: 'block'}}}>
+          <Box sx={{ textAlign: 'right', width: '100%', mb: 1, color: theme.palette.background.default, display: { xs: 'none', sm: 'block' } }}>
             <IconButton disableRipple onClick={toggleRightMenu} title={isRightMenuVisible ? 'Закрыть' : 'Открыть'}>
               <CalendarMonthIcon />
             </IconButton>

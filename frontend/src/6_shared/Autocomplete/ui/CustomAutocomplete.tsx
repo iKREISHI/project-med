@@ -10,7 +10,7 @@ interface ClientAutocompleteProps {
     options: Array<{ id: number; name: string }>;
 }
 
-export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({ value, onChange, options, placeholder, fullWidth=false, disabled=false}) => {
+export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({ value, onChange, options, placeholder, fullWidth = false, disabled = false, }) => {
     return (
         <Autocomplete
             options={options}
@@ -24,8 +24,17 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({ value, onChang
                     placeholder={placeholder}
                     required
                     sx={{
+                        "& .MuiOutlinedInput-root": {
+                            padding: "0.3em",
+                        },
+                        "& .MuiAutocomplete-input": {
+                            padding: 0,
+                        },
                         "& .css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input": {
-                            zIndex: 1, 
+                            zIndex: 1,
+                        },
+                        "& .css-8a1qk4-MuiInputBase-input-MuiOutlinedInput-input": {
+                            zIndex: 1,
                         },
                     }}
                 />
@@ -34,9 +43,6 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({ value, onChang
             disabled={disabled}
             sx={{
                 minWidth: "230px",
-                "& .MuiOutlinedInput-root": {
-                    padding: 0.3,
-                },
             }}
         />
     );

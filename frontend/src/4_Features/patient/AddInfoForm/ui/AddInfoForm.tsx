@@ -3,6 +3,7 @@ import { Box, TextField } from "@mui/material";
 import { CustomButton } from "../../../../6_shared/Button";
 import { CustomSnackbar } from "../../../../6_shared/Snackbar";
 import Grid from '@mui/material/Grid2';
+import { InputForm } from "../../../../6_shared";
 
 
 export const AddInfoForm: FC = () => {
@@ -28,18 +29,15 @@ export const AddInfoForm: FC = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid size={{ xs: 11, lg: 9 }}>
-            <TextField
+            <InputForm
               fullWidth
               multiline
+              type="text"
               rows={4}
               value={additionalInfo}
               onChange={(e) => setAdditionalInfo(e.target.value)}
               placeholder="Дополнительная информация"
-              sx={{
-                "& .css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input": {
-                  zIndex: 1,
-                },
-              }}
+             
             />
             <Box sx={{ mt: 1 }}>
               <CustomButton

@@ -69,7 +69,7 @@ export const Registry: React.FC = () => {
             onRowClick={(params) => console.log(params.row)}
             sx={{
               width: {
-                xs: `calc(${screenWidth}px - 49px)`,
+                xs: `91vw`,
                 sm: '100%'
               }
             }}

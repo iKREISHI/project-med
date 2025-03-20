@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, useTheme } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { scheduleSx } from './scheduleSx';
 
 interface ScheduleEntry {
     time: string;
@@ -19,7 +20,6 @@ interface ScheduleProps {
 
 export const Schedule: React.FC<ScheduleProps> = ({ schedule }) => {
     const navigate = useNavigate();
-    const theme = useTheme();
 
     const handleCellClick = (event: string, type: string) => {
         if (event && type == "patient") {
@@ -67,32 +67,16 @@ export const Schedule: React.FC<ScheduleProps> = ({ schedule }) => {
     const sortedHours = Object.keys(groupedTimes).sort((a, b) => parseInt(a) - parseInt(b));
 
     return (
-        <TableContainer
-            component={Paper}
-            sx={{
-                overflowX: 'auto',
-                maxWidth: '90vw',
-                borderRadius: theme.shape.borderRadius,
-                border: 'none',
-
-            }}
-        >
-            <Table
-                sx={{
-                    borderCollapse: 'collapse',
-                    border: 'none',
-                }}
-            >
+        <TableContainer component={Box} sx={scheduleSx.getTableContainer}>
+            <Table sx={scheduleSx.getTable}>
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{ border: `1px solid ${theme.palette.grey[400]}`, borderTop: 'none', color: theme.palette.primary.main, width: '40px', borderLeft: 'none' }}>Часы</TableCell>
-                        <TableCell sx={{ border: `1px solid ${theme.palette.grey[400]}`, borderTop: 'none', color: theme.palette.primary.main, minWidth: '100px' }}>Минуты</TableCell>
+                        <TableCell sx={{
+                            ...scheduleSx.getHeaderCell, borderLeft: 'none', borderBottom: 'none', borderTop: 'none'}}>Часы</TableCell>
+                        <TableCell sx={{...scheduleSx.getHeaderCell, borderTop: 'none'}}>Минуты</TableCell>
                         {schedule.map((daySchedule) => (
-                            <TableCell
-                                key={daySchedule.day}
-                                sx={{ border: `1px solid ${theme.palette.grey[400]}`, borderTop: 'none', borderBottom: 'none',  color: theme.palette.primary.main, minWidth: '150px', borderRight: 'none' }}
-                            >
-                                {formatDate(daySchedule.day)} {/* Форматируем дату */}
+                            <TableCell key={daySchedule.day} sx={{ ...scheduleSx.getHeaderCell, borderRight: 'none', borderTop: 'none'}}>
+                                {formatDate(daySchedule.day)}
                             </TableCell>
                         ))}
                     </TableRow>
@@ -105,12 +89,12 @@ export const Schedule: React.FC<ScheduleProps> = ({ schedule }) => {
                                     {index === 0 && (
                                         <TableCell
                                             rowSpan={groupedTimes[hour].length}
-                                            sx={{ border: `1px solid ${theme.palette.grey[400]}`,  borderBottom: 'none', color: theme.palette.primary.main, minWidth: '100px', borderLeft: 'none' }}
+                                            sx={{ ...scheduleSx.getHeaderCell, borderLeft: 'none', borderBottom: 'none' }}
                                         >
                                             {hour}
                                         </TableCell>
                                     )}
-                                    <TableCell sx={{ border: `1px solid ${theme.palette.grey[400]}`, borderBottom: 'none',  color: theme.palette.primary.main, minWidth: '100px' }}>
+                                    <TableCell  sx={{ ...scheduleSx.getHeaderCell, borderBottom: 'none' }}>
                                         {timeSlot}
                                     </TableCell>
                                     {schedule.map((daySchedule) => {
@@ -121,14 +105,7 @@ export const Schedule: React.FC<ScheduleProps> = ({ schedule }) => {
                                             <TableCell
                                                 key={daySchedule.day}
                                                 onClick={() => handleCellClick(event, type)}
-                                                sx={{
-                                                    border: `1px solid ${theme.palette.grey[400]}`,
-                                                    cursor: type === 'patient' && event ? 'pointer' : 'default',
-                                                    backgroundColor: type === 'patient' && event ? theme.palette.grey[300] : 'inherit',
-                                                    minWidth: '150px',
-                                                    borderRight: 'none', 
-                                                    borderBottom: 'none', 
-                                                }}
+                                                sx={scheduleSx.getEventCell(type, event)}
                                             >
                                                 {event || ''}
                                             </TableCell>

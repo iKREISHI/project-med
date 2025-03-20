@@ -33,7 +33,7 @@ export const PatientRegisterForm: FC = () => {
           <Grid size={{ xs: 11, lg: 8 }}>
             <Box sx={globalsStyleSx.inputContainer}>
               <Typography component="p">ФИО</Typography>
-              <Box sx={{...globalsStyleSx.inputContainer, gridTemplateColumns: {sm: '1fr 1fr 1fr'}}}>
+              <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
                 <InputForm
                   type="text"
                   placeholder="Фамилия"
@@ -71,6 +71,7 @@ export const PatientRegisterForm: FC = () => {
             </Box>
             <Box sx={globalsStyleSx.inputContainer}>
               <Typography component="p">Пол</Typography>
+              
               <RadioGroup
                 row
                 name="gender"
@@ -84,11 +85,27 @@ export const PatientRegisterForm: FC = () => {
                   value="male"
                   control={<Radio disableRipple />}
                   label="Мужской"
+                  sx={{
+                    '& .css-1bz1rr0-MuiSvgIcon-root': {
+                      zIndex: '1',
+                    },
+                    '& .css-z8nmqa-MuiSvgIcon-root': {
+                      zIndex: '4',
+                    }
+                  }}
                 />
                 <FormControlLabel
                   value="female"
                   control={<Radio disableRipple />}
                   label="Женский"
+                  sx={{
+                    '& .css-1bz1rr0-MuiSvgIcon-root': {
+                      zIndex: '1',
+                    },
+                    '& .css-z8nmqa-MuiSvgIcon-root': {
+                      zIndex: '3',
+                    },
+                  }}
 
                 />
               </RadioGroup>
