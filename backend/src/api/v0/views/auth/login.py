@@ -44,18 +44,30 @@ class LoginViewSet(viewsets.ViewSet):
     )
     def create(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return Response({'detail': _('Вы уже авторизованы')}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': _('Вы уже авторизованы')},
+                            status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = LoginSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']
             login(request, user)
 
+            # Безопасное получение данных позиции
+            position = None
+            position_id = None
+            if hasattr(user, 'employee_profile') and user.employee_profile:
+                employee_profile = user.employee_profile
+                position = getattr(employee_profile, 'position', None)
+                position_id = position.id if position else None
+                position_name = position.name if position else None
+            else:
+                position_name = None
+
             return Response({
                 'detail': _('Успешный вход'),
                 'user_id': user.id,
-                'position_id': user.employee_profile.position.id,
-                'position': user.employee_profile.position.name,
+                'position_id': position_id,
+                'position': position_name,
             }, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,15 +1,15 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.db.models import SET_NULL
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 from apps.clients.models import Patient
 from apps.registry.models import MedicalCard
-
+import uuid
 
 class DoctorAppointment(AbstractElectronicSignature):
     """
     Прием к врачу
     """
-
     patient = models.ForeignKey(
         Patient,
         on_delete=models.SET_NULL,
@@ -29,7 +29,6 @@ class DoctorAppointment(AbstractElectronicSignature):
         related_name='doctorappointment_assigned'
     )
 
-    # Переопределяем поле signed_by для установки уникального related_name.
     signed_by = models.ForeignKey(
         'staffing.Employee',
         on_delete=models.PROTECT,
@@ -75,6 +74,21 @@ class DoctorAppointment(AbstractElectronicSignature):
         verbose_name='Тип обследования'
     )
 
+    appointment_date = models.DateField(
+        verbose_name=_("Дата приема"),
+        help_text=_("Укажите дату приема (YYYY-MM-DD)")
+    )
+
+    start_time = models.TimeField(
+        verbose_name=_("Время начала приема"),
+        help_text=_("Время начала приема")
+    )
+
+    end_time = models.TimeField(
+        verbose_name=_("Время окончания приема"),
+        help_text=_("Время окончания приема")
+    )
+
     date_created = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата создания"
@@ -89,7 +103,7 @@ class DoctorAppointment(AbstractElectronicSignature):
     )
 
     def __str__(self):
-        return f"{self.patient} - {self.assigned_doctor} {self.date_created}"
+        return f"{self.patient} - {self.assigned_doctor} ({self.appointment_date} {self.start_time}-{self.end_time})"
 
     class Meta:
         verbose_name = 'Приём к врачу'
