@@ -1,4 +1,4 @@
-ALLOWED_HOSTS = ['*']
+gALLOWED_HOSTS = ['*']
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
