@@ -10,6 +10,9 @@ class DoctorAppointmentAdmin(admin.ModelAdmin):
         'inspection_choice',
         'is_closed',
         'is_signed',
+        'appointment_date',
+        'start_time',
+        'end_time',
     )
     list_filter = (
         'is_closed',

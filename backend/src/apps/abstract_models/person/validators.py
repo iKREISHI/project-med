@@ -55,6 +55,7 @@ def validate_snils(value: str) -> None:
     if value:
         pattern_with_dashes = r'^\d{3}-\d{3}-\d{3} \d{2}$'
         pattern_without_dashes = r'^\d{11}$'
+
         if not (re.match(pattern_with_dashes, value) or re.match(pattern_without_dashes, value)):
             raise ValidationError(
                 _("Неверный формат СНИЛС. Ожидается '123-456-789 01' или '12345678901'.")
@@ -101,3 +102,14 @@ def validate_address(value: str) -> None:
         raise ValidationError(
             _("Адрес должен содержать не менее 5 символов.")
         )
+
+
+def person_validate_email(email: str) -> None:
+    """
+    Собственная валидация email.
+    Проверяет, соответствует ли email стандартному формату.
+    """
+    email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+
+    if not isinstance(email, str) or not re.match(email_regex, email):
+        raise ValidationError("Некорректный формат email.")

@@ -1,7 +1,6 @@
-import uuid
 from django.db import models
 
-# Дом улица город корпус
+
 class Filial(models.Model):
     """
         Филиал
