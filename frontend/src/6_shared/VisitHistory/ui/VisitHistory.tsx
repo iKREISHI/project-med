@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { CustomButton } from "../../../6_shared";
+import { CustomButton } from "../../../6_shared/Button";
 import { useNavigate } from "react-router-dom";
 
 

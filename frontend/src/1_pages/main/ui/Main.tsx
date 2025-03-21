@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { CustomDrawer, Plane, Calendar, Header } from '../../../6_shared';
 import { Toolbar, CssBaseline, Box, IconButton } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Grid from '@mui/material/Grid2';
@@ -13,6 +12,10 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import PeopleIcon from '@mui/icons-material/People';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import { Header } from '../../../6_shared/Header';
+import { CustomDrawer } from '../../../6_shared/Drawer';
+import { Plane } from '../../../6_shared/Plane';
+import { Calendar } from '../../../6_shared/Calendar';
 
 export function Main() {
   const [mobileOpen, setMobileOpen] = React.useState(false);

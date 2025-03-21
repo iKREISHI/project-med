@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { InputForm, CustomButton } from '../../../6_shared';
+// import { InputForm, CustomButton } from '../../../6_shared';
 import { Typography, Box, Paper } from '@mui/material';
 import { loginFormSx } from './loginFormSx';
+import { InputForm } from '../../../6_shared/Input';
+import { CustomButton } from '../../../6_shared/Button';
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, Typography, Toolbar, AppBar, Switch, useTheme } from '@mui/material';
 import { headerSx } from './headerSx';
-import { AvatarPerson } from '../../../5_Entities/Avatar';
+import { AvatarPerson } from '../../../5_entities/Avatar';
 import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import LightModeIcon from '@mui/icons-material/LightMode';

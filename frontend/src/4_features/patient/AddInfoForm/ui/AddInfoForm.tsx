@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
-import { Box, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import { CustomButton } from "../../../../6_shared/Button";
 import { CustomSnackbar } from "../../../../6_shared/Snackbar";
 import Grid from '@mui/material/Grid2';
-import { InputForm } from "../../../../6_shared";
+import { InputForm } from "../../../../6_shared/Input";
 
 
 export const AddInfoForm: FC = () => {

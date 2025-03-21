@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { RecordForm } from "../../../4_Features/record/RecordForm";
+import { RecordForm } from "../../../4_features/record/RecordForm";
 import { Box, Typography } from "@mui/material";
 import { recordSx } from "./recordSx";
 

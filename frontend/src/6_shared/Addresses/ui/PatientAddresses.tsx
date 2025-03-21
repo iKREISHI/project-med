@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
-import { PatientAddressesForm } from "../../../4_Features/patient/AddressesForm";
+import { PatientAddressesForm } from "../../../4_features/patient/AddressesForm";
 
 export const PatientAddresses: FC = () => {
   return (

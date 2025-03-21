@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { chatMenuSx } from "./chatMenuSx";
 import { globalsStyle } from "../../styles/globalsStyle";
 import { InputSearch } from "../../Input";
-import { AvatarPerson } from "../../../5_Entities/Avatar";
+import { AvatarPerson } from "../../../5_entities/Avatar";
 
 interface ChatMenuProps {
   menuItems: { id: string; name: string; unreadCount: number }[];

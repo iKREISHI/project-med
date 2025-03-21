@@ -5,7 +5,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { mockMessages } from "./chatMocks.ts";
 import { globalsStyle } from "../../../6_shared/styles/globalsStyle.ts";
 import { InputForm } from "../../Input/index.ts";
-import { CustomButton } from "../../../6_shared/index.ts";
+import { CustomButton } from "../../../6_shared/Button";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloseIcon from "@mui/icons-material/Close";
 
