@@ -2,7 +2,7 @@ import { POST } from "../../../6_shared/api";
 import type { LoginModel } from "../../../5_entities/user";
 import type { AuthResponse } from "../../../5_entities/auth";
 
-// Метод для авторизации пользователя
+// Функция для авторизации пользователя
 export const login = async (credentials: LoginModel): Promise<AuthResponse> => {
   try {
     const response = await POST("/api/v0/login/", {
@@ -14,7 +14,6 @@ export const login = async (credentials: LoginModel): Promise<AuthResponse> => {
     }
 
     console.log("Ответ от сервера:", response.data);
-
     return response.data as AuthResponse;
   } catch (error) {
     console.error("Ошибка авторизации:", error);
