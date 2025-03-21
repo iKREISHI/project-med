@@ -1,1 +1,1 @@
-export { PatientRegisterForm } from './ui/PatientRegisterForm.tsx'
+export { PatientRegisterForm } from '../RegisterForm'

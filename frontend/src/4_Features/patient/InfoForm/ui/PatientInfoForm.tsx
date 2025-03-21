@@ -1,25 +1,12 @@
-import { FC, useState } from "react";
+import { FC} from "react";
 import { Box } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
 import { patientInfoFormSx } from "./patientInfoFormSx";
-import { CustomButton } from "../../../../6_shared/Button";
-import { CustomSnackbar } from "../../../../6_shared/Snackbar";
+import {usePatientFormStore} from "../../model/store.ts";
 
 export const PacientInfoForm: FC = () => {
-  const [email, setEmail] = useState("");
-  const [mobiletel, setMobiletel] = useState("");
-  const [hometel, setHometel] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Форма отправлена");
-    setSnackbarOpen(true); // Показываем уведомление об успешной отправке
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false); // Скрываем уведомление
-  };
+  const {patient, setField} = usePatientFormStore();
 
   // Форматирование номера телефона
   const formatPhoneNumber = (value: string) => {
@@ -45,50 +32,29 @@ export const PacientInfoForm: FC = () => {
   // Обработчик изменения для мобильного телефона
   const handleMobileTelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedValue = formatPhoneNumber(e.target.value);
-    setMobiletel(formattedValue);
+    setField('phone', formattedValue);
   };
-
-  // Обработчик изменения для домашнего телефона
-  const handleHomeTelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formattedValue = formatPhoneNumber(e.target.value);
-    setHometel(formattedValue);
-  };
-
   return (
     <Box>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Box>
           <Box sx={patientInfoFormSx.inputContainer}>
             <InputForm
               type="text"
-              label="Домашний телефон"
-              value={hometel}
-              onChange={handleHomeTelChange}
-            />
-            <InputForm
-              type="text"
               label="Мобильный телефон"
-              value={mobiletel}
-              onChange={handleMobileTelChange}
+              value={patient.phone || ''}
+              onChange={(e) => setField('phone',e.target.value)}
             />
           </Box>
         </Box>
         <InputForm
           type="email"
           label="Адрес электронной почты"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={patient.email || ''}
+          onChange={(e) => setField('email', e.target.value)}
         />
 
-        <CustomButton type="submit" variant="contained">
-          Сохранить
-        </CustomButton>
       </form>
-      <CustomSnackbar
-        open={snackbarOpen}
-        onClose={handleCloseSnackbar}
-        message="Данные успешно сохранены!"
-      />
     </Box>
   );
 };

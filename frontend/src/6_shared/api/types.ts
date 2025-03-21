@@ -4,36 +4,108 @@
  */
 
 export interface paths {
-    "/api/v0/chat/messages/": {
+    "/api/v0/appointments/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["v0_chat_messages_list"];
+        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка приемов с пагинацией
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - create: создание нового приема
+         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *       - destroy: удаление приема
+         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+        get: operations["v0_appointments_list"];
         put?: never;
-        post: operations["v0_chat_messages_create"];
+        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка приемов с пагинацией
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - create: создание нового приема
+         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *       - destroy: удаление приема
+         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+        post: operations["v0_appointments_create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/v0/chat/messages/{id}/": {
+    "/api/v0/appointments/{id}/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["v0_chat_messages_retrieve"];
-        put: operations["v0_chat_messages_update"];
+        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка приемов с пагинацией
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - create: создание нового приема
+         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *       - destroy: удаление приема
+         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+        get: operations["v0_appointments_retrieve"];
+        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка приемов с пагинацией
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - create: создание нового приема
+         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *       - destroy: удаление приема
+         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+        put: operations["v0_appointments_update"];
         post?: never;
-        delete: operations["v0_chat_messages_destroy"];
+        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка приемов с пагинацией
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - create: создание нового приема
+         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *       - destroy: удаление приема
+         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+        delete: operations["v0_appointments_destroy"];
         options?: never;
         head?: never;
-        patch: operations["v0_chat_messages_partial_update"];
+        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка приемов с пагинацией
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *       - create: создание нового приема
+         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *       - destroy: удаление приема
+         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+        patch: operations["v0_appointments_partial_update"];
         trace?: never;
     };
     "/api/v0/chat/rooms/": {
@@ -43,8 +115,14 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** @description Эндпоинт для работы с чат-комнатами. Список комнат ограничивается только теми,
+         *     в которых пользователь является участником. При доступе к деталям также проверяется,
+         *     что пользователь входит в список участников. */
         get: operations["v0_chat_rooms_list"];
         put?: never;
+        /** @description Эндпоинт для работы с чат-комнатами. Список комнат ограничивается только теми,
+         *     в которых пользователь является участником. При доступе к деталям также проверяется,
+         *     что пользователь входит в список участников. */
         post: operations["v0_chat_rooms_create"];
         delete?: never;
         options?: never;
@@ -59,13 +137,149 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** @description Эндпоинт для работы с чат-комнатами. Список комнат ограничивается только теми,
+         *     в которых пользователь является участником. При доступе к деталям также проверяется,
+         *     что пользователь входит в список участников. */
         get: operations["v0_chat_rooms_retrieve"];
+        /** @description Эндпоинт для работы с чат-комнатами. Список комнат ограничивается только теми,
+         *     в которых пользователь является участником. При доступе к деталям также проверяется,
+         *     что пользователь входит в список участников. */
         put: operations["v0_chat_rooms_update"];
         post?: never;
+        /** @description Эндпоинт для работы с чат-комнатами. Список комнат ограничивается только теми,
+         *     в которых пользователь является участником. При доступе к деталям также проверяется,
+         *     что пользователь входит в список участников. */
         delete: operations["v0_chat_rooms_destroy"];
         options?: never;
         head?: never;
+        /** @description Эндпоинт для работы с чат-комнатами. Список комнат ограничивается только теми,
+         *     в которых пользователь является участником. При доступе к деталям также проверяется,
+         *     что пользователь входит в список участников. */
         patch: operations["v0_chat_rooms_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/chat/rooms/{room_id}/messages/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Список сообщений чата
+         * @description Возвращает список сообщений в указанной чат-комнате. Доступ разрешён только участникам чата.
+         */
+        get: operations["v0_chat_rooms_messages_list"];
+        put?: never;
+        /**
+         * Создание сообщения
+         * @description Создаёт новое сообщение в чат-комнате. Тип сообщения определяется полем `message_type` (например, 'text', 'image', 'file').
+         */
+        post: operations["v0_chat_rooms_messages_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/chat/rooms/{room_id}/messages/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Удаление сообщения
+         * @description Удаляет сообщение, если текущий пользователь является его отправителем.
+         */
+        delete: operations["v0_chat_rooms_messages_destroy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/contractor/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с контрагентами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка контрагентов (требуется permission "clients.view_contractor"),
+         *       - retrieve: получение контрагента по id (требуется permission "clients.view_contractor"),
+         *       - create: создание нового контрагента (требуется permission "clients.add_contractor"),
+         *       - update/partial_update: обновление контрагента (требуется permission "clients.change_contractor"),
+         *       - destroy: удаление контрагента (требуется permission "clients.delete_contractor"). */
+        get: operations["v0_contractor_list"];
+        put?: never;
+        /** @description API для работы с контрагентами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка контрагентов (требуется permission "clients.view_contractor"),
+         *       - retrieve: получение контрагента по id (требуется permission "clients.view_contractor"),
+         *       - create: создание нового контрагента (требуется permission "clients.add_contractor"),
+         *       - update/partial_update: обновление контрагента (требуется permission "clients.change_contractor"),
+         *       - destroy: удаление контрагента (требуется permission "clients.delete_contractor"). */
+        post: operations["v0_contractor_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/contractor/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с контрагентами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка контрагентов (требуется permission "clients.view_contractor"),
+         *       - retrieve: получение контрагента по id (требуется permission "clients.view_contractor"),
+         *       - create: создание нового контрагента (требуется permission "clients.add_contractor"),
+         *       - update/partial_update: обновление контрагента (требуется permission "clients.change_contractor"),
+         *       - destroy: удаление контрагента (требуется permission "clients.delete_contractor"). */
+        get: operations["v0_contractor_retrieve"];
+        /** @description API для работы с контрагентами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка контрагентов (требуется permission "clients.view_contractor"),
+         *       - retrieve: получение контрагента по id (требуется permission "clients.view_contractor"),
+         *       - create: создание нового контрагента (требуется permission "clients.add_contractor"),
+         *       - update/partial_update: обновление контрагента (требуется permission "clients.change_contractor"),
+         *       - destroy: удаление контрагента (требуется permission "clients.delete_contractor"). */
+        put: operations["v0_contractor_update"];
+        post?: never;
+        /** @description API для работы с контрагентами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка контрагентов (требуется permission "clients.view_contractor"),
+         *       - retrieve: получение контрагента по id (требуется permission "clients.view_contractor"),
+         *       - create: создание нового контрагента (требуется permission "clients.add_contractor"),
+         *       - update/partial_update: обновление контрагента (требуется permission "clients.change_contractor"),
+         *       - destroy: удаление контрагента (требуется permission "clients.delete_contractor"). */
+        delete: operations["v0_contractor_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с контрагентами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка контрагентов (требуется permission "clients.view_contractor"),
+         *       - retrieve: получение контрагента по id (требуется permission "clients.view_contractor"),
+         *       - create: создание нового контрагента (требуется permission "clients.add_contractor"),
+         *       - update/partial_update: обновление контрагента (требуется permission "clients.change_contractor"),
+         *       - destroy: удаление контрагента (требуется permission "clients.delete_contractor"). */
+        patch: operations["v0_contractor_partial_update"];
         trace?: never;
     };
     "/api/v0/current-user/": {
@@ -156,6 +370,202 @@ export interface paths {
          *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
          *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
         patch: operations["v0_employee_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/filial/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с филиалами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
+         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
+         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
+         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
+         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        get: operations["v0_filial_list"];
+        put?: never;
+        /** @description API для работы с филиалами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
+         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
+         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
+         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
+         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        post: operations["v0_filial_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/filial-departments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с подразделениями филиала.
+         *
+         *     Поддерживаемые операции:
+         *       - list: получение списка подразделений,
+         *       - retrieve: получение подразделения по id,
+         *       - create: создание нового подразделения,
+         *       - update/partial_update: обновление подразделения,
+         *       - destroy: удаление подразделения.
+         *
+         *     Требуемые разрешения (DjangoModelPermissions):
+         *       - Для просмотра: company_structure.view_filialdepartment,
+         *       - Для создания: company_structure.add_filialdepartment,
+         *       - Для обновления: company_structure.change_filialdepartment,
+         *       - Для удаления: company_structure.delete_filialdepartment. */
+        get: operations["v0_filial_departments_list"];
+        put?: never;
+        /** @description API для работы с подразделениями филиала.
+         *
+         *     Поддерживаемые операции:
+         *       - list: получение списка подразделений,
+         *       - retrieve: получение подразделения по id,
+         *       - create: создание нового подразделения,
+         *       - update/partial_update: обновление подразделения,
+         *       - destroy: удаление подразделения.
+         *
+         *     Требуемые разрешения (DjangoModelPermissions):
+         *       - Для просмотра: company_structure.view_filialdepartment,
+         *       - Для создания: company_structure.add_filialdepartment,
+         *       - Для обновления: company_structure.change_filialdepartment,
+         *       - Для удаления: company_structure.delete_filialdepartment. */
+        post: operations["v0_filial_departments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/filial-departments/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с подразделениями филиала.
+         *
+         *     Поддерживаемые операции:
+         *       - list: получение списка подразделений,
+         *       - retrieve: получение подразделения по id,
+         *       - create: создание нового подразделения,
+         *       - update/partial_update: обновление подразделения,
+         *       - destroy: удаление подразделения.
+         *
+         *     Требуемые разрешения (DjangoModelPermissions):
+         *       - Для просмотра: company_structure.view_filialdepartment,
+         *       - Для создания: company_structure.add_filialdepartment,
+         *       - Для обновления: company_structure.change_filialdepartment,
+         *       - Для удаления: company_structure.delete_filialdepartment. */
+        get: operations["v0_filial_departments_retrieve"];
+        /** @description API для работы с подразделениями филиала.
+         *
+         *     Поддерживаемые операции:
+         *       - list: получение списка подразделений,
+         *       - retrieve: получение подразделения по id,
+         *       - create: создание нового подразделения,
+         *       - update/partial_update: обновление подразделения,
+         *       - destroy: удаление подразделения.
+         *
+         *     Требуемые разрешения (DjangoModelPermissions):
+         *       - Для просмотра: company_structure.view_filialdepartment,
+         *       - Для создания: company_structure.add_filialdepartment,
+         *       - Для обновления: company_structure.change_filialdepartment,
+         *       - Для удаления: company_structure.delete_filialdepartment. */
+        put: operations["v0_filial_departments_update"];
+        post?: never;
+        /** @description API для работы с подразделениями филиала.
+         *
+         *     Поддерживаемые операции:
+         *       - list: получение списка подразделений,
+         *       - retrieve: получение подразделения по id,
+         *       - create: создание нового подразделения,
+         *       - update/partial_update: обновление подразделения,
+         *       - destroy: удаление подразделения.
+         *
+         *     Требуемые разрешения (DjangoModelPermissions):
+         *       - Для просмотра: company_structure.view_filialdepartment,
+         *       - Для создания: company_structure.add_filialdepartment,
+         *       - Для обновления: company_structure.change_filialdepartment,
+         *       - Для удаления: company_structure.delete_filialdepartment. */
+        delete: operations["v0_filial_departments_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с подразделениями филиала.
+         *
+         *     Поддерживаемые операции:
+         *       - list: получение списка подразделений,
+         *       - retrieve: получение подразделения по id,
+         *       - create: создание нового подразделения,
+         *       - update/partial_update: обновление подразделения,
+         *       - destroy: удаление подразделения.
+         *
+         *     Требуемые разрешения (DjangoModelPermissions):
+         *       - Для просмотра: company_structure.view_filialdepartment,
+         *       - Для создания: company_structure.add_filialdepartment,
+         *       - Для обновления: company_structure.change_filialdepartment,
+         *       - Для удаления: company_structure.delete_filialdepartment. */
+        patch: operations["v0_filial_departments_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/filial/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с филиалами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
+         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
+         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
+         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
+         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        get: operations["v0_filial_retrieve"];
+        /** @description API для работы с филиалами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
+         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
+         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
+         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
+         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        put: operations["v0_filial_update"];
+        post?: never;
+        /** @description API для работы с филиалами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
+         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
+         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
+         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
+         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        delete: operations["v0_filial_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с филиалами.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
+         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
+         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
+         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
+         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        patch: operations["v0_filial_partial_update"];
         trace?: never;
     };
     "/api/v0/login/": {
@@ -344,16 +754,303 @@ export interface paths {
         patch: operations["v0_patient_partial_update"];
         trace?: never;
     };
+    "/api/v0/position/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с должностями.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка должностей (требуется permission "staffing.view_position"),
+         *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
+         *       - create: создание новой должности (требуется permission "staffing.add_position"),
+         *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+        get: operations["v0_position_list"];
+        put?: never;
+        /** @description API для работы с должностями.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка должностей (требуется permission "staffing.view_position"),
+         *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
+         *       - create: создание новой должности (требуется permission "staffing.add_position"),
+         *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+        post: operations["v0_position_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/position/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с должностями.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка должностей (требуется permission "staffing.view_position"),
+         *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
+         *       - create: создание новой должности (требуется permission "staffing.add_position"),
+         *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+        get: operations["v0_position_retrieve"];
+        /** @description API для работы с должностями.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка должностей (требуется permission "staffing.view_position"),
+         *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
+         *       - create: создание новой должности (требуется permission "staffing.add_position"),
+         *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+        put: operations["v0_position_update"];
+        post?: never;
+        /** @description API для работы с должностями.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка должностей (требуется permission "staffing.view_position"),
+         *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
+         *       - create: создание новой должности (требуется permission "staffing.add_position"),
+         *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+        delete: operations["v0_position_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с должностями.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка должностей (требуется permission "staffing.view_position"),
+         *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
+         *       - create: создание новой должности (требуется permission "staffing.add_position"),
+         *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+        patch: operations["v0_position_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/reception-time/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с временем приема.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка записей времени приема
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - retrieve: получение записи по id
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - create: создание новой записи
+         *         (требуется permission "reception_time.add_receptiontime"),
+         *       - update/partial_update: обновление записи
+         *         (требуется permission "reception_time.change_receptiontime"),
+         *       - destroy: удаление записи
+         *         (требуется permission "reception_time.delete_receptiontime"). */
+        get: operations["v0_reception_time_list"];
+        put?: never;
+        /** @description API для работы с временем приема.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка записей времени приема
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - retrieve: получение записи по id
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - create: создание новой записи
+         *         (требуется permission "reception_time.add_receptiontime"),
+         *       - update/partial_update: обновление записи
+         *         (требуется permission "reception_time.change_receptiontime"),
+         *       - destroy: удаление записи
+         *         (требуется permission "reception_time.delete_receptiontime"). */
+        post: operations["v0_reception_time_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/reception-time/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с временем приема.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка записей времени приема
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - retrieve: получение записи по id
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - create: создание новой записи
+         *         (требуется permission "reception_time.add_receptiontime"),
+         *       - update/partial_update: обновление записи
+         *         (требуется permission "reception_time.change_receptiontime"),
+         *       - destroy: удаление записи
+         *         (требуется permission "reception_time.delete_receptiontime"). */
+        get: operations["v0_reception_time_retrieve"];
+        /** @description API для работы с временем приема.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка записей времени приема
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - retrieve: получение записи по id
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - create: создание новой записи
+         *         (требуется permission "reception_time.add_receptiontime"),
+         *       - update/partial_update: обновление записи
+         *         (требуется permission "reception_time.change_receptiontime"),
+         *       - destroy: удаление записи
+         *         (требуется permission "reception_time.delete_receptiontime"). */
+        put: operations["v0_reception_time_update"];
+        post?: never;
+        /** @description API для работы с временем приема.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка записей времени приема
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - retrieve: получение записи по id
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - create: создание новой записи
+         *         (требуется permission "reception_time.add_receptiontime"),
+         *       - update/partial_update: обновление записи
+         *         (требуется permission "reception_time.change_receptiontime"),
+         *       - destroy: удаление записи
+         *         (требуется permission "reception_time.delete_receptiontime"). */
+        delete: operations["v0_reception_time_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с временем приема.
+         *
+         *     Поддерживаются операции:
+         *       - list: получение списка записей времени приема
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - retrieve: получение записи по id
+         *         (требуется permission "reception_time.view_receptiontime"),
+         *       - create: создание новой записи
+         *         (требуется permission "reception_time.add_receptiontime"),
+         *       - update/partial_update: обновление записи
+         *         (требуется permission "reception_time.change_receptiontime"),
+         *       - destroy: удаление записи
+         *         (требуется permission "reception_time.delete_receptiontime"). */
+        patch: operations["v0_reception_time_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/register-new-employee/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["v0_register_new_employee_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         ChatRoom: {
             readonly id: number;
+            /** Название чата */
             name?: string | null;
+            /** Тип чата */
             room_type: components["schemas"]["RoomTypeEnum"];
-            readonly participants: string[];
-            readonly messages: components["schemas"]["Message"][];
+            readonly participants: number[];
+            participant_ids?: number[];
+        };
+        Contractor: {
+            readonly id: number;
+            /** Полное наименование */
+            full_name: string;
+            /**
+             * ИНН
+             * @description Введите 10 или 12 цифр ИНН
+             */
+            inn: string;
+            /** КПП */
+            kpp?: string | null;
+            /** Основной банковский счёт */
+            bank_account?: string | null;
+            /** Вид экономической деятельности */
+            economic_activity_type?: string | null;
+            /** Форма собственности */
+            ownership_form?: string | null;
+            /** Страховая организация */
+            insurance_organization?: string | null;
+        };
+        DoctorAppointment: {
+            readonly id: number;
+            reason_for_inspection?: string | null;
+            /** Подписано ЭП */
+            is_signed?: boolean;
+            /**
+             * Дата подписания
+             * Format: date
+             */
+            readonly signed_date: string;
+            /**
+             * Флаг первого приема
+             * @description Флаг, означающий, что это первичный прием пациента
+             */
+            is_first_appointment?: boolean;
+            /**
+             * Приём закрыт
+             * @description Флаг, указывающий, что приём закрыт
+             */
+            is_closed?: boolean;
+            /** Тип обследования */
+            inspection_choice?: components["schemas"]["InspectionChoiceEnum"];
+            /**
+             * Дата приема
+             * Format: date
+             * @description Укажите дату приема (YYYY-MM-DD)
+             */
+            appointment_date: string;
+            /**
+             * Время начала приема
+             * Format: time
+             * @description Время начала приема
+             */
+            start_time: string;
+            /**
+             * Время окончания приема
+             * Format: time
+             * @description Время окончания приема
+             */
+            end_time: string;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created: string;
+            /**
+             * Пациент
+             * @description Внешний ключ на пациента направленного на приём
+             */
+            patient?: number | null;
+            /**
+             * Назначенный врач
+             * @description Внешний ключ на врача, к которому был записан пациент
+             */
+            assigned_doctor?: number | null;
+            /** Кем подписан */
+            signed_by: number;
+            medical_card?: number | null;
         };
         Employee: {
             readonly id: number;
@@ -383,6 +1080,10 @@ export interface components {
             snils?: string | null;
             /** ИНН */
             inn?: string | null;
+            /** Серия паспорта */
+            passport_series?: string | null;
+            /** Номер паспорта */
+            passport_number?: string | null;
             /**
              * Фото
              * Format: uri
@@ -408,6 +1109,26 @@ export interface components {
             /** Должность */
             position?: number | null;
         };
+        Filial: {
+            readonly id: number;
+            /** Дом */
+            house: string;
+            /** Строение */
+            building?: string | null;
+            /** Улица */
+            street: string;
+            /** Город */
+            city: string;
+        };
+        FilialDepartment: {
+            readonly id: number;
+            /** Название подразделения */
+            name: string;
+            /** Руководитель */
+            director?: number | null;
+            /** Филиал */
+            filial: number | null;
+        };
         /**
          * @description * `M` - Мужской
          *     * `F` - Женский
@@ -415,6 +1136,19 @@ export interface components {
          * @enum {string}
          */
         GenderEnum: "M" | "F" | "U";
+        /**
+         * @description * `no_inspection` - Не нуждается в обследовании
+         *     * `additional` - Нуждается в проведении доп обследования
+         *     * `center` - Нуждается в обследовании в центре
+         *     * `ambulatory` - Нуждается в амбулаторном обследовании
+         *     * `stationary` - Нуждается в стационарном обследовании
+         *     * `sanatorium` - Нуждается в санаторно-курортном лечении
+         *     * `dispensary` - Нуждается в диспансерном наблюдении
+         *     * `preventive` - Нуждается в лечебно-профилактических мероприятиях
+         *     * `referral` - Нуждается в направлении на медико-социальную экспертизу
+         * @enum {string}
+         */
+        InspectionChoiceEnum: "no_inspection" | "additional" | "center" | "ambulatory" | "stationary" | "sanatorium" | "dispensary" | "preventive" | "referral";
         Login: {
             username: string;
             password: string;
@@ -443,13 +1177,35 @@ export interface components {
             /** Филиал */
             filial?: number | null;
         };
-        Message: {
-            readonly id: number;
-            room: number;
-            readonly sender: string;
-            content: string;
-            /** Format: date-time */
-            readonly timestamp: string;
+        PaginatedContractorList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Contractor"][];
+        };
+        PaginatedDoctorAppointmentList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["DoctorAppointment"][];
         };
         PaginatedEmployeeList: {
             /** @example 123 */
@@ -465,6 +1221,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Employee"][];
+        };
+        PaginatedFilialList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Filial"][];
         };
         PaginatedMedicalCardList: {
             /** @example 123 */
@@ -496,12 +1267,123 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Patient"][];
         };
+        PaginatedPositionList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Position"][];
+        };
+        PaginatedReceptionTimeList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["ReceptionTime"][];
+        };
         PatchedChatRoom: {
             readonly id?: number;
+            /** Название чата */
             name?: string | null;
+            /** Тип чата */
             room_type?: components["schemas"]["RoomTypeEnum"];
-            readonly participants?: string[];
-            readonly messages?: components["schemas"]["Message"][];
+            readonly participants?: number[];
+            participant_ids?: number[];
+        };
+        PatchedContractor: {
+            readonly id?: number;
+            /** Полное наименование */
+            full_name?: string;
+            /**
+             * ИНН
+             * @description Введите 10 или 12 цифр ИНН
+             */
+            inn?: string;
+            /** КПП */
+            kpp?: string | null;
+            /** Основной банковский счёт */
+            bank_account?: string | null;
+            /** Вид экономической деятельности */
+            economic_activity_type?: string | null;
+            /** Форма собственности */
+            ownership_form?: string | null;
+            /** Страховая организация */
+            insurance_organization?: string | null;
+        };
+        PatchedDoctorAppointment: {
+            readonly id?: number;
+            reason_for_inspection?: string | null;
+            /** Подписано ЭП */
+            is_signed?: boolean;
+            /**
+             * Дата подписания
+             * Format: date
+             */
+            readonly signed_date?: string;
+            /**
+             * Флаг первого приема
+             * @description Флаг, означающий, что это первичный прием пациента
+             */
+            is_first_appointment?: boolean;
+            /**
+             * Приём закрыт
+             * @description Флаг, указывающий, что приём закрыт
+             */
+            is_closed?: boolean;
+            /** Тип обследования */
+            inspection_choice?: components["schemas"]["InspectionChoiceEnum"];
+            /**
+             * Дата приема
+             * Format: date
+             * @description Укажите дату приема (YYYY-MM-DD)
+             */
+            appointment_date?: string;
+            /**
+             * Время начала приема
+             * Format: time
+             * @description Время начала приема
+             */
+            start_time?: string;
+            /**
+             * Время окончания приема
+             * Format: time
+             * @description Время окончания приема
+             */
+            end_time?: string;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created?: string;
+            /**
+             * Пациент
+             * @description Внешний ключ на пациента направленного на приём
+             */
+            patient?: number | null;
+            /**
+             * Назначенный врач
+             * @description Внешний ключ на врача, к которому был записан пациент
+             */
+            assigned_doctor?: number | null;
+            /** Кем подписан */
+            signed_by?: number;
+            medical_card?: number | null;
         };
         PatchedEmployee: {
             readonly id?: number;
@@ -531,6 +1413,10 @@ export interface components {
             snils?: string | null;
             /** ИНН */
             inn?: string | null;
+            /** Серия паспорта */
+            passport_series?: string | null;
+            /** Номер паспорта */
+            passport_number?: string | null;
             /**
              * Фото
              * Format: uri
@@ -556,6 +1442,26 @@ export interface components {
             /** Должность */
             position?: number | null;
         };
+        PatchedFilial: {
+            readonly id?: number;
+            /** Дом */
+            house?: string;
+            /** Строение */
+            building?: string | null;
+            /** Улица */
+            street?: string;
+            /** Город */
+            city?: string;
+        };
+        PatchedFilialDepartment: {
+            readonly id?: number;
+            /** Название подразделения */
+            name?: string;
+            /** Руководитель */
+            director?: number | null;
+            /** Филиал */
+            filial?: number | null;
+        };
         PatchedMedicalCard: {
             readonly id?: number;
             card_type?: string;
@@ -579,14 +1485,6 @@ export interface components {
             client?: number | null;
             /** Филиал */
             filial?: number | null;
-        };
-        PatchedMessage: {
-            readonly id?: number;
-            room?: number;
-            readonly sender?: string;
-            content?: string;
-            /** Format: date-time */
-            readonly timestamp?: string;
         };
         PatchedPatient: {
             readonly id?: number;
@@ -616,6 +1514,10 @@ export interface components {
             snils?: string | null;
             /** ИНН */
             inn?: string | null;
+            /** Серия паспорта */
+            passport_series?: string | null;
+            /** Номер паспорта */
+            passport_number?: string | null;
             /**
              * Фото
              * Format: uri
@@ -643,8 +1545,38 @@ export interface components {
             /** Законный представитель */
             legal_representative?: number | null;
         };
+        PatchedPosition: {
+            readonly id?: number;
+            name?: string;
+            short_name?: string | null;
+            minzdrav_position?: string | null;
+            /** Группа доступа */
+            group?: number | null;
+        };
+        PatchedReceptionTime: {
+            readonly id?: number;
+            /**
+             * День приёма
+             * Format: date
+             * @description Укажите дату приёма (YYYY-MM-DD)
+             */
+            reception_day?: string;
+            /**
+             * Время начала
+             * Format: time
+             * @description Время начала рабочего периода
+             */
+            start_time?: string;
+            /**
+             * Время окончания
+             * Format: time
+             * @description Время окончания рабочего периода
+             */
+            end_time?: string;
+            /** Врач */
+            doctor?: number;
+        };
         Patient: {
-            readonly id: number;
             place_of_work?: string | null;
             /** Фамилия */
             last_name: string;
@@ -663,7 +1595,6 @@ export interface components {
              * Дата создания
              * Format: date-time
              */
-            readonly date_created: string;
             /**
              * СНИЛС
              * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
@@ -671,6 +1602,10 @@ export interface components {
             snils?: string | null;
             /** ИНН */
             inn?: string | null;
+            /** Серия паспорта */
+            passport_series?: string | null;
+            /** Номер паспорта */
+            passport_number?: string | null;
             /**
              * Фото
              * Format: uri
@@ -697,6 +1632,77 @@ export interface components {
             contractor?: number | null;
             /** Законный представитель */
             legal_representative?: number | null;
+        };
+        Position: {
+            readonly id: number;
+            name: string;
+            short_name?: string | null;
+            minzdrav_position?: string | null;
+            /** Группа доступа */
+            group?: number | null;
+        };
+        ReceptionTime: {
+            readonly id: number;
+            /**
+             * День приёма
+             * Format: date
+             * @description Укажите дату приёма (YYYY-MM-DD)
+             */
+            reception_day: string;
+            /**
+             * Время начала
+             * Format: time
+             * @description Время начала рабочего периода
+             */
+            start_time: string;
+            /**
+             * Время окончания
+             * Format: time
+             * @description Время окончания рабочего периода
+             */
+            end_time: string;
+            /** Врач */
+            doctor: number;
+        };
+        RegistrationModel: {
+            /** Имя */
+            first_name: string;
+            /** Фамилия */
+            last_name: string;
+            /** Отчество */
+            patronymic: string | null;
+            is_django_user: boolean;
+            /** Пол */
+            gender?: components["schemas"]["GenderEnum"];
+            /**
+             * Дата рождения
+             * Format: date
+             */
+            date_of_birth?: string | null;
+            /**
+             * СНИЛС
+             * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
+             */
+            snils?: string | null;
+            /** ИНН */
+            inn?: string | null;
+            /** Адрес регистрации */
+            registration_address?: string | null;
+            /** Адрес фактического проживания */
+            actual_address?: string | null;
+            /**
+             * Почта
+             * Format: email
+             */
+            email?: string | null;
+            /** Номер телефона */
+            phone?: string | null;
+            /** Подразделение */
+            department?: number | null;
+            /** Должность */
+            position?: number | null;
+            /** Краткое описание */
+            short_description?: string | null;
         };
         /**
          * @description * `private` - Личный
@@ -720,9 +1726,14 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    v0_chat_messages_list: {
+    v0_appointments_list: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -734,12 +1745,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Message"][];
+                    "application/json": components["schemas"]["PaginatedDoctorAppointmentList"];
                 };
             };
         };
     };
-    v0_chat_messages_create: {
+    v0_appointments_create: {
         parameters: {
             query?: never;
             header?: never;
@@ -748,7 +1759,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Message"];
+                "application/json": components["schemas"]["DoctorAppointment"];
             };
         };
         responses: {
@@ -757,17 +1768,17 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Message"];
+                    "application/json": components["schemas"]["DoctorAppointment"];
                 };
             };
         };
     };
-    v0_chat_messages_retrieve: {
+    v0_appointments_retrieve: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this message. */
+                /** @description A unique integer value identifying this Приём к врачу. */
                 id: number;
             };
             cookie?: never;
@@ -779,24 +1790,24 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Message"];
+                    "application/json": components["schemas"]["DoctorAppointment"];
                 };
             };
         };
     };
-    v0_chat_messages_update: {
+    v0_appointments_update: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this message. */
+                /** @description A unique integer value identifying this Приём к врачу. */
                 id: number;
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Message"];
+                "application/json": components["schemas"]["DoctorAppointment"];
             };
         };
         responses: {
@@ -805,17 +1816,17 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Message"];
+                    "application/json": components["schemas"]["DoctorAppointment"];
                 };
             };
         };
     };
-    v0_chat_messages_destroy: {
+    v0_appointments_destroy: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this message. */
+                /** @description A unique integer value identifying this Приём к врачу. */
                 id: number;
             };
             cookie?: never;
@@ -831,19 +1842,19 @@ export interface operations {
             };
         };
     };
-    v0_chat_messages_partial_update: {
+    v0_appointments_partial_update: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this message. */
+                /** @description A unique integer value identifying this Приём к врачу. */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: {
             content: {
-                "application/json": components["schemas"]["PatchedMessage"];
+                "application/json": components["schemas"]["PatchedDoctorAppointment"];
             };
         };
         responses: {
@@ -852,7 +1863,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Message"];
+                    "application/json": components["schemas"]["DoctorAppointment"];
                 };
             };
         };
@@ -990,6 +2001,220 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ChatRoom"];
+                };
+            };
+        };
+    };
+    v0_chat_rooms_messages_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Идентификатор чат-комнаты */
+                room_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_chat_rooms_messages_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Идентификатор чат-комнаты */
+                room_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    [key: string]: unknown;
+                };
+            };
+        };
+        responses: {
+            /** @description No response body */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_chat_rooms_messages_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                /** @description Идентификатор сообщения */
+                pk: number;
+                /** @description Идентификатор чат-комнаты */
+                room_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Сообщение успешно удалено. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_contractor_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedContractorList"];
+                };
+            };
+        };
+    };
+    v0_contractor_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Contractor"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Contractor"];
+                };
+            };
+        };
+    };
+    v0_contractor_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Контрагент. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Contractor"];
+                };
+            };
+        };
+    };
+    v0_contractor_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Контрагент. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Contractor"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Contractor"];
+                };
+            };
+        };
+    };
+    v0_contractor_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Контрагент. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_contractor_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Контрагент. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedContractor"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Contractor"];
                 };
             };
         };
@@ -1151,6 +2376,285 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Employee"];
+                };
+            };
+        };
+    };
+    v0_filial_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedFilialList"];
+                };
+            };
+        };
+    };
+    v0_filial_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Filial"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Filial"];
+                };
+            };
+        };
+    };
+    v0_filial_departments_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FilialDepartment"][];
+                };
+            };
+        };
+    };
+    v0_filial_departments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FilialDepartment"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FilialDepartment"];
+                };
+            };
+        };
+    };
+    v0_filial_departments_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Подразделение филиала. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FilialDepartment"];
+                };
+            };
+        };
+    };
+    v0_filial_departments_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Подразделение филиала. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FilialDepartment"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FilialDepartment"];
+                };
+            };
+        };
+    };
+    v0_filial_departments_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Подразделение филиала. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_filial_departments_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Подразделение филиала. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedFilialDepartment"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FilialDepartment"];
+                };
+            };
+        };
+    };
+    v0_filial_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Филиал. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Filial"];
+                };
+            };
+        };
+    };
+    v0_filial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Филиал. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Filial"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Filial"];
+                };
+            };
+        };
+    };
+    v0_filial_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Филиал. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_filial_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Филиал. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedFilial"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Filial"];
                 };
             };
         };
@@ -1491,6 +2995,313 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Patient"];
+                };
+            };
+        };
+    };
+    v0_position_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPositionList"];
+                };
+            };
+        };
+    };
+    v0_position_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Position"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Position"];
+                };
+            };
+        };
+    };
+    v0_position_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Должность. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Position"];
+                };
+            };
+        };
+    };
+    v0_position_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Должность. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Position"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Position"];
+                };
+            };
+        };
+    };
+    v0_position_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Должность. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_position_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Должность. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedPosition"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Position"];
+                };
+            };
+        };
+    };
+    v0_reception_time_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedReceptionTimeList"];
+                };
+            };
+        };
+    };
+    v0_reception_time_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReceptionTime"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTime"];
+                };
+            };
+        };
+    };
+    v0_reception_time_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Время приёма. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTime"];
+                };
+            };
+        };
+    };
+    v0_reception_time_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Время приёма. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReceptionTime"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTime"];
+                };
+            };
+        };
+    };
+    v0_reception_time_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Время приёма. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_reception_time_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Время приёма. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedReceptionTime"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTime"];
+                };
+            };
+        };
+    };
+    v0_register_new_employee_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegistrationModel"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegistrationModel"];
                 };
             };
         };
