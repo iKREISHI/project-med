@@ -9,6 +9,7 @@ class LoginSerializer(serializers.Serializer):
         error_messages={'required': _('Пожалуйста, укажите имя пользователя.')}
     )
     password = serializers.CharField(
+        write_only=True,
         error_messages={'required': _('Пожалуйста, укажите пароль.')}
     )
 
