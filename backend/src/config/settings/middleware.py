@@ -14,6 +14,11 @@ CORS_ALLOW_METHODS = [
     "PUT",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5000",
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
