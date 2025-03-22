@@ -13,10 +13,26 @@ interface InputProps {
   onSearch?: () => void;
   shadowColor?: string;
   isDarkText?: boolean;
+  bgcolorFlag?: boolean;
+  borderColor?: string;
 }
 
-const InputSearch: React.FC<InputProps> = ({ type, value, onChange, fullWidth, placeholder, onSearch, shadowColor = 'rgba(255, 255, 255, 0.2)', isDarkText = false, }) => {
+const InputSearch: React.FC<InputProps> = ({
+  type,
+  value,
+  onChange,
+  fullWidth,
+  placeholder,
+  onSearch,
+  shadowColor = 'rgba(0, 0, 0, 0.1)',
+  isDarkText = false,
+  bgcolorFlag = false,
+  borderColor,
+}) => {
   const theme = useTheme();
+
+  const finalBorderColor = borderColor || theme.palette.grey[500];
+
   return (
     <Box sx={inputSearchSx.container}>
       <InputBase
@@ -25,13 +41,15 @@ const InputSearch: React.FC<InputProps> = ({ type, value, onChange, fullWidth, p
         onChange={onChange}
         fullWidth={fullWidth}
         placeholder={placeholder}
-        sx={inputSearchSx.input(shadowColor, isDarkText)}
+        sx={inputSearchSx.input(shadowColor, isDarkText, bgcolorFlag, finalBorderColor)}
+        title={value}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
               onClick={onSearch}
               sx={inputSearchSx.iconSearch(isDarkText)}
               aria-label="Найти"
+              disableRipple
             >
               <SearchIcon fontSize="small" />
             </IconButton>
@@ -40,8 +58,8 @@ const InputSearch: React.FC<InputProps> = ({ type, value, onChange, fullWidth, p
         inputProps={{
           sx: {
             '&::placeholder': {
-              color: isDarkText ? theme.palette.grey[700] : globalsStyle.colors.grey400, 
-              opacity: 1, 
+              color: isDarkText ? theme.palette.grey[700] : globalsStyle.colors.grey300,
+              opacity: 1,
             },
           },
         }}

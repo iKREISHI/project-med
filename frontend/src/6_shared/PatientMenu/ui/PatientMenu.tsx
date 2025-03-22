@@ -6,7 +6,7 @@ import { patientMenuSx } from "./patientMenuSx.ts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface PatientMenuProps {
-  menuItems: { name: string; path: string }[]; // Пункты меню
+  menuItems: { name: string; path: string }[]; 
 
 }
 // Отображение меню на странице пациента
@@ -22,6 +22,7 @@ export const PatientMenu: FC<PatientMenuProps> = ({menuItems}) => {
       sx={{
         width: globalsStyle.widthDrawer,
         bgcolor: theme.palette.background.default,
+        boxShadow: '0 0 3px rgba(0, 0, 0, 0.1)'
       }}
     >
       {isMobile ? (

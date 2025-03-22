@@ -21,7 +21,7 @@ export const lightTheme = createTheme({
     grey: {
       100: globalsStyle.colors.grey100,
       200: globalsStyle.colors.grey200,
-      300: globalsStyle.colors.grey300,
+      300: "#c4c4c4",
       400: globalsStyle.colors.grey400,
       500: globalsStyle.colors.grey500,
       600: globalsStyle.colors.grey600,
@@ -38,6 +38,6 @@ export const lightTheme = createTheme({
     body2: { fontSize: globalsStyle.fontSizes.body2 }, 
   },
   shape: {
-    borderRadius: 4,
+    borderRadius: 5,
   },
 });

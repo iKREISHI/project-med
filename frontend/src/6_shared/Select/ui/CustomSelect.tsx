@@ -1,7 +1,5 @@
 import { FC } from "react";
-import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { Theme } from '@mui/material/styles';
-
+import { FormControl, MenuItem, Select, SelectChangeEvent, Theme } from "@mui/material";
 
 interface SelectProps {
   value: string;
@@ -12,7 +10,6 @@ interface SelectProps {
   options: Array<{ id: number; name: string; disabled?: boolean }>;
 }
 
-// Селектор
 export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeholder, disabled = false, fullWidth = false }) => {
   return (
     <FormControl fullWidth={fullWidth}>
@@ -28,25 +25,37 @@ export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeh
           }
           return selected;
         }}
+        inputProps={{
+          "aria-label": placeholder,
+        }}
         sx={{
+          height: "40px",
           "& .MuiSelect-select": {
-            padding: 1,
+            padding: 0,
             zIndex: 1,
-            backgroundColor: "transparent", 
-            border: (theme: Theme) => `1px solid ${theme.palette.grey[400]}`,
+            backgroundColor: "transparent",
             boxShadow: "none",
+            height: "0px !important",
+            display: "flex",
+            alignItems: "center",
+            ml: 1,
+            mr: 1,
             "&:focus": {
               backgroundColor: "transparent",
             },
+            "&.Mui-disabled": {
+              cursor: "not-allowed",
+            },
           },
-          "& .MuiOutlinedInput-notchedOutline": {
-            border: "none",
+          "&.Mui-disabled": {
+            cursor: "not-allowed !important",
           },
+ 
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            border: "none", 
+            borderColor:(theme: Theme) => theme.palette.primary.main, 
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            border: "none",
+            borderWidth: 1
           },
         }}
       >
@@ -54,7 +63,7 @@ export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeh
           {placeholder}
         </MenuItem>
         {options.map((doc) => (
-          <MenuItem key={doc.id} value={doc.name} disabled={doc.disabled} disableRipple>
+          <MenuItem key={doc.id} value={doc.name} disabled={doc.disabled} disableRipple aria-label={doc.name}>
             {doc.name}
           </MenuItem>
         ))}

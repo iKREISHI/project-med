@@ -3,6 +3,7 @@ import { PatientVisitsChart } from '../../../6_shared/Chart/PatientVisitsChart';
 import { Schedule } from '../../../6_shared/Schedule';
 import { Box } from '@mui/material';
 import { globalsStyleSx } from '../../../6_shared/styles/globalsStyleSx';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 export const DashBoard: FC = () => {
   interface ScheduleEntry {
@@ -50,6 +51,7 @@ export const DashBoard: FC = () => {
         <Schedule schedule={schedule} />
       </Box>
       <PatientVisitsChart />
+    
 
     </>
   );

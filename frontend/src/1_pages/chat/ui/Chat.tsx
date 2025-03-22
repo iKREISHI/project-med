@@ -27,7 +27,7 @@ export const Chat: React.FC = () => {
           <Grid size={{ xs: 12, md: 3 }}
             sx={{
               bgcolor: {
-                md: theme.palette.grey[300],
+                md: theme.palette.grey[400],
                 xs: theme.palette.background.paper
               },
               boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',

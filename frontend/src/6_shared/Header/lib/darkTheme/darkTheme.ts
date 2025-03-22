@@ -13,7 +13,7 @@ export const darkTheme = createTheme({
       secondary: '#dcdcdc', 
     },
     primary: {
-      main: '#21548B', 
+      main: globalsStyle.colors.blue, 
     },
     secondary: {
       main: '#0c6c7c', 
@@ -39,6 +39,6 @@ export const darkTheme = createTheme({
     body2: { fontSize: globalsStyle.fontSizes.body2 }, 
   },
   shape: {
-    borderRadius: 4, 
+    borderRadius: 5, 
   },
 });

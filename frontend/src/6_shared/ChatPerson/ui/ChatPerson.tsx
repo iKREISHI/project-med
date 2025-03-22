@@ -127,7 +127,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
                 maxWidth: "80%",
                 bgcolor: message.isMe
                   ? globalsStyle.colors.blueLight
-                  : theme.palette.grey[100],
+                  : theme.palette.grey[200],
                 color: message.isMe ? "#fff" : "inherit",
               }}
             >
@@ -243,7 +243,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
               }}
             />
           </Box>
-          <IconButton component="label">
+          <IconButton component="label" disableRipple>
             <AttachFileIcon />
             <input
               type="file"

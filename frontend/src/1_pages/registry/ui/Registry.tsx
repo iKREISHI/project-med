@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { ruRU } from '@mui/x-data-grid/locales';
 import { useNavigate } from 'react-router-dom';
-import { InputForm } from '../../../6_shared/Input';
+import { InputForm, InputSearch } from '../../../6_shared/Input';
 import { CustomButton } from '../../../6_shared/Button';
 
 
@@ -25,12 +25,13 @@ const columns: GridColDef[] = [
   { field: 'fullName', headerName: 'ФИО', width: 250 },
   { field: 'lastVisit', headerName: 'Дата последнего приема', width: 150 },
 ];
- // Главная старница со списокм пациентов 
+// Главная старница со списокм пациентов 
 export const Registry: React.FC = () => {
   const screenWidth = window.screen.width;
   const [patients, setPatients] = React.useState(Patients);
   const [searchQuery, setSearchQuery] = React.useState('');
   const navigate = useNavigate()
+  const theme = useTheme();
 
   const filteredPatients = patients.filter((patient) =>
     patient.fullName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -47,6 +48,15 @@ export const Registry: React.FC = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder='Поиск'
         />
+        {/* <InputSearch
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
+          placeholder="Введите запрос"
+          // onSearch={handleSearch}
+          isDarkText={!(theme.palette.mode === "dark")}
+        /> */}
       </Box>
       <Box sx={{ mb: 1 }}>
         <CustomButton

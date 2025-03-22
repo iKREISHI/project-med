@@ -1,20 +1,26 @@
 import { Theme } from '@mui/material/styles';
-import { globalsStyle } from '../../../styles/globalsStyle';
 
 export const inputFormSx = {
   input: {
     backgroundColor: 'transparent',
-    padding: 0.5,
+    padding: 0,
+    "&:not(.MuiInputBase-multiline)": {
+      height: "40px",
+    },
+    pr: 1,
     pl: 1,
-    border: (theme: Theme) => `1px solid ${theme.palette.grey[400]}`,
+    
+    border: (theme: Theme) => `1px solid ${theme.palette.grey[300]}`,
     borderRadius: 1,
-    "&:hover:not(.Mui-disabled)": {
-      borderColor: (theme: Theme) => theme.palette.grey[900],
+    // borderRadius: (theme: Theme) => theme.shape.borderRadius,
+    "&:hover:not(.Mui-focused):not(.Mui-disabled)": {
+      borderColor: (theme: Theme) => theme.palette.primary.main,
     },
+
     "&.Mui-focused": {
-      borderColor: globalsStyle.colors.blueDark,
+      borderColor: (theme: Theme) => theme.palette.primary.main,
+      borderWidth: '1px'
     },
-    transition: "border-color 0.3s ease",
     "& input[type='date']::-webkit-calendar-picker-indicator": {
       filter: (theme: Theme) => (theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)'),
     },
@@ -25,8 +31,8 @@ export const inputFormSx = {
       cursor: 'not-allowed',
     },
     ".css-yimnyd-MuiInputBase-input.Mui-disabled": {
-      '-webkit-text-fill-color':  (theme: Theme) => theme.palette.grey[900],
-  }
+      '-webkit-text-fill-color': (theme: Theme) => theme.palette.grey[900],
+    }
 
   },
 };

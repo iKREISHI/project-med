@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { List, ListItem, ListItemAvatar, ListItemText, useMediaQuery, Theme, ListItemButton, SxProps, useTheme } from "@mui/material";
+import { List, ListItem, ListItemAvatar, ListItemText, useMediaQuery, Theme, ListItemButton, SxProps, useTheme, Box } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { chatMenuSx } from "./chatMenuSx";
 import { globalsStyle } from "../../styles/globalsStyle";
@@ -32,16 +32,18 @@ export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
 
   return (
     <>
-      <InputSearch
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        fullWidth
-        placeholder="Поиск"
-        onSearch={handleSearch}
-        shadowColor="rgba(0, 0, 0, 0.2)"
-        isDarkText={isDarkText}
-      />
+      <Box sx={{ m: 1 }}>
+        <InputSearch
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          fullWidth
+          placeholder="Поиск"
+          onSearch={handleSearch}
+          shadowColor="rgba(0, 0, 0, 0.2)"
+          isDarkText={isDarkText}
+        />
+      </Box>
       <List>
         {filteredMenuItems.map((item, index) => {
           const buttonStyles = {
