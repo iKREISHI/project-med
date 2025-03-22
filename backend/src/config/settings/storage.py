@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 from .config import (
@@ -8,7 +9,6 @@ from .config import (
     MINIO_INSTANCE_ADDRESS
 )
 
-# DEFAULT_FILE_STORAGE = 'minio_storage.storage.MinioMediaStorage'
 STORAGES = {
     "default": {
         "BACKEND": "minio_storage.storage.MinioMediaStorage",

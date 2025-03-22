@@ -46,7 +46,7 @@ ASGI_APPLICATION = 'config.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-from .config import DATABASES_URL, env
+from .config import DATABASES_URL
 
 # DATABASES = {
 #     'default': {
@@ -55,7 +55,7 @@ from .config import DATABASES_URL, env
 #     }
 # }
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    'default': DATABASES_URL
 }
 
 
