@@ -2,6 +2,12 @@ start-venv:
 	python3 -m venv venv
 	venv/bin/pip install -r requirements.txt
 
+run-docker-containers:
+	docker compose --file ../docker-compose.yml up -d
+
+stop-docker-containers:
+	docker compose --file ../docker-compose.yml down
+
 migrate:
 	venv/bin/python3 src/manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
 	venv/bin/python3 src/manage.py migrate
@@ -9,8 +15,8 @@ migrate:
 entrypoint:
 	export DJANGO_SETTINGS_MODULE=config.settings && venv/bin/python3 src/entrypoint.py
 
-startapp: start-venv migrate
-	start-venv migrate
+startapp: start-venv run-docker-containers migrate entrypoint
+	start-venv run-docker-containers migrate entrypoint
 
 test:
 	venv/bin/python3 src/manage.py test api apps --parallel

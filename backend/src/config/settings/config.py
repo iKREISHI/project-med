@@ -2,11 +2,16 @@ import os
 import environ
 from pathlib import Path
 
-ENV_PATH = Path(__file__).resolve().parent.parent.parent.parent
+ENV_PATH = Path(__file__).resolve().parent.parent.parent.parent.parent
 
 env = environ.Env()
 
-environ.Env.read_env(os.path.join(ENV_PATH, '.env'))
+if os.path.exists(ENV_PATH / '.env'):
+    environ.Env.read_env(os.path.join(ENV_PATH, '.env'))
+
+# POSTGRES
+DATABASES_URL = env('DATABASE_URL')
+
 
 # REDIS
 REDIS_USER = env('REDIS_USER')

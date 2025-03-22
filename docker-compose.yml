@@ -37,6 +37,24 @@ services:
     tty: true
     stdin_open: true
 
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   minio:
     image: minio/minio:latest
     container_name: minio
@@ -58,3 +76,4 @@ services:
 volumes:
   redis_data:
   minio_data:
+  pg_data:
