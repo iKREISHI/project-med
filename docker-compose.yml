@@ -1,5 +1,6 @@
 services:
   backend:
+    container_name: django
     build:
       context: .
       dockerfile: ./docker/django/Dockerfile
@@ -11,12 +12,15 @@ services:
     restart: unless-stopped
     volumes:
       - ./backend/src:/app/
+      - static_volume:/app/staticfiles
     ports:
       - "8000:8000"
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_started
+      minio:
         condition: service_started
     environment:
       - DATABASE_URL=${DATABASE_URL}
@@ -68,6 +72,7 @@ services:
 
   postgres:
     image: postgres:17
+    container_name: postgres
     restart: unless-stopped
     environment:
       PGDATA: "/var/lib/postgresql/data/pgdata"
@@ -102,7 +107,20 @@ services:
       timeout: 5s
       retries: 5
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_server
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+#      - ./frontend/build:/usr/share/nginx/html:ro
+      - static_volume:/static:ro  # Монтируем собранную статику Django
+    depends_on:
+      - backend
+
 volumes:
   redis_data:
   minio_data:
   pg_data:
+  static_volume:

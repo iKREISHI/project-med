@@ -23,10 +23,7 @@ COPY ./backend/requirements.txt .
 RUN pip install -r requirements.txt
 COPY ./backend/src /app
 ENV DJANGO_SETTINGS_MODULE=config.settings
-#RUN python3 manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
-#RUN python3 manage.py migrate
-RUN python3 manage.py collectstatic --noinput --clear
-#RUN python3 entrypoint.py
+#RUN python3 manage.py collectstatic --noinput --clear
 COPY docker/django/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 #ENTRYPOINT ["/entrypoint.sh"]
