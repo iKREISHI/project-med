@@ -24,20 +24,17 @@ services:
         condition: service_started
     environment:
       - DATABASE_URL=${DATABASE_URL}
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
-      - REDIS_USER=${REDIS_USER}
-      - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
-      - REDIS_INSTANCE_IP_ADDRESS=redis
-      - REDIS_INSTANCE_PORT=${REDIS_INSTANCE_PORT}
+      - REDIS_URL=${REDIS_URL}
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - MINIO_INSTANCE_ADDRESS=minio:9000
   redis:
     image: redis:latest
     container_name: redis_container
-#    environment:
-    env_file:
-      - .env
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_USER=${REDIS_USER}
+      - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
     ports:
       - "6379:6379"
     volumes:

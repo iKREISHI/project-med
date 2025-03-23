@@ -31,7 +31,7 @@ REDIS_USER_PASSWORD = env('REDIS_USER_PASSWORD', default='root')
 REDIS_PASSWORD = env('REDIS_PASSWORD', default='redis@password')
 REDIS_IP_ADDRESS = env('REDIS_INSTANCE_IP_ADDRESS', default='127.0.0.1')
 REDIS_PORT = env('REDIS_INSTANCE_PORT', default='6380')
-REDIS_URL = f"redis://{REDIS_USER}:{REDIS_USER_PASSWORD}@{REDIS_IP_ADDRESS}:{REDIS_PORT}/0"
+REDIS_URL = env('REDIS_URL', default='redis://root:root@127.0.0.1:6379/0')
 
 # MINIO
 MINIO_ROOT_USER = env('MINIO_ROOT_USER', default='minioroot')
