@@ -5,5 +5,4 @@ python3 /app/manage.py makemigrations users clients company_structure staffing  
 python3 /app/manage.py migrate
 python3 /app/entrypoint.py
 
-# Run web server
-gunicorn config.asgi:application -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+exec "$@"

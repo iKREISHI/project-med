@@ -22,17 +22,17 @@ if env_file.exists():
 # POSTGRES
 DATABASES_URL = env.db(
     'DATABASE_URL',
-    default='postgres://default:default@localhost:5432/default_db'
+    default='postgres://postgres:postgres@127.0.0.1:5432/med_db'
 )
 
 # REDIS
-REDIS_USER = env('REDIS_USER', default='default_redis_user')
-REDIS_USER_PASSWORD = env('REDIS_USER_PASSWORD', default='default_redis_user_password')
-REDIS_PASSWORD = env('REDIS_PASSWORD', default='default_redis_password')
+REDIS_USER = env('REDIS_USER', default='root')
+REDIS_USER_PASSWORD = env('REDIS_USER_PASSWORD', default='root')
+REDIS_PASSWORD = env('REDIS_PASSWORD', default='redis@password')
 REDIS_IP_ADDRESS = env('REDIS_INSTANCE_IP_ADDRESS', default='127.0.0.1')
-REDIS_PORT = env('REDIS_INSTANCE_PORT', default='6379')
+REDIS_PORT = env('REDIS_INSTANCE_PORT', default='6380')
 
 # MINIO
-MINIO_ROOT_USER = env('MINIO_ROOT_USER', default='default_minio_root_user')
-MINIO_ROOT_PASSWORD = env('MINIO_ROOT_PASSWORD', default='default_minio_root_password')
+MINIO_ROOT_USER = env('MINIO_ROOT_USER', default='minioroot')
+MINIO_ROOT_PASSWORD = env('MINIO_ROOT_PASSWORD', default='minioroot')
 MINIO_INSTANCE_ADDRESS = env('MINIO_INSTANCE_ADDRESS', default='127.0.0.1:9000')
