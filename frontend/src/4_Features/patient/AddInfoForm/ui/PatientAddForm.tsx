@@ -4,7 +4,7 @@ import { InputForm } from "../../../../6_shared/Input";
 import { patientAddFormSx } from "./patientAddFormSx";
 import {usePatientFormStore} from "../../model/store.ts";
 
-export const PacientAddForm: FC = () => {
+export const PatientAddForm: FC = () => {
 
   const {patient, setField} = usePatientFormStore();
 
