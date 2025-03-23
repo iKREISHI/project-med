@@ -1,7 +1,8 @@
 import React from 'react';
-import { TextField, Box, InputAdornment, IconButton } from '@mui/material';
+import { Box, InputAdornment, IconButton, InputBase, useTheme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { inputSearchSx } from './inputSearchSx.ts';
+import { globalsStyle } from '../../../styles/globalsStyle.ts';
 
 interface InputProps {
   type: string;
@@ -10,32 +11,57 @@ interface InputProps {
   fullWidth?: boolean;
   placeholder?: string;
   onSearch?: () => void;
+  shadowColor?: string;
+  isDarkText?: boolean;
+  bgcolorFlag?: boolean;
+  borderColor?: string;
 }
 
-const InputSearch: React.FC<InputProps> = ({ type, value, onChange, fullWidth, placeholder, onSearch }) => {
+const InputSearch: React.FC<InputProps> = ({
+  type,
+  value,
+  onChange,
+  fullWidth,
+  placeholder,
+  onSearch,
+  shadowColor = 'rgba(0, 0, 0, 0.1)',
+  isDarkText = false,
+  bgcolorFlag = false,
+  borderColor,
+}) => {
+  const theme = useTheme();
+
+  const finalBorderColor = borderColor || theme.palette.grey[500];
 
   return (
     <Box sx={inputSearchSx.container}>
-      <TextField
+      <InputBase
         type={type}
         value={value}
         onChange={onChange}
         fullWidth={fullWidth}
-        variant="outlined"
         placeholder={placeholder}
-        sx={inputSearchSx.input}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                onClick={onSearch}
-                sx={inputSearchSx.iconSearch}
-                aria-label="Найти"
-              >
-                <SearchIcon fontSize="small" />
-              </IconButton>
-            </InputAdornment>
-          ),
+        sx={inputSearchSx.input(shadowColor, isDarkText, bgcolorFlag, finalBorderColor)}
+        title={value}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              onClick={onSearch}
+              sx={inputSearchSx.iconSearch(isDarkText)}
+              aria-label="Найти"
+              disableRipple
+            >
+              <SearchIcon fontSize="small" />
+            </IconButton>
+          </InputAdornment>
+        }
+        inputProps={{
+          sx: {
+            '&::placeholder': {
+              color: isDarkText ? theme.palette.grey[700] : globalsStyle.colors.grey300,
+              opacity: 1,
+            },
+          },
         }}
       />
     </Box>

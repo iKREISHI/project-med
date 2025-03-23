@@ -1,2 +1,2 @@
-export { darkTheme } from './darkTheme/darkTheme.ts'
-export { lightTheme } from './lightTheme/lightTheme.ts'
+export { darkTheme } from './darkTheme/darkTheme'
+export { lightTheme } from './lightTheme/lightTheme'

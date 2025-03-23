@@ -1,59 +1,92 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ListItemText, ListItemButton, ListItem, List, Toolbar, Drawer, Box, IconButton, Typography, useTheme, SxProps, Theme, Divider } from '@mui/material';
-import { customDrawerSx } from './customDrawerSx.ts';
-import { InputSearch } from '../../Input';
+import React, { JSX, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { ListItemText, ListItemButton, ListItem, List, Toolbar, Drawer, Box, IconButton, Typography, useTheme, SxProps, Theme, Divider, ListItemIcon, useMediaQuery, } from '@mui/material';
+import { customDrawerSx } from './customDrawerSx';
 import CloseIcon from '@mui/icons-material/Close';
-import { globalsStyle } from '../../styles/globalsStyle.ts';
+import { globalsStyle } from '../../styles/globalsStyle';
+import logo from './logo.png';
+import { InputSearch } from '../../Input';
+
 
 interface ListItem {
     name: string;
     path: string;
+    icon?: JSX.Element;
 }
 
 interface CustomDrawerProps {
     mobileOpen: boolean;
     handleDrawerToggle: () => void;
+    handleSearch?: () => void;
     listItems: ListItem[];
 }
 
-const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerToggle, listItems }) => {
-    const [search, setSearch] = useState('');
+const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerToggle, listItems, handleSearch }) => {
     const location = useLocation();
     const theme = useTheme();
-    const handleSearch = () => {
-        console.log(search);
-    };
+    const navigate = useNavigate()
+    const [search, setSearch] = useState('');
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const drawer = (
         <Box sx={customDrawerSx.sideContainer}>
             <Box sx={customDrawerSx.linkContainer}>
                 <Toolbar sx={customDrawerSx.toolbar}>
                     <Box sx={customDrawerSx.topContainer}>
-                        <Box>
-                            <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white }}>медvед код</Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '15px',
+                                cursor: 'pointer',
+                            }}
+                            onClick={(e) => navigate("/")}
+                        >
+                            {/* Логотип */}
+                            <img
+                                src={logo}
+                                alt="Логотип"
+                                style={{ width: '60px' }}
+                            />
+                            {/* Текст */}
+                            <Typography component="p" sx={{ fontSize: '1rem', color: 'common.white' }}>
+                                медvед код
+                            </Typography>
                         </Box>
-                        <IconButton onClick={handleDrawerToggle} sx={{ display: { xs: 'block', sm: 'none' } }}>
+                        <IconButton disableRipple onClick={handleDrawerToggle} sx={{ display: { xs: 'block', sm: 'none' } }}>
                             <CloseIcon sx={{ color: theme.palette.common.white }} />
                         </IconButton>
+                        
                     </Box>
-                    <InputSearch
-                        type="text"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        fullWidth
-                        placeholder="Поиск"
-                        onSearch={handleSearch}
-                    />
+
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                        {isMobile && (
+                            <Box sx={{ flexGrow: 1, mt: 1, mb: 2}}>
+                                <InputSearch
+                                    type="text"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    fullWidth
+                                    placeholder="Введите запрос"
+                                    onSearch={handleSearch}
+                                    borderColor="#fff"
+                                    isDarkText={false}
+                                    shadowColor="#fff"
+                                />
+                            </Box>
+                        )}
+                    </Box>
+
                 </Toolbar>
-                <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white, p: 1 }}>
+                {/* <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white, p: 1 }}>
                     Меню
-                </Typography>
-                <Divider sx={{ backgroundColor: theme.palette.common.white }} />
-                <List>
+                </Typography> */}
+                {/* <Divider sx={{ backgroundColor: theme.palette.common.white, mt: 1}} /> */}
+                <List sx={{ mt: { md: 2 } }}>
                     {listItems.map((item, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton disableRipple
+                            <ListItemButton
+                                disableRipple
                                 component={Link}
                                 to={item.path}
                                 sx={{
@@ -65,6 +98,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                                     }),
                                 } as SxProps<Theme>}
                             >
+                                {item.icon && <ListItemIcon sx={{ color: 'inherit' }}>{item.icon}</ListItemIcon>}
                                 <ListItemText primary={item.name} />
                             </ListItemButton>
                         </ListItem>

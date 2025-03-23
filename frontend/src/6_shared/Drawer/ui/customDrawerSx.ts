@@ -7,11 +7,11 @@ export const customDrawerSx = {
     display: 'flex',
     justifyContent: {
         xs: 'space-between',
-        md: 'center',
     },
     alignItems: 'center',
     width: '100%',
-    p: 1,
+    p: 0.5,
+    mt: 2
   },
   sideContainer: {
     display: 'flex',
@@ -23,7 +23,7 @@ export const customDrawerSx = {
   } as SxProps<Theme>,
   linkContainer: {
     width: `calc(${globalsStyle.widthDrawer} - 10%)`,
-    padding: (theme: Theme) => theme.spacing(0.5),
+    padding: (theme: Theme) => theme.spacing(0),
   } as SxProps<Theme>,
   toolbar: {
     paddingLeft: { xs: '0', sm: '0' },
@@ -35,7 +35,7 @@ export const customDrawerSx = {
   },
   listButton: {
     paddingLeft: (theme: Theme) => theme.spacing(3),
-    margin: (theme: Theme) => theme.spacing(0.5),
+    margin: (theme: Theme) => theme.spacing(0.2),
     borderRadius: (theme: Theme) => theme.shape.borderRadius,
     color: (theme: Theme) => theme.palette.common.white,
   },

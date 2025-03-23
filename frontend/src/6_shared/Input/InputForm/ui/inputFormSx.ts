@@ -1,27 +1,38 @@
-import { globalsStyle } from "../../../styles/globalsStyle.ts";
+import { Theme } from '@mui/material/styles';
 
 export const inputFormSx = {
   input: {
     backgroundColor: 'transparent',
     padding: 0,
-    '& .MuiOutlinedInput-root': {
-      padding: 0, 
-      '& input': {
-        padding: 1, 
-      },
-      '& fieldset': {
-        borderColor: globalsStyle.colors.grey,
-      },
-      '&:hover fieldset': {
-        borderColor: globalsStyle.colors.grey,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: globalsStyle.colors.blue,
-      },
+    "&:not(.MuiInputBase-multiline)": {
+      height: "40px",
     },
-    '& .MuiInputBase-input::placeholder': {
-      color: globalsStyle.colors.greyDark,
-      opacity: 1,
+    pr: 1,
+    pl: 1,
+    
+    border: (theme: Theme) => `1px solid ${theme.palette.grey[300]}`,
+    borderRadius: 1,
+    // borderRadius: (theme: Theme) => theme.shape.borderRadius,
+    "&:hover:not(.Mui-focused):not(.Mui-disabled)": {
+      borderColor: (theme: Theme) => theme.palette.primary.main,
     },
+
+    "&.Mui-focused": {
+      borderColor: (theme: Theme) => theme.palette.primary.main,
+      borderWidth: '1px'
+    },
+    "& input[type='date']::-webkit-calendar-picker-indicator": {
+      filter: (theme: Theme) => (theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)'),
+    },
+    "& input[type='date']::-moz-calendar-picker-indicator": {
+      filter: (theme: Theme) => (theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)'),
+    },
+    "& input[disabled]": {
+      cursor: 'not-allowed',
+    },
+    ".css-yimnyd-MuiInputBase-input.Mui-disabled": {
+      '-webkit-text-fill-color': (theme: Theme) => theme.palette.grey[900],
+    }
+
   },
 };

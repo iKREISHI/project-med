@@ -1,8 +1,8 @@
 import { LineChart } from '@mui/x-charts/LineChart';
-import { globalsStyle } from '../../../styles/globalsStyle.ts';
+import { globalsStyle } from '../../../styles/globalsStyle';
 import { useRef, useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import { globalsStyleSx } from '../../../styles/globalsStyleSx.ts';
+import { globalsStyleSx } from '../../../styles/globalsStyleSx';
 
 export default function PatientVisitsChart() {
   const containerRef = useRef<HTMLElement>(null);
