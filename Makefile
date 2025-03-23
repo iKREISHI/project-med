@@ -1,22 +1,20 @@
 build-dev:
-	docker compose up -d --build
-	#dev-entrypoint
+	docker compose -f docker-compose.local.dev.yml up -d --build
 
 run-dev:
-	docker compose up -d
-	dev-entrypoint
+	docker compose -f docker-compose.local.dev.yml up -d
 
 logs-dev:
-	docker compose logs
+	docker compose -f docker-compose.local.dev.yml logs
 
 test-dev:
-	docker compose exec backend python /app/manage.py test api apps --parallel
+	docker compose -f docker-compose.local.dev.yml exec backend python /app/manage.py test api apps --parallel
 
 logs-dev-django:
-	docker compose logs backend
+	docker compose -f docker-compose.local.dev.yml logs backend
 
 rm-dev:
-	docker compose down
+	docker compose -f docker-compose.local.dev.yml down
 
 rm-v-dev:
-	docker compose down -v
+	docker compose -f docker-compose.local.dev.yml down -v
