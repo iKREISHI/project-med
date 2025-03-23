@@ -3,10 +3,10 @@ start-venv:
 	venv/bin/pip install -r requirements.txt
 
 run-docker-containers:
-	docker compose --file ../docker-compose.yml up -d
+	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio -d
 
 stop-docker-containers:
-	docker compose --file ../docker-compose.yml down
+	docker compose --file ../docker-compose.local.dev.yml down
 
 migrate:
 	venv/bin/python3 src/manage.py makemigrations users clients company_structure staffing  medical_activity registry chat

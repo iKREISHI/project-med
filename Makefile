@@ -4,6 +4,9 @@ build-dev:
 run-dev:
 	docker compose -f docker-compose.local.dev.yml up -d
 
+stop-dev:
+	docker compose -f docker-compose.local.dev.yml stop
+
 logs-dev:
 	docker compose -f docker-compose.local.dev.yml logs
 
