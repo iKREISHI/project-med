@@ -14,9 +14,14 @@ run-dev:
 logs-dev:
 	docker compose logs
 
+test-dev:
+	docker compose exec backend python /app/manage.py test api apps --parallel
 
 logs-dev-django:
 	docker compose logs backend
 
 rm-dev:
+	docker compose down
+
+rm-v-dev:
 	docker compose down -v

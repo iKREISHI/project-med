@@ -31,7 +31,7 @@ services:
       - REDIS_INSTANCE_PORT=${REDIS_INSTANCE_PORT}
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-      - MINIO_INSTANCE_ADDRESS=${MINIO_INSTANCE_ADDRESS}
+      - MINIO_INSTANCE_ADDRESS=minio:9000
   redis:
     image: redis:latest
     container_name: redis_container
@@ -39,7 +39,7 @@ services:
     env_file:
       - .env
     ports:
-      - "6380:6379"
+      - "6379:6379"
     volumes:
       - redis_data:/data
     deploy:
