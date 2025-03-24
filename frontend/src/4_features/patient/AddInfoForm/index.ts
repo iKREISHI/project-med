@@ -1,1 +1,0 @@
-export { AddInfoForm } from './ui/AddInfoForm.tsx'

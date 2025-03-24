@@ -11,12 +11,11 @@ import { PatientAddresses } from "../../6_shared/Addresses";
 import { PatientPassport } from "../../6_shared/Passport";
 import { VisitHistory } from "../../6_shared/VisitHistory";
 import { MedicalData } from "../../6_shared/MedicalData";
-import { AdditionalInfo } from "../../6_shared/AdditionalInfo";
 import { Admission } from "../../1_pages/admission";
 import { Record } from "../../1_pages/record";
 import { TreatmentPlan } from "../../6_shared/TreatmentPlan";
-import { PatientCheckup } from "../../6_shared/PatientCheckup";
 import { Diagnosis } from "../../6_shared/Diagnosis";
+import {PatientAddForm} from "@4_features/patient/RegisterAddForm";
 
 export const RouterComponent: FC = () => {
   return (
@@ -33,7 +32,6 @@ export const RouterComponent: FC = () => {
           {/* <Route path="schedule" element={<div>schedule</div>} /> */}
           <Route path="registry" element={<Registry />} />
           <Route path="admission" element={<Admission />} >
-            <Route path="patient-checkup" element={<PatientCheckup />} />
             <Route path="diagnosis" element={<Diagnosis />} />
             <Route path="treatment-plan" element={<TreatmentPlan />} />
           </Route>
@@ -44,7 +42,7 @@ export const RouterComponent: FC = () => {
             <Route path="medical-data" element={<MedicalData />} />
             <Route path="addresses" element={<PatientAddresses />} />
             <Route path="visit-history" element={<VisitHistory />} />
-            <Route path="additional-info" element={<AdditionalInfo />} />
+            <Route path="additional-info" element={<PatientAddForm/>} />
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />

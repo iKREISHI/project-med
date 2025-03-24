@@ -1,7 +1,7 @@
 import { FC} from "react";
 import { Box } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
-import { patientAddFormSx } from "./patientAddFormSx";
+import { patientAddFormSx } from "./patientAddFormSx.ts";
 import {usePatientFormStore} from "../../model/store.ts";
 
 export const PatientAddForm: FC = () => {

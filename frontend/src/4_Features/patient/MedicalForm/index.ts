@@ -1,1 +1,0 @@
-export { PatientMedicalForm } from './ui/PatientMedicalForm.tsx'

@@ -1,5 +1,5 @@
 import { SxProps, Theme } from '@mui/material/styles';
-import { globalsStyle } from '../../../../6_shared/styles/globalsStyle';
+import { globalsStyle } from '../../../../6_shared/styles/globalsStyle.ts';
 
 export const recordFormSx = {
     container: {

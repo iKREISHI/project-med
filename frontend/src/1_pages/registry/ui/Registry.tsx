@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Paper, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { CustomButton, InputForm } from '../../../../6_shared';
 import { ruRU } from '@mui/x-data-grid/locales';
 import { useNavigate } from 'react-router-dom';
-import { getAllPatients } from '../../../../5_entities/patient';
-import type { Patient } from '../../../../5_entities/patient';
+import {getAllPatients, Patient} from "@5_entities/patient";
+import {CustomButton} from "@6_shared/Button";
+import { InputForm } from "@6_shared/Input";
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
@@ -64,7 +64,6 @@ export const Registry: React.FC = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Поиск"
         />
-
         <CustomButton
           variant="contained"
           startIcon={<AddIcon />}

@@ -1,1 +1,0 @@
-export { PatientRegisterForm } from '../RegisterForm'

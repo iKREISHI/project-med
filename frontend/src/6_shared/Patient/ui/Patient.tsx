@@ -3,7 +3,7 @@ import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { PatientMenu } from "../../PatientMenu";
 import { patientSx } from "./patientSx";
-import { PatientRegisterForm } from "../../../4_features/patient/RegisterForm";
+import { PatientRegisterForm } from "@4_features/patient/RegisterForm/ui/PatientRegisterForm.tsx";
 
 export const Patient: FC = () => {
   const isMobile = useMediaQuery("(max-width: 600px)"); 

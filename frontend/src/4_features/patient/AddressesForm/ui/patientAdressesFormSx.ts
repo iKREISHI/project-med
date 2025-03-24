@@ -1,7 +1,7 @@
 import { SxProps, Theme } from '@mui/material/styles';
-import { globalsStyle } from '../../../../6_shared/styles/globalsStyle';
+import { globalsStyle } from '@6_shared/styles/globalsStyle';
 
-export const patientAddressesFormSx = {
+export const patientAdressesFormSx = {
   container: {
     display: 'flex',
     gap: (theme: Theme) => theme.spacing(2),

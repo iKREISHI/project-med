@@ -1,10 +1,10 @@
 import React from 'react';
 import { useMediaQuery, Theme, Box, useTheme } from "@mui/material";
-import { ChatMenu } from "../../../6_shared/ChatMenu";
+import { ChatMenu } from "@6_shared/ChatMenu";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChatPerson } from "../../../6_shared/ChatPerson";
-import { mockMessages } from "../../../6_shared/ChatPerson/ui/chatMocks";
-import { globalsStyleSx } from "../../../6_shared/styles/globalsStyleSx";
+import { ChatPerson } from "@6_shared/ChatPerson";
+import { mockMessages } from "@6_shared/ChatPerson/ui/chatMocks";
+import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
 import Grid from '@mui/material/Grid2';
 
 // станица чата 

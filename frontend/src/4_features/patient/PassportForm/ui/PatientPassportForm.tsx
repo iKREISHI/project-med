@@ -1,115 +1,64 @@
-import { FC, useState } from "react";
+import { FC} from "react";
 import { Box } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
-import { CustomButton } from "../../../../6_shared/Button";
-import { CustomSnackbar } from "../../../../6_shared/Snackbar";
-import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
-import Grid from '@mui/material/Grid2';
+import { patientPassportFormSx } from "./patientPassportFormSx";
+import {usePatientFormStore} from "../../model/store.ts";
 
 export const PatientPassportForm: FC = () => {
-  const [registrationAddress, setRegistrationAddress] = useState("");
-  const [passportSeries, setPassportSeries] = useState("");
-  const [passportNumber, setPassportNumber] = useState("");
-  const [issueDate, setIssueDate] = useState("");
-  const [issuingAuthority, setIssuingAuthority] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const {patient, setField} = usePatientFormStore();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Форма отправлена");
-    setSnackbarOpen(true); // Показываем уведомление об успешной отправке
-  };
-
-  // Скрываем уведомление
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
-
-  // Форматирование серии паспорта 
+  // Форматирование серии паспорта
   const formatPassportSeries = (value: string) => {
-    const cleaned = value.replace(/\D/g, "");
-    const limited = cleaned.slice(0, 4);
+    const cleaned = value.replace(/\D/g, ""); 
+    const limited = cleaned.slice(0, 4); 
     return limited;
   };
 
   // Форматирование номера паспорта 
   const formatPassportNumber = (value: string) => {
-    const cleaned = value.replace(/\D/g, "");
+    const cleaned = value.replace(/\D/g, ""); 
     const limited = cleaned.slice(0, 6);
     return limited;
   };
 
+  //Изменения серии паспорта
   const handlePassportSeriesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedValue = formatPassportSeries(e.target.value);
-    setPassportSeries(formattedValue);
+    setField('passport_series',formattedValue);
   };
 
+  //Изменение номера паспорта
   const handlePassportNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedValue = formatPassportNumber(e.target.value);
-    setPassportNumber(formattedValue);
+    setField('passport_number', formattedValue);
   };
 
   return (
     <Box>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 11, lg: 9 }}>
-            <Box>
-              <Box sx={globalsStyleSx.inputContainer2}>
-                <InputForm
-                  type="text"
-                  label="Серия"
-                  value={passportSeries}
-                  onChange={handlePassportSeriesChange}
-                  fullWidth
-                />
-                <InputForm
-                  type="text"
-                  label="Номер"
-                  value={passportNumber}
-                  onChange={handlePassportNumberChange}
-                  fullWidth
-                />
-              </Box>
-              <Box sx={globalsStyleSx.inputContainer1}>
-                <InputForm
-                  type="text"
-                  label="Прописка"
-                  value={registrationAddress}
-                  onChange={(e) => setRegistrationAddress(e.target.value)}
-                  fullWidth
-                />
-              </Box>
-              <Box sx={globalsStyleSx.inputContainer1}>
-                <InputForm
-                  type="date"
-                  label="Дата выдачи"
-                  value={issueDate}
-                  onChange={(e) => setIssueDate(e.target.value)}
-                  fullWidth
-                />
-              </Box>
-              <Box sx={globalsStyleSx.inputContainer1}>
-                <InputForm
-                  type="text"
-                  label="Выдавший орган"
-                  value={issuingAuthority}
-                  onChange={(e) => setIssuingAuthority(e.target.value)}
-                  fullWidth
-                />
-              </Box>
-            </Box>
-            <CustomButton type="submit" variant="contained">
-              Сохранить
-            </CustomButton>
-          </Grid>
-        </Grid>
+      <form>
+        <Box>
+          <Box sx={patientPassportFormSx.inputContainer}>
+            <InputForm
+              type="text"
+              label="Серия"
+              value={patient.passport_series || ''}
+              onChange={handlePassportSeriesChange}
+            />
+            <InputForm
+              type="text"
+              label="Номер"
+              value={patient.passport_number || ''}
+              onChange={handlePassportNumberChange}
+            />
+          </Box>
+          <InputForm
+            type="text"
+            label="Прописка"
+            value={patient.registration_address || ''}
+            onChange={(e) => setField('registration_address', e.target.value)}
+          />
+        </Box>
       </form>
-      <CustomSnackbar
-        open={snackbarOpen}
-        onClose={handleCloseSnackbar}
-        message="Данные успешно сохранены!"
-      />
     </Box>
   );
 };

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Toolbar, CssBaseline, Box, IconButton, useMediaQuery } from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
@@ -16,7 +15,6 @@ import { Header } from '../../../6_shared/Header';
 import { CustomDrawer } from '../../../6_shared/Drawer';
 import { Plane } from '../../../6_shared/Plane';
 import { Calendar } from '../../../6_shared/Calendar';
-import { InputSearch } from '../../../6_shared/Input';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 export function Main() {

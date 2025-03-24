@@ -5,7 +5,7 @@ import { CustomButton } from "../../../../6_shared/Button";
 import { CustomSnackbar } from "../../../../6_shared/Snackbar";
 import { CustomSelect } from "../../../../6_shared/Select";
 import { CustomAutocomplete } from "../../../../6_shared/Autocomplete";
-import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
+import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx.ts";
 import Grid from '@mui/material/Grid2';
 
 

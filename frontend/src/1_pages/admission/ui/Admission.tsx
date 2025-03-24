@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { admissionSx } from "./admissionSx";
 import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
-import { PatientMenu } from "../../../6_shared/PatientMenu";
+import { PatientMenu } from "@6_shared/PatientMenu";
 import { Outlet, useLocation } from "react-router-dom";
-import { AdmissionInfoForm } from "../../../4_features/admission/AdmissionInfoForm";
+import { AdmissionInfoForm } from "@4_features/admission/AdmissionInfoForm";
 
 export const Admission: FC = () => {
   const location = useLocation();

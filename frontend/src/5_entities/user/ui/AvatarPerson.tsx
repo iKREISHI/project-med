@@ -3,7 +3,7 @@ import { Logout } from '@mui/icons-material';
 import { Tooltip, IconButton, ListItemIcon, MenuItem, Menu, Avatar } from '@mui/material';
 import { avatarPersonSx } from './avatarPersonSx.ts';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../../../4_Features/auth/lib/useAuth.ts";
+import { useAuth } from "../../../4_features/auth/lib/useAuth.ts";
 
 
 interface AvatarPersonProps {

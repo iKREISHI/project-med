@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { InputForm } from "../../../../6_shared/Input";
-import { CustomButton } from "../../../../6_shared/Button";
-import { CustomSnackbar } from "../../../../6_shared/Snackbar";
-import { CustomSelect } from "../../../../6_shared/Select";
-import { CustomAutocomplete } from "../../../../6_shared/Autocomplete";
+import { InputForm } from "@6_shared/Input";
+import { CustomButton } from "@6_shared/Button";
+import { CustomSnackbar } from "@6_shared/Snackbar";
+import { CustomSelect } from "@6_shared/Select";
+import { CustomAutocomplete } from "@6_shared/Autocomplete";
 import Grid from '@mui/material/Grid2';
-import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
+import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx.ts";
 
 
 // Форма приема пациента

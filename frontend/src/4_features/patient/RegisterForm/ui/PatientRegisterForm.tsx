@@ -1,130 +1,80 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Box, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
+import { patientRegisterFormSx } from "./patientRegisterFormSx";
 import { CustomButton } from "../../../../6_shared/Button";
-import { CustomSnackbar } from "../../../../6_shared/Snackbar";
-import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx";
-import Grid from '@mui/material/Grid2';
+import { usePatientFormStore } from "../../model/store.ts";
+import { addNewPatient } from "../../../../5_entities/patient/api/addNewPatient.ts";
 
-
-// Форма регистрации пациента
 export const PatientRegisterForm: FC = () => {
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [patronymic, setPatronymic] = useState('');
-  const [bday, setBday] = useState('');
-  const [gender, setGender] = useState('');
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const { patient, setField, resetForm } = usePatientFormStore();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Форма отправлена");
-    setSnackbarOpen(true); // Показываем уведомление об успешной отправке
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // Предотвращаем перезагрузку страницы
+
+    try {
+      const newPatient = await addNewPatient(patient);
+      console.log("Пациент успешно добавлен:", newPatient);
+      resetForm(); // Очищаем форму после успешной регистрации
+    } catch (error) {
+      console.error("Ошибка при добавлении пациента:", error);
+    }
   };
 
-  // Скрываем уведомление
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
   return (
-    <Box >
+    <Box>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 11, lg: 8 }}>
-            <Box sx={globalsStyleSx.inputContainer}>
-              <Typography component="p">ФИО</Typography>
-              <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
-                <InputForm
-                  type="text"
-                  placeholder="Фамилия"
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
-                  required
-                  fullWidth
-                />
-                <InputForm
-                  type="text"
-                  placeholder="Имя"
-                  value={lastname}
-                  onChange={(e) => setLastname(e.target.value)}
-                  required
-                  fullWidth
-                />
-                <InputForm
-                  type="text"
-                  placeholder="Отчество"
-                  value={patronymic}
-                  onChange={(e) => setPatronymic(e.target.value)}
-                  fullWidth
-                />
-              </Box>
-            </Box>
-            <Box sx={globalsStyleSx.inputContainer}>
-              <Typography component="p">Дата рождения</Typography>
-              <InputForm
-                type="date"
-                value={bday}
-                onChange={(e) => setBday(e.target.value)}
-                required
-                fullWidth
-              />
-            </Box>
-            <Box sx={globalsStyleSx.inputContainer}>
-              <Typography component="p">Пол</Typography>
-              
-              <RadioGroup
-                row
-                name="gender"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                sx={globalsStyleSx.inputContainer}
-              >
+        <Box sx={patientRegisterFormSx.inputContainer}>
+          <Typography component="p">ФИО</Typography>
+          <InputForm
+            type="text"
+            placeholder="Фамилия*"
+            value={patient.last_name || ""}
+            onChange={(e) => setField("last_name", e.target.value)}
+            required
+          />
+          <InputForm
+            type="text"
+            placeholder="Имя*"
+            value={patient.first_name || ""}
+            onChange={(e) => setField("first_name", e.target.value)}
+            required
+          />
+          <InputForm
+            type="text"
+            placeholder="Отчество"
+            value={patient.patronymic || ""}
+            onChange={(e) => setField("patronymic", e.target.value)}
+          />
+        </Box>
 
+        <Box sx={patientRegisterFormSx.inputContainer}>
+          <Typography component="p">Дата рождения*</Typography>
+          <InputForm
+            type="date"
+            value={patient.date_of_birth || ""}
+            onChange={(e) => setField("date_of_birth", e.target.value)}
+            required
+          />
+        </Box>
 
-                <FormControlLabel
-                  value="male"
-                  control={<Radio disableRipple />}
-                  label="Мужской"
-                  sx={{
-                    '& .css-1bz1rr0-MuiSvgIcon-root': {
-                      zIndex: '1',
-                    },
-                    '& .css-z8nmqa-MuiSvgIcon-root': {
-                      zIndex: '4',
-                    }
-                  }}
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio disableRipple />}
-                  label="Женский"
-                  sx={{
-                    '& .css-1bz1rr0-MuiSvgIcon-root': {
-                      zIndex: '1',
-                    },
-                    '& .css-z8nmqa-MuiSvgIcon-root': {
-                      zIndex: '3',
-                    },
-                  }}
+        <RadioGroup
+          row
+          name="gender"
+          value={patient.gender}
+          onChange={(e) => setField("gender", e.target.value)}
+          sx={patientRegisterFormSx.inputContainer}
+        >
+          <Typography component="p">Пол</Typography>
+          <FormControlLabel value="M" control={<Radio disableRipple />} label="Мужской" />
+          <FormControlLabel value="F" control={<Radio disableRipple />} label="Женский" />
+          <FormControlLabel value="U" control={<Radio disableRipple />} label="Не указан" />
+        </RadioGroup>
 
-                />
-              </RadioGroup>
-            </Box>
-
-            <CustomButton
-              type="submit"
-              variant="contained"
-            >
-              Зарегистрировать
-            </CustomButton>
-          </Grid>
-        </Grid>
+        <CustomButton type="submit" variant="contained">
+          Зарегистрировать
+        </CustomButton>
       </form>
-      <CustomSnackbar
-        open={snackbarOpen}
-        onClose={handleCloseSnackbar}
-        message="Пользователь зарегистрирован!"
-      />
     </Box>
   );
 };
