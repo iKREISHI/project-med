@@ -30,6 +30,7 @@ export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeh
         }}
         sx={{
           height: "40px",
+          borderRadius: (theme: Theme) => theme.shape.borderRadius,
           "& .MuiSelect-select": {
             padding: 0,
             zIndex: 1,
@@ -38,8 +39,10 @@ export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeh
             height: "0px !important",
             display: "flex",
             alignItems: "center",
-            ml: 1,
+            ml: 2,
             mr: 1,
+           
+
             "&:focus": {
               backgroundColor: "transparent",
             },
@@ -52,10 +55,12 @@ export const CustomSelect: FC<SelectProps> = ({ value, onChange, options, placeh
           },
  
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor:(theme: Theme) => theme.palette.primary.main, 
+            borderColor: (theme: Theme) => theme.palette.grey[500],
+            
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderWidth: 1
+            borderWidth: 1,
+            borderColor: (theme: Theme) => theme.palette.grey[500],
           },
         }}
       >

@@ -5,7 +5,8 @@ export const globalsStyleSx = {
     backgroundColor: (theme: Theme) => theme.palette.background.paper,
     borderRadius: (theme: Theme) => theme.shape.borderRadius,
     padding: (theme: Theme) => theme.spacing(0),
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+    border: (theme: Theme) => `1px solid ${theme.palette.grey[400]}`,
+    // boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
   } as SxProps<Theme>,
   inputContainer: {
     display: "grid",

@@ -16,6 +16,7 @@ export const Patient: FC = () => {
     { name: "Дополнительная информация", path: "additional-info" },
   ];
   
+  
   return (
     <Box sx={patientSx.containerMain}>
 

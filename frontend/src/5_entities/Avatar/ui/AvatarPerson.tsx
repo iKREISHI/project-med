@@ -3,42 +3,14 @@ import { Logout } from '@mui/icons-material';
 import { Tooltip, IconButton, ListItemIcon, MenuItem, Menu, Avatar } from '@mui/material';
 import { avatarPersonSx } from './avatarPersonSx';
 import { useNavigate } from 'react-router-dom';
+import avatarDefault from '@0_app/assets/images/speaker-placeholder.png';
 
 interface AvatarPersonProps {
   name: string;
-  withMenu?: boolean; // Новый пропс для управления отображением меню
+  withMenu?: boolean;
 }
 
-// Функция для генерации цвета на основе строки
-function stringToColor(string: string) {
-  let hash = 0;
-  let i;
 
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = '#';
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  /* eslint-enable no-bitwise */
-
-  return color;
-}
-
-// Функция для создания аватара с цветом на основе имени
-function stringAvatar(name: string) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1] ? name.split(' ')[1][0] : ''}`,
-  };
-}
 
 // Аватар профиля пользователя
 const AvatarPerson: React.FC<AvatarPersonProps> = ({ name, withMenu = true }) => {
@@ -64,7 +36,6 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name, withMenu = true }) =>
   return (
     <React.Fragment>
       <Tooltip title={name}>
-        {/* Иконка профиля */}
         <IconButton
           disableRipple
           onClick={handleClick}
@@ -73,11 +44,10 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name, withMenu = true }) =>
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar {...stringAvatar(name)} />
+          <Avatar src={avatarDefault} />
         </IconButton>
       </Tooltip>
 
-      {/* Меню */}
       {withMenu && (
         <Menu
           anchorEl={anchorEl}

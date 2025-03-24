@@ -36,9 +36,12 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
               height: "40px",
               display: "flex",
               alignItems: "center",
+              borderRadius: (theme: Theme) => theme.shape.borderRadius,
+
             },
             "& .MuiAutocomplete-input": {
               padding: 0,
+              pl: 1
             },
             "& .css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input": {
               zIndex: 1,
@@ -48,12 +51,14 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
             },
             "& .MuiOutlinedInput-root .MuiAutocomplete-input": {
               padding: 0,
+              pl: 1
             },
             "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-              borderColor: (theme: Theme) => theme.palette.primary.main,
+              borderColor: (theme: Theme) => theme.palette.grey[500],
             },
-            // Стили для фокуса
-            "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+            // Стили для бордера при фокусе
+            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: (theme: Theme) => theme.palette.grey[500], 
               borderWidth: "1px", 
             },
           }}

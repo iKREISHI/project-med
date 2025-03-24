@@ -31,7 +31,7 @@ export const headerSx = {
   userInfoBox: {
     display: 'flex',
     alignItems: 'center',
-    gap: (theme: Theme) => theme.spacing(1),
+    gap: (theme: Theme) => theme.spacing(0),
   } as SxProps<Theme>,
   userTextContainer: {
     display: 'flex',

@@ -16,7 +16,7 @@ interface DaySchedule {
 
 interface ScheduleProps {
     schedule: DaySchedule[];
-}
+} 
 
 export const Schedule: React.FC<ScheduleProps> = ({ schedule }) => {
     const navigate = useNavigate();

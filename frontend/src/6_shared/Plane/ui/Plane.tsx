@@ -26,11 +26,11 @@ const Plane: React.FC<PlaneProps> = ({ tasks }) => {
         <Link component="button" variant="body2" sx={planeSx.addLink}>
           <Box sx={planeSx.linkContent}>
             <Add sx={planeSx.addIcon} />
-            <Typography variant="body2">Добавить</Typography>
+            <Typography variant="body1">Добавить</Typography>
           </Box>
         </Link>
       </Box>
-      <Divider sx={{ backgroundColor: theme.palette.primary.main }} />
+      <Divider sx={{ backgroundColor: theme.palette.grey[900] }} />
 
       {tasks.map((task, index) => (
         <Box key={index} sx={planeSx.taskItem}>

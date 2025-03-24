@@ -1,8 +1,7 @@
 import React from 'react';
-import { Box, InputAdornment, IconButton, InputBase, useTheme } from '@mui/material';
+import { Box, InputAdornment, IconButton, InputBase, useTheme, SxProps, Theme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { inputSearchSx } from './inputSearchSx.ts';
-import { globalsStyle } from '../../../styles/globalsStyle.ts';
 
 interface InputProps {
   type: string;
@@ -15,6 +14,8 @@ interface InputProps {
   isDarkText?: boolean;
   bgcolorFlag?: boolean;
   borderColor?: string;
+  colorPlaceholder?: string;
+  sx?: SxProps<Theme>;
 }
 
 const InputSearch: React.FC<InputProps> = ({
@@ -24,14 +25,20 @@ const InputSearch: React.FC<InputProps> = ({
   fullWidth,
   placeholder,
   onSearch,
-  shadowColor = 'rgba(0, 0, 0, 0.1)',
   isDarkText = false,
   bgcolorFlag = false,
-  borderColor,
+  colorPlaceholder,
+  sx = {},
 }) => {
   const theme = useTheme();
 
-  const finalBorderColor = borderColor || theme.palette.grey[500];
+
+  // Определяем цвет плейсхолдера
+  const placeholderColor = colorPlaceholder
+    ? colorPlaceholder 
+    : isDarkText
+    ? theme.palette.grey[400] 
+    : theme.palette.grey[500];
 
   return (
     <Box sx={inputSearchSx.container}>
@@ -41,7 +48,10 @@ const InputSearch: React.FC<InputProps> = ({
         onChange={onChange}
         fullWidth={fullWidth}
         placeholder={placeholder}
-        sx={inputSearchSx.input(shadowColor, isDarkText, bgcolorFlag, finalBorderColor)}
+        sx={{
+          ...inputSearchSx.input(isDarkText, bgcolorFlag),
+          ...sx,
+        } as SxProps<Theme>}
         title={value}
         endAdornment={
           <InputAdornment position="end">
@@ -51,15 +61,16 @@ const InputSearch: React.FC<InputProps> = ({
               aria-label="Найти"
               disableRipple
             >
-              <SearchIcon fontSize="small" />
+              <SearchIcon sx={{fontSize: '26px'}} />
             </IconButton>
           </InputAdornment>
         }
         inputProps={{
           sx: {
             '&::placeholder': {
-              color: isDarkText ? theme.palette.grey[700] : globalsStyle.colors.grey300,
+              color: placeholderColor,
               opacity: 1,
+              fontSize: '1rem'
             },
           },
         }}

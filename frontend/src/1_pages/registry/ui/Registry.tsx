@@ -5,9 +5,9 @@ import { Box, Paper, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { ruRU } from '@mui/x-data-grid/locales';
 import { useNavigate } from 'react-router-dom';
-import {getAllPatients, Patient} from "@5_entities/patient";
-import {CustomButton} from "@6_shared/Button";
-import { InputForm } from "@6_shared/Input";
+import { getAllPatients, Patient } from "@5_entities/patient";
+import { CustomButton } from "@6_shared/Button";
+import { InputSearch } from "@6_shared/Input";
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
@@ -22,6 +22,7 @@ export const Registry: React.FC = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const isDarkText = !(theme.palette.mode === "dark");
 
   useEffect(() => {
     getAllPatients({ page: 1, page_size: 50 })
@@ -47,7 +48,6 @@ export const Registry: React.FC = () => {
   return (
     <Box sx={{
       width: '100%',
-      p: theme.spacing(2),
       boxSizing: 'border-box'
     }}>
       <Box sx={{
@@ -56,13 +56,15 @@ export const Registry: React.FC = () => {
         flexDirection: 'column',
         gap: theme.spacing(2)
       }}>
-        <InputForm
-          label=""
+
+        <InputSearch
           type="text"
-          fullWidth
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
           placeholder="Поиск"
+          isDarkText={isDarkText}
+          bgcolorFlag={true}
         />
         <CustomButton
           variant="contained"
@@ -75,7 +77,11 @@ export const Registry: React.FC = () => {
       </Box>
 
       <Paper sx={{
-        width: '100%',
+        
+          width: {
+            xs: `91vw`,
+            sm: '100%'
+          },
         overflow: 'hidden',
         boxShadow: theme.shadows[3]
       }}>
@@ -94,10 +100,14 @@ export const Registry: React.FC = () => {
               whiteSpace: 'normal',
               lineHeight: '1.5',
               padding: theme.spacing(1),
+              
             },
             '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: theme.palette.grey[100],
+              backgroundColor: 'transparent',
             },
+            '& .css-ok32b7-MuiDataGrid-overlay': {
+              bgcolor: 'transparent'
+            }
           }}
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         />

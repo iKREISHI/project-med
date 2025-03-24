@@ -10,7 +10,7 @@ export const Admission: FC = () => {
   const { patientName } = location.state || {};
   const isMobile = useMediaQuery("(max-width: 600px)");
   const menuItems = [
-    { name: "Осмотр", path: "patient-checkup" },
+    // { name: "Осмотр", path: "patient-checkup" },
     { name: "Диагноз", path: "diagnosis" },
     { name: "План лечения", path: "treatment-plan" },
 

@@ -1,5 +1,4 @@
 import { SxProps, Theme } from '@mui/material/styles';
-import { globalsStyle } from '../../styles/globalsStyle';
 
 export const chatMenuSx = {
   sideContainer: {
@@ -17,9 +16,9 @@ export const chatMenuSx = {
   },
   listButtonHover: {
     transition: 'all 0.2s ease-in-out',
-    '&:hover': {
-      backgroundColor: globalsStyle.colors.blue,
-      color: (theme: Theme) => theme.palette.common.white,
-    },
+    // '&:hover': {
+    //   backgroundColor: (theme: Theme) => theme.palette.grey[400],
+    //   color: (theme: Theme) => theme.palette.common.white,
+    // },
   } as SxProps<Theme>,
 };

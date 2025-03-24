@@ -1,15 +1,16 @@
 import { createTheme } from '@mui/material/styles';
-import { globalsStyle } from "../../../../6_shared/styles/globalsStyle"
+import { globalsStyle } from "@6_shared/styles/globalsStyle"
+import { grey } from '@mui/material/colors';
 
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      default: '#2b2b2b', //#2b2b2b 202020
+    default: '#2b2b2b',
       paper: '#333333',  
     },
     text: {
-      primary: '#ffffff',
+      primary: globalsStyle.colors.white,
       secondary: '#dcdcdc', 
     },
     primary: {
@@ -19,15 +20,15 @@ export const darkTheme = createTheme({
       main: '#0c6c7c', 
     },
     grey: {
-      100: globalsStyle.colors.grey900,
-      200: globalsStyle.colors.grey800,
-      300: globalsStyle.colors.grey700,
-      400: globalsStyle.colors.grey600,
-      500: globalsStyle.colors.grey500,
-      600: globalsStyle.colors.grey400,
-      700: globalsStyle.colors.grey300,
-      800: globalsStyle.colors.grey200,
-      900: globalsStyle.colors.grey100,
+      100: grey[900],
+      200: grey[800],
+      300: grey[700],
+      400: grey[600],
+      500: grey[500],
+      600: grey[400],
+      700: grey[300],
+      800: grey[200],
+      900: grey[100],
 
     }, 
   },

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Divider, IconButton, Paper, Theme, Typography, useMediaQuery, useTheme, } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { mockMessages } from "./chatMocks.ts";
-import { globalsStyle } from "../../../6_shared/styles/globalsStyle.ts";
+import { globalsStyle } from "@6_shared/styles/globalsStyle.ts";
 import { InputForm } from "../../Input/index.ts";
 import { CustomButton } from "../../../6_shared/Button";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -136,7 +136,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
                 sx={{
                   display: "block",
                   textAlign: "left",
-                  fontWeight: "bold",
+                  fontWeight: "600",
                 }}
               >
                 {message.isMe ? "Вы" : message?.author || chat?.name}
@@ -188,7 +188,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
             sx={{
               display: "flex",
               flexWrap: "wrap",
-              gap: 1,
+              gap: 0,
               mb: 2,
               p: 1,
               border: `1px solid ${theme.palette.grey[400]}`,
@@ -228,7 +228,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
 
         {/* Поле ввода и кнопки */}
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ flexGrow: 1, mr: 1 }}>
+          <Box sx={{ flexGrow: 1}}>
             <InputForm
               type="text"
               value={message}

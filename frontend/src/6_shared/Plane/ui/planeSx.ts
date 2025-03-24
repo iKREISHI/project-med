@@ -18,7 +18,6 @@ export const planeSx = {
   title: {
     fontSize: (theme: Theme) => theme.typography.h6.fontSize,
     fontWeight: '500',
-    color: (theme: Theme) => theme.palette.primary.main,
   } as SxProps<Theme>,
   taskItem: {
     display: 'flex',
@@ -33,10 +32,10 @@ export const planeSx = {
     fontSize: (theme: Theme) => theme.typography.body1.fontSize,
   } as SxProps<Theme>,
   dateText: {
-    color: (theme: Theme) => theme.palette.text.secondary,
+    color: (theme: Theme) => theme.palette.grey[500],
   } as SxProps<Theme>,
   addLink: {
-    color: (theme: Theme) => theme.palette.primary.main,
+    color: (theme: Theme) => theme.palette.grey[700],
     textDecoration: 'none',
     '&:hover': {
       color: (theme: Theme) => theme.palette.primary.dark,
@@ -52,6 +51,6 @@ export const planeSx = {
     fontSize: '20px',
   } as SxProps<Theme>,
   deleteIcon: {
-    color: (theme: Theme) => theme.palette.text.secondary,
+    color: (theme: Theme) => theme.palette.grey[500],
   } as SxProps<Theme>,
 };

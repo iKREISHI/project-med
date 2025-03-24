@@ -5,19 +5,12 @@ import { globalsStyle } from "../../styles/globalsStyle.ts";
 import { patientMenuSx } from "./patientMenuSx.ts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+interface PatientMenuProps {
+  menuItems: { name: string; path: string }[]; 
 
+}
 // Отображение меню на странице пациента
-export const PatientMenu: FC = () => {
-  
-  // Пункты меню
-  const menuItems = [
-    { name: "Контактная информация", path: "info" },
-    { name: "Паспортные данные", path: "passport" },
-    { name: "Медицинские данные", path: "medical-data" },
-    { name: "Адреса", path: "addresses" },
-    { name: "История посещения", path: "visit-history" },
-    { name: "Дополнительная информация", path: "additional-info" },
-  ];
+export const PatientMenu: FC<PatientMenuProps> = ({menuItems}) => {
 
   const theme = useTheme();
   const location = useLocation();
@@ -27,7 +20,7 @@ export const PatientMenu: FC = () => {
     <Box
       sx={{
         width: globalsStyle.widthDrawer,
-        bgcolor: theme.palette.background.default,
+        bgcolor: theme.palette.grey[100],
       }}
     >
       {isMobile ? (
@@ -47,12 +40,16 @@ export const PatientMenu: FC = () => {
           <AccordionDetails>
             <List>
               {menuItems.map((item, index) => {
+                const isSelected = location.pathname.endsWith(`/${item.path}`);
                 const buttonStyles = {
-                  ...patientMenuSx.listButton,
-                  ...patientMenuSx.listButtonHover,
-                  ...(location.pathname.endsWith(`/${item.path}`) && {
-                    backgroundColor: globalsStyle.colors.blue,
-                    color: theme.palette.common.white,
+                    ...patientMenuSx.listButton,
+                    ...patientMenuSx.listButtonHover,
+                    ...(isSelected && {
+                      boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)',
+                      '&:active': {
+                        color: theme.palette.common.black
+                      }
+    
                   }),
                 } as SxProps<Theme>;
 
@@ -63,6 +60,7 @@ export const PatientMenu: FC = () => {
                       to={item.path}
                       disableRipple
                       sx={buttonStyles}
+                      selected={isSelected}
                     >
                       <ListItemText primary={item.name} />
                     </ListItemButton>
@@ -74,14 +72,18 @@ export const PatientMenu: FC = () => {
         </Accordion>
       ) : (
         // Десктопная версия
-        <List>
+        <List sx={{overflow: 'hidden'}}>
           {menuItems.map((item, index) => {
+            const isSelected = location.pathname.endsWith(`/${item.path}`);
             const buttonStyles = {
-              ...patientMenuSx.listButton,
-              ...patientMenuSx.listButtonHover,
-              ...(location.pathname.endsWith(`/${item.path}`) && {
-                backgroundColor: globalsStyle.colors.blue,
-                color: theme.palette.common.white,
+                ...patientMenuSx.listButton,
+                ...patientMenuSx.listButtonHover,
+                ...(isSelected && {
+                  boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)',
+                  '&:active': {
+                    color: theme.palette.common.black
+                  }
+
               }),
             } as SxProps<Theme>;
 
@@ -92,6 +94,7 @@ export const PatientMenu: FC = () => {
                   to={item.path}
                   disableRipple
                   sx={buttonStyles}
+                  selected={isSelected}
                 >
                   <ListItemText primary={item.name} />
                 </ListItemButton>

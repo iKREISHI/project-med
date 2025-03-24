@@ -10,7 +10,7 @@ export const customDrawerSx = {
     },
     alignItems: 'center',
     width: '100%',
-    p: 0.5,
+    p: 0,
     mt: 2
   },
   sideContainer: {
@@ -18,7 +18,6 @@ export const customDrawerSx = {
     alignItems: 'center',
     justifyContent: 'start',
     flexDirection: 'column',
-    backgroundColor: (theme: Theme) => theme.palette.primary.main,
     height: '100vh',
   } as SxProps<Theme>,
   linkContainer: {
@@ -34,16 +33,14 @@ export const customDrawerSx = {
     flexDirection: 'column',
   },
   listButton: {
-    paddingLeft: (theme: Theme) => theme.spacing(3),
+    paddingLeft: (theme: Theme) => theme.spacing(2),
     margin: (theme: Theme) => theme.spacing(0.2),
     borderRadius: (theme: Theme) => theme.shape.borderRadius,
-    color: (theme: Theme) => theme.palette.common.white,
   },
   listButtonHover: {
     transition: 'all 0.2s ease-in-out',
     '&:hover': {
-      backgroundColor: globalsStyle.colors.blueDark,
-      color: (theme: Theme) => theme.palette.common.white,
+      backgroundColor: (theme: Theme) => theme.palette.grey[300],
     },
   } as SxProps<Theme>,
   drawerPaper: {

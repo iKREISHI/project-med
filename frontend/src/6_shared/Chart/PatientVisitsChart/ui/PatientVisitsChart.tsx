@@ -16,12 +16,15 @@ export default function PatientVisitsChart() {
 
   useEffect(() => {
     if (containerRef.current) {
-      setChartWidth(containerRef.current.offsetWidth);
+      setChartWidth(containerRef.current.offsetWidth - 20);
+
+      // const calculatedWidth = containerRef.current.offsetWidth - 20;
+      //   setChartWidth(Math.max(calculatedWidth, 300)); // Минимальная ширина 300px
     }
   }, []);
 
   return (
-    <Box ref={containerRef} style={{ width: '100%' }} sx={globalsStyleSx.container}>
+    <Box ref={containerRef} style={{ width: '100%'}} sx={{...globalsStyleSx.container, p: 1}}>
       <LineChart
         xAxis={[
           {

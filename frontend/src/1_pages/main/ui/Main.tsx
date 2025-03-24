@@ -55,27 +55,11 @@ export function Main() {
 
   const currentMenuItem = listItems.find((item) => item.path === `/${location.pathname.split('/')[1]}`) || listItems[0];
 
-  // Поле поиска
-  // const searchInput = (
-  //   <InputSearch
-  //     type="text"
-  //     value={search}
-  //     onChange={(e) => setSearch(e.target.value)}
-  //     fullWidth
-  //     placeholder="Введите запрос"
-  //     onSearch={handleSearch}
-  //     isDarkText={isDarkText}
-  //     // bgcolorFlag={true}
-  //   />
-  // );
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Header
         handleDrawerToggle={handleDrawerToggle}
-        title={currentMenuItem.name}
-        subtitle={'Начальная страница с дашбордом'}
         user={{ name: 'Петр Петров', surname: 'Иванов' }}
         handleSearch={handleSearch}
       />
@@ -110,8 +94,7 @@ export function Main() {
             disableRipple
             onClick={toggleRightMenu}
             sx={{
-              backgroundColor: theme.palette.grey[400],
-              boxShadow: '0 0 10px rgb(0, 0, 0, 0.1)',
+              backgroundColor: theme.palette.background.paper,
               borderRadius: '10px 0 0 10px',
               
             }}
@@ -120,17 +103,9 @@ export function Main() {
             <MenuOpenIcon sx={{transform: isRightMenuVisible ? 'rotate(180deg)' : 'rotate(0deg)'}} />
           </IconButton>
         </Box>
-        <Box sx={{ m: 2, mt: 2 }}>
-          {/* Поле поиска для мобильной версии */}
-          {/* <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {isMobile && (
-              <Box sx={{ flexGrow: 1, mb: 2 }}>
-                {searchInput}
-              </Box>
-            )}
-          </Box> */}
+        <Box sx={{ m: {lg: 5, xs: 2}, mt: 2 }}>
 
-          <Grid container spacing={2}>
+          <Grid container spacing={4}>
             {/* Основной контент */}
             <Grid size={{ xs: 12, lg: isRightMenuVisible ? 9 : 12, md: 12 }}>
               <Box>
@@ -141,7 +116,7 @@ export function Main() {
             {/* Правое меню */}
             {isRightMenuVisible && (
               <Grid size={{ xs: 12, lg: 3, md: 12 }} sx={{ ml: 'auto' }}>
-                <Box sx={{ flexGrow: 1, mb: 2, ml: 'auto' }}>
+                <Box sx={{ flexGrow: 1, mb: 4, ml: 'auto' }}>
                   <Plane tasks={tasks} />
                 </Box>
                 <Box sx={{ flexGrow: 1, ml: 'auto', display: { xs: "none", md: "block" } }}>

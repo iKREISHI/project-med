@@ -23,4 +23,12 @@ export const patientRegisterFormSx = {
     alignItems: 'center',
      gap: '10px'
   } as SxProps<Theme>,
+  radioCheck: {
+      '& .css-1bz1rr0-MuiSvgIcon-root': {
+        zIndex: '1',
+      },
+      '& .css-z8nmqa-MuiSvgIcon-root': {
+        zIndex: '4',
+      }
+  } as SxProps<Theme>
 };

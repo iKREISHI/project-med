@@ -27,6 +27,8 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
     const navigate = useNavigate()
     const [search, setSearch] = useState('');
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const isDarkText = !(theme.palette.mode === "dark");
+
 
     const drawer = (
         <Box sx={customDrawerSx.sideContainer}>
@@ -46,22 +48,22 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                             <img
                                 src={logo}
                                 alt="Логотип"
-                                style={{ width: '60px' }}
+                                style={{ width: '44px' }}
                             />
                             {/* Текст */}
-                            <Typography component="p" sx={{ fontSize: '1rem', color: 'common.white' }}>
-                                медvед код
+                            <Typography component="p" sx={{ fontSize: theme.typography.h2, fontWeight: '700' }}>
+                                Медvед код
                             </Typography>
                         </Box>
                         <IconButton disableRipple onClick={handleDrawerToggle} sx={{ display: { xs: 'block', sm: 'none' } }}>
                             <CloseIcon sx={{ color: theme.palette.common.white }} />
                         </IconButton>
-                        
+
                     </Box>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
                         {isMobile && (
-                            <Box sx={{ flexGrow: 1, mt: 1, mb: 2}}>
+                            <Box sx={{ flexGrow: 1, mt: 2, mb: 1 }}>
                                 <InputSearch
                                     type="text"
                                     value={search}
@@ -69,20 +71,14 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                                     fullWidth
                                     placeholder="Введите запрос"
                                     onSearch={handleSearch}
-                                    borderColor="#fff"
-                                    isDarkText={false}
-                                    shadowColor="#fff"
+                                    isDarkText={isDarkText}
                                 />
                             </Box>
                         )}
                     </Box>
 
                 </Toolbar>
-                {/* <Typography component="p" sx={{ fontSize: theme.typography.body2.fontSize, color: theme.palette.common.white, p: 1 }}>
-                    Меню
-                </Typography> */}
-                {/* <Divider sx={{ backgroundColor: theme.palette.common.white, mt: 1}} /> */}
-                <List sx={{ mt: { md: 2 } }}>
+                <List sx={{ mt: { md: 6 } }}>
                     {listItems.map((item, index) => (
                         <ListItem key={index} disablePadding>
                             <ListItemButton
@@ -93,13 +89,18 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                                     ...customDrawerSx.listButton,
                                     ...customDrawerSx.listButtonHover,
                                     ...(`/${location.pathname.split('/')[1]}` === item.path && {
-                                        backgroundColor: globalsStyle.colors.blueDark,
-                                        color: theme.palette.common.white,
+                                        backgroundColor: theme.palette.grey[300],
                                     }),
                                 } as SxProps<Theme>}
                             >
-                                {item.icon && <ListItemIcon sx={{ color: 'inherit' }}>{item.icon}</ListItemIcon>}
-                                <ListItemText primary={item.name} />
+                                {item.icon && <ListItemIcon sx={{ color: 'inherit', width: '18.76px' }}>{item.icon}</ListItemIcon>}
+                                <ListItemText
+                                    primary={
+                                        <Typography variant="h6">
+                                            {item.name}
+                                        </Typography>
+                                    }
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}

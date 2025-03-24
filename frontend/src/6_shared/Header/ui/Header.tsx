@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, Toolbar, AppBar, Switch, useTheme } from '@mui/material';
 import { headerSx } from './headerSx';
-import { AvatarPerson } from '../../../5_entities/Avatar';
-import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
+import { AvatarPerson } from '@5_entities/Avatar';
+import { globalsStyle } from '@6_shared/styles/globalsStyle';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { useThemeContext } from '../../../6_shared/Header/ThemeContext';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useThemeContext } from '@6_shared/Header/ThemeContext';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { InputSearch } from '../../Input';
+import MicNoneOutlinedIcon from '@mui/icons-material/MicNoneOutlined';
 
 interface User {
   name: string;
@@ -19,14 +20,11 @@ interface HeaderProps {
   handleDrawerToggle: () => void;
   handleSearch: () => void;
   user: User;
-  title: string;
-  subtitle: string;
   users?: User[];
-  searchInput?: React.ReactNode;
 
 }
 
-const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, user, searchInput, handleSearch }) => {
+const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { toggleTheme, mode } = useThemeContext();
   const theme = useTheme();
@@ -83,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
   const appBarStyles = {
     ...headerSx.appBar,
     width: { sm: `calc(100% - ${globalsStyle.widthDrawer})` },
-    backgroundColor: isScrolled ? theme.palette.background.default : 'transparent',
+    backgroundColor: isScrolled ? theme.palette.background.paper : 'transparent',
     boxShadow: isScrolled ? '0 0 3px rgba(0, 0, 0, 0.1)' : '0',
   };
 
@@ -102,40 +100,16 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
         <Box sx={headerSx.container}>
           <Box sx={{
             display: 'flex',
-            // justifyContent: 'center',
             alignItems: 'center',
             flexGrow: 1,
           }}>
-            {/* <Typography
-              noWrap
-              component="h1"
-              sx={{
-                fontSize: {
-                  lg: theme.typography.h4.fontSize,
-                  xs: theme.typography.body1.fontSize,
-                },
-                color: theme.palette.text.primary,
-              }}
-            >
-              {title}
-            </Typography>
-            <Typography
-              noWrap
-              component="p"
-              sx={{
-                fontSize: theme.typography.body2.fontSize,
-                display: { xs: 'none', sm: 'flex' },
-                color: theme.palette.text.primary,
-              }}
-            >
-              {subtitle}
-            </Typography> */}
-
             <Box
               sx={{
                 display: { xs: 'none', md: 'flex' },
                 width: { lg: '600px', sm: '100%' },
                 margin: '0 auto',
+                alignItems: 'center', 
+                gap: 1, 
               }}
             >
               <InputSearch
@@ -146,41 +120,45 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, title, subtitle, us
                 placeholder="Введите запрос"
                 onSearch={handleSearch}
                 isDarkText={isDarkText}
+                bgcolorFlag={true}
               />
+              {/* микрофон */}
+              <IconButton
+                aria-label="микрофон"
+                disableRipple
+                sx={{
+                  color: isDarkText ? theme.palette.grey[900] : theme.palette.common.white,
+                  border: `1px solid ${theme.palette.grey[400]}`,
+                  backgroundColor: theme.palette.background.paper,
+                  borderRadius: '50%'
+                }}
+              >
+                <MicNoneOutlinedIcon sx={{ fontSize: '26px' }} />
+              </IconButton>
             </Box>
           </Box>
 
 
           <Box sx={headerSx.userInfoBox}>
             <Box sx={headerSx.userTextContainer}>
-              <Switch checked={mode === 'dark'} onChange={toggleTheme} color="primary" disableRipple />
+              <Switch checked={mode === 'dark'} onChange={toggleTheme} color="secondary" disableRipple />
               {mode === 'dark' ? (
-                <LightModeIcon sx={{ color: theme.palette.primary.main }} /> // Солнышко
+                <LightModeIcon sx={{ color: theme.palette.grey[900] }} /> // Солнышко
               ) : (
-                <ModeNightIcon sx={{ color: theme.palette.primary.main }} /> // Луна 
+                <ModeNightIcon sx={{ color: theme.palette.grey[900] }} /> // Луна 
               )}
             </Box>
             {/* Кнопка для слабовидящих */}
-            {/* <img
-              id="specialButton"
-              src="https://lidrekon.ru/images/special.png"
-              alt="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
-              title="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
-              style={{
-                cursor: 'pointer',
-                filter: theme.palette.mode === 'dark' ? 'invert(100%)' : 'none',
-              }}
-            /> */}
             <IconButton
               id="specialButton"
               aria-label="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
               title="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
               disableRipple
             >
-              <RemoveRedEyeIcon
+              <VisibilityOutlinedIcon
                 sx={{
-                  color: theme.palette.primary.main,
-                  fontSize: '2rem',
+                  color: theme.palette.grey[900],
+                  fontSize: '1.5em',
                   p: 0
                 }}
               />

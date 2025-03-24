@@ -1,22 +1,18 @@
 import { SxProps, Theme } from '@mui/material/styles';
 
 export const inputSearchSx = {
-  input: (shadowColor: string, isDarkText?: boolean, bgcolorFlag?: boolean, borderColor?: string) => ({
+  input: (isDarkText?: boolean, bgcolorFlag?: boolean, ) => ({
     backgroundColor: (theme: Theme) => bgcolorFlag ? theme.palette.background.paper : 'transparent',
     padding: 0.7,
-    pl: 1.5,
-    // m: 1,
+    pl: 2,
     width: '100%',
     color: (theme: Theme) =>
       isDarkText ? theme.palette.common.black : theme.palette.common.white,
     borderRadius: (theme: Theme) => theme.shape.borderRadius,
 
-    // boxShadow: `0 0 4px ${shadowColor}`,
-    border: (theme: Theme) => `1px solid ${borderColor}`,
-    // border: (theme: Theme) => 
-    //   isDarkText ? `1px solid ${theme.palette.grey[500]}` : `1px solid ${theme.palette.common.white}`,
+    border: (theme: Theme) => `1px solid ${theme.palette.grey[400]}`,
     "&:hover:not(.Mui-focused):not(.Mui-disabled)": {
-      borderColor: (theme: Theme) => theme.palette.primary.main,
+      borderColor: (theme: Theme) => theme.palette.grey[500],
     },
     '&::placeholder': {
       color: (theme: Theme) =>
@@ -24,8 +20,7 @@ export const inputSearchSx = {
       opacity: 1,
     },
     "&.Mui-focused": {
-      borderColor: (theme: Theme) => theme.palette.primary.main,
-      // borderWidth: '2px'
+      borderColor: (theme: Theme) => theme.palette.grey[500],
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
@@ -58,7 +53,7 @@ export const inputSearchSx = {
     height: '100%',
     pr: 1,
     color: (theme: Theme) =>
-      isDarkText ? theme.palette.grey[700] : theme.palette.common.white,
+      isDarkText ? theme.palette.grey[900] : theme.palette.common.white,
     '&:hover': {
       backgroundColor: 'transparent !important',
     },

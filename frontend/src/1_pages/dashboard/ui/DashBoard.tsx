@@ -46,7 +46,7 @@ export const DashBoard: FC = () => {
 
   return (
     <>
-      <Box sx={{...globalsStyleSx.container, mb: 1}}>
+      <Box sx={{...globalsStyleSx.container, mb: 4}}>
         <Schedule schedule={schedule} />
       </Box>
       <PatientVisitsChart />

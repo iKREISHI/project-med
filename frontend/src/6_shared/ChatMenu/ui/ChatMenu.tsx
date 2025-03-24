@@ -1,29 +1,27 @@
 import { FC, useState } from "react";
 import { List, ListItem, ListItemAvatar, ListItemText, useMediaQuery, Theme, ListItemButton, SxProps, useTheme, Box } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { chatMenuSx } from "./chatMenuSx";
-import { globalsStyle } from "../../styles/globalsStyle";
 import { InputSearch } from "../../Input";
 import { AvatarPerson } from "../../../5_entities/Avatar";
 
 interface ChatMenuProps {
   menuItems: { id: string; name: string; unreadCount: number }[];
 }
-// меню чата
+
 export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const { id } = useParams();
   const theme = useTheme();
+  const location = useLocation();
   const [search, setSearch] = useState('');
 
   const isDarkText = !(theme.palette.mode === "dark");
-
 
   const handleSearch = () => {
     console.log(search);
   };
 
-  // Поиск дурга по ФИ
   const filteredMenuItems = menuItems.filter(item =>
     item.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -40,18 +38,22 @@ export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
           fullWidth
           placeholder="Поиск"
           onSearch={handleSearch}
-          shadowColor="rgba(0, 0, 0, 0.2)"
           isDarkText={isDarkText}
         />
       </Box>
       <List>
         {filteredMenuItems.map((item, index) => {
+          const isSelected = location.pathname.endsWith(`/${item.id}`);
+          
           const buttonStyles = {
             ...chatMenuSx.listButton,
             ...chatMenuSx.listButtonHover,
-            ...(location.pathname.endsWith(`/${item.id}`) && {
-              backgroundColor: globalsStyle.colors.blue,
-              color: theme.palette.common.white,
+            ...(isSelected && {
+              boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)',
+              '&:active': {
+                color: theme.palette.common.black
+              },
+
             }),
           } as SxProps<Theme>;
 
@@ -62,6 +64,7 @@ export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
                 to={`/chat/${item.id}`}
                 disableRipple
                 sx={buttonStyles}
+                selected={isSelected}
               >
                 <ListItemAvatar>
                   <AvatarPerson name={item.name} withMenu={false} />

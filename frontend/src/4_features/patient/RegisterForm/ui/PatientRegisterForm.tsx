@@ -5,6 +5,7 @@ import { patientRegisterFormSx } from "./patientRegisterFormSx";
 import { CustomButton } from "../../../../6_shared/Button";
 import { usePatientFormStore } from "../../model/store.ts";
 import { addNewPatient } from "../../../../5_entities/patient/api/addNewPatient.ts";
+import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx.ts";
 
 export const PatientRegisterForm: FC = () => {
   const { patient, setField, resetForm } = usePatientFormStore();
@@ -25,30 +26,34 @@ export const PatientRegisterForm: FC = () => {
     <Box>
       <form onSubmit={handleSubmit}>
         <Box sx={patientRegisterFormSx.inputContainer}>
-          <Typography component="p">ФИО</Typography>
-          <InputForm
-            type="text"
-            placeholder="Фамилия*"
-            value={patient.last_name || ""}
-            onChange={(e) => setField("last_name", e.target.value)}
-            required
-          />
-          <InputForm
-            type="text"
-            placeholder="Имя*"
-            value={patient.first_name || ""}
-            onChange={(e) => setField("first_name", e.target.value)}
-            required
-          />
-          <InputForm
-            type="text"
-            placeholder="Отчество"
-            value={patient.patronymic || ""}
-            onChange={(e) => setField("patronymic", e.target.value)}
-          />
+          <Box sx={globalsStyleSx.inputContainer}>
+            <Typography component="p">ФИО</Typography>
+            <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
+              <InputForm
+                type="text"
+                placeholder="Фамилия*"
+                value={patient.last_name || ""}
+                onChange={(e) => setField("last_name", e.target.value)}
+                required
+              />
+              <InputForm
+                type="text"
+                placeholder="Имя*"
+                value={patient.first_name || ""}
+                onChange={(e) => setField("first_name", e.target.value)}
+                required
+              />
+              <InputForm
+                type="text"
+                placeholder="Отчество"
+                value={patient.patronymic || ""}
+                onChange={(e) => setField("patronymic", e.target.value)}
+              />
+            </Box>
+          </Box>
         </Box>
 
-        <Box sx={patientRegisterFormSx.inputContainer}>
+        <Box sx={globalsStyleSx.inputContainer}>
           <Typography component="p">Дата рождения*</Typography>
           <InputForm
             type="date"
@@ -57,24 +62,26 @@ export const PatientRegisterForm: FC = () => {
             required
           />
         </Box>
-
-        <RadioGroup
-          row
-          name="gender"
-          value={patient.gender}
-          onChange={(e) => setField("gender", e.target.value)}
-          sx={patientRegisterFormSx.inputContainer}
-        >
+        <Box sx={globalsStyleSx.inputContainer}>
           <Typography component="p">Пол</Typography>
-          <FormControlLabel value="M" control={<Radio disableRipple />} label="Мужской" />
-          <FormControlLabel value="F" control={<Radio disableRipple />} label="Женский" />
-          <FormControlLabel value="U" control={<Radio disableRipple />} label="Не указан" />
-        </RadioGroup>
 
+          <RadioGroup
+            row
+            name="gender"
+            value={patient.gender}
+            onChange={(e) => setField("gender", e.target.value)}
+            sx={patientRegisterFormSx.inputContainer}
+          >
+            <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
+              <FormControlLabel value="M" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Мужской" />
+              <FormControlLabel value="F" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Женский" />
+              <FormControlLabel value="U" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Не указан" /></Box>
+          </RadioGroup>
+        </Box>
         <CustomButton type="submit" variant="contained">
           Зарегистрировать
         </CustomButton>
-      </form>
-    </Box>
+      </form >
+    </Box >
   );
 };
