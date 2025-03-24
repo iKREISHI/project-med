@@ -137,3 +137,38 @@ class MedicalCardViewSetTestCase(APITestCase):
         response = self.client.delete(detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertIsNone(MedicalCard.objects.filter(pk=card.pk).first())
+
+    def test_search_medical_cards(self):
+        """Проверяем поиск медицинских карт по заданным полям."""
+        # Создаем несколько медицинских карт с различными значениями поля "name"
+        data_alpha = self.valid_data_service.copy()
+        data_alpha["name"] = "Alpha Card"
+        card_alpha = MedicalCardService.create_medical_card(**data_alpha)
+
+        data_beta = self.valid_data_service.copy()
+        data_beta["name"] = "Beta Card"
+        card_beta = MedicalCardService.create_medical_card(**data_beta)
+
+        data_gamma = self.valid_data_service.copy()
+        data_gamma["name"] = "Gamma Card"
+        card_gamma = MedicalCardService.create_medical_card(**data_gamma)
+
+        # Поиск по имени "Alpha"
+        response = self.client.get(self.list_url, {'search': 'Alpha'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # Проверяем, что найден только один результат с именем "Alpha Card"
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['name'], "Alpha Card")
+
+        # Поиск по фамилии клиента "Doe"
+        response = self.client.get(self.list_url, {'search': 'Doe'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # Все созданные карты используют одного пациента "John Doe"
+        # Поэтому результат должен содержать все 3 созданных карты
+        self.assertEqual(response.data['count'], 3)
+
+        # Поиск по типу карты (card_type__name)
+        # Медицинские карты созданы с типом, равным self.medical_card_type.name, т.е. "TypeA"
+        response = self.client.get(self.list_url, {'search': "TypeA"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['count'], 3)

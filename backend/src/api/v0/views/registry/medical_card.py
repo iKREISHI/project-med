@@ -5,6 +5,8 @@ from rest_framework.pagination import PageNumberPagination
 from apps.registry.models.medical_card import MedicalCard
 from apps.registry.serializers.medical_card import MedicalCardSerializer
 from apps.registry.services import MedicalCardService
+from rest_framework import filters
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 
 class MedicalCardPagination(PageNumberPagination):
@@ -13,6 +15,31 @@ class MedicalCardPagination(PageNumberPagination):
     max_page_size = 100
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name='search',
+            description='Поисковый запрос для поиска по следующим полям: '
+                        'name, number, card_type__name, '
+                        'client__last_name, client__first_name, client__patronymic, '
+                        'client__date_of_birth.',
+            required=False,
+            type=str,
+        ),
+        OpenApiParameter(
+            name='page',
+            description='Номер страницы для пагинации.',
+            required=False,
+            type=int,
+        ),
+        OpenApiParameter(
+            name='page_size',
+            description='Количество объектов на странице.',
+            required=False,
+            type=int,
+        ),
+    ]
+)
 class MedicalCardViewSet(viewsets.ModelViewSet):
     """
     API для работы с медицинскими картами с поддержкой пагинации.
@@ -28,6 +55,13 @@ class MedicalCardViewSet(viewsets.ModelViewSet):
     serializer_class = MedicalCardSerializer
     pagination_class = MedicalCardPagination
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    filter_backends = [filters.SearchFilter]
+    search_fields = [
+        'name', 'number', 'card_type__name',
+        'client__last_name', 'client__first_name',
+        'client__patronymic', 'client__date_of_birth',
+    ]
 
     def retrieve(self, request, *args, **kwargs):
         id = kwargs.get('pk')
