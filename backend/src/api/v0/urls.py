@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views.auth import (
     LoginViewSet, LogoutViewSet, CurrentUserViewSet
 )
+from .views.auth.users import UsersViewSet
 from .views.clients import (
     PatientViewSet
 )
@@ -25,6 +26,7 @@ router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
 router.register('logout', LogoutViewSet, basename='logout')
 router.register('current-user', CurrentUserViewSet, basename='current-user')
+router.register('users', UsersViewSet, basename='users')
 router.register('patient', PatientViewSet, basename='patient')
 router.register('employee', EmployeeViewSet, basename='employee')
 router.register('medical-card', MedicalCardViewSet, basename='medical-card')
