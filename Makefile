@@ -1,4 +1,5 @@
 build-dev:
+	cp .env.sample .env
 	docker compose -f docker-compose.local.dev.yml up -d --build
 
 run-dev:

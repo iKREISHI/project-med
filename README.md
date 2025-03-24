@@ -20,3 +20,15 @@ make logs-dev
 # или для просмотра только логов Django
 make logs-dev-django
 ```
+4) Остановка
+```bash
+make stop-dev
+```
+5) Удаление:
+```bash
+make rm-dev 
+```
+6) Полное удаление:э
+```bash
+make rm-v-dev 
+```
