@@ -1,20 +1,20 @@
 import { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Chat } from "../../1_pages/chat";
-import { DashBoard } from "../../1_pages/dashboard";
-import { Registry } from "../../1_pages/registry";
-import { Main } from "../../1_pages/main";
-import { Login } from "../../1_pages/login"
-import { Patient } from "../../6_shared/Patient";
-import { PatientInfo } from "../../6_shared/PatientInfo";
-import { PatientAddresses } from "../../6_shared/Addresses";
-import { PatientPassport } from "../../6_shared/Passport";
-import { VisitHistory } from "../../6_shared/VisitHistory";
-import { MedicalData } from "../../6_shared/MedicalData";
-import { Admission } from "../../1_pages/admission";
-import { Record } from "../../1_pages/record";
-import { TreatmentPlan } from "../../6_shared/TreatmentPlan";
-import { Diagnosis } from "../../6_shared/Diagnosis";
+import { Chat } from "@1_pages/chat";
+import { DashBoard } from "@1_pages/dashboard";
+import { Registry } from "@1_pages/registry";
+import { Main } from "@1_pages/main";
+import { Login } from "@1_pages/login"
+import { Patient } from "@6_shared/Patient";
+import { PatientInfo } from "@6_shared/PatientInfo";
+import { PatientAddresses } from "@6_shared/Addresses";
+import { PatientPassport } from "@6_shared/Passport";
+import { VisitHistory } from "@6_shared/VisitHistory";
+import { MedicalData } from "@6_shared/MedicalData";
+import { Admission } from "@1_pages/admission";
+import { Record } from "@1_pages/record";
+import { TreatmentPlan } from "@6_shared/TreatmentPlan";
+import { Diagnosis } from "@6_shared/Diagnosis";
 import {PatientAddForm} from "@4_features/patient/RegisterAddForm";
 
 export const RouterComponent: FC = () => {

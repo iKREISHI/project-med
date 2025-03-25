@@ -100,12 +100,12 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
 
                         {/* Поиск клиента */}
                         <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Клиент</Typography>
+                            <Typography component="p">Пациент</Typography>
                             <CustomAutocomplete
                                 value={client}
                                 onChange={setClient}
                                 options={clients}
-                                placeholder="Введите имя клиента"
+                                placeholder="Введите имя Пациента"
                                 disabled={patientName ? true : false}
                             />
                         </Box>

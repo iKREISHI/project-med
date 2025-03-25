@@ -1,4 +1,4 @@
-import { components } from "../../../6_shared/api/types.ts";
+import { components } from "@6_shared/api/types.ts";
 
 
 //Модель пациента

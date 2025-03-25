@@ -1577,6 +1577,7 @@ export interface components {
             doctor?: number;
         };
         Patient: {
+            readonly id: number;
             place_of_work?: string | null;
             /** Фамилия */
             last_name: string;
@@ -1595,6 +1596,7 @@ export interface components {
              * Дата создания
              * Format: date-time
              */
+            readonly date_created: string;
             /**
              * СНИЛС
              * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
