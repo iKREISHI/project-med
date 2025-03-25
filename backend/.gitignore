@@ -33,6 +33,7 @@ $RECYCLE.BIN/
 
 migrations/
 migration/
+staticfiles/
 .idea/
 .idea/*
 media/

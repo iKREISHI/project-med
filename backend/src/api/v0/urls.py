@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views.auth import (
     LoginViewSet, LogoutViewSet, CurrentUserViewSet
 )
+from .views.auth.users import UsersViewSet
 from .views.clients import (
     PatientViewSet
 )
@@ -16,7 +17,8 @@ from .views.staffing import (
     EmployeeViewSet
 )
 from .views.registry import (
-    MedicalCardViewSet
+    MedicalCardViewSet,
+    MedicalCardTypeViewSet
 )
 from .views.staffing.position import PositionViewSet
 from .views.staffing.reception_time import ReceptionTimeViewSet
@@ -25,6 +27,7 @@ router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
 router.register('logout', LogoutViewSet, basename='logout')
 router.register('current-user', CurrentUserViewSet, basename='current-user')
+router.register('users', UsersViewSet, basename='users')
 router.register('patient', PatientViewSet, basename='patient')
 router.register('employee', EmployeeViewSet, basename='employee')
 router.register('medical-card', MedicalCardViewSet, basename='medical-card')
@@ -35,6 +38,7 @@ router.register(r'reception-time', ReceptionTimeViewSet, basename='reception-tim
 router.register(r'filial', FilialViewSet, basename='filial')
 router.register(r'filial-departments', FilialDepartmentViewSet, basename='filialdepartment')
 router.register(r'contractor', ContractorViewSet, basename='contractor')
+router.register(r'medical-card-types', MedicalCardTypeViewSet, basename='medical-card-type')
 
 urlpatterns = (
 [

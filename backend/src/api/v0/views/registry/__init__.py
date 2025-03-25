@@ -1,1 +1,2 @@
 from .medical_card import MedicalCardViewSet
+from .medical_card_type import MedicalCardTypeViewSet
