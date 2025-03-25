@@ -1,10 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models import SET_NULL
+
+from apps import medical_activity
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 from apps.clients.models import Patient
 from apps.registry.models import MedicalCard
 import uuid
+
 
 class DoctorAppointment(AbstractElectronicSignature):
     """
@@ -17,6 +20,24 @@ class DoctorAppointment(AbstractElectronicSignature):
         blank=True,
         verbose_name='Пациент',
         help_text='Внешний ключ на пациента направленного на приём'
+    )
+
+    reception_template = models.ForeignKey(
+        'medical_activity.ReceptionTemplate',
+        on_delete=models.PROTECT,
+        verbose_name=_('Шаблон приема')
+    )
+
+    reception_document = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_('Документ приема')
+    )
+
+    reception_document_fields = models.JSONField(
+        blank=True,
+        null=True,
+        verbose_name=_('Поля документа')
     )
 
     assigned_doctor = models.ForeignKey(

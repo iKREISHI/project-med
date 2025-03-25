@@ -8,6 +8,7 @@ from apps.staffing.validators.employee import (
     validate_appointment_duration,
     validate_short_description
 )
+from ... import staffing
 
 
 class Employee(AbstractPersonModel):
@@ -49,6 +50,14 @@ class Employee(AbstractPersonModel):
         null=True,
         blank=True,
         verbose_name=_("Краткое описание")
+    )
+
+    specialization = models.ForeignKey(
+        'staffing.Specialization',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_('Специализация')
     )
 
     class Meta:
