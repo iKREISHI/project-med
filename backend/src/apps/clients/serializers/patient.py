@@ -17,7 +17,7 @@ class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = '__all__'
-        read_only_fields = ('id',)
+        read_only_fields = ('id', 'date_created')
 
     def to_internal_value(self, data):
         # Если в data есть ключи, не описанные в serializer.fields, выбрасываем ошибку

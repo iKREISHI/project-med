@@ -1,6 +1,7 @@
-import { GET } from "../../../6_shared/api";
+import { GET } from "@6_shared/api";
 import type {PaginatedPatientList, PatientListQueryParams} from "../../patient";
 
+//Получение списка всех пациентов с поддержкой пагинации
 export const getAllPatients = async (
   params: PatientListQueryParams = {}
 ): Promise<PaginatedPatientList> => {

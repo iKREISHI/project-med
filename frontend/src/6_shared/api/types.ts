@@ -611,7 +611,7 @@ export interface paths {
          *
          *     Поддерживаются операции:
          *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
          *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
          *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
          *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
@@ -621,7 +621,7 @@ export interface paths {
          *
          *     Поддерживаются операции:
          *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
          *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
          *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
          *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
@@ -630,6 +630,56 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v0/medical-card-types/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description ViewSet для работы с объектами MedicalCardType.
+         *     Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+         *     Добавлены права на вход и проверки Django-пермишенов на уровне модели. */
+        get: operations["v0_medical_card_types_list"];
+        put?: never;
+        /** @description ViewSet для работы с объектами MedicalCardType.
+         *     Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+         *     Добавлены права на вход и проверки Django-пермишенов на уровне модели. */
+        post: operations["v0_medical_card_types_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/medical-card-types/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description ViewSet для работы с объектами MedicalCardType.
+         *     Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+         *     Добавлены права на вход и проверки Django-пермишенов на уровне модели. */
+        get: operations["v0_medical_card_types_retrieve"];
+        /** @description ViewSet для работы с объектами MedicalCardType.
+         *     Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+         *     Добавлены права на вход и проверки Django-пермишенов на уровне модели. */
+        put: operations["v0_medical_card_types_update"];
+        post?: never;
+        /** @description ViewSet для работы с объектами MedicalCardType.
+         *     Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+         *     Добавлены права на вход и проверки Django-пермишенов на уровне модели. */
+        delete: operations["v0_medical_card_types_destroy"];
+        options?: never;
+        head?: never;
+        /** @description ViewSet для работы с объектами MedicalCardType.
+         *     Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+         *     Добавлены права на вход и проверки Django-пермишенов на уровне модели. */
+        patch: operations["v0_medical_card_types_partial_update"];
         trace?: never;
     };
     "/api/v0/medical-card/{id}/": {
@@ -643,7 +693,7 @@ export interface paths {
          *
          *     Поддерживаются операции:
          *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
          *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
          *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
          *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
@@ -652,7 +702,7 @@ export interface paths {
          *
          *     Поддерживаются операции:
          *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
          *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
          *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
          *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
@@ -662,7 +712,7 @@ export interface paths {
          *
          *     Поддерживаются операции:
          *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
          *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
          *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
          *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
@@ -673,7 +723,7 @@ export interface paths {
          *
          *     Поддерживаются операции:
          *       - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-         *       - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+         *       - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
          *       - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
          *       - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
          *       - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard"). */
@@ -690,7 +740,7 @@ export interface paths {
         /** @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка пациентов с пагинацией,
-         *       - retrieve: получение пациента по UUID,
+         *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
          *       - destroy: удаление пациента. */
@@ -699,7 +749,7 @@ export interface paths {
         /** @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка пациентов с пагинацией,
-         *       - retrieve: получение пациента по UUID,
+         *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
          *       - destroy: удаление пациента. */
@@ -720,7 +770,7 @@ export interface paths {
         /** @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка пациентов с пагинацией,
-         *       - retrieve: получение пациента по UUID,
+         *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
          *       - destroy: удаление пациента. */
@@ -728,7 +778,7 @@ export interface paths {
         /** @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка пациентов с пагинацией,
-         *       - retrieve: получение пациента по UUID,
+         *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
          *       - destroy: удаление пациента. */
@@ -737,7 +787,7 @@ export interface paths {
         /** @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка пациентов с пагинацией,
-         *       - retrieve: получение пациента по UUID,
+         *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
          *       - destroy: удаление пациента. */
@@ -747,7 +797,7 @@ export interface paths {
         /** @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка пациентов с пагинацией,
-         *       - retrieve: получение пациента по UUID,
+         *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
          *       - destroy: удаление пациента. */
@@ -960,6 +1010,80 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v0/users/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       — list: получение списка пользователей с пагинацией,
+         *       — retrieve: получение пользователя по ID,
+         *       — create: создание нового пациента,
+         *       — update / partial_update: обновление пациента,
+         *       — destroy: удаление пациента. */
+        get: operations["v0_users_list"];
+        put?: never;
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       — list: получение списка пользователей с пагинацией,
+         *       — retrieve: получение пользователя по ID,
+         *       — create: создание нового пациента,
+         *       — update / partial_update: обновление пациента,
+         *       — destroy: удаление пациента. */
+        post: operations["v0_users_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/users/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       — list: получение списка пользователей с пагинацией,
+         *       — retrieve: получение пользователя по ID,
+         *       — create: создание нового пациента,
+         *       — update / partial_update: обновление пациента,
+         *       — destroy: удаление пациента. */
+        get: operations["v0_users_retrieve"];
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       — list: получение списка пользователей с пагинацией,
+         *       — retrieve: получение пользователя по ID,
+         *       — create: создание нового пациента,
+         *       — update / partial_update: обновление пациента,
+         *       — destroy: удаление пациента. */
+        put: operations["v0_users_update"];
+        post?: never;
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       — list: получение списка пользователей с пагинацией,
+         *       — retrieve: получение пользователя по ID,
+         *       — create: создание нового пациента,
+         *       — update / partial_update: обновление пациента,
+         *       — destroy: удаление пациента. */
+        delete: operations["v0_users_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с пациентами с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       — list: получение списка пользователей с пагинацией,
+         *       — retrieve: получение пользователя по ID,
+         *       — create: создание нового пациента,
+         *       — update / partial_update: обновление пациента,
+         *       — destroy: удаление пациента. */
+        patch: operations["v0_users_partial_update"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1155,7 +1279,6 @@ export interface components {
         };
         MedicalCard: {
             readonly id: number;
-            card_type: string;
             /** Подписано ЭП */
             is_signed?: boolean;
             /**
@@ -1163,19 +1286,48 @@ export interface components {
              * Format: date
              */
             readonly signed_date: string;
+            /** Наименование */
+            name: string;
+            /** Номер карты */
+            number?: string;
             /**
              * Дата регистрации
              * Format: date-time
              */
             readonly date_created: string;
+            /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly date_updated: string | null;
+            /**
+             * Дата закрытия
+             * Format: date-time
+             */
+            date_closed?: string | null;
             /** Комментарий */
             comment?: string | null;
             /** Кем подписан */
             signed_by: number;
             /** Пациент */
             client?: number | null;
+            /** Тип карты */
+            card_type?: number | null;
             /** Филиал */
             filial?: number | null;
+        };
+        MedicalCardType: {
+            readonly id: number;
+            /** Название */
+            name: string;
+            /** Суффикс номера карты */
+            suffix?: string | null;
+            /** Префикс номера карты */
+            prefix?: string | null;
+            /** Начальный номер */
+            begin_number?: string | null;
+            /** Описание */
+            description?: string | null;
         };
         PaginatedContractorList: {
             /** @example 123 */
@@ -1251,6 +1403,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["MedicalCard"][];
+        };
+        PaginatedMedicalCardTypeList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["MedicalCardType"][];
         };
         PaginatedPatientList: {
             /** @example 123 */
@@ -1464,7 +1631,6 @@ export interface components {
         };
         PatchedMedicalCard: {
             readonly id?: number;
-            card_type?: string;
             /** Подписано ЭП */
             is_signed?: boolean;
             /**
@@ -1472,19 +1638,48 @@ export interface components {
              * Format: date
              */
             readonly signed_date?: string;
+            /** Наименование */
+            name?: string;
+            /** Номер карты */
+            number?: string;
             /**
              * Дата регистрации
              * Format: date-time
              */
             readonly date_created?: string;
+            /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly date_updated?: string | null;
+            /**
+             * Дата закрытия
+             * Format: date-time
+             */
+            date_closed?: string | null;
             /** Комментарий */
             comment?: string | null;
             /** Кем подписан */
             signed_by?: number;
             /** Пациент */
             client?: number | null;
+            /** Тип карты */
+            card_type?: number | null;
             /** Филиал */
             filial?: number | null;
+        };
+        PatchedMedicalCardType: {
+            readonly id?: number;
+            /** Название */
+            name?: string;
+            /** Суффикс номера карты */
+            suffix?: string | null;
+            /** Префикс номера карты */
+            prefix?: string | null;
+            /** Начальный номер */
+            begin_number?: string | null;
+            /** Описание */
+            description?: string | null;
         };
         PatchedPatient: {
             readonly id?: number;
@@ -1576,7 +1771,15 @@ export interface components {
             /** Врач */
             doctor?: number;
         };
+        PatchedUser: {
+            readonly id?: number;
+            /** Имя пользователя */
+            username?: string;
+            readonly position_id?: string;
+            readonly position_name?: string;
+        };
         Patient: {
+            readonly id: number;
             place_of_work?: string | null;
             /** Фамилия */
             last_name: string;
@@ -1595,6 +1798,7 @@ export interface components {
              * Дата создания
              * Format: date-time
              */
+            readonly date_created: string;
             /**
              * СНИЛС
              * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
@@ -2718,10 +2922,12 @@ export interface operations {
     v0_medical_card_list: {
         parameters: {
             query?: {
-                /** @description A page number within the paginated result set. */
+                /** @description Номер страницы для пагинации. */
                 page?: number;
-                /** @description Number of results to return per page. */
+                /** @description Количество объектов на странице. */
                 page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, number, card_type__name, client__last_name, client__first_name, client__patronymic, client__date_of_birth. */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -2741,7 +2947,14 @@ export interface operations {
     };
     v0_medical_card_create: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, number, card_type__name, client__last_name, client__first_name, client__patronymic, client__date_of_birth. */
+                search?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -2762,9 +2975,158 @@ export interface operations {
             };
         };
     };
-    v0_medical_card_retrieve: {
+    v0_medical_card_types_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedMedicalCardTypeList"];
+                };
+            };
+        };
+    };
+    v0_medical_card_types_create: {
         parameters: {
             query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalCardType"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCardType"];
+                };
+            };
+        };
+    };
+    v0_medical_card_types_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Тип мед.карты. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCardType"];
+                };
+            };
+        };
+    };
+    v0_medical_card_types_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Тип мед.карты. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalCardType"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCardType"];
+                };
+            };
+        };
+    };
+    v0_medical_card_types_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Тип мед.карты. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_medical_card_types_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Тип мед.карты. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedMedicalCardType"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicalCardType"];
+                };
+            };
+        };
+    };
+    v0_medical_card_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, number, card_type__name, client__last_name, client__first_name, client__patronymic, client__date_of_birth. */
+                search?: string;
+            };
             header?: never;
             path: {
                 /** @description A unique integer value identifying this Медицинская карта. */
@@ -2786,7 +3148,14 @@ export interface operations {
     };
     v0_medical_card_update: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, number, card_type__name, client__last_name, client__first_name, client__patronymic, client__date_of_birth. */
+                search?: string;
+            };
             header?: never;
             path: {
                 /** @description A unique integer value identifying this Медицинская карта. */
@@ -2812,7 +3181,14 @@ export interface operations {
     };
     v0_medical_card_destroy: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, number, card_type__name, client__last_name, client__first_name, client__patronymic, client__date_of_birth. */
+                search?: string;
+            };
             header?: never;
             path: {
                 /** @description A unique integer value identifying this Медицинская карта. */
@@ -2833,7 +3209,14 @@ export interface operations {
     };
     v0_medical_card_partial_update: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, number, card_type__name, client__last_name, client__first_name, client__patronymic, client__date_of_birth. */
+                search?: string;
+            };
             header?: never;
             path: {
                 /** @description A unique integer value identifying this Медицинская карта. */
@@ -3302,6 +3685,143 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RegistrationModel"];
+                };
+            };
+        };
+    };
+    v0_users_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"][];
+                };
+            };
+        };
+    };
+    v0_users_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["User"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+        };
+    };
+    v0_users_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this пользователь. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+        };
+    };
+    v0_users_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this пользователь. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["User"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+        };
+    };
+    v0_users_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this пользователь. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_users_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this пользователь. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedUser"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
                 };
             };
         };
