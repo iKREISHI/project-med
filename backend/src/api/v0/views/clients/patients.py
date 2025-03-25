@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import BasicAuthentication
@@ -19,7 +19,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     API для работы с пациентами с поддержкой пагинации.
     Поддерживаются операции:
       - list: получение списка пациентов с пагинацией,
-      - retrieve: получение пациента по UUID,
+      - retrieve: получение пациента по ID,
       - create: создание нового пациента,
       - update / partial_update: обновление пациента,
       - destroy: удаление пациента.
@@ -29,7 +29,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     pagination_class = PatientPagination
     # Используем BasicAuthentication, чтобы при отсутствии аутентификации возвращался 401
     # authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
     def retrieve(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
