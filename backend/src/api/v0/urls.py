@@ -14,7 +14,7 @@ from .views.company_structure.filial_department import FilialDepartmentViewSet
 from .views.medical_activity.doctor_appointment import DoctorAppointmentViewSet
 from .views.registration import RegistrationViewSet
 from .views.staffing import (
-    EmployeeViewSet
+    EmployeeViewSet, SpecializationViewSet
 )
 from .views.registry import (
     MedicalCardViewSet,
@@ -39,6 +39,7 @@ router.register(r'filial', FilialViewSet, basename='filial')
 router.register(r'filial-departments', FilialDepartmentViewSet, basename='filialdepartment')
 router.register(r'contractor', ContractorViewSet, basename='contractor')
 router.register(r'medical-card-types', MedicalCardTypeViewSet, basename='medical-card-type')
+router.register('specialization', SpecializationViewSet, basename='specialization')
 
 urlpatterns = (
 [
