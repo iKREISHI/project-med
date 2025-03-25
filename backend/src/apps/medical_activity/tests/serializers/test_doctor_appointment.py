@@ -1,11 +1,9 @@
 import datetime
 from django.test import TestCase
-from rest_framework import status
-from rest_framework.exceptions import ValidationError
-from apps.medical_activity.models import DoctorAppointment
+from apps.medical_activity.models import DoctorAppointment, ReceptionTemplate
 from apps.medical_activity.serializers import DoctorAppointmentSerializer
 from apps.clients.models import Patient
-from apps.staffing.models import Employee
+from apps.staffing.models import Employee, Specialization
 
 
 class DoctorAppointmentSerializerTestCase(TestCase):
@@ -36,9 +34,16 @@ class DoctorAppointmentSerializerTestCase(TestCase):
             email="bob@example.com",
             phone="+1987654321"
         )
+        # Создаем специализацию и шаблон приема (reception_template)
+        self.specialization = Specialization.objects.create(title="Test Specialization")
+        self.reception_template = ReceptionTemplate.objects.create(
+            name="Default Template",
+            specialization=self.specialization
+        )
         # Формируем корректный набор данных для создания приема.
         self.valid_data = {
             "patient": self.patient.pk,
+            "reception_template": self.reception_template.pk,
             "assigned_doctor": self.assigned_doctor.pk,
             "signed_by": self.signed_by.pk,
             "is_first_appointment": True,
@@ -48,7 +53,6 @@ class DoctorAppointmentSerializerTestCase(TestCase):
             "appointment_date": "2023-03-15",
             "start_time": "09:00:00",
             "end_time": "17:00:00",
-            # medical_card можно опустить, если он не обязателен
         }
 
     def test_create_appointment_valid(self):
@@ -58,6 +62,7 @@ class DoctorAppointmentSerializerTestCase(TestCase):
         appointment = serializer.save()
         self.assertIsInstance(appointment, DoctorAppointment)
         self.assertEqual(appointment.patient.pk, self.patient.pk)
+        self.assertEqual(appointment.reception_template.pk, self.reception_template.pk)
         self.assertEqual(appointment.assigned_doctor.pk, self.assigned_doctor.pk)
         self.assertEqual(appointment.signed_by.pk, self.signed_by.pk)
         self.assertEqual(appointment.reason_for_inspection, "Routine check-up")
@@ -69,11 +74,9 @@ class DoctorAppointmentSerializerTestCase(TestCase):
 
     def test_update_appointment_valid(self):
         """Проверяет корректное частичное обновление приема."""
-        # Создаем первоначальный прием
         serializer = DoctorAppointmentSerializer(data=self.valid_data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
         appointment = serializer.save()
-        # Обновляем поля
         update_data = {
             "reason_for_inspection": "Updated reason",
             "start_time": "10:00:00",

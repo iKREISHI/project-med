@@ -1,1 +1,2 @@
 from .doctor_appointment import DoctorAppointmentSerializer
+from .reception_template import ReceptionTemplateSerializer
