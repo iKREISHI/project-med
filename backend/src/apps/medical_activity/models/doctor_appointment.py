@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models import SET_NULL
-
 from apps import medical_activity
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 from apps.clients.models import Patient
