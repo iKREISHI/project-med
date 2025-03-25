@@ -34,10 +34,10 @@ export const PatientPassportForm: FC = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{mt: 3}}>
       <form>
         <Box>
-          <Box sx={patientPassportFormSx.inputContainer}>
+          <Box sx={{...patientPassportFormSx.inputContainer, mb: 2}}>
             <InputForm
               type="text"
               label="Серия"

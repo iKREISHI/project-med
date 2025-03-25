@@ -30,6 +30,7 @@ export const Chat: React.FC = () => {
                 md: theme.palette.grey[100],
                 xs: theme.palette.background.paper
               },
+              boxShadow: '0px 0 3px rgba(0,0,0,0.1)',
               zIndex: 1,
               pt: {md: 1, xs: 0.5},
               overflow: "auto"

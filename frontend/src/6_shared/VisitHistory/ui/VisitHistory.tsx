@@ -1,12 +1,8 @@
 import { FC, useState } from "react";
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, } from "@mui/material";
-import { Add } from "@mui/icons-material";
-import { CustomButton } from "../../../6_shared/Button";
-import { useNavigate } from "react-router-dom";
 
 
 export const VisitHistory: FC = () => {
-    const navigate = useNavigate();
 
     const visits = [
         { date: "2025-03-16", purpose: "Консультация", diagnosis: "ОРВИ" },
@@ -31,19 +27,10 @@ export const VisitHistory: FC = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{p: 1}}>
             <Typography variant="h1" gutterBottom>
                 История посещений
             </Typography>
-
-            <CustomButton
-                variant="contained"
-                startIcon={<Add />}
-                onClick={() => navigate("/registry")}
-            >
-                Добавить
-            </CustomButton>
-
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>

@@ -42,7 +42,7 @@ export const lightTheme = createTheme({
     body2: { fontSize: globalsStyle.fontSizes.body2 }, 
   },
   shape: {
-    borderRadius: 5.5,
+    borderRadius: 5,
   },
   components: {
     MuiCssBaseline: {
@@ -53,15 +53,15 @@ export const lightTheme = createTheme({
           padding: 0,
           '&::before': {
             content: '""',
-            position: 'fixed', 
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
+            position: 'fixed',
+            top: '-10px',
+            left: '-10px',
+            right: '-10px',
+            bottom: '-10px',
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: 'cover',
+            backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            backgroundAttachment: 'fixed', 
             filter: 'blur(10px)',
             zIndex: -1,
           },
@@ -69,9 +69,11 @@ export const lightTheme = createTheme({
         '#root': {
           position: 'relative',
           minHeight: '100vh',
+          backgroundColor: 'rgba(255, 255, 255, 0.1)', 
         },
       },
     },
+  
   
   },
 });

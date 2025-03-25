@@ -129,6 +129,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
                   ? globalsStyle.colors.blueLight
                   : theme.palette.grey[200],
                 color: message.isMe ? "#fff" : "inherit",
+                borderRadius: (theme: Theme) => theme.shape.borderRadius,
               }}
             >
               <Typography
@@ -218,7 +219,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
                 ) : (
                   <Typography variant="body2">{file.name}</Typography>
                 )}
-                <IconButton onClick={() => handleRemoveFile(index)} size="small">
+                <IconButton onClick={() => handleRemoveFile(index)} size="small" disableRipple>
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </Box>

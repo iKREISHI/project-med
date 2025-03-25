@@ -9,10 +9,10 @@ export const PacientInfoForm: FC = () => {
   const {patient, setField} = usePatientFormStore();
 
   return (
-    <Box>
+    <Box sx={{mt: 3}}>
       <form>
         <Box>
-          <Box sx={patientInfoFormSx.inputContainer}>
+          <Box sx={{...patientInfoFormSx.inputContainer, mb: 2}}>
             <InputForm
               type="text"
               label="Мобильный телефон"

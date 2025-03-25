@@ -73,16 +73,7 @@ export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
                   primary={
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       {item.name}
-                      {item.unreadCount > 0 && (
-                        <span
-                          style={{
-                            width: '6px',
-                            height: '6px',
-                            borderRadius: '50%',
-                            backgroundColor: theme.palette.primary.main,
-                          }}
-                        />
-                      )}
+                      
                     </div>
                   }
                 />

@@ -1,23 +1,26 @@
-import { FC} from "react";
-import { Box } from "@mui/material";
+import { FC } from "react";
+import { Box, Typography } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
 import { patientAddFormSx } from "./patientAddFormSx.ts";
-import {usePatientFormStore} from "../../model/store.ts";
+import { usePatientFormStore } from "../../model/store.ts";
 
 export const PatientAddForm: FC = () => {
 
-  const {patient, setField} = usePatientFormStore();
+  const { patient, setField } = usePatientFormStore();
 
   return (
-    <Box>
+    <Box sx={{ p: 1 }}>
+      <Typography variant="h1" gutterBottom>
+        Дополнительная информация 
+      </Typography>
       <form>
-        <Box>
-          <Box sx={patientAddFormSx.inputContainer}>
+        <Box sx={{mt: 3}}>
+          <Box sx={{...patientAddFormSx.inputContainer, mb: 2}}>
             <InputForm
               type="text"
               label="Место работы"
               value={patient.place_of_work || ''}
-              onChange={(e) => setField('place_of_work',e.target.value)}
+              onChange={(e) => setField('place_of_work', e.target.value)}
             />
           </Box>
         </Box>

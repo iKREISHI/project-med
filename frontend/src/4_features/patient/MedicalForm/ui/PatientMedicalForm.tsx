@@ -11,7 +11,7 @@ export const PatientMedicalForm: FC = () => {
   return (
     <Box>
       <form>
-        <Box>
+        <Box sx={{mt: 3}}>
           <Box sx={patientMedicalFormSx.inputContainer}>
             <InputForm
               type="text"
