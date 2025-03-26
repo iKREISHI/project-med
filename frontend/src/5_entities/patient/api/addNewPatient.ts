@@ -6,7 +6,7 @@ export const addNewPatient = async (
   patientData: Omit<Patient, "id" | "data_created">
 ): Promise<Patient> => {
 
-  // @ts-ignore
+
   const response = await POST("/api/v0/patient/", {
     body: patientData,
   });

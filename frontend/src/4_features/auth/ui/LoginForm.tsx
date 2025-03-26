@@ -4,17 +4,22 @@ import { Typography, Box, Paper } from '@mui/material';
 import { loginFormSx } from './loginFormSx.ts';
 import { InputForm } from '../../../6_shared/Input';
 import { CustomButton } from '../../../6_shared/Button';
+import {useAuth} from "@4_features/auth/lib/useAuth.ts";
+import {LoginModel} from "@5_entities/user";
+
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
 }
 
-export const  LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+export const  LoginForm: React.FC<LoginFormProps> = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const {handleLogin, error} = useAuth();
 
-  const handleSubmit = () => {
-    onSubmit(username, password);
+  const handleSubmit = async () => {
+    const credentials: LoginModel = {username: username, password: password};
+    handleLogin(credentials);
   };
 
   return (
@@ -50,6 +55,7 @@ export const  LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         <CustomButton onClick={handleSubmit} fullWidth>
           Войти
         </CustomButton>
+        <p>{error?error : ''}</p>
       </Box>
     </Paper>
   );

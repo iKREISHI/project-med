@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useMediaQuery, Theme, Box, useTheme } from "@mui/material";
 import { ChatMenu } from "@6_shared/ChatMenu";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,22 +6,24 @@ import { ChatPerson } from "@6_shared/ChatPerson";
 import { mockMessages } from "@6_shared/ChatPerson/ui/chatMocks";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
 import Grid from '@mui/material/Grid2';
+import {useUserChatRooms} from "@5_entities/chat/api/useUserChatRooms.ts";
 
-// станица чата 
+// станица чата
 export const Chat: React.FC = () => {
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const { id } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
+  const {rooms, loading} = useUserChatRooms()
   const handleBack = () => navigate("/chat");
 
   return (
     <Box sx={{ ...globalsStyleSx.container, overflow: 'hidden' }}>
-      <Grid container sx={{         
-        flex: 1, 
-        overflow: "hidden", 
-        minHeight: "80dvh", 
-        maxHeight: "80dvh", 
+      <Grid container sx={{
+        flex: 1,
+        overflow: "hidden",
+        minHeight: "80dvh",
+        maxHeight: "80dvh",
          }}>
         {(!isMobile || !id) && (
           <Grid size={{ xs: 12, md: 3 }}

@@ -108,8 +108,8 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
                 display: { xs: 'none', md: 'flex' },
                 width: { lg: '600px', sm: '100%' },
                 margin: '0 auto',
-                alignItems: 'center', 
-                gap: 1, 
+                alignItems: 'center',
+                gap: 1,
               }}
             >
               <InputSearch
@@ -122,7 +122,6 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
                 isDarkText={isDarkText}
                 bgcolorFlag={true}
               />
-              {/* микрофон */}
               <IconButton
                 aria-label="микрофон"
                 disableRipple
@@ -145,7 +144,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
               {mode === 'dark' ? (
                 <LightModeIcon sx={{ color: theme.palette.grey[900] }} /> // Солнышко
               ) : (
-                <ModeNightIcon sx={{ color: theme.palette.grey[900] }} /> // Луна 
+                <ModeNightIcon sx={{ color: theme.palette.grey[900] }} /> // Луна
               )}
             </Box>
             {/* Кнопка для слабовидящих */}

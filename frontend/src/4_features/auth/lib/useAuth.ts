@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { login } from "../api/login.ts";
 import { logoutRequest } from "../api/logout.ts";
-import type { LoginModel } from "../../../5_entities/user";
-import type { AuthResponse } from "../../../5_entities/auth";
+import type { LoginModel } from "@5_entities/user";
+import type { AuthResponse } from "@5_entities/auth";
 import {useNavigate} from "react-router-dom";
 
 export const useAuth = () => {
@@ -24,13 +24,8 @@ export const useAuth = () => {
         throw new Error(response.detail || "Authentication failed");
       }
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-        console.log("Произошла ошибка при входе", error);
-      } else {
-        setError("An unknown error occurred");
-        console.log("Произошла ошибка при входе", error);
-      }
+      setError(error instanceof Error ? error.message : "An unknown error occurred");
+      console.error("Ошибка при входе:", error);
     }
   };
 
@@ -41,15 +36,13 @@ export const useAuth = () => {
       localStorage.removeItem("user");
       setUserData(null);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-        console.log(error);
-      } else {
-        setError("An unknown error occurred");
-        console.log(error);
-      }
+      setError(error instanceof Error ? error.message : "An unknown error occurred");
+      console.error(error);
     }
   };
 
-  return { isAuthenticated, userData, error, handleLogin, handleLogout };
+  // Геттер для user_id
+  const userId = userData?.user_id || JSON.parse(localStorage.getItem("user") || "{}")?.user_id || null;
+
+  return { isAuthenticated, userId, userData, error, handleLogin, handleLogout };
 };

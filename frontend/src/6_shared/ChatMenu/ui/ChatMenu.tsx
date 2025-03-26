@@ -4,12 +4,10 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { chatMenuSx } from "./chatMenuSx";
 import { InputSearch } from "../../Input";
 import { AvatarPerson } from "../../../5_entities/Avatar";
+import { useUserChatRooms } from "@5_entities/chat/api/useUserChatRooms.ts"; // <-- Импортируем хук
 
-interface ChatMenuProps {
-  menuItems: { id: string; name: string; unreadCount: number }[];
-}
-
-export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
+export const ChatMenu: FC = () => {
+  const { rooms, loading } = useUserChatRooms(); // <-- Получаем чаты
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const { id } = useParams();
   const theme = useTheme();
@@ -22,9 +20,10 @@ export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
     console.log(search);
   };
 
-  const filteredMenuItems = menuItems.filter(item =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredRooms = rooms
+    .filter((room) => room !== null) // Фильтруем, убирая возможные null-значения
+    .filter((room) => room.name.toLowerCase().includes(search.toLowerCase())); // Затем фильтруем по имени
+
 
   if (isMobile && id) return null;
 
@@ -41,56 +40,60 @@ export const ChatMenu: FC<ChatMenuProps> = ({ menuItems }) => {
           isDarkText={isDarkText}
         />
       </Box>
-      <List>
-        {filteredMenuItems.map((item, index) => {
-          const isSelected = location.pathname.endsWith(`/${item.id}`);
-          
-          const buttonStyles = {
-            ...chatMenuSx.listButton,
-            ...chatMenuSx.listButtonHover,
-            ...(isSelected && {
-              boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)',
-              '&:active': {
-                color: theme.palette.common.black
-              },
 
-            }),
-          } as SxProps<Theme>;
+      {loading ? (
+        <Box sx={{ textAlign: "center", p: 2 }}>Загрузка...</Box>
+      ) : (
+        <List>
+          {filteredRooms.map((room) => {
+            const isSelected = location.pathname.endsWith(`/${room.id}`);
 
-          return (
-            <ListItem key={index} disablePadding>
-              <ListItemButton
-                component={Link}
-                to={`/chat/${item.id}`}
-                disableRipple
-                sx={buttonStyles}
-                selected={isSelected}
-              >
-                <ListItemAvatar>
-                  <AvatarPerson name={item.name} withMenu={false} />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      {item.name}
-                      {item.unreadCount > 0 && (
-                        <span
-                          style={{
-                            width: '6px',
-                            height: '6px',
-                            borderRadius: '50%',
-                            backgroundColor: theme.palette.primary.main,
-                          }}
-                        />
-                      )}
-                    </div>
-                  }
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List>
+            const buttonStyles = {
+              ...chatMenuSx.listButton,
+              ...chatMenuSx.listButtonHover,
+              ...(isSelected && {
+                boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
+                "&:active": {
+                  color: theme.palette.common.black,
+                },
+              }),
+            } as SxProps<Theme>;
+
+            return (
+              <ListItem key={room.id} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={`/chat/${room.id}`}
+                  disableRipple
+                  sx={buttonStyles}
+                  selected={isSelected}
+                >
+                  <ListItemAvatar>
+                    <AvatarPerson name={room.name} withMenu={false} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        {room.name}
+                        {room.unreadCount > 0 && (
+                          <span
+                            style={{
+                              width: "6px",
+                              height: "6px",
+                              borderRadius: "50%",
+                              backgroundColor: theme.palette.primary.main,
+                            }}
+                          />
+                        )}
+                      </div>
+                    }
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+      )}
     </>
   );
 };
