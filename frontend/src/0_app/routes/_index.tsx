@@ -25,6 +25,7 @@ import { StaffAdd } from "@6_shared/Staff";
 import { PatientList } from "@1_pages/patientList";
 import { VisitHistory } from "@6_shared/VisitHistory";
 import { PatientAdd } from "@6_shared/PatientAdd";
+import { MedicalRecordAdd } from "@6_shared/MedicalRecordAdd";
 
 
 export const RouterComponent: FC = () => {
@@ -69,6 +70,7 @@ export const RouterComponent: FC = () => {
             </Route>
           
             <Route path="medical-records" element={<MedicalRecordList />} />
+            <Route path="medical-records/create" element={<MedicalRecordAdd />} />
           
             <Route path="html-templates" element={<HtmlTemplates />} />
             <Route path="" element={<Navigate to="/staff" replace />} />

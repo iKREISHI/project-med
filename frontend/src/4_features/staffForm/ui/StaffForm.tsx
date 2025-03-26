@@ -60,19 +60,19 @@ export const StaffForm: FC = () => {
                     {/* Левая колонка */}
                     <Grid size={{ xs: 12, lg: 8 }}>
                         <Box>
-                            <Typography component="p" sx={{ fontSize: '0.9rem' }}>ФИО</Typography>
+                            {/* <Typography component="p" sx={{ fontSize: '0.9rem' }}>ФИО</Typography> */}
                             <Box sx={{ ...globalsStyleSx.inputContainer, m: 0, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
                                 <InputForm
                                     type="text"
-                                    placeholder="Фамилия"
                                     value={lastname}
                                     onChange={(e) => setLastname(e.target.value)}
                                     required
                                     fullWidth
+                                    label="Фамилия"
                                 />
                                 <InputForm
                                     type="text"
-                                    placeholder="Имя"
+                                    label="Имя"
                                     value={firstname}
                                     onChange={(e) => setFirstname(e.target.value)}
                                     required
@@ -80,7 +80,7 @@ export const StaffForm: FC = () => {
                                 />
                                 <InputForm
                                     type="text"
-                                    placeholder="Отчество"
+                                    label="Отчество"
                                     value={patronymic}
                                     onChange={(e) => setPatronymic(e.target.value)}
                                     fullWidth
@@ -122,6 +122,7 @@ export const StaffForm: FC = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 fullWidth
+                                required
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -131,6 +132,7 @@ export const StaffForm: FC = () => {
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 fullWidth
+                                required
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -141,6 +143,7 @@ export const StaffForm: FC = () => {
                                 value={inn}
                                 onChange={(e) => setInn(e.target.value)}
                                 fullWidth
+                                required
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -150,6 +153,7 @@ export const StaffForm: FC = () => {
                                 value={snils}
                                 onChange={(e) => setSnils(e.target.value)}
                                 fullWidth
+                                required
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -159,6 +163,7 @@ export const StaffForm: FC = () => {
                                 value={regAddress}
                                 onChange={(e) => setRegAddress(e.target.value)}
                                 fullWidth
+                                required
                             />
                         </Box>
 
@@ -179,7 +184,6 @@ export const StaffForm: FC = () => {
                             <InputForm
                                 label="Длительность приема (мин)"
                                 type="number"
-                                placeholder="30"
                                 value={appointmentDuration}
                                 onChange={(e) => setAppointmentDuration(e.target.value)}
                                 fullWidth
@@ -192,6 +196,7 @@ export const StaffForm: FC = () => {
                                 options={divisions_list}
                                 placeholder="Введите подразделение"
                                 label="Подразделение"
+                                required
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -201,6 +206,7 @@ export const StaffForm: FC = () => {
                                 options={positions_list}
                                 placeholder="Выберите должность"
                                 label="Должность"
+                                required                                
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -212,6 +218,7 @@ export const StaffForm: FC = () => {
                                 label="Специализация"
                                 fullWidth
                                 disabled={!position} // доступным только если выбрана должность
+                                required
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>

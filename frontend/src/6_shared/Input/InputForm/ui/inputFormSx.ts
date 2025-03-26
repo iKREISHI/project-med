@@ -13,6 +13,7 @@ export const inputFormSx = {
     border: (theme: Theme) => `1px solid ${theme.palette.grey[400]}`,
     // borderRadius: 1,
     borderRadius: (theme: Theme) => theme.shape.borderRadius,
+    overflow: 'hidden',
     "&:hover:not(.Mui-focused):not(.Mui-disabled)": {
       borderColor: (theme: Theme) => theme.palette.grey[500],
     },

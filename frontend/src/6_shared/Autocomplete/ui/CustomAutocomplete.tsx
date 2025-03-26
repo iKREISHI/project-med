@@ -6,9 +6,10 @@ interface ClientAutocompleteProps {
   fullWidth?: boolean;
   disabled?: boolean;
   placeholder: string;
-  label?: string; 
+  label?: string;
   onChange: (value: string) => void;
   options: Array<{ id: number; name: string }>;
+  required?: boolean;
 }
 
 export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
@@ -19,10 +20,16 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
   label, 
   fullWidth = false,
   disabled = false,
+  required = false,
 }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <InputLabel>{label}</InputLabel>
+      {label && (
+        <InputLabel>
+          {label}
+          {required && <span style={{ color: "red" }}>*</span>}
+        </InputLabel>
+      )}
       <Autocomplete
         options={options}
         getOptionLabel={(option) => option.name}
@@ -33,7 +40,7 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
           <TextField
             {...params}
             placeholder={placeholder}
-            required
+            required={required}
             sx={{
               "& .MuiOutlinedInput-root": {
                 padding: "0.67em",
@@ -41,7 +48,6 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
                 display: "flex",
                 alignItems: "center",
                 borderRadius: (theme: Theme) => theme.shape.borderRadius,
-
               },
               "& .MuiAutocomplete-input": {
                 padding: 0,

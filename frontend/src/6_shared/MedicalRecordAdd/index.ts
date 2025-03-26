@@ -1,0 +1,1 @@
+export { MedicalRecordAdd } from './ui/MedicalRecordAdd'

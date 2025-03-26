@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box, Divider, Theme, Typography, useMediaQuery } from "@mui/material";
+import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { PatientMenu } from "../../PatientMenu";
 import { PatientRegisterForm } from "@4_features/patient/RegisterForm/ui/PatientRegisterForm.tsx";

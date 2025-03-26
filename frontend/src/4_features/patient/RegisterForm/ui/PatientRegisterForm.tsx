@@ -29,56 +29,61 @@ export const PatientRegisterForm: FC = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid size={{ xs: 11, lg: 8 }}>
-            <Box sx={globalsStyleSx.inputContainer}>
-              <Typography component="p">ФИО</Typography>
-              <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
-                <InputForm
-                  type="text"
-                  placeholder="Фамилия*"
-                  value={patient.last_name || ""}
-                  onChange={(e) => setField("last_name", e.target.value)}
-                  required
-                />
-                <InputForm
-                  type="text"
-                  placeholder="Имя*"
-                  value={patient.first_name || ""}
-                  onChange={(e) => setField("first_name", e.target.value)}
-                  required
-                />
-                <InputForm
-                  type="text"
-                  placeholder="Отчество"
-                  value={patient.patronymic || ""}
-                  onChange={(e) => setField("patronymic", e.target.value)}
-                />
+            <Box>
+              <Box sx={{ mt: 2 }}>
+                <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
+                  <InputForm
+                    type="text"
+                    value={patient.last_name || ""}
+                    onChange={(e) => setField("last_name", e.target.value)}
+                    required
+                    fullWidth
+                    label="Фамилия"
+                  />
+                  <InputForm
+                    type="text"
+                    label="Имя"
+                    value={patient.first_name || ""}
+                    onChange={(e) => setField("first_name", e.target.value)}
+                    required
+                    fullWidth
+                  />
+                  <InputForm
+                    type="text"
+                    label="Отчество"
+                    value={patient.patronymic || ""}
+                    onChange={(e) => setField("patronymic", e.target.value)}
+                    fullWidth
+                  />
+                </Box>
               </Box>
             </Box>
 
-            <Box sx={globalsStyleSx.inputContainer}>
-              <Typography component="p">Дата рождения*</Typography>
+            <Box sx={{ mt: 2 }}>
               <InputForm
                 type="date"
                 fullWidth
                 value={patient.date_of_birth || ""}
                 onChange={(e) => setField("date_of_birth", e.target.value)}
+                label="Дата рождения"
                 required
               />
             </Box>
-            <Box sx={globalsStyleSx.inputContainer}>
-              <Typography component="p">Пол</Typography>
+            <Box sx={{ mt: 2 }}>
+              <Typography component="p" sx={{ fontSize: '0.9rem' }}>Пол</Typography>
 
               <RadioGroup
                 row
                 name="gender"
                 value={patient.gender}
                 onChange={(e) => setField("gender", e.target.value)}
-                sx={patientRegisterFormSx.inputContainer}
+                sx={{ ...patientRegisterFormSx.inputContainer, m: 0 }}
               >
                 <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
                   <FormControlLabel value="M" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Мужской" />
                   <FormControlLabel value="F" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Женский" />
-                  <FormControlLabel value="U" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Не указан" /></Box>
+                  <FormControlLabel value="U" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Не указан" />
+                </Box>
               </RadioGroup>
             </Box>
             <CustomButton type="submit" variant="contained">
