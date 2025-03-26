@@ -27,7 +27,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
   const { id } = useParams();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [files, setFiles] = useState<File[]>([]); 
+  const [files, setFiles] = useState<File[]>([]);
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const chat = mockMessages.find((chat) => chat.id === id);
   const theme = useTheme();
@@ -41,7 +41,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
   }, [id]);
 
   const handleSendMessage = () => {
-    if (message.trim() === "" && files.length === 0) return; 
+    if (message.trim() === "" && files.length === 0) return;
 
     const newMessage: Message = {
       text: message,
@@ -60,7 +60,7 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const newFiles = Array.from(e.target.files); // Преобразуем FileList в массив
-      setFiles((prevFiles) => [...prevFiles, ...newFiles]); 
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
     }
   };
 
@@ -229,12 +229,11 @@ export const ChatPerson: FC<ChatWindowProps> = ({ onBack }) => {
 
         {/* Поле ввода и кнопки */}
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ flexGrow: 1}}>
+          <Box sx={{ flexGrow: 1 }}>
             <InputForm
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              required
               fullWidth
               placeholder="Напишите сообщение..."
               onKeyPress={(e) => {

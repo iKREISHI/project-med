@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { InputForm } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
 import { CustomSnackbar } from "@6_shared/Snackbar";
 import { CustomSelect } from "@6_shared/Select";
 import { CustomAutocomplete } from "@6_shared/Autocomplete";
 import Grid from '@mui/material/Grid2';
-import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx.ts";
 
 
 // Форма приема пациента
@@ -66,53 +65,46 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
                 {/* Выбор врача */}
                 <Grid container spacing={2}>
                     <Grid size={{ xs: 11, lg: 7 }}>
-                        <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Врач</Typography>
-                            {/* <CustomSelect
-                        value={doctor}
-                        onChange={setDoctor}
-                        options={doctors}
-                        placeholder="Выберите врача"
-                        disabled
-                    /> */}
+                        <Box sx={{ mt: 2 }}>
                             <InputForm
                                 type="text"
                                 value={doctor}
                                 onChange={(e) => setDoctor(e.target.value)}
-                                required
                                 disabled
                                 fullWidth
                                 placeholder="Иванов Иван"
+                                label="Врач"
                             />
                         </Box>
 
                         {/* Выбор даты */}
-                        <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Дата</Typography>
+                        <Box sx={{ mt: 2 }}>
                             <InputForm
                                 type="date"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
                                 required
                                 fullWidth
+                                label="Дата"
                             />
                         </Box>
 
                         {/* Поиск клиента */}
-                        <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Клиент</Typography>
+                        <Box sx={{ mt: 2 }}>
                             <CustomAutocomplete
                                 value={client}
                                 onChange={setClient}
                                 options={clients}
                                 placeholder="Введите имя клиента"
                                 disabled={patientName ? true : false}
+                                label="Клиент"
+                                fullWidth
+                                required
                             />
                         </Box>
 
                         {/* Выбор медицинской карты */}
-                        <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Мед. карта</Typography>
+                        <Box sx={{ mt: 2 }}>
                             <CustomSelect
                                 value={medcard}
                                 onChange={setMedcard}
@@ -124,12 +116,15 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
                                     client ? "Выберите медицинскую карту" : "Сначала выберите клиента"
                                 }
                                 disabled={!client}
+                                label="Мед. карта"
+                                fullWidth
                             />
                         </Box>
-
-                        <CustomButton type="submit" variant="contained">
-                            Провести
-                        </CustomButton>
+                        <Box sx={{ mt: 2 }}>
+                            <CustomButton type="submit" variant="contained">
+                                Провести
+                            </CustomButton>
+                        </Box>
                     </Grid>
                 </Grid>
             </form>

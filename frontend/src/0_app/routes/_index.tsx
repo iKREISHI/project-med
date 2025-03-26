@@ -9,7 +9,6 @@ import { Patient } from "@6_shared/Patient";
 import { PatientInfo } from "@6_shared/PatientInfo";
 import { PatientAddresses } from "@6_shared/Addresses";
 import { PatientPassport } from "@6_shared/Passport";
-// import { VisitHistory } from "@6_shared/VisitHistory";
 import { MedicalData } from "@6_shared/MedicalData";
 import { Admission } from "@1_pages/admission";
 import { Record } from "@1_pages/record";
@@ -26,11 +25,12 @@ import { PatientList } from "@1_pages/patientList";
 import { VisitHistory } from "@6_shared/VisitHistory";
 import { PatientAdd } from "@6_shared/PatientAdd";
 import { MedicalRecordAdd } from "@6_shared/MedicalRecordAdd";
+import { CardTypes, Departments, Dictionaries, Filial, Positions, Specializations } from "@4_features/admin/dictionaries";
 
 
 export const RouterComponent: FC = () => {
   const user = {
-    role: "admin", // admin staff
+    role: "staff", // admin staff
   };
 
   return (
@@ -39,16 +39,14 @@ export const RouterComponent: FC = () => {
         {/* Общий маршрут */}
         <Route path="/login" element={<Login />} />
 
-        {/* Защищенные маршруты */}
         <Route
           path="*"
           element={
             <ProtectedRoute role={user.role} allowedRoles={["admin", "staff"]}>
-              {/* Если роль admin */}
               {user.role === "admin" ? (
                 <MainAdmin />
               ) : (
-                <Main /> // Если роль staff
+                <Main /> 
               )}
             </ProtectedRoute>
           }
@@ -56,25 +54,36 @@ export const RouterComponent: FC = () => {
           {/* Маршруты для админа */}
           {user.role === "admin" && (
             <>
-            <Route path="staff" element={<StaffList />} />
-            <Route path="staff/create" element={<StaffAdd />} />
-          
-            <Route path="patients" element={<PatientList />} />
-            <Route path="patients/create" element={<PatientAdd />}>
-              <Route path="info" element={<PatientInfo />} />
-              <Route path="passport" element={<PatientPassport />} />
-              <Route path="medical-data" element={<MedicalData />} />
-              <Route path="addresses" element={<PatientAddresses />} />
-              <Route path="visit-history" element={<VisitHistory />} />
-              <Route path="additional-info" element={<PatientAddForm />} />
-            </Route>
-          
-            <Route path="medical-records" element={<MedicalRecordList />} />
-            <Route path="medical-records/create" element={<MedicalRecordAdd />} />
-          
-            <Route path="html-templates" element={<HtmlTemplates />} />
-            <Route path="" element={<Navigate to="/staff" replace />} />
-          </>
+              <Route path="staff" element={<StaffList />} />
+              <Route path="staff/create" element={<StaffAdd />} />
+            
+              <Route path="patients" element={<PatientList />} />
+              <Route path="patients/create" element={<PatientAdd />}>
+                <Route path="info" element={<PatientInfo />} />
+                <Route path="passport" element={<PatientPassport />} />
+                <Route path="medical-data" element={<MedicalData />} />
+                <Route path="addresses" element={<PatientAddresses />} />
+                <Route path="visit-history" element={<VisitHistory />} />
+                <Route path="additional-info" element={<PatientAddForm />} />
+              </Route>
+            
+              <Route path="medical-records" element={<MedicalRecordList />} />
+              <Route path="medical-records/create" element={<MedicalRecordAdd />} />
+            
+              <Route path="html-templates" element={<HtmlTemplates />} />
+              
+              {/* Справочников */}
+              <Route path="dictionaries" element={<Dictionaries />}>
+                <Route index element={<Navigate to="specializations" replace />} />
+                <Route path="specializations" element={<Specializations />} />
+                <Route path="filial" element={<Filial />} />
+                <Route path="positions" element={<Positions />} />
+                <Route path="departments" element={<Departments />} />
+                <Route path="card-types" element={<CardTypes />} />
+              </Route>
+              
+              <Route path="" element={<Navigate to="/staff" replace />} />
+            </>
           )}
           {/* Маршруты для сотрудника */}
           {user.role === "staff" && (
@@ -96,14 +105,12 @@ export const RouterComponent: FC = () => {
                 <Route path="passport" element={<PatientPassport />} />
                 <Route path="medical-data" element={<MedicalData />} />
                 <Route path="addresses" element={<PatientAddresses />} />
-                {/* <Route path="visit-history" element={<VisitHistory />} /> */}
                 <Route path="additional-info" element={<PatientAddForm />} />
               </Route>
             </>
           )}
         </Route>
       </Routes>
-    </BrowserRouter >
-
+    </BrowserRouter>
   )
 }

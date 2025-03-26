@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
-import { MedicalRecordForm } from "@4_features/medicalRecordForm";
+import { MedicalRecordForm } from "@4_features/admin/medicalRecordForm";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
 
 export const MedicalRecordAdd: FC = () => {

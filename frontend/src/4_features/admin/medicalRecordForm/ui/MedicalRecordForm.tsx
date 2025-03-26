@@ -12,10 +12,10 @@ interface CardType {
     description?: string;
 }
 
-interface CardView {
-    id: number;
-    name: string;
-}
+// interface CardView {
+//     id: number;
+//     name: string;
+// }
 
 interface Branch {
     id: number;
@@ -27,10 +27,10 @@ const cardTypesFromDB: CardType[] = [
     { id: 2, name: "Стационарная карта", code: "STAT", description: "Для стационарных пациентов" },
 ];
 
-const cardViews: CardView[] = [
-    { id: 1, name: "Электронная" },
-    { id: 2, name: "Бумажная" },
-];
+// const cardViews: CardView[] = [
+//     { id: 1, name: "Электронная" },
+//     { id: 2, name: "Бумажная" },
+// ];
 
 const branches: Branch[] = [
     { id: 1, name: "Центральный филиал" },
@@ -44,6 +44,7 @@ export const MedicalRecordForm: FC = () => {
         cardTypeId: '',
         cardViewId: '',
         closeDate: '',
+        signed_date: '',
         registrationDate: new Date().toISOString().split('T')[0],
         comment: '',
         branch: '',
@@ -96,7 +97,6 @@ export const MedicalRecordForm: FC = () => {
                                 label="Номер карты"
                                 value={formData.cardNumber}
                                 onChange={handleInputChange}
-                                required
                                 fullWidth
                             />
                         </Box> */}
@@ -108,7 +108,6 @@ export const MedicalRecordForm: FC = () => {
                                 label="Филиал"
                                 fullWidth
                                 placeholder="Выберите филиал"
-                                required
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -119,18 +118,6 @@ export const MedicalRecordForm: FC = () => {
                                 label="Тип карты"
                                 fullWidth
                                 placeholder="Выберите тип карты"
-                                required
-                            />
-                        </Box>
-                        <Box sx={{ mt: 2 }}>
-                            <CustomSelect
-                                value={formData.cardViewId}
-                                onChange={handleSelectChange('cardViewId')}
-                                options={cardViews}
-                                label="Вид карты"
-                                fullWidth
-                                placeholder="Выберите вид карты"
-                                required
                             />
                         </Box>
                     </Grid>
@@ -158,6 +145,17 @@ export const MedicalRecordForm: FC = () => {
                                 fullWidth
                             />
                         </Box>
+                        <Box sx={{ mt: 2 }}>
+                            <InputForm
+                                name="signed_date"
+                                type="date"
+                                label="Дата подписания"
+                                value={formData.signed_date}
+                                onChange={handleInputChange}
+                                fullWidth
+                                required
+                            />
+                        </Box>
 
                         <Box sx={{ mt: 2 }}>
                             <Typography component="p" sx={{ fontSize: '0.9rem' }}>Статус</Typography>
@@ -177,7 +175,6 @@ export const MedicalRecordForm: FC = () => {
                         </Box>
                     </Grid>
 
-                    {/* Полноразмерные поля */}
                     <Grid size={{ xs: 12 }}>
                         <Box sx={{ mt: 2 }}>
                             <InputForm

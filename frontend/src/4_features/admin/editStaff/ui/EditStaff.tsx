@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Modal, Box, Typography } from "@mui/material";
-import { InputForm } from "../../../6_shared/Input";
-import { CustomButton } from "../../../6_shared/Button";
+import { InputForm } from "../../../../6_shared/Input";
+import { CustomButton } from "../../../../6_shared/Button";
 
 interface EditStaffProps {
     open: boolean;

@@ -35,7 +35,7 @@ const InputForm: React.FC<InputProps> = ({
 }) => {
   return (
     <Box sx={{ textAlign: "start" }}>
-      <Typography variant="body2">
+      <Typography variant="body1" sx={{pb:0.5}}>
         {label}
         {required && <span style={{ color: "red" }}>*</span>}
       </Typography>

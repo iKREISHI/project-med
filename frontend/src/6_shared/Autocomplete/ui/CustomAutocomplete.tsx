@@ -25,7 +25,7 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       {label && (
-        <InputLabel>
+        <InputLabel sx={{pb:0.5}}>
           {label}
           {required && <span style={{ color: "red" }}>*</span>}
         </InputLabel>

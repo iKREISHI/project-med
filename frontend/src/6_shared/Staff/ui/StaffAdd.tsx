@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import { staffSx } from "./staffSx";
-import { StaffForm } from "@4_features/staffForm";
+import { StaffForm } from "@4_features/admin/staffForm";
 
 export const StaffAdd: FC = () => {
   return (

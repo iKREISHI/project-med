@@ -32,7 +32,7 @@ export const CustomSelect: FC<SelectProps> = ({
           sx={{
             position: 'relative',
             transform: 'none',
-            fontSize: '0.9rem',
+            mb: 0.5,
             color: (theme: Theme) => theme.palette.text.secondary,
             '&.Mui-focused': {
               color: (theme: Theme) => theme.palette.text.secondary

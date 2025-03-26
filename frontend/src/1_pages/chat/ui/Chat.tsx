@@ -17,12 +17,12 @@ export const Chat: React.FC = () => {
 
   return (
     <Box sx={{ ...globalsStyleSx.container, overflow: 'hidden' }}>
-      <Grid container sx={{         
-        flex: 1, 
-        overflow: "hidden", 
-        minHeight: "80dvh", 
-        maxHeight: "80dvh", 
-         }}>
+      <Grid container sx={{
+        flex: 1,
+        overflow: "hidden",
+        minHeight: "80dvh",
+        maxHeight: "80dvh",
+      }}>
         {(!isMobile || !id) && (
           <Grid size={{ xs: 12, md: 3 }}
             sx={{
@@ -32,7 +32,7 @@ export const Chat: React.FC = () => {
               },
               boxShadow: '0px 0 3px rgba(0,0,0,0.1)',
               zIndex: 1,
-              pt: {md: 1, xs: 0.5},
+              pt: { md: 1, xs: 0.5 },
               overflow: "auto"
             }}>
             <ChatMenu menuItems={mockMessages} />
@@ -40,12 +40,14 @@ export const Chat: React.FC = () => {
         )}
 
         {(isMobile && id) ? (
-          <Grid size={{ xs: 12 }} sx={{ zIndex: 1,
-            overflow: "auto"}}>
+          <Grid size={{ xs: 12 }} sx={{
+            zIndex: 1,
+            overflow: "auto"
+          }}>
             <ChatPerson id={id} onBack={handleBack} /></Grid>
         ) : (
           !isMobile && (
-            <Grid size={{ md: 9}}>
+            <Grid size={{ md: 9 }}>
               {id ? (
                 <ChatPerson id={id} />
               ) : (

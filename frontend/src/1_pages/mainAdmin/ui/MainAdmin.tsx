@@ -24,6 +24,7 @@ export function MainAdmin() {
     { name: 'Шаблоны HTML', path: '/html-templates' },
     { name: 'Медкарты', path: '/medical-records' },
     { name: 'Пациенты', path: '/patients' },
+    { name: 'Справочники', path: '/dictionaries' },
   ];
 
 
