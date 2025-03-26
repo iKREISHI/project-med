@@ -19,15 +19,15 @@ class DoctorAppointmentViewSet(viewsets.ModelViewSet):
     API для работы с приемами к врачу с поддержкой пагинации.
     Поддерживаются операции:
       - list: получение списка приемов с пагинацией
-        (требуется permission "medical_activity.view_doctorappointment"),
+        (требуется permission "doctor-appointment.view_doctorappointment"),
       - retrieve: получение приема по id
-        (требуется permission "medical_activity.view_doctorappointment"),
+        (требуется permission "doctor-appointment.view_doctorappointment"),
       - create: создание нового приема
-        (требуется permission "medical_activity.add_doctorappointment"),
+        (требуется permission "doctor-appointment.add_doctorappointment"),
       - update / partial_update: обновление приема
-        (требуется permission "medical_activity.change_doctorappointment"),
+        (требуется permission "doctor-appointment.change_doctorappointment"),
       - destroy: удаление приема
-        (требуется permission "medical_activity.delete_doctorappointment").
+        (требуется permission "doctor-appointment.delete_doctorappointment").
     """
     queryset = DoctorAppointment.objects.all().order_by('appointment_date', 'start_time')
     serializer_class = DoctorAppointmentSerializer

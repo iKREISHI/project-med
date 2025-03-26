@@ -12,6 +12,7 @@ from .views.clients.contractor import ContractorViewSet
 from .views.company_structure.filial import FilialViewSet
 from .views.company_structure.filial_department import FilialDepartmentViewSet
 from .views.medical_activity.doctor_appointment import DoctorAppointmentViewSet
+from .views.medical_activity.shifts import ShiftViewSet
 from .views.registration import RegistrationViewSet
 from .views.staffing import (
     EmployeeViewSet, SpecializationViewSet
@@ -22,6 +23,8 @@ from .views.registry import (
 )
 from .views.staffing.position import PositionViewSet
 from .views.staffing.reception_time import ReceptionTimeViewSet
+from .views.medical_activity.reception_template import ReceptionTemplateViewSet
+from .views.medical_activity.shift_transfers import ShiftTransferViewSet
 
 router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
@@ -40,6 +43,10 @@ router.register(r'filial-departments', FilialDepartmentViewSet, basename='filial
 router.register(r'contractor', ContractorViewSet, basename='contractor')
 router.register(r'medical-card-types', MedicalCardTypeViewSet, basename='medical-card-type')
 router.register('specialization', SpecializationViewSet, basename='specialization')
+router.register(r'reception-templates', ReceptionTemplateViewSet, basename='receptiontemplate')
+router.register(r'shift', ShiftViewSet, basename='shift')
+router.register(r'shift-transfers', ShiftTransferViewSet, basename='shifttransfer')
+
 
 urlpatterns = (
 [
