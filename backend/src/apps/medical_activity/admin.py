@@ -1,6 +1,4 @@
 from django.contrib import admin
-from rest_framework.exceptions import ValidationError
-
 from .models import DoctorAppointment
 
 @admin.register(DoctorAppointment)

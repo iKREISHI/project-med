@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema, OpenApiParameter, extend_schema_view
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -13,7 +14,51 @@ class DoctorAppointmentPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 100
 
-
+@extend_schema_view(
+    list=extend_schema(
+        summary="Получение списка приемов с пагинацией",
+        description=(
+            "Возвращает список приемов к врачу с поддержкой пагинации и фильтрацией по диапазону дат. "
+            "Если переданы query-параметры 'start_date' и 'end_date' в формате YYYY-MM-DD, то "
+            "будут возвращаться только те приемы, у которых appointment_date попадает в указанный диапазон."
+        ),
+        parameters=[
+            OpenApiParameter(
+                "start_date",
+                description="Начальная дата в формате YYYY-MM-DD",
+                required=False,
+                type=str
+            ),
+            OpenApiParameter(
+                "end_date",
+                description="Конечная дата в формате YYYY-MM-DD",
+                required=False,
+                type=str
+            )
+        ],
+        responses={200: DoctorAppointmentSerializer}
+    ),
+    retrieve=extend_schema(
+        summary="Получение приема по id",
+        responses={200: DoctorAppointmentSerializer}
+    ),
+    create=extend_schema(
+        summary="Создание нового приема",
+        responses={201: DoctorAppointmentSerializer}
+    ),
+    update=extend_schema(
+        summary="Полное обновление приема",
+        responses={200: DoctorAppointmentSerializer}
+    ),
+    partial_update=extend_schema(
+        summary="Частичное обновление приема",
+        responses={200: DoctorAppointmentSerializer}
+    ),
+    destroy=extend_schema(
+        summary="Удаление приема",
+        responses={204: {}}
+    )
+)
 class DoctorAppointmentViewSet(viewsets.ModelViewSet):
     """
     API для работы с приемами к врачу с поддержкой пагинации.

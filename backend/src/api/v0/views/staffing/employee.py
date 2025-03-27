@@ -1,3 +1,5 @@
+from django.db.models import Q
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
@@ -29,6 +31,39 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     pagination_class = EmployeePagination
     # authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name='search',
+                description='Поиск по фамилии, имени, отчеству или телефону',
+                required=False,
+                type=str
+            )
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_term = self.request.query_params.get('search', '').strip()
+
+        if search_term:
+            query = Q()
+            for term in search_term.split():
+                if not term:
+                    continue
+
+                query |= (
+                        Q(last_name__istartswith=term) |
+                        Q(first_name__istartswith=term) |
+                        Q(patronymic__istartswith=term) |
+                        Q(phone__istartswith=term)
+                )
+            queryset = queryset.filter(query)
+
+        return queryset.order_by('last_name', 'first_name', 'patronymic')
 
     def retrieve(self, request, *args, **kwargs):
         pk = kwargs.get('pk')

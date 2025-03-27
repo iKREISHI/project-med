@@ -16,7 +16,6 @@ def validate_doctor_appointment_datetime(appointment):
     if appointment.start_time >= appointment.end_time:
         raise ValidationError({"non_field_errors":_("Время окончания приёма должно быть позже времени начала")})
 
-    # Поиск рабочих часов врача
     reception_times = ReceptionTime.objects.filter(
         doctor=appointment.assigned_doctor,
         reception_day=appointment.appointment_date
