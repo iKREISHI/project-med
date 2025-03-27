@@ -5,8 +5,6 @@ import { POST } from "../../../6_shared/api";
 export const addNewPatient = async (
   patientData: Omit<Patient, "id" | "data_created">
 ): Promise<Patient> => {
-
-
   const response = await POST("/api/v0/patient/", {
     body: patientData,
   });
