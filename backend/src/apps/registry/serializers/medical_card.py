@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from apps.registry.models.medical_card import MedicalCard
+from apps.registry.models import MedicalCard
+from apps.registry.services import MedicalCardService
 
 
 class StrictCharField(serializers.CharField):
@@ -10,18 +11,16 @@ class StrictCharField(serializers.CharField):
 
 
 class MedicalCardSerializer(serializers.ModelSerializer):
-    # card_type = StrictCharField()  # ожидается строковое значение, которое будет использовано для поиска типа карты
+    # Переопределяем card_type, чтобы принимать только строковые значения
+    card_type = StrictCharField()
 
     class Meta:
         model = MedicalCard
         fields = '__all__'
-        read_only_fields = ('id', 'date_created',)
-        extra_kwargs = {
-            "number": {"required": False, "allow_blank": True},
-        }
+        read_only_fields = ('id',)
 
     def to_internal_value(self, data):
-        # Проверяем, что в data не переданы неизвестные ключи
+        # Если в data присутствуют ключи, которых нет в описании сериализатора, выбрасываем ошибку.
         unknown = set(data.keys()) - set(self.fields.keys())
         if unknown:
             errors = {field: ["This field is not allowed."] for field in unknown}
@@ -29,14 +28,7 @@ class MedicalCardSerializer(serializers.ModelSerializer):
         return super().to_internal_value(data)
 
     def create(self, validated_data):
-        # Обращаемся к базе напрямую для создания объекта
-        instance = MedicalCard.objects.create(**validated_data)
-        return instance
+        return MedicalCardService.create_medical_card(**validated_data)
 
     def update(self, instance, validated_data):
-        # Обновляем поля напрямую
-        for field, value in validated_data.items():
-            setattr(instance, field, value)
-        instance.full_clean()
-        instance.save()
-        return instance
+        return MedicalCardService.update_medical_card(instance, **validated_data)

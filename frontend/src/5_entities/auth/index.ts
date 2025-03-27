@@ -1,0 +1,1 @@
+export { type AuthResponse } from '././model/model.ts'

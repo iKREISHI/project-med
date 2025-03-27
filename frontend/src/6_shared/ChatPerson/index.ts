@@ -1,0 +1,1 @@
+export { ChatPerson } from './ui/ChatPerson'
