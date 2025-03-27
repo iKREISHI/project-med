@@ -1,1 +1,0 @@
-from .medical_card import MedicalCardService

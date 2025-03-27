@@ -1,1 +1,0 @@
-from .patient import PatientSerializer
