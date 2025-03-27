@@ -1,0 +1,1 @@
+export { PatientAddresses } from './ui/PatientAddresses'

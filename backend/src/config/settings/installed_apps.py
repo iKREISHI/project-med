@@ -13,7 +13,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'drf_spectacular_sidecar',
-    'minio_storage',
 
     # Apps
     'apps.users.apps.UsersConfig',
