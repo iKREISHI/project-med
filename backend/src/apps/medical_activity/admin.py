@@ -1,8 +1,11 @@
 from django.contrib import admin
+from rest_framework.exceptions import ValidationError
+
 from .models import DoctorAppointment
 
 @admin.register(DoctorAppointment)
 class DoctorAppointmentAdmin(admin.ModelAdmin):
+
     list_display = (
         'patient',
         'assigned_doctor',

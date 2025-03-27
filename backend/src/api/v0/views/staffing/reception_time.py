@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+
 from apps.staffing.models import ReceptionTime
 from apps.staffing.serializers import ReceptionTimeSerializer
 
@@ -17,22 +18,27 @@ class ReceptionTimeViewSet(viewsets.ModelViewSet):
     API для работы с временем приема.
 
     Поддерживаются операции:
-      - list: получение списка записей времени приема
+      - list: получение списка записей времени приема с фильтрацией по подразделению
         (требуется permission "reception_time.view_receptiontime"),
       - retrieve: получение записи по id
         (требуется permission "reception_time.view_receptiontime"),
-      - create: создание новой записи
+      - create: создание новой записи (автоматическая привязка к текущему сотруднику)
         (требуется permission "reception_time.add_receptiontime"),
       - update/partial_update: обновление записи
         (требуется permission "reception_time.change_receptiontime"),
       - destroy: удаление записи
         (требуется permission "reception_time.delete_receptiontime").
     """
-    queryset = ReceptionTime.objects.all().order_by('reception_day', 'start_time')
     serializer_class = ReceptionTimeSerializer
     pagination_class = ReceptionTimePagination
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+    http_method_names = ['get', 'post', 'patch', 'delete', 'options', 'head']
     lookup_field = 'id'
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = ReceptionTime.objects.filter(doctor__user=user).order_by('reception_day', 'start_time')
+        return queryset
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

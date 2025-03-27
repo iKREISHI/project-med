@@ -27,5 +27,9 @@ class ReceptionTime(models.Model):
         verbose_name_plural = _("Время приёма")
         ordering = ['doctor', 'reception_day', 'start_time']
 
+    def check_time_is_free(self, start_time, end_time):
+        pass
+
+
     def __str__(self):
         return f"{self.doctor} - {self.reception_day}: {self.start_time} - {self.end_time}"
