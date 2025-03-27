@@ -27,6 +27,8 @@ from .views.medical_activity.reception_template import ReceptionTemplateViewSet
 from .views.medical_activity.shift_transfers import ShiftTransferViewSet
 from .views.medical_activity.patient_conditions import PatientConditionViewSet
 from .views.medical_activity.hospital_stays import HospitalStaysViewSet
+from api.v0.views.medical_activity.diagnosis import DiagnosisViewSet
+from api.v0.views.medical_activity.diagnosis_category import DiagnosisCategoryViewSet
 
 router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
@@ -50,7 +52,8 @@ router.register(r'shift', ShiftViewSet, basename='shift')
 router.register(r'shift-transfers', ShiftTransferViewSet, basename='shifttransfer')
 router.register(r'patient-conditions', PatientConditionViewSet, basename='patientcondition')
 router.register(r'hospital-stays', HospitalStaysViewSet, basename='hospitalstays')
-
+router.register(r'diagnoses', DiagnosisViewSet, basename='diagnosis')
+router.register(r'diagnosis-categories', DiagnosisCategoryViewSet, basename='diagnosiscategory')
 
 urlpatterns = (
 [

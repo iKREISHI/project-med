@@ -8,6 +8,7 @@ from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiPara
 from apps.medical_activity.models import Shift
 from apps.medical_activity.serializers import ShiftSerializer
 
+
 @extend_schema_view(
     list=extend_schema(
         summary="Получение списка смен",
