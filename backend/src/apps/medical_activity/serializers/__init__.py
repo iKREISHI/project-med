@@ -1,0 +1,6 @@
+from .doctor_appointment import DoctorAppointmentSerializer
+from .reception_template import ReceptionTemplateSerializer
+from .shifts import ShiftSerializer
+from .shift_transfers import ShiftTransferSerializer
+from .patient_conditions import PatientConditionSerializer
+from .hospital_stays import HospitalStaysSerializer
