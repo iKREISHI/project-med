@@ -114,12 +114,25 @@ class DoctorAppointment(AbstractElectronicSignature):
         verbose_name="Дата создания"
     )
 
+    date_updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата обновления'
+    )
+
     medical_card = models.ForeignKey(
         'registry.MedicalCard',
         max_length=255,
         blank=True,
         null=True,
         on_delete=SET_NULL,
+    )
+
+    diagnosis = models.ForeignKey(
+        'medical_activity.Diagnosis',
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        verbose_name=_('Диагноз')
     )
 
     def __str__(self):
