@@ -30,7 +30,7 @@ import { CardTypes, Departments, Dictionaries, Filial, Positions, Specialization
 
 export const RouterComponent: FC = () => {
   const user = {
-    role: "staff", // admin staff
+    role: "admin", // admin staff
   };
 
   return (
