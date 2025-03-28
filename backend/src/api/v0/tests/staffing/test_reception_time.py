@@ -1,6 +1,7 @@
 import datetime
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
@@ -33,7 +34,7 @@ class ReceptionTimeViewSetTestCase(APITestCase):
         # Данные для создания ReceptionTime через API: для полей ForeignKey передаем pk
         self.valid_data = {
             "doctor": self.doctor.pk,
-            "reception_day": "2023-03-15",
+            "reception_day": now() + datetime.timedelta(days=1),
             "start_time": "09:00:00",
             "end_time": "17:00:00"
         }

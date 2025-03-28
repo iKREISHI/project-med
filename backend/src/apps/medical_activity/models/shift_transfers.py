@@ -50,28 +50,28 @@ class ShiftTransfer(AbstractDocumentTemplate):
         # Проверка валидации
         self.full_clean()
 
-        with transaction.atomic():
-            # Обновляем версии объектов из базы
-            from_shift = Shift.objects.select_for_update().get(pk=self.from_shift_id)
-            to_shift = Shift.objects.select_for_update().get(pk=self.to_shift_id)
+        if self.from_shift.doctor and self.to_shift.doctor:
+            with transaction.atomic():
+                # Обновляем версии объектов из базы
+                from_shift = Shift.objects.select_for_update().get(pk=self.from_shift_id)
+                to_shift = Shift.objects.select_for_update().get(pk=self.to_shift_id)
 
-            if from_shift.doctor_id != self._state.fields_cache.get('from_shift').doctor_id:
-                raise serializers.ValidationError({"non_field_errors":_("Данные смены from_shift изменились")})
+                if from_shift.doctor_id != self._state.fields_cache.get('from_shift').doctor_id:
+                    raise serializers.ValidationError({"non_field_errors":_("Данные смены from_shift изменились")})
 
-            # Сохраняем оригинальных врачей
-            original_from_doctor = from_shift.doctor
-            original_to_doctor = to_shift.doctor
+                # Сохраняем оригинальных врачей
+                original_from_doctor = from_shift.doctor
+                original_to_doctor = to_shift.doctor
 
-            # Меняем врачей
-            from_shift.doctor = original_to_doctor
-            to_shift.doctor = original_from_doctor
+                # Меняем врачей
+                from_shift.doctor = original_to_doctor
+                to_shift.doctor = original_from_doctor
 
-            # Сохраняем смены
-            from_shift.save(update_fields=['doctor'])
-            to_shift.save(update_fields=['doctor'])
+                # Сохраняем смены
+                from_shift.save(update_fields=['doctor'])
+                to_shift.save(update_fields=['doctor'])
 
-            # Сохраняем сам объект передачи
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         time = self.date.strftime('%Y-%m-%d %H:%M')

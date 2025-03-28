@@ -1,9 +1,11 @@
 import datetime
 from django.test import TestCase
+from django.utils import timezone
+
 from apps.medical_activity.models import DoctorAppointment, ReceptionTemplate
 from apps.medical_activity.serializers import DoctorAppointmentSerializer
 from apps.clients.models import Patient
-from apps.staffing.models import Employee, Specialization
+from apps.staffing.models import Employee, Specialization, ReceptionTime
 
 
 class DoctorAppointmentSerializerTestCase(TestCase):
@@ -40,6 +42,14 @@ class DoctorAppointmentSerializerTestCase(TestCase):
             name="Default Template",
             specialization=self.specialization
         )
+
+        self.reception_time = ReceptionTime.objects.create(
+            reception_day=timezone.now().date() + datetime.timedelta(days=1),
+            start_time=datetime.time(8, 0, 0),
+            end_time=datetime.time(18, 0, 0),
+            doctor=self.assigned_doctor,
+        )
+
         # Формируем корректный набор данных для создания приема.
         self.valid_data = {
             "patient": self.patient.pk,
@@ -50,7 +60,7 @@ class DoctorAppointmentSerializerTestCase(TestCase):
             "is_closed": False,
             "reason_for_inspection": "Routine check-up",
             "inspection_choice": "no_inspection",  # Предполагается, что это один из допустимых вариантов
-            "appointment_date": "2023-03-15",
+            "appointment_date": timezone.now().date() + datetime.timedelta(days=1),
             "start_time": "09:00:00",
             "end_time": "17:00:00",
         }

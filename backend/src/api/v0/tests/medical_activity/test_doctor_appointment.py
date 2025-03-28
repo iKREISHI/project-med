@@ -69,7 +69,7 @@ class DoctorAppointmentViewSetTests(APITestCase):
             "is_closed": False,
             "reason_for_inspection": "Routine check-up",
             "inspection_choice": "no_inspection",
-            "appointment_date": datetime.date(2023, 3, 15),
+            "appointment_date": timezone.now().date() + datetime.timedelta(days=1),
             "start_time": datetime.time(9, 0, 0),
             "end_time": datetime.time(17, 0, 0),
         }
@@ -77,7 +77,7 @@ class DoctorAppointmentViewSetTests(APITestCase):
         self.reception_time = ReceptionTime.objects.create(
             reception_day=timezone.now().date() + datetime.timedelta(days=1),
             start_time=datetime.time(8, 0, 0),
-            end_time=datetime.time(1812, 0, 0),
+            end_time=datetime.time(18, 0, 0),
             doctor=self.assigned_doctor,
         )
 
@@ -92,8 +92,8 @@ class DoctorAppointmentViewSetTests(APITestCase):
             "reason_for_inspection": "Routine check-up",
             "inspection_choice": "no_inspection",
             "appointment_date": timezone.now().date() + datetime.timedelta(days=1),
-            "start_time": "09:00:00",
-            "end_time": "17:00:00",
+            "start_time": datetime.time(9, 0, 0),
+            "end_time": datetime.time(17, 0, 0),
         }
         # Создаем существующий прием для тестов retrieve, update, destroy
         self.appointment = DoctorAppointment.objects.create(**self.valid_data_model)

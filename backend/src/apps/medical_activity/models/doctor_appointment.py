@@ -145,20 +145,17 @@ class DoctorAppointment(AbstractElectronicSignature):
     )
 
     def save(self, *args, **kwargs):
-        if not self.assigned_doctor or not self.appointment_date:
-            raise ValidationError("Обязательные поля: врач и дата приёма")
+        if self.assigned_doctor and self.appointment_date:
 
+            reception_time = ReceptionTime.objects.filter(
+                doctor=self.assigned_doctor,
+                reception_day=self.appointment_date,
+                start_time__lte=self.start_time,
+                end_time__gte=self.end_time
+            ).exists()
 
-
-        reception_time = ReceptionTime.objects.filter(
-            doctor=self.assigned_doctor,
-            reception_day=self.appointment_date,
-            start_time__lte=self.start_time,
-            end_time__gte=self.end_time
-        ).exists()
-
-        if not reception_time:
-            raise ValidationError({"non_field_errors":_("Время записи не попадает в рабочие часы врача")})
+            if not reception_time:
+                raise ValidationError({"non_field_errors":_("Время записи не попадает в рабочие часы врача")})
 
         super().save(*args, **kwargs)
 
