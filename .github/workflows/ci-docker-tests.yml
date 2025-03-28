@@ -40,28 +40,28 @@ jobs:
           EOF
 
       - name: Build и запуск контейнеров
-        run: docker-compose up -d --build
+        run: docker compose up -d --build
 
       - name: Ожидание готовности Postgres
         run: |
           for i in {1..10}; do
-            docker-compose exec postgres pg_isready -U ${POSTGRES_USER} && break || sleep 5;
+            docker compose exec postgres pg_isready -U ${POSTGRES_USER} && break || sleep 5;
           done
 
       - name: Ожидание готовности Redis
         run: |
           for i in {1..10}; do
-            docker-compose exec redis_container redis-cli -a ${REDIS_PASSWORD} ping && break || sleep 5;
+            docker compose exec redis_container redis-cli -a ${REDIS_PASSWORD} ping && break || sleep 5;
           done
 
       - name: Подготовка к миграции
-        run: docker-compose exec backend python manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
+        run: docker compose exec backend python manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
 
       - name: Применение миграций
-        run: docker-compose exec backend python manage.py migrate
+        run: docker compose exec backend python manage.py migrate
 
       - name: Запуск тестов
-        run: docker-compose run --rm backend python /app/manage.py test api apps --parallel
+        run: docker compose run --rm backend python /app/manage.py test api apps --parallel
 
       - name: Остановка контейнеров
-        run: docker-compose down -v
+        run: docker compose down -v
