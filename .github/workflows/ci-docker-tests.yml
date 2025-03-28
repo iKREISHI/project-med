@@ -67,46 +67,46 @@ jobs:
         run: docker compose down -v
 
 
-deploy:
-    name: Deploy to Server
-    needs: tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+  deploy:
+      name: Deploy to Server
+      needs: tests
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v3
 
-      - name: Deploy and Build on Server
-        uses: appleboy/ssh-action@v0.1.8
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_SSH_PORT }}
-          script: |
-            cd /путь/до/вашего/проекта
-            # Обновляем код на сервере
-            git pull origin main
-            # Создаем или обновляем файл .env
-            cat <<EOF > .env
-            REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
-            REDIS_USER=${{ secrets.REDIS_USER }}
-            REDIS_USER_PASSWORD=${{ secrets.REDIS_USER_PASSWORD }}
-            REDIS_INSTANCE_IP_ADDRESS=${{ secrets.REDIS_INSTANCE_IP_ADDRESS }}
-            REDIS_INSTANCE_PORT=${{ secrets.REDIS_INSTANCE_PORT }}
-            REDIS_URL=${{ secrets.REDIS_URL }}
-            
-            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            
-            MINIO_ROOT_USER=${{ secrets.MINIO_ROOT_USER }}
-            MINIO_ROOT_PASSWORD=${{ secrets.MINIO_ROOT_PASSWORD }}
-            MINIO_INSTANCE_ADDRESS=${{ secrets.MINIO_INSTANCE_ADDRESS }}
-            
-            SERVER_BACKEND_IP_ADDRESS=${{ secrets.SERVER_BACKEND_IP_ADDRESS }}
-            EOF
-            # Останавливаем текущие контейнеры (если запущены)
-            docker-compose down
-            # Собираем и запускаем контейнеры с обновленным кодом и настройками
-            docker-compose up -d --build
+        - name: Deploy and Build on Server
+          uses: appleboy/ssh-action@v0.1.8
+          with:
+            host: ${{ secrets.SERVER_HOST }}
+            username: ${{ secrets.SERVER_USER }}
+            key: ${{ secrets.SERVER_SSH_KEY }}
+            port: ${{ secrets.SERVER_SSH_PORT }}
+            script: |
+              cd /home/shiro/project-med/
+              # Обновляем код на сервере
+              git pull origin main
+              # Создаем или обновляем файл .env
+              cat <<EOF > .env
+              REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+              REDIS_USER=${{ secrets.REDIS_USER }}
+              REDIS_USER_PASSWORD=${{ secrets.REDIS_USER_PASSWORD }}
+              REDIS_INSTANCE_IP_ADDRESS=${{ secrets.REDIS_INSTANCE_IP_ADDRESS }}
+              REDIS_INSTANCE_PORT=${{ secrets.REDIS_INSTANCE_PORT }}
+              REDIS_URL=${{ secrets.REDIS_URL }}
+              
+              POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+              POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+              POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+              DATABASE_URL=${{ secrets.DATABASE_URL }}
+              
+              MINIO_ROOT_USER=${{ secrets.MINIO_ROOT_USER }}
+              MINIO_ROOT_PASSWORD=${{ secrets.MINIO_ROOT_PASSWORD }}
+              MINIO_INSTANCE_ADDRESS=${{ secrets.MINIO_INSTANCE_ADDRESS }}
+              
+              SERVER_BACKEND_IP_ADDRESS=${{ secrets.SERVER_BACKEND_IP_ADDRESS }}
+              EOF
+              # Останавливаем текущие контейнеры (если запущены)
+              docker compose down
+              # Собираем и запускаем контейнеры с обновленным кодом и настройками
+              docker compose up -d --build
