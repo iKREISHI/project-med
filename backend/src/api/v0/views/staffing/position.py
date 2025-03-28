@@ -1,3 +1,4 @@
+from drf_spectacular.utils import OpenApiExample, extend_schema, extend_schema_view
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
@@ -12,7 +13,57 @@ class PositionPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 100
 
-
+@extend_schema_view(
+    list=extend_schema(
+        summary="Получение списка должностей",
+        description="Возвращает список всех должностей с пагинацией",
+        responses={200: PositionSerializer(many=True)}
+    ),
+    retrieve=extend_schema(
+        summary="Получение должности по ID",
+        responses={
+            200: PositionSerializer,
+            404: OpenApiExample(
+                'Пример ошибки',
+                value={"detail": "Должность не найдена."}
+            )
+        }
+    ),
+    create=extend_schema(
+        summary="Создание новой должности",
+        responses={
+            201: PositionSerializer,
+            400: OpenApiExample(
+                'Пример ошибки валидации',
+                value={"name": ["Это поле обязательно."]}
+            )
+        }
+    ),
+    update=extend_schema(
+        summary="Полное обновление должности",
+        responses={
+            200: PositionSerializer,
+            400: OpenApiExample(
+                'Пример ошибки валидации',
+                value={"name": ["Это поле обязательно."]}
+            )
+        }
+    ),
+    partial_update=extend_schema(
+        summary="Частичное обновление должности",
+        responses={200: PositionSerializer}
+    ),
+    destroy=extend_schema(
+        summary="Удаление должности",
+        responses={
+            204: None,
+            403: OpenApiExample(
+                'Пример ошибки прав доступа',
+                value={"detail": "У вас нет прав для выполнения этого действия."}
+            )
+        }
+    )
+)
 class PositionViewSet(viewsets.ModelViewSet):
     """
     API для работы с должностями.

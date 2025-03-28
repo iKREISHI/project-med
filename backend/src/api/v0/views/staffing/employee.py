@@ -1,5 +1,5 @@
 from django.db.models import Q
-from drf_spectacular.utils import OpenApiParameter, extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema, OpenApiExample, extend_schema_view
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.response import Response
@@ -15,7 +15,69 @@ class EmployeePagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 100
 
-
+@extend_schema_view(
+    list=extend_schema(
+        summary="Получение списка сотрудников",
+        description=(
+            "Возвращает список сотрудников с пагинацией. Поддерживает поиск по: "
+            "- Началу фамилии\n"
+            "- Началу имени\n"
+            "- Началу отчества\n"
+            "- Номеру телефона\n"
+            "Пример: /api/employees/?search=Иван Петров 7900"
+        ),
+        parameters=[
+            OpenApiParameter(
+                name='search',
+                description='Поисковая строка (разделение терминов пробелом)',
+                required=False,
+                type=str,
+                examples=[
+                    OpenApiExample(
+                        'Пример 1',
+                        value='Иванов'
+                    ),
+                    OpenApiExample(
+                        'Пример 2',
+                        value='Сидоров 7999'
+                    ),
+                ]
+            )
+        ]
+    ),
+    retrieve=extend_schema(
+        summary="Получение сотрудника по ID",
+        responses={200: EmployeeSerializer}
+    ),
+    create=extend_schema(
+        summary="Создание нового сотрудника",
+        responses={
+            201: EmployeeSerializer,
+            400: OpenApiExample(
+                'Пример ошибки',
+                value={"detail": "Validation error description"}
+            )
+        }
+    ),
+    update=extend_schema(
+        summary="Полное обновление данных сотрудника",
+        responses={200: EmployeeSerializer}
+    ),
+    partial_update=extend_schema(
+        summary="Частичное обновление данных сотрудника",
+        responses={200: EmployeeSerializer}
+    ),
+    destroy=extend_schema(
+        summary="Удаление сотрудника",
+        responses={
+            204: None,
+            403: OpenApiExample(
+                'Пример ошибки прав',
+                value={"detail": "You do not have permission to perform this action."}
+            )
+        }
+    )
+)
 class EmployeeViewSet(viewsets.ModelViewSet):
     """
     API для работы с сотрудниками с поддержкой пагинации.
@@ -32,16 +94,6 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     # authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
 
-    @extend_schema(
-        parameters=[
-            OpenApiParameter(
-                name='search',
-                description='Поиск по фамилии, имени, отчеству или телефону',
-                required=False,
-                type=str
-            )
-        ]
-    )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
