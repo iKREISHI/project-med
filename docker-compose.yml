@@ -11,7 +11,7 @@ services:
 
     restart: unless-stopped
     volumes:
-      - ./backend/src:/app/
+#      - ./backend/src:/app/
       - static_volume:/app/staticfiles
     ports:
       - "8000:8000"

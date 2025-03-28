@@ -23,10 +23,10 @@ class ShiftSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'doctor_name', 'shift_str']
 
-    def get_doctor_name(self, obj):
+    def get_doctor_name(self, obj) -> str:
         return obj.doctor.get_short_name() if obj.doctor else None
 
-    def get_shift_str(self, obj):
+    def get_shift_str(self, obj) -> str:
         return str(obj)
 
     def to_internal_value(self, data):
@@ -34,4 +34,9 @@ class ShiftSerializer(serializers.ModelSerializer):
         # Удаляем read_only поля, чтобы они не попадали в validated_data
         for field in self.Meta.read_only_fields:
             data.pop(field, None)
+
+        unknown = set(data.keys()) - set(self.fields.keys())
+        if unknown:
+            errors = {field: ["This field is not allowed."] for field in unknown}
+            raise serializers.ValidationError(errors)
         return super().to_internal_value(data)

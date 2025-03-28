@@ -13,6 +13,14 @@ class DoctorAppointment(AbstractElectronicSignature):
     """
     Прием к врачу
     """
+    booking_appointment = models.ForeignKey(
+        'medical_activity.BookingAppointment',
+        on_delete=models.PROTECT,
+        verbose_name='Запись на прием',
+        blank=True,
+        null=True,
+    )
+
     patient = models.ForeignKey(
         Patient,
         on_delete=models.SET_NULL,
