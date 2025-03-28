@@ -1,0 +1,67 @@
+name: CI Docker Django тесты
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout кода
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Создание .env файла
+        run: |
+          cat <<EOF > .env
+          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          REDIS_USER=${{ secrets.REDIS_USER }}
+          REDIS_USER_PASSWORD=${{ secrets.REDIS_USER_PASSWORD }}
+          REDIS_INSTANCE_IP_ADDRESS=${{ secrets.REDIS_INSTANCE_IP_ADDRESS }}
+          REDIS_INSTANCE_PORT=${{ secrets.REDIS_INSTANCE_PORT }}
+          REDIS_URL=${{ secrets.REDIS_URL }}
+    
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+    
+          MINIO_ROOT_USER=${{ secrets.MINIO_ROOT_USER }}
+          MINIO_ROOT_PASSWORD=${{ secrets.MINIO_ROOT_PASSWORD }}
+          MINIO_INSTANCE_ADDRESS=${{ secrets.MINIO_INSTANCE_ADDRESS }}
+    
+          SERVER_BACKEND_IP_ADDRESS=${{ secrets.SERVER_BACKEND_IP_ADDRESS }}
+          EOF
+
+      - name: Build и запуск контейнеров
+        run: docker-compose up -d --build
+
+      - name: Ожидание готовности Postgres
+        run: |
+          for i in {1..10}; do
+            docker-compose exec postgres pg_isready -U ${POSTGRES_USER} && break || sleep 5;
+          done
+
+      - name: Ожидание готовности Redis
+        run: |
+          for i in {1..10}; do
+            docker-compose exec redis_container redis-cli -a ${REDIS_PASSWORD} ping && break || sleep 5;
+          done
+
+      - name: Подготовка к миграции
+        run: docker-compose exec backend python manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
+
+      - name: Применение миграций
+        run: docker-compose exec backend python manage.py migrate
+
+      - name: Запуск тестов
+        run: docker-compose run --rm backend python /app/manage.py test api apps --parallel
+
+      - name: Остановка контейнеров
+        run: docker-compose down -v
