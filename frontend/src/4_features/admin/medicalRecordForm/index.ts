@@ -1,0 +1,1 @@
+export { MedicalRecordForm } from './ui/MedicalRecordForm.tsx'

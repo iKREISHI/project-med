@@ -11,8 +11,8 @@ export const PatientAddressesForm: FC = () => {
   return (
     <Box>
       <form>
-        <Box>
-          <Box sx={patientAdressesFormSx.inputContainer}>
+        <Box sx={{mt: 3}}>
+          <Box sx={{...patientAdressesFormSx.inputContainer, mb: 2}}>
             <InputForm
               type="text"
               label="Адрес регистрации"

@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { Box, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { InputForm } from "../../../../6_shared/Input";
+import { InputForm } from "@6_shared/Input";
 import { patientRegisterFormSx } from "./patientRegisterFormSx";
-import { CustomButton } from "../../../../6_shared/Button";
+import { CustomButton } from "@6_shared/Button";
 import { usePatientFormStore } from "../../model/store.ts";
-import { addNewPatient } from "../../../../5_entities/patient/api/addNewPatient.ts";
+import { addNewPatient } from "@5_entities/patient/api/addNewPatient.ts";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx.ts";
+import Grid from '@mui/material/Grid2';
+
 
 export const PatientRegisterForm: FC = () => {
   const { patient, setField, resetForm } = usePatientFormStore();
@@ -25,63 +27,72 @@ export const PatientRegisterForm: FC = () => {
   return (
     <Box>
       <form onSubmit={handleSubmit}>
-        <Box sx={patientRegisterFormSx.inputContainer}>
-          <Box sx={globalsStyleSx.inputContainer}>
-            <Typography component="p">ФИО</Typography>
-            <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 11, lg: 8 }}>
+            <Box>
+              <Box sx={{ mt: 2 }}>
+                <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
+                  <InputForm
+                    type="text"
+                    value={patient.last_name || ""}
+                    onChange={(e) => setField("last_name", e.target.value)}
+                    required
+                    fullWidth
+                    label="Фамилия"
+                  />
+                  <InputForm
+                    type="text"
+                    label="Имя"
+                    value={patient.first_name || ""}
+                    onChange={(e) => setField("first_name", e.target.value)}
+                    required
+                    fullWidth
+                  />
+                  <InputForm
+                    type="text"
+                    label="Отчество"
+                    value={patient.patronymic || ""}
+                    onChange={(e) => setField("patronymic", e.target.value)}
+                    fullWidth
+                  />
+                </Box>
+              </Box>
+            </Box>
+
+            <Box sx={{ mt: 2 }}>
               <InputForm
-                type="text"
-                placeholder="Фамилия*"
-                value={patient.last_name || ""}
-                onChange={(e) => setField("last_name", e.target.value)}
+                type="date"
+                fullWidth
+                value={patient.date_of_birth || ""}
+                onChange={(e) => setField("date_of_birth", e.target.value)}
+                label="Дата рождения"
                 required
-              />
-              <InputForm
-                type="text"
-                placeholder="Имя*"
-                value={patient.first_name || ""}
-                onChange={(e) => setField("first_name", e.target.value)}
-                required
-              />
-              <InputForm
-                type="text"
-                placeholder="Отчество"
-                value={patient.patronymic || ""}
-                onChange={(e) => setField("patronymic", e.target.value)}
               />
             </Box>
-          </Box>
-        </Box>
+            <Box sx={{ mt: 2 }}>
+              <Typography component="p" sx={{ fontSize: '0.9rem' }}>Пол</Typography>
 
-        <Box sx={globalsStyleSx.inputContainer}>
-          <Typography component="p">Дата рождения*</Typography>
-          <InputForm
-            type="date"
-            value={patient.date_of_birth || ""}
-            onChange={(e) => setField("date_of_birth", e.target.value)}
-            required
-          />
-        </Box>
-        <Box sx={globalsStyleSx.inputContainer}>
-          <Typography component="p">Пол</Typography>
-
-          <RadioGroup
-            row
-            name="gender"
-            value={patient.gender}
-            onChange={(e) => setField("gender", e.target.value)}
-            sx={patientRegisterFormSx.inputContainer}
-          >
-            <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
-              <FormControlLabel value="M" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Мужской" />
-              <FormControlLabel value="F" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Женский" />
-              <FormControlLabel value="U" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Не указан" /></Box>
-          </RadioGroup>
-        </Box>
-        <CustomButton type="submit" variant="contained">
-          Зарегистрировать
-        </CustomButton>
+              <RadioGroup
+                row
+                name="gender"
+                value={patient.gender}
+                onChange={(e) => setField("gender", e.target.value)}
+                sx={{ ...patientRegisterFormSx.inputContainer, m: 0 }}
+              >
+                <Box sx={{ ...globalsStyleSx.inputContainer, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
+                  <FormControlLabel value="M" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Мужской" />
+                  <FormControlLabel value="F" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Женский" />
+                  <FormControlLabel value="U" control={<Radio disableRipple />} sx={patientRegisterFormSx.radioCheck} label="Не указан" />
+                </Box>
+              </RadioGroup>
+            </Box>
+            <CustomButton type="submit" variant="contained">
+              Зарегистрировать
+            </CustomButton>
+          </Grid>
+        </Grid>
       </form >
+
     </Box >
   );
 };

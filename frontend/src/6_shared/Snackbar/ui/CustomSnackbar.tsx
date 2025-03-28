@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { IconButton, Snackbar } from "@mui/material";
+import { IconButton, Snackbar, Theme } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 interface SuccessSnackbarProps {
@@ -16,12 +16,19 @@ export const CustomSnackbar: FC<SuccessSnackbarProps> = ({ open, onClose, messag
             autoHideDuration={3000}
             onClose={onClose}
             message={message}
+            sx={{
+                "& .MuiSnackbarContent-root": {
+                    backgroundColor: (theme: Theme) => theme.palette.grey[300],
+                    color: "black" 
+                }
+            }}
             action={
             <IconButton
                 size="small"
                 aria-label="close"
                 color="inherit"
                 onClick={onClose}
+                disableRipple
             >
                 <CloseIcon fontSize="small" />
             </IconButton>}

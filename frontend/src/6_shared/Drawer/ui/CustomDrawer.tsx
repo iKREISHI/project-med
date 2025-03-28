@@ -1,4 +1,4 @@
-import React, { JSX, useState } from 'react';
+import React, { JSX, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ListItemText, ListItemButton, ListItem, List, Toolbar, Drawer, Box, IconButton, Typography, useTheme, SxProps, Theme, Divider, ListItemIcon, useMediaQuery, } from '@mui/material';
 import { customDrawerSx } from './customDrawerSx';
@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { globalsStyle } from '../../styles/globalsStyle';
 import logo from './logo.png';
 import { InputSearch } from '../../Input';
-
+import MicIcon from '@mui/icons-material/Mic';
 
 interface ListItem {
     name: string;
@@ -28,7 +28,46 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
     const [search, setSearch] = useState('');
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const isDarkText = !(theme.palette.mode === "dark");
+    const [isListening, setIsListening] = useState(false);
+    const [hasSpeechRecognition, setHasSpeechRecognition] = useState(false);
 
+    useEffect(() => {
+        // Проверяем поддержку API распознавания речи
+        const recognitionSupport = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+        setHasSpeechRecognition(recognitionSupport && isMobile);
+    }, [isMobile]);
+
+    const handleVoiceInput = () => {
+        if (!hasSpeechRecognition) return;
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.lang = 'ru-RU';
+        recognition.interimResults = false;
+
+        recognition.onstart = () => {
+            setIsListening(true);
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            setSearch(transcript);
+            setIsListening(false);
+            if (handleSearch) handleSearch();
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error', event.error);
+            setIsListening(false);
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+
+        recognition.start();
+    };
 
     const drawer = (
         <Box sx={customDrawerSx.sideContainer}>
@@ -44,26 +83,23 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                             }}
                             onClick={(e) => navigate("/")}
                         >
-                            {/* Логотип */}
                             <img
                                 src={logo}
                                 alt="Логотип"
                                 style={{ width: '44px' }}
                             />
-                            {/* Текст */}
                             <Typography component="p" sx={{ fontSize: theme.typography.h2, fontWeight: '700' }}>
                                 Медvед код
                             </Typography>
                         </Box>
                         <IconButton disableRipple onClick={handleDrawerToggle} sx={{ display: { xs: 'block', sm: 'none' } }}>
-                            <CloseIcon sx={{ color: theme.palette.common.white }} />
+                            <CloseIcon />
                         </IconButton>
-
                     </Box>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
                         {isMobile && (
-                            <Box sx={{ flexGrow: 1, mt: 2, mb: 1 }}>
+                            <Box sx={{ flexGrow: 1, mt: 2, mb: 1, position: 'relative', display: 'flex', justifyContent: 'space-between' }}>
                                 <InputSearch
                                     type="text"
                                     value={search}
@@ -73,10 +109,23 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                                     onSearch={handleSearch}
                                     isDarkText={isDarkText}
                                 />
+                                {hasSpeechRecognition && (
+                                    <IconButton
+                                        onClick={handleVoiceInput}
+                                        sx={{
+                                            right: 8,
+                                            top: '50%',
+                                            color: isListening ? theme.palette.primary.main : theme.palette.grey[500],
+                                            transform: 'translateX(20%)',
+                                        }}
+                                        disableRipple
+                                    >
+                                        <MicIcon />
+                                    </IconButton>
+                                )}
                             </Box>
                         )}
                     </Box>
-
                 </Toolbar>
                 <List sx={{ mt: { md: 6 } }}>
                     {listItems.map((item, index) => (
@@ -111,7 +160,6 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
 
     return (
         <>
-            {/* Мобильная версия */}
             <Drawer
                 variant="temporary"
                 open={mobileOpen}
@@ -132,7 +180,6 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                 {drawer}
             </Drawer>
 
-            {/* Десктопная версия */}
             <Drawer
                 variant="permanent"
                 sx={{

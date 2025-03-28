@@ -1,11 +1,10 @@
 import { FC, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";
 import { CustomButton } from "../../../../6_shared/Button";
 import { CustomSnackbar } from "../../../../6_shared/Snackbar";
 import { CustomSelect } from "../../../../6_shared/Select";
 import { CustomAutocomplete } from "../../../../6_shared/Autocomplete";
-import { globalsStyleSx } from "../../../../6_shared/styles/globalsStyleSx.ts";
 import Grid from '@mui/material/Grid2';
 
 
@@ -51,43 +50,46 @@ export const RecordForm: FC = () => {
                 <Grid container spacing={2}>
                     <Grid size={{ xs: 11, lg: 7 }}>
                         {/* Выбор врача */}
-                        <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Врач</Typography>
+                        <Box sx={{ mt: 2 }}>
                             <CustomSelect
                                 value={doctor}
                                 onChange={setDoctor}
                                 options={doctors}
                                 placeholder="Выберите врача"
+                                label="Выберите врача"
+                                required
+                                fullWidth
                             />
                         </Box>
 
                         {/* Поиск клиента */}
-                        <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Пациент</Typography>
+                        <Box sx={{ mt: 2 }}>
                             <CustomAutocomplete
                                 value={client}
                                 onChange={setClient}
                                 options={clients}
                                 placeholder="Введите имя пациента"
+                                label="Пациент"
+                                required
+                                fullWidth
                             />
                         </Box>
 
                         {/* Выбор даты */}
-                        <Box sx={globalsStyleSx.inputContainer}>
-                            <Typography component="p">Дата записи</Typography>
+                        <Box sx={{ mt: 2 }}>
                             <InputForm
                                 type="date"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
                                 required
                                 fullWidth
+                                label="Дата записи"
                             />
                         </Box>
 
                         {/* Выбор времени */}
                         {date && (
-                            <Box sx={globalsStyleSx.inputContainer}>
-                                <Typography component="p">Время записи</Typography>
+                            <Box sx={{ mt: 2 }}>
                                 <CustomSelect
                                     value={time}
                                     onChange={setTime}
@@ -96,14 +98,18 @@ export const RecordForm: FC = () => {
                                         name: value.time,
                                         disabled: !value.isAvailable,
                                     }))}
+                                    label="Выберите время"
+                                    required
+                                    fullWidth
                                     placeholder="Выберите время"
                                 />
                             </Box>
                         )}
-
-                        <CustomButton type="submit" variant="contained">
-                            Записать
-                        </CustomButton>
+                        <Box sx={{ mt: 2 }}>
+                            <CustomButton type="submit" variant="contained">
+                                Записать
+                            </CustomButton>
+                        </Box>
                     </Grid>
                 </Grid>
             </form>

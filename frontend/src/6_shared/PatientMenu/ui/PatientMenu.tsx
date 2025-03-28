@@ -21,6 +21,7 @@ export const PatientMenu: FC<PatientMenuProps> = ({menuItems}) => {
       sx={{
         width: globalsStyle.widthDrawer,
         bgcolor: theme.palette.grey[100],
+        boxShadow: '0px 0 3px rgba(0,0,0,0.1)',
       }}
     >
       {isMobile ? (

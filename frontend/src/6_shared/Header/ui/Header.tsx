@@ -10,6 +10,7 @@ import { useThemeContext } from '@6_shared/Header/ThemeContext';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { InputSearch } from '../../Input';
 import MicNoneOutlinedIcon from '@mui/icons-material/MicNoneOutlined';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 interface User {
   name: string;
@@ -21,7 +22,6 @@ interface HeaderProps {
   handleSearch: () => void;
   user: User;
   users?: User[];
-
 }
 
 const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch }) => {
@@ -30,6 +30,37 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
   const theme = useTheme();
   const [search, setSearch] = useState('');
   const isDarkText = !(theme.palette.mode === "dark");
+
+  // Настройка голосового ввода
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
+
+  // Обновление текста при получении результатов голосового ввода
+  useEffect(() => {
+    if (transcript) {
+      setSearch(transcript);
+    }
+  }, [transcript]);
+
+  // Проверка поддержки браузером
+  const isSpeechSupported = browserSupportsSpeechRecognition;
+
+  // Управление состоянием микрофона
+  const toggleListening = () => {
+    if (listening) {
+      SpeechRecognition.stopListening();
+    } else {
+      resetTranscript();
+      SpeechRecognition.startListening({
+        language: 'ru-RU',
+        continuous: true
+      });
+    }
+  };
 
   // Загрузка скриптов для версии для слабовидящих
   useEffect(() => {
@@ -61,8 +92,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
     loadScripts();
   }, []);
 
-
-  // Отслеживание события прокрутки страницы (для изменения стилей шапки страницы)
+  // Отслеживание события прокрутки страницы
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 25) {
@@ -76,7 +106,6 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
 
   const appBarStyles = {
     ...headerSx.appBar,
@@ -117,34 +146,50 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 fullWidth
-                placeholder="Введите запрос"
+                placeholder={listening ? "Говорите сейчас..." : "Введите запрос"}
                 onSearch={handleSearch}
                 isDarkText={isDarkText}
                 bgcolorFlag={true}
               />
-              <IconButton
-                aria-label="микрофон"
-                disableRipple
-                sx={{
-                  color: isDarkText ? theme.palette.grey[900] : theme.palette.common.white,
-                  border: `1px solid ${theme.palette.grey[400]}`,
-                  backgroundColor: theme.palette.background.paper,
-                  borderRadius: '50%'
-                }}
-              >
-                <MicNoneOutlinedIcon sx={{ fontSize: '26px' }} />
-              </IconButton>
+              {/* микрофон */}
+              {isSpeechSupported && (
+                <IconButton
+                  aria-label="микрофон"
+                  onClick={toggleListening}
+                  disableRipple
+                  sx={{
+                    color: listening
+                      ? theme.palette.primary.main
+                      : isDarkText
+                        ? theme.palette.grey[900]
+                        : theme.palette.common.white,
+                    border: `1px solid ${listening
+                      ? theme.palette.primary.main
+                      : theme.palette.grey[400]}`,
+                    backgroundColor: theme.palette.background.paper,
+                    borderRadius: '50%',
+                    
+                    animation: listening ? 'pulse 1.5s infinite' : 'none',
+                    '@keyframes pulse': {
+                      '0%': { transform: 'scale(1)' },
+                      '50%': { transform: 'scale(1.1)' },
+                      '100%': { transform: 'scale(1)' }
+                    }
+                  }}
+                >
+                  <MicNoneOutlinedIcon sx={{ fontSize: '26px' }} />
+                </IconButton>
+              )}
             </Box>
           </Box>
-
 
           <Box sx={headerSx.userInfoBox}>
             <Box sx={headerSx.userTextContainer}>
               <Switch checked={mode === 'dark'} onChange={toggleTheme} color="secondary" disableRipple />
               {mode === 'dark' ? (
-                <LightModeIcon sx={{ color: theme.palette.grey[900] }} /> // Солнышко
+                <LightModeIcon sx={{ color: theme.palette.grey[900] }} />
               ) : (
-                <ModeNightIcon sx={{ color: theme.palette.grey[900] }} /> // Луна
+                <ModeNightIcon sx={{ color: theme.palette.grey[900] }} />
               )}
             </Box>
             {/* Кнопка для слабовидящих */}
@@ -170,4 +215,4 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
   );
 };
 
-export default Header
+export default Header;

@@ -1,0 +1,1 @@
+export { MainAdmin } from './ui/MainAdmin'

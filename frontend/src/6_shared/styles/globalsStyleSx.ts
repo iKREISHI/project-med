@@ -8,6 +8,13 @@ export const globalsStyleSx = {
     border: (theme: Theme) => `1px solid ${theme.palette.grey[400]}`,
     // boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
   } as SxProps<Theme>,
+  flexContainerMenu: {
+    display: 'flex',
+    gap: (theme: Theme) => theme.spacing(2),
+    width: '100%',
+    backgroundColor: (theme: Theme) => theme.palette.background.paper,
+    minHeight: "50vh",
+  } as SxProps<Theme>, 
   inputContainer: {
     display: "grid",
     gridTemplateColumns: {

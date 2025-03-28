@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import { Typography } from '@mui/material';
+import { Theme, Typography } from '@mui/material';
 
 
 interface CustomButtonProps {
@@ -22,6 +22,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ children, onClick, fullWidt
       startIcon={startIcon}
       disableRipple
       type={type}
+      sx={{borderRadius: (theme: Theme) => theme.shape.borderRadius,}}
     >
       <Typography style={{ textTransform: 'none' }}>
         {children}
