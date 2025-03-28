@@ -33,6 +33,7 @@ class HospitalStaysSerializerTestCase(TestCase):
         # Создаем тестовый приём, передавая все обязательные поля
         self.appointment = DoctorAppointment.objects.create(
             signed_by=self.employee,
+            assigned_doctor=self.employee,
             appointment_date=datetime.date(2025, 3, 26),
             start_time=datetime.time(9, 0),
             end_time=datetime.time(10, 0),

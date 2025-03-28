@@ -1,5 +1,6 @@
 import datetime
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
@@ -109,17 +110,24 @@ class ReceptionTimeViewSetTestCase(APITestCase):
         """Проверяем частичное обновление записи через PATCH."""
         response_create = self.create_reception_time()
         self.assertEqual(response_create.status_code, status.HTTP_201_CREATED)
+
         reception_id = response_create.data["id"]
         detail_url = reverse('reception-time-detail', kwargs={'id': reception_id})
+
+        # Генерируем дату не раньше завтра
+        min_date = timezone.now().date() + datetime.timedelta(days=1)
         update_data = {
-            "reception_day": "2023-03-16",
+            "reception_day": min_date.isoformat(),
             "start_time": "10:00:00",
             "end_time": "18:00:00"
         }
+
         response_update = self.client.patch(detail_url, update_data, format="json")
+
+        # Проверки
         self.assertEqual(response_update.status_code, status.HTTP_200_OK)
         reception = ReceptionTime.objects.get(id=reception_id)
-        self.assertEqual(reception.reception_day, datetime.date(2023, 3, 16))
+        self.assertEqual(reception.reception_day, min_date)
         self.assertEqual(reception.start_time, datetime.time(10, 0, 0))
         self.assertEqual(reception.end_time, datetime.time(18, 0, 0))
 

@@ -50,7 +50,6 @@ class ShiftTransfer(AbstractDocumentTemplate):
         # Проверка валидации
         self.full_clean()
 
-        # Блокировка и обмен в транзакции
         with transaction.atomic():
             # Обновляем версии объектов из базы
             from_shift = Shift.objects.select_for_update().get(pk=self.from_shift_id)

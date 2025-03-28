@@ -3,12 +3,13 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from apps.medical_activity.models import DoctorAppointment, ReceptionTemplate
 from apps.medical_activity.serializers import DoctorAppointmentSerializer
-from apps.staffing.models import Employee, Specialization
+from apps.staffing.models import Employee, Specialization, ReceptionTime
 from apps.clients.models import Patient
 
 User = get_user_model()
@@ -56,6 +57,8 @@ class DoctorAppointmentViewSetTests(APITestCase):
             email="bob@example.com",
             phone="+1987654321"
         )
+
+
         # Данные для создания объекта в БД – передаем экземпляры моделей
         self.valid_data_model = {
             "patient": self.patient,
@@ -70,6 +73,14 @@ class DoctorAppointmentViewSetTests(APITestCase):
             "start_time": datetime.time(9, 0, 0),
             "end_time": datetime.time(17, 0, 0),
         }
+
+        self.reception_time = ReceptionTime.objects.create(
+            reception_day=timezone.now().date() + datetime.timedelta(days=1),
+            start_time=datetime.time(8, 0, 0),
+            end_time=datetime.time(1812, 0, 0),
+            doctor=self.assigned_doctor,
+        )
+
         # Данные для API-запросов – передаем первичные ключи
         self.valid_data_api = {
             "patient": self.patient.pk,
@@ -80,7 +91,7 @@ class DoctorAppointmentViewSetTests(APITestCase):
             "is_closed": False,
             "reason_for_inspection": "Routine check-up",
             "inspection_choice": "no_inspection",
-            "appointment_date": "2023-03-15",
+            "appointment_date": timezone.now().date() + datetime.timedelta(days=1),
             "start_time": "09:00:00",
             "end_time": "17:00:00",
         }

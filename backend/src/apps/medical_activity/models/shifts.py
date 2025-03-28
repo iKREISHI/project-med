@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from django.db import models
 from django.utils import timezone
+from django.utils.timezone import now
 from rest_framework.serializers import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -39,8 +42,10 @@ class Shift(AbstractDocumentTemplate):
         return f'{doctor} {start} - {end}'
 
     def clean(self):
-        if self.start_time > timezone.now():
-            raise ValidationError({'start_time': _('Время начала не может быть позже текущего времени')})
+        if self.start_time < now() - timedelta(days=7):
+            raise ValidationError({
+                'start_time': _('Время начала не может быть раньше чем неделю назад')
+            })
 
         if self.start_time >= self.end_time:
             raise ValidationError({'start_time': _('Время начала должно быть раньше времени окончания')})
