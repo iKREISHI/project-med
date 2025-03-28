@@ -17,7 +17,6 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id, onBack }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Загрузка истории сообщений при монтировании или смене чата
   useEffect(() => {
     if (id && !hasFetchedHistory) {
       fetchMessages(parseInt(id));
@@ -25,14 +24,12 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id, onBack }) => {
     }
   }, [id, hasFetchedHistory, fetchMessages]);
 
-  // Сброс состояния при смене чата
   useEffect(() => {
     return () => {
       setHasFetchedHistory(false);
     };
   }, [id]);
 
-  // Объединение и сортировка сообщений
   const mergedMessages = useMemo(() => {
     const combined = [...restMessages, ...wsMessages];
     return combined
@@ -46,15 +43,9 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id, onBack }) => {
       .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
   }, [restMessages, wsMessages]);
 
-  // Автоматический скролл к новым сообщениям
   useEffect(() => {
-    if (messagesEndRef.current && containerRef.current) {
-      const container = containerRef.current;
-      const isNearBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
-
-      if (isNearBottom) {
-        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-      }
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   }, [mergedMessages]);
 
@@ -70,7 +61,7 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id, onBack }) => {
   }, [newMessage, isConnected, sendMessage]);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh", maxHeight: "100%" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       {/* Шапка чата */}
       <Box sx={{
         p: 2,
@@ -135,104 +126,37 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id, onBack }) => {
         )}
 
         {mergedMessages.map((msg) => (
-          <Box
-            key={`${msg.id || 'msg'}_${msg.timestamp}`}
-            sx={{
-              p: 2,
-              borderRadius: 4,
-              maxWidth: { xs: '90%', sm: '75%' },
-              width: "fit-content",
-              alignSelf: msg.fromCurrentUser ? "flex-end" : "flex-start",
-              bgcolor: msg.fromCurrentUser ? "primary.main" : "background.paper",
-              color: msg.fromCurrentUser ? "primary.contrastText" : "text.primary",
-              boxShadow: 2,
-              wordBreak: "break-word",
-              position: 'relative',
-              '&:after': {
-                content: '""',
-                position: 'absolute',
-                width: 0,
-                height: 0,
-                borderStyle: 'solid',
-                [msg.fromCurrentUser
-                  ? 'borderLeftColor'
-                  : 'borderRightColor']: msg.fromCurrentUser
-                  ? 'primary.main'
-                  : 'background.paper',
-                borderWidth: '8px 12px 8px 0',
-                [msg.fromCurrentUser
-                  ? 'right'
-                  : 'left']: -12,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                borderColor: 'transparent',
-                ...(msg.fromCurrentUser
-                  ? { borderLeftColor: 'primary.main' }
-                  : { borderRightColor: 'background.paper' })
-              }
-            }}
-          >
-            {msg.message_type === "text" && (
-              <Box component="p" sx={{ m: 0, lineHeight: 1.4 }}>
-                {msg.content}
-              </Box>
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                mt: 1,
-                opacity: 0.8
-              }}
-            >
-              <small style={{ fontSize: "0.75rem" }}>
-                {new Date(msg.timestamp).toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </small>
-            </Box>
+          <Box key={`${msg.id || 'msg'}_${msg.timestamp}`}
+               sx={{
+                 p: 2,
+                 borderRadius: 4,
+                 maxWidth: { xs: '90%', sm: '75%' },
+                 width: "fit-content",
+                 alignSelf: msg.fromCurrentUser ? "flex-end" : "flex-start",
+                 bgcolor: msg.fromCurrentUser ? "primary.main" : "background.paper",
+                 color: msg.fromCurrentUser ? "primary.contrastText" : "text.primary",
+                 boxShadow: 2,
+                 wordBreak: "break-word",
+               }}>
+            {msg.content}
           </Box>
         ))}
         <div ref={messagesEndRef} />
       </Box>
 
-      {/* Поле ввода сообщения */}
-      <Box
-        sx={{
-          p: 2,
-          borderTop: "1px solid #ddd",
-          backgroundColor: "background.paper",
-          boxShadow: 3
-        }}
-      >
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+      {/* Поле ввода сообщения - теперь всегда видимо */}
+      <Box sx={{ p: 2, borderTop: "1px solid #ddd", backgroundColor: "background.paper" }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
           <TextField
             fullWidth
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Напишите сообщение..."
-            disabled={!isConnected}
-            variant="outlined"
-            size="small"
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                borderRadius: 4,
-                backgroundColor: 'background.paper'
-              }
-            }}
+            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
           />
           <Button
             variant="contained"
             onClick={handleSend}
             disabled={!isConnected || !newMessage.trim()}
-            sx={{
-              borderRadius: 4,
-              textTransform: 'none',
-              px: 3,
-              py: 1
-            }}
           >
             Отправить
           </Button>

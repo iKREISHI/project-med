@@ -4,10 +4,10 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { chatMenuSx } from "./chatMenuSx";
 import { InputSearch } from "../../Input";
 import { AvatarPerson } from "../../../5_entities/Avatar";
-import { useUserChatRooms } from "@5_entities/chat/api/useUserChatRooms.ts"; // <-- Импортируем хук
+import { useUserChatRooms } from "@5_entities/chat/api/useUserChatRooms.ts";
 
 export const ChatMenu: FC = () => {
-  const { rooms, loading } = useUserChatRooms(); // <-- Получаем чаты
+  const { rooms, loading } = useUserChatRooms();
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const { id } = useParams();
   const theme = useTheme();
@@ -21,11 +21,8 @@ export const ChatMenu: FC = () => {
   };
 
   const filteredRooms = rooms
-    .filter((room) => room !== null) // Фильтруем, убирая возможные null-значения
-    .filter((room) => room.name.toLowerCase().includes(search.toLowerCase())); // Затем фильтруем по имени
-
-
-  if (isMobile && id) return null;
+    .filter((room) => room !== null)
+    .filter((room) => room.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <>

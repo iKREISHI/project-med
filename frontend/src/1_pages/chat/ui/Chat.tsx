@@ -1,20 +1,19 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useMediaQuery, Theme, Box, useTheme } from "@mui/material";
 import { ChatMenu } from "@6_shared/ChatMenu";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChatPerson } from "@6_shared/ChatPerson";
 import { mockMessages } from "@6_shared/ChatPerson/ui/chatMocks";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
-import Grid from '@mui/material/Grid2';
-import {useUserChatRooms} from "@5_entities/chat/api/useUserChatRooms.ts";
+import Grid from '@mui/material/Grid';
+import { useUserChatRooms } from "@5_entities/chat/api/useUserChatRooms.ts";
 
-// станица чата
 export const Chat: React.FC = () => {
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const { id } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
-  const {rooms, loading} = useUserChatRooms()
+  const { rooms, loading } = useUserChatRooms();
   const handleBack = () => navigate("/chat");
 
   return (
@@ -24,45 +23,37 @@ export const Chat: React.FC = () => {
         overflow: "hidden",
         minHeight: "80dvh",
         maxHeight: "80dvh",
-         }}>
-        {(!isMobile || !id) && (
-          <Grid size={{ xs: 12, md: 3 }}
-            sx={{
-              bgcolor: {
-                md: theme.palette.grey[100],
-                xs: theme.palette.background.paper
-              },
-              zIndex: 1,
-              pt: {md: 1, xs: 0.5},
-              overflow: "auto"
-            }}>
-            <ChatMenu menuItems={mockMessages} />
-          </Grid>
-        )}
+      }}>
+        {/* Меню чатов - теперь всегда видимо */}
+        <Grid item xs={12} md={3}
+              sx={{
+                bgcolor: {
+                  md: theme.palette.grey[100],
+                  xs: theme.palette.background.paper
+                },
+                zIndex: 1,
+                pt: { md: 1, xs: 0.5 },
+                overflow: "auto"
+              }}>
+          <ChatMenu menuItems={mockMessages} />
+        </Grid>
 
-        {(isMobile && id) ? (
-          <Grid size={{ xs: 12 }} sx={{ zIndex: 1,
-            overflow: "auto"}}>
-            <ChatPerson id={id} onBack={handleBack} /></Grid>
-        ) : (
-          !isMobile && (
-            <Grid size={{ md: 9}}>
-              {id ? (
-                <ChatPerson id={id} />
-              ) : (
-                <Box sx={{
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: theme.palette.grey[800]
-                }}>
-                  Выберите чат для начала общения
-                </Box>
-              )}
-            </Grid>
-          )
-        )}
+        {/* Область чата */}
+        <Grid item xs={12} md={9} sx={{ height: "100%" }}>
+          {id ? (
+            <ChatPerson id={id} onBack={isMobile ? handleBack : undefined} />
+          ) : (
+            <Box sx={{
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: theme.palette.grey[800]
+            }}>
+              Выберите чат для начала общения
+            </Box>
+          )}
+        </Grid>
       </Grid>
     </Box>
   );
