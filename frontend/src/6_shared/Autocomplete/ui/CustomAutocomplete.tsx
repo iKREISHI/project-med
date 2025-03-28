@@ -1,41 +1,49 @@
 import { FC } from "react";
 import { Autocomplete, TextField, InputLabel, Theme } from "@mui/material";
 
-interface ClientAutocompleteProps {
-  value: string;
+interface CustomAutocompleteProps<T> {
+  value: T | null;
   fullWidth?: boolean;
   disabled?: boolean;
   placeholder: string;
   label?: string;
-  onChange: (value: string) => void;
-  options: Array<{ id: number; name: string }>;
+  onChange: (value: T | null) => void;
+  options: T[];
   required?: boolean;
+  getOptionLabel: (option: T) => string;
+  isOptionEqualToValue?: (option: T, value: T) => boolean;
+  loading?: boolean;
 }
 
-export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
-  value,
-  onChange,
-  options,
-  placeholder,
-  label, 
-  fullWidth = false,
-  disabled = false,
-  required = false,
-}) => {
+export const CustomAutocomplete = <T extends unknown>({
+                                                        value,
+                                                        onChange,
+                                                        options,
+                                                        placeholder,
+                                                        label,
+                                                        fullWidth = false,
+                                                        disabled = false,
+                                                        required = false,
+                                                        getOptionLabel,
+                                                        isOptionEqualToValue = (option, value) => option === value,
+                                                        loading = false,
+                                                      }: CustomAutocompleteProps<T>) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       {label && (
-        <InputLabel sx={{pb:0.5}}>
+        <InputLabel sx={{ pb: 0.5 }}>
           {label}
           {required && <span style={{ color: "red" }}>*</span>}
         </InputLabel>
       )}
       <Autocomplete
         options={options}
-        getOptionLabel={(option) => option.name}
-        value={options.find((c) => c.name === value) || null}
+        getOptionLabel={getOptionLabel}
+        value={value}
         noOptionsText="Нет доступных вариантов"
-        onChange={(_, newValue) => onChange(newValue ? newValue.name : "")}
+        onChange={(_, newValue) => onChange(newValue)}
+        loading={loading}
+        isOptionEqualToValue={isOptionEqualToValue}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -67,8 +75,8 @@ export const CustomAutocomplete: FC<ClientAutocompleteProps> = ({
                 borderColor: (theme: Theme) => theme.palette.grey[500],
               },
               "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: (theme: Theme) => theme.palette.grey[500], 
-                borderWidth: "1px", 
+                borderColor: (theme: Theme) => theme.palette.grey[500],
+                borderWidth: "1px",
               },
             }}
           />

@@ -1,34 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+// useChatWebSocket.ts
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export const useChatWebSocket = (chatId: string | null) => {
   const [messages, setMessages] = useState<any[]>([]);
   const [isConnected, setIsConnected] = useState(false);
-  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const socketRef = useRef<WebSocket | null>(null); // Используем ref вместо state
 
-  const sendMessage = useCallback((message: any) => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      // Оптимистичное обновление
-      setMessages(prev => [...prev, {
-        ...message,
-        fromCurrentUser: true,
-        status: 'sending',
-        timestamp: new Date().toISOString()
-      }]);
-
-      // Отправка через WebSocket
-      socket.send(JSON.stringify(message));
-    }
-  }, [socket]);
-
-  useEffect(() => {
-    if (!chatId) return;
-
-    const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/`;
-    const ws = new WebSocket(wsUrl);
+  const createSocket = useCallback((url: string) => {
+    const ws = new WebSocket(url);
 
     ws.onopen = () => {
       setIsConnected(true);
-      setSocket(ws);
       console.log('WebSocket connected');
     };
 
@@ -37,12 +19,12 @@ export const useChatWebSocket = (chatId: string | null) => {
         const message = JSON.parse(event.data);
         setMessages(prev => [...prev, {
           ...message,
-          fromCurrentUser: message.sender_id === "current_user_id", // Используйте актуальное поле из вашего API
+          fromCurrentUser: message.sender_id === "current_user_id",
           status: 'delivered',
           timestamp: message.timestamp || new Date().toISOString()
         }]);
       } catch (e) {
-        console.error('Error parsing WebSocket message:', e);
+        console.error('Error parsing message:', e);
       }
     };
 
@@ -50,24 +32,43 @@ export const useChatWebSocket = (chatId: string | null) => {
       console.error('WebSocket error:', error);
     };
 
-    ws.onclose = () => {
+    ws.onclose = (event) => {
       setIsConnected(false);
-      setSocket(null);
-      setMessages(prev => prev.map(msg =>
-        msg.status === 'sending' ? {...msg, status: 'failed'} : msg
-      ));
-      console.log('WebSocket disconnected');
+      console.log('WebSocket closed', event.reason);
     };
+
+    return ws;
+  }, []);
+
+  useEffect(() => {
+    if (!chatId) return;
+
+    const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/`;
+    socketRef.current = createSocket(wsUrl);
 
     return () => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.close();
+      if (socketRef.current?.readyState === WebSocket.OPEN) {
+        socketRef.current.close(1000, 'Component unmounted');
       }
     };
-  }, [chatId]);
+  }, [chatId, createSocket]);
+
+  const sendMessage = useCallback((message: any) => {
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      const tempId = Date.now();
+      setMessages(prev => [...prev, {
+        ...message,
+        id: tempId,
+        fromCurrentUser: true,
+        status: 'sending'
+      }]);
+
+      socketRef.current.send(JSON.stringify(message));
+    }
+  }, []);
 
   return {
-    messages: messages.filter(msg => msg.status !== 'failed'), // Показываем даже отправляющиеся сообщения
+    messages: messages.filter(msg => msg.status !== 'failed'),
     sendMessage,
     isConnected
   };

@@ -29,8 +29,10 @@ import { CardTypes, Departments, Dictionaries, Filial, Positions, Specialization
 
 
 export const RouterComponent: FC = () => {
+  const userLocal = JSON.parse(localStorage.getItem('user') || '{}');
+  const position = userLocal.position || 'staff';
   const user = {
-    role: "admin", // admin staff
+    role: 'Работник' // admin staff
   };
 
   return (
@@ -42,8 +44,8 @@ export const RouterComponent: FC = () => {
         <Route
           path="*"
           element={
-            <ProtectedRoute role={user.role} allowedRoles={["admin", "staff"]}>
-              {user.role === "admin" ? (
+            <ProtectedRoute role={user.role} allowedRoles={["Администратор", "Работник"]}>
+              {user.role === "Администратор" ? (
                 <MainAdmin />
               ) : (
                 <Main /> 
@@ -52,7 +54,7 @@ export const RouterComponent: FC = () => {
           }
         >
           {/* Маршруты для админа */}
-          {user.role === "admin" && (
+          {user.role === "Администратор" && (
             <>
               <Route path="staff" element={<StaffList />} />
               <Route path="staff/create" element={<StaffAdd />} />
@@ -86,7 +88,7 @@ export const RouterComponent: FC = () => {
             </>
           )}
           {/* Маршруты для сотрудника */}
-          {user.role === "staff" && (
+          {user.role === "Работник" && (
             <>
               <Route path="" element={<DashBoard />} />
               <Route path="chat">

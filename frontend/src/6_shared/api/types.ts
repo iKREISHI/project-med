@@ -14,29 +14,29 @@ export interface paths {
         /** @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - retrieve: получение приема по id
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - create: создание нового приема
-         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *         (требуется permission "doctor-appointment.add_doctorappointment"),
          *       - update / partial_update: обновление приема
-         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
         get: operations["v0_appointments_list"];
         put?: never;
         /** @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - retrieve: получение приема по id
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - create: создание нового приема
-         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *         (требуется permission "doctor-appointment.add_doctorappointment"),
          *       - update / partial_update: обновление приема
-         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
         post: operations["v0_appointments_create"];
         delete?: never;
         options?: never;
@@ -54,57 +54,57 @@ export interface paths {
         /** @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - retrieve: получение приема по id
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - create: создание нового приема
-         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *         (требуется permission "doctor-appointment.add_doctorappointment"),
          *       - update / partial_update: обновление приема
-         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
         get: operations["v0_appointments_retrieve"];
         /** @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - retrieve: получение приема по id
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - create: создание нового приема
-         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *         (требуется permission "doctor-appointment.add_doctorappointment"),
          *       - update / partial_update: обновление приема
-         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
         put: operations["v0_appointments_update"];
         post?: never;
         /** @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - retrieve: получение приема по id
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - create: создание нового приема
-         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *         (требуется permission "doctor-appointment.add_doctorappointment"),
          *       - update / partial_update: обновление приема
-         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
         delete: operations["v0_appointments_destroy"];
         options?: never;
         head?: never;
         /** @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - retrieve: получение приема по id
-         *         (требуется permission "medical_activity.view_doctorappointment"),
+         *         (требуется permission "doctor-appointment.view_doctorappointment"),
          *       - create: создание нового приема
-         *         (требуется permission "medical_activity.add_doctorappointment"),
+         *         (требуется permission "doctor-appointment.add_doctorappointment"),
          *       - update / partial_update: обновление приема
-         *         (требуется permission "medical_activity.change_doctorappointment"),
+         *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "medical_activity.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
         patch: operations["v0_appointments_partial_update"];
         trace?: never;
     };
@@ -296,6 +296,70 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v0/diagnoses/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_diagnoses_list"];
+        put?: never;
+        post: operations["v0_diagnoses_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/diagnoses/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_diagnoses_retrieve"];
+        put: operations["v0_diagnoses_update"];
+        post?: never;
+        delete: operations["v0_diagnoses_destroy"];
+        options?: never;
+        head?: never;
+        patch: operations["v0_diagnoses_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/diagnosis-categories/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_diagnosis_categories_list"];
+        put?: never;
+        post: operations["v0_diagnosis_categories_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/diagnosis-categories/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["v0_diagnosis_categories_retrieve"];
+        put: operations["v0_diagnosis_categories_update"];
+        post?: never;
+        delete: operations["v0_diagnosis_categories_destroy"];
+        options?: never;
+        head?: never;
+        patch: operations["v0_diagnosis_categories_partial_update"];
         trace?: never;
     };
     "/api/v0/employee/": {
@@ -568,6 +632,110 @@ export interface paths {
         patch: operations["v0_filial_partial_update"];
         trace?: never;
     };
+    "/api/v0/hospital-stays/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с госпитализацией пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - create: создание нового
+         *         (требуется permission "hospital_stays.add_hospitalstays"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "hospital_stays.change_hospitalstays"),
+         *       - destroy: удаление
+         *         (требуется permission "hospital_stays.delete_hospitalstays"). */
+        get: operations["v0_hospital_stays_list"];
+        put?: never;
+        /** @description API для работы с госпитализацией пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - create: создание нового
+         *         (требуется permission "hospital_stays.add_hospitalstays"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "hospital_stays.change_hospitalstays"),
+         *       - destroy: удаление
+         *         (требуется permission "hospital_stays.delete_hospitalstays"). */
+        post: operations["v0_hospital_stays_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/hospital-stays/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с госпитализацией пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - create: создание нового
+         *         (требуется permission "hospital_stays.add_hospitalstays"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "hospital_stays.change_hospitalstays"),
+         *       - destroy: удаление
+         *         (требуется permission "hospital_stays.delete_hospitalstays"). */
+        get: operations["v0_hospital_stays_retrieve"];
+        /** @description API для работы с госпитализацией пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - create: создание нового
+         *         (требуется permission "hospital_stays.add_hospitalstays"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "hospital_stays.change_hospitalstays"),
+         *       - destroy: удаление
+         *         (требуется permission "hospital_stays.delete_hospitalstays"). */
+        put: operations["v0_hospital_stays_update"];
+        post?: never;
+        /** @description API для работы с госпитализацией пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - create: создание нового
+         *         (требуется permission "hospital_stays.add_hospitalstays"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "hospital_stays.change_hospitalstays"),
+         *       - destroy: удаление
+         *         (требуется permission "hospital_stays.delete_hospitalstays"). */
+        delete: operations["v0_hospital_stays_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с госпитализацией пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "hospital_stays.view_hospitalstays"),
+         *       - create: создание нового
+         *         (требуется permission "hospital_stays.add_hospitalstays"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "hospital_stays.change_hospitalstays"),
+         *       - destroy: удаление
+         *         (требуется permission "hospital_stays.delete_hospitalstays"). */
+        patch: operations["v0_hospital_stays_partial_update"];
+        trace?: never;
+    };
     "/api/v0/login/": {
         parameters: {
             query?: never;
@@ -760,6 +928,110 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v0/patient-conditions/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с состоянием пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - create: создание нового
+         *         (требуется permission "patient_condition.add_patientcondition"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "patient_condition.change_patientcondition"),
+         *       - destroy: удаление
+         *         (требуется permission "patient_condition.delete_patientcondition"). */
+        get: operations["v0_patient_conditions_list"];
+        put?: never;
+        /** @description API для работы с состоянием пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - create: создание нового
+         *         (требуется permission "patient_condition.add_patientcondition"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "patient_condition.change_patientcondition"),
+         *       - destroy: удаление
+         *         (требуется permission "patient_condition.delete_patientcondition"). */
+        post: operations["v0_patient_conditions_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/patient-conditions/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с состоянием пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - create: создание нового
+         *         (требуется permission "patient_condition.add_patientcondition"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "patient_condition.change_patientcondition"),
+         *       - destroy: удаление
+         *         (требуется permission "patient_condition.delete_patientcondition"). */
+        get: operations["v0_patient_conditions_retrieve"];
+        /** @description API для работы с состоянием пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - create: создание нового
+         *         (требуется permission "patient_condition.add_patientcondition"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "patient_condition.change_patientcondition"),
+         *       - destroy: удаление
+         *         (требуется permission "patient_condition.delete_patientcondition"). */
+        put: operations["v0_patient_conditions_update"];
+        post?: never;
+        /** @description API для работы с состоянием пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - create: создание нового
+         *         (требуется permission "patient_condition.add_patientcondition"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "patient_condition.change_patientcondition"),
+         *       - destroy: удаление
+         *         (требуется permission "patient_condition.delete_patientcondition"). */
+        delete: operations["v0_patient_conditions_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с состоянием пациента с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "patient_condition.view_patientcondition"),
+         *       - create: создание нового
+         *         (требуется permission "patient_condition.add_patientcondition"),
+         *       - update / partial_update: обновление
+         *         (требуется permission "patient_condition.change_patientcondition"),
+         *       - destroy: удаление
+         *         (требуется permission "patient_condition.delete_patientcondition"). */
+        patch: operations["v0_patient_conditions_partial_update"];
+        trace?: never;
+    };
     "/api/v0/patient/{id}/": {
         parameters: {
             query?: never;
@@ -882,6 +1154,110 @@ export interface paths {
          *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
          *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
         patch: operations["v0_position_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/reception-templates/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с врачебными шаблонами.
+         *     Поддерживаются операции:
+         *       - list: получение списка
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - create: создание
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - destroy: удаление
+         *         (требуется permission "reception_template.receptiontemplate"). */
+        get: operations["v0_reception_templates_list"];
+        put?: never;
+        /** @description API для работы с врачебными шаблонами.
+         *     Поддерживаются операции:
+         *       - list: получение списка
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - create: создание
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - destroy: удаление
+         *         (требуется permission "reception_template.receptiontemplate"). */
+        post: operations["v0_reception_templates_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/reception-templates/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с врачебными шаблонами.
+         *     Поддерживаются операции:
+         *       - list: получение списка
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - create: создание
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - destroy: удаление
+         *         (требуется permission "reception_template.receptiontemplate"). */
+        get: operations["v0_reception_templates_retrieve"];
+        /** @description API для работы с врачебными шаблонами.
+         *     Поддерживаются операции:
+         *       - list: получение списка
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - create: создание
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - destroy: удаление
+         *         (требуется permission "reception_template.receptiontemplate"). */
+        put: operations["v0_reception_templates_update"];
+        post?: never;
+        /** @description API для работы с врачебными шаблонами.
+         *     Поддерживаются операции:
+         *       - list: получение списка
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - create: создание
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - destroy: удаление
+         *         (требуется permission "reception_template.receptiontemplate"). */
+        delete: operations["v0_reception_templates_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с врачебными шаблонами.
+         *     Поддерживаются операции:
+         *       - list: получение списка
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - retrieve: получение  по id
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - create: создание
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "reception_template.receptiontemplate"),
+         *       - destroy: удаление
+         *         (требуется permission "reception_template.receptiontemplate"). */
+        patch: operations["v0_reception_templates_partial_update"];
         trace?: never;
     };
     "/api/v0/reception-time/": {
@@ -1010,6 +1386,320 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v0/shift/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получение списка смен
+         * @description Возвращает список врачебных смен с поддержкой пагинации и фильтрацией по диапазону дат. Если переданы query-параметры 'start_date' и 'end_date' в формате YYYY-MM-DD, то будут возвращаться только те смены, у которых start_time попадает в указанный диапазон от начала start_date до конца end_date (до 23:59:59).
+         */
+        get: operations["v0_shift_list"];
+        put?: never;
+        /**
+         * Создание новой смены
+         * @description API для работы с врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift.view_shift"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift.view_shift"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift.add_shift"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift.change_shift"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift.delete_shift").
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те смены, у которых start_time попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        post: operations["v0_shift_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/shift-transfers/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с передачей врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift-transfer.add_shifttransfer"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift-transfer.change_shifttransfer"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift-transfer.delete_shifttransfer"). */
+        get: operations["v0_shift_transfers_list"];
+        put?: never;
+        /** @description API для работы с передачей врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift-transfer.add_shifttransfer"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift-transfer.change_shifttransfer"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift-transfer.delete_shifttransfer"). */
+        post: operations["v0_shift_transfers_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/shift-transfers/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с передачей врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift-transfer.add_shifttransfer"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift-transfer.change_shifttransfer"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift-transfer.delete_shifttransfer"). */
+        get: operations["v0_shift_transfers_retrieve"];
+        /** @description API для работы с передачей врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift-transfer.add_shifttransfer"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift-transfer.change_shifttransfer"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift-transfer.delete_shifttransfer"). */
+        put: operations["v0_shift_transfers_update"];
+        post?: never;
+        /** @description API для работы с передачей врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift-transfer.add_shifttransfer"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift-transfer.change_shifttransfer"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift-transfer.delete_shifttransfer"). */
+        delete: operations["v0_shift_transfers_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с передачей врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift-transfer.view_shifttransfer"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift-transfer.add_shifttransfer"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift-transfer.change_shifttransfer"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift-transfer.delete_shifttransfer"). */
+        patch: operations["v0_shift_transfers_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/shift/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получение смены по id
+         * @description API для работы с врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift.view_shift"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift.view_shift"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift.add_shift"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift.change_shift"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift.delete_shift").
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те смены, у которых start_time попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        get: operations["v0_shift_retrieve"];
+        /**
+         * Полное обновление смены
+         * @description API для работы с врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift.view_shift"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift.view_shift"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift.add_shift"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift.change_shift"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift.delete_shift").
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те смены, у которых start_time попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        put: operations["v0_shift_update"];
+        post?: never;
+        /**
+         * Удаление смены
+         * @description API для работы с врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift.view_shift"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift.view_shift"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift.add_shift"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift.change_shift"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift.delete_shift").
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те смены, у которых start_time попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        delete: operations["v0_shift_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * Частичное обновление смены
+         * @description API для работы с врачебной сменой (дежурствами) с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *         (требуется permission "shift.view_shift"),
+         *       - retrieve: получение приема по id
+         *         (требуется permission "shift.view_shift"),
+         *       - create: создание нового приема
+         *         (требуется permission "shift.add_shift"),
+         *       - update / partial_update: обновление приема
+         *         (требуется permission "shift.change_shift"),
+         *       - destroy: удаление приема
+         *         (требуется permission "shift.delete_shift").
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те смены, у которых start_time попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        patch: operations["v0_shift_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/specialization/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с специализациями.
+         *     Поддерживаются операции:
+         *         - list: получение списка должностей (требуется permission "specialization.view_specialization"),
+         *         - retrieve: получение должности по id (требуется permission "specialization.view_specialization"),
+         *         - create: создание новой должности (требуется permission "specialization.add_specialization"),
+         *         - update/partial_update: обновление должности (требуется specialization "staffing.change_specialization"),
+         *         - destroy: удаление должности (требуется permission "specialization.delete_specialization"). */
+        get: operations["v0_specialization_list"];
+        put?: never;
+        /** @description API для работы с специализациями.
+         *     Поддерживаются операции:
+         *         - list: получение списка должностей (требуется permission "specialization.view_specialization"),
+         *         - retrieve: получение должности по id (требуется permission "specialization.view_specialization"),
+         *         - create: создание новой должности (требуется permission "specialization.add_specialization"),
+         *         - update/partial_update: обновление должности (требуется specialization "staffing.change_specialization"),
+         *         - destroy: удаление должности (требуется permission "specialization.delete_specialization"). */
+        post: operations["v0_specialization_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/specialization/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для работы с специализациями.
+         *     Поддерживаются операции:
+         *         - list: получение списка должностей (требуется permission "specialization.view_specialization"),
+         *         - retrieve: получение должности по id (требуется permission "specialization.view_specialization"),
+         *         - create: создание новой должности (требуется permission "specialization.add_specialization"),
+         *         - update/partial_update: обновление должности (требуется specialization "staffing.change_specialization"),
+         *         - destroy: удаление должности (требуется permission "specialization.delete_specialization"). */
+        get: operations["v0_specialization_retrieve"];
+        /** @description API для работы с специализациями.
+         *     Поддерживаются операции:
+         *         - list: получение списка должностей (требуется permission "specialization.view_specialization"),
+         *         - retrieve: получение должности по id (требуется permission "specialization.view_specialization"),
+         *         - create: создание новой должности (требуется permission "specialization.add_specialization"),
+         *         - update/partial_update: обновление должности (требуется specialization "staffing.change_specialization"),
+         *         - destroy: удаление должности (требуется permission "specialization.delete_specialization"). */
+        put: operations["v0_specialization_update"];
+        post?: never;
+        /** @description API для работы с специализациями.
+         *     Поддерживаются операции:
+         *         - list: получение списка должностей (требуется permission "specialization.view_specialization"),
+         *         - retrieve: получение должности по id (требуется permission "specialization.view_specialization"),
+         *         - create: создание новой должности (требуется permission "specialization.add_specialization"),
+         *         - update/partial_update: обновление должности (требуется specialization "staffing.change_specialization"),
+         *         - destroy: удаление должности (требуется permission "specialization.delete_specialization"). */
+        delete: operations["v0_specialization_destroy"];
+        options?: never;
+        head?: never;
+        /** @description API для работы с специализациями.
+         *     Поддерживаются операции:
+         *         - list: получение списка должностей (требуется permission "specialization.view_specialization"),
+         *         - retrieve: получение должности по id (требуется permission "specialization.view_specialization"),
+         *         - create: создание новой должности (требуется permission "specialization.add_specialization"),
+         *         - update/partial_update: обновление должности (требуется specialization "staffing.change_specialization"),
+         *         - destroy: удаление должности (требуется permission "specialization.delete_specialization"). */
+        patch: operations["v0_specialization_partial_update"];
+        trace?: never;
+    };
     "/api/v0/users/": {
         parameters: {
             query?: never;
@@ -1117,6 +1807,35 @@ export interface components {
             /** Страховая организация */
             insurance_organization?: string | null;
         };
+        Diagnosis: {
+            readonly id: number;
+            /** Название */
+            name: string;
+            /** Описание */
+            description?: string | null;
+            /** Код */
+            code?: string | null;
+            /** Синонимы */
+            synonym?: string | null;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created: string;
+            /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly date_updated: string;
+            /** Категория */
+            category?: number | null;
+        };
+        DiagnosisCategory: {
+            readonly id: number;
+            /** Название */
+            name: string;
+            description?: string | null;
+        };
         DoctorAppointment: {
             readonly id: number;
             reason_for_inspection?: string | null;
@@ -1127,6 +1846,10 @@ export interface components {
              * Format: date
              */
             readonly signed_date: string;
+            /** Документ приема */
+            reception_document?: string | null;
+            /** Поля документа */
+            reception_document_fields?: unknown;
             /**
              * Флаг первого приема
              * @description Флаг, означающий, что это первичный прием пациента
@@ -1163,10 +1886,17 @@ export interface components {
              */
             readonly date_created: string;
             /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly date_updated: string;
+            /**
              * Пациент
              * @description Внешний ключ на пациента направленного на приём
              */
             patient?: number | null;
+            /** Шаблон приема */
+            reception_template: number;
             /**
              * Назначенный врач
              * @description Внешний ключ на врача, к которому был записан пациент
@@ -1175,6 +1905,8 @@ export interface components {
             /** Кем подписан */
             signed_by: number;
             medical_card?: number | null;
+            /** Диагноз */
+            diagnosis?: number | null;
         };
         Employee: {
             readonly id: number;
@@ -1232,6 +1964,8 @@ export interface components {
             department?: number | null;
             /** Должность */
             position?: number | null;
+            /** Специализация */
+            specialization?: number | null;
         };
         Filial: {
             readonly id: number;
@@ -1260,6 +1994,30 @@ export interface components {
          * @enum {string}
          */
         GenderEnum: "M" | "F" | "U";
+        HospitalStays: {
+            readonly id: number;
+            /** Пациент */
+            patient: number;
+            readonly patient_name: string;
+            /** Описание */
+            description?: string | null;
+            /** Format: date */
+            start_date: string;
+            /** Format: date */
+            end_date: string;
+            /** Номер палаты */
+            ward_number?: string | null;
+            /** Прием */
+            appointment: number;
+            readonly appointment_str: string;
+            readonly hospital_stay_str: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
+        };
         /**
          * @description * `no_inspection` - Не нуждается в обследовании
          *     * `additional` - Нуждается в проведении доп обследования
@@ -1344,6 +2102,36 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Contractor"][];
         };
+        PaginatedDiagnosisCategoryList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["DiagnosisCategory"][];
+        };
+        PaginatedDiagnosisList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Diagnosis"][];
+        };
         PaginatedDoctorAppointmentList: {
             /** @example 123 */
             count: number;
@@ -1389,6 +2177,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Filial"][];
         };
+        PaginatedHospitalStaysList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["HospitalStays"][];
+        };
         PaginatedMedicalCardList: {
             /** @example 123 */
             count: number;
@@ -1418,6 +2221,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["MedicalCardType"][];
+        };
+        PaginatedPatientConditionList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["PatientCondition"][];
         };
         PaginatedPatientList: {
             /** @example 123 */
@@ -1449,6 +2267,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Position"][];
         };
+        PaginatedReceptionTemplateList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["ReceptionTemplate"][];
+        };
         PaginatedReceptionTimeList: {
             /** @example 123 */
             count: number;
@@ -1463,6 +2296,51 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["ReceptionTime"][];
+        };
+        PaginatedShiftList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Shift"][];
+        };
+        PaginatedShiftTransferList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["ShiftTransfer"][];
+        };
+        PaginatedSpecializationList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Specialization"][];
         };
         PatchedChatRoom: {
             readonly id?: number;
@@ -1493,6 +2371,35 @@ export interface components {
             /** Страховая организация */
             insurance_organization?: string | null;
         };
+        PatchedDiagnosis: {
+            readonly id?: number;
+            /** Название */
+            name?: string;
+            /** Описание */
+            description?: string | null;
+            /** Код */
+            code?: string | null;
+            /** Синонимы */
+            synonym?: string | null;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly date_created?: string;
+            /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly date_updated?: string;
+            /** Категория */
+            category?: number | null;
+        };
+        PatchedDiagnosisCategory: {
+            readonly id?: number;
+            /** Название */
+            name?: string;
+            description?: string | null;
+        };
         PatchedDoctorAppointment: {
             readonly id?: number;
             reason_for_inspection?: string | null;
@@ -1503,6 +2410,10 @@ export interface components {
              * Format: date
              */
             readonly signed_date?: string;
+            /** Документ приема */
+            reception_document?: string | null;
+            /** Поля документа */
+            reception_document_fields?: unknown;
             /**
              * Флаг первого приема
              * @description Флаг, означающий, что это первичный прием пациента
@@ -1539,10 +2450,17 @@ export interface components {
              */
             readonly date_created?: string;
             /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly date_updated?: string;
+            /**
              * Пациент
              * @description Внешний ключ на пациента направленного на приём
              */
             patient?: number | null;
+            /** Шаблон приема */
+            reception_template?: number;
             /**
              * Назначенный врач
              * @description Внешний ключ на врача, к которому был записан пациент
@@ -1551,6 +2469,8 @@ export interface components {
             /** Кем подписан */
             signed_by?: number;
             medical_card?: number | null;
+            /** Диагноз */
+            diagnosis?: number | null;
         };
         PatchedEmployee: {
             readonly id?: number;
@@ -1608,6 +2528,8 @@ export interface components {
             department?: number | null;
             /** Должность */
             position?: number | null;
+            /** Специализация */
+            specialization?: number | null;
         };
         PatchedFilial: {
             readonly id?: number;
@@ -1628,6 +2550,30 @@ export interface components {
             director?: number | null;
             /** Филиал */
             filial?: number | null;
+        };
+        PatchedHospitalStays: {
+            readonly id?: number;
+            /** Пациент */
+            patient?: number;
+            readonly patient_name?: string;
+            /** Описание */
+            description?: string | null;
+            /** Format: date */
+            start_date?: string;
+            /** Format: date */
+            end_date?: string;
+            /** Номер палаты */
+            ward_number?: string | null;
+            /** Прием */
+            appointment?: number;
+            readonly appointment_str?: string;
+            readonly hospital_stay_str?: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
         };
         PatchedMedicalCard: {
             readonly id?: number;
@@ -1740,6 +2686,28 @@ export interface components {
             /** Законный представитель */
             legal_representative?: number | null;
         };
+        PatchedPatientCondition: {
+            readonly id?: number;
+            /** Пациент */
+            patient?: number;
+            readonly patient_name?: string;
+            /** Врачебная смена */
+            shift?: number;
+            readonly shift_str?: string;
+            /** Описание состояния пациента */
+            description?: string | null;
+            /** Format: date-time */
+            readonly date?: string;
+            /** Статус состояния пацента */
+            status?: components["schemas"]["StatusEnum"];
+            readonly condition_str?: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
+        };
         PatchedPosition: {
             readonly id?: number;
             name?: string;
@@ -1747,6 +2715,19 @@ export interface components {
             minzdrav_position?: string | null;
             /** Группа доступа */
             group?: number | null;
+        };
+        PatchedReceptionTemplate: {
+            readonly id?: number;
+            /** Название шаблона */
+            name?: string;
+            /** Описание шаблона */
+            description?: string | null;
+            /** Шаблон */
+            html?: string | null;
+            /** Поля приема */
+            fields?: unknown;
+            /** Специализация шаблона */
+            specialization?: number;
         };
         PatchedReceptionTime: {
             readonly id?: number;
@@ -1770,6 +2751,50 @@ export interface components {
             end_time?: string;
             /** Врач */
             doctor?: number;
+        };
+        PatchedShift: {
+            readonly id?: number;
+            /** Врач */
+            doctor?: number;
+            readonly doctor_name?: string;
+            /** Format: date-time */
+            start_time?: string;
+            /** Format: date-time */
+            end_time?: string;
+            readonly shift_str?: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
+        };
+        PatchedShiftTransfer: {
+            readonly id?: number;
+            /** Какая смена передается */
+            from_shift?: number;
+            readonly from_shift_str?: string;
+            /** Другая смена */
+            to_shift?: number;
+            readonly to_shift_str?: string;
+            /** Format: date-time */
+            readonly date?: string;
+            /** Комментарий */
+            comment?: string | null;
+            readonly transfer_str?: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
+        };
+        PatchedSpecialization: {
+            readonly id?: number;
+            /** Название специализации */
+            title?: string;
+            /** Описание специализации */
+            description?: string | null;
         };
         PatchedUser: {
             readonly id?: number;
@@ -1837,6 +2862,28 @@ export interface components {
             /** Законный представитель */
             legal_representative?: number | null;
         };
+        PatientCondition: {
+            readonly id: number;
+            /** Пациент */
+            patient: number;
+            readonly patient_name: string;
+            /** Врачебная смена */
+            shift: number;
+            readonly shift_str: string;
+            /** Описание состояния пациента */
+            description?: string | null;
+            /** Format: date-time */
+            readonly date: string;
+            /** Статус состояния пацента */
+            status: components["schemas"]["StatusEnum"];
+            readonly condition_str: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
+        };
         Position: {
             readonly id: number;
             name: string;
@@ -1844,6 +2891,19 @@ export interface components {
             minzdrav_position?: string | null;
             /** Группа доступа */
             group?: number | null;
+        };
+        ReceptionTemplate: {
+            readonly id: number;
+            /** Название шаблона */
+            name: string;
+            /** Описание шаблона */
+            description?: string | null;
+            /** Шаблон */
+            html?: string | null;
+            /** Поля приема */
+            fields?: unknown;
+            /** Специализация шаблона */
+            specialization: number;
         };
         ReceptionTime: {
             readonly id: number;
@@ -1914,6 +2974,62 @@ export interface components {
          * @enum {string}
          */
         RoomTypeEnum: "private" | "group";
+        Shift: {
+            readonly id: number;
+            /** Врач */
+            doctor: number;
+            readonly doctor_name: string;
+            /** Format: date-time */
+            start_time: string;
+            /** Format: date-time */
+            end_time: string;
+            readonly shift_str: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
+        };
+        ShiftTransfer: {
+            readonly id: number;
+            /** Какая смена передается */
+            from_shift: number;
+            readonly from_shift_str: string;
+            /** Другая смена */
+            to_shift: number;
+            readonly to_shift_str: string;
+            /** Format: date-time */
+            readonly date: string;
+            /** Комментарий */
+            comment?: string | null;
+            readonly transfer_str: string;
+            /** Шаблон документа */
+            document_template?: number | null;
+            /** Документ смены */
+            document?: string | null;
+            /** Поля документа */
+            document_fields?: unknown;
+        };
+        Specialization: {
+            readonly id: number;
+            /** Название специализации */
+            title: string;
+            /** Описание специализации */
+            description?: string | null;
+        };
+        /**
+         * @description * `Critical` - Критическое
+         *     * `Worsening` - Ухудшение
+         *     * `Stable` - Стабильное
+         *     * `Improving` - Улучшение
+         *     * `Recovering` - Выздоровление
+         *     * `Post-operative` - Послеоперационное
+         *     * `Unstable` - Неустойчивое
+         *     * `No change` - Без изменений
+         * @enum {string}
+         */
+        StatusEnum: "Critical" | "Worsening" | "Stable" | "Improving" | "Recovering" | "Post-operative" | "Unstable" | "No change";
         User: {
             readonly id: number;
             /** Имя пользователя */
@@ -2442,6 +3558,290 @@ export interface operations {
             };
         };
     };
+    v0_diagnoses_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedDiagnosisList"];
+                };
+            };
+        };
+    };
+    v0_diagnoses_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Diagnosis"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Diagnosis"];
+                };
+            };
+        };
+    };
+    v0_diagnoses_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Диагноз. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Diagnosis"];
+                };
+            };
+        };
+    };
+    v0_diagnoses_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Диагноз. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Diagnosis"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Diagnosis"];
+                };
+            };
+        };
+    };
+    v0_diagnoses_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Диагноз. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_diagnoses_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Диагноз. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedDiagnosis"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Diagnosis"];
+                };
+            };
+        };
+    };
+    v0_diagnosis_categories_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedDiagnosisCategoryList"];
+                };
+            };
+        };
+    };
+    v0_diagnosis_categories_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiagnosisCategory"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosisCategory"];
+                };
+            };
+        };
+    };
+    v0_diagnosis_categories_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Категории диагноза. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosisCategory"];
+                };
+            };
+        };
+    };
+    v0_diagnosis_categories_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Категории диагноза. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiagnosisCategory"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosisCategory"];
+                };
+            };
+        };
+    };
+    v0_diagnosis_categories_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Категории диагноза. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_diagnosis_categories_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Категории диагноза. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedDiagnosisCategory"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosisCategory"];
+                };
+            };
+        };
+    };
     v0_employee_list: {
         parameters: {
             query?: {
@@ -2859,6 +4259,148 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Filial"];
+                };
+            };
+        };
+    };
+    v0_hospital_stays_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedHospitalStaysList"];
+                };
+            };
+        };
+    };
+    v0_hospital_stays_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HospitalStays"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalStays"];
+                };
+            };
+        };
+    };
+    v0_hospital_stays_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Госпитализация. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalStays"];
+                };
+            };
+        };
+    };
+    v0_hospital_stays_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Госпитализация. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HospitalStays"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalStays"];
+                };
+            };
+        };
+    };
+    v0_hospital_stays_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Госпитализация. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_hospital_stays_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Госпитализация. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedHospitalStays"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalStays"];
                 };
             };
         };
@@ -3287,6 +4829,148 @@ export interface operations {
             };
         };
     };
+    v0_patient_conditions_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPatientConditionList"];
+                };
+            };
+        };
+    };
+    v0_patient_conditions_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatientCondition"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PatientCondition"];
+                };
+            };
+        };
+    };
+    v0_patient_conditions_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Состояние пациента. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PatientCondition"];
+                };
+            };
+        };
+    };
+    v0_patient_conditions_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Состояние пациента. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatientCondition"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PatientCondition"];
+                };
+            };
+        };
+    };
+    v0_patient_conditions_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Состояние пациента. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_patient_conditions_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Состояние пациента. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedPatientCondition"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PatientCondition"];
+                };
+            };
+        };
+    };
     v0_patient_retrieve: {
         parameters: {
             query?: never;
@@ -3524,6 +5208,148 @@ export interface operations {
             };
         };
     };
+    v0_reception_templates_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedReceptionTemplateList"];
+                };
+            };
+        };
+    };
+    v0_reception_templates_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReceptionTemplate"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTemplate"];
+                };
+            };
+        };
+    };
+    v0_reception_templates_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Шаблон приема. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTemplate"];
+                };
+            };
+        };
+    };
+    v0_reception_templates_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Шаблон приема. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReceptionTemplate"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTemplate"];
+                };
+            };
+        };
+    };
+    v0_reception_templates_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Шаблон приема. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_reception_templates_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Шаблон приема. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedReceptionTemplate"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReceptionTemplate"];
+                };
+            };
+        };
+    };
     v0_reception_time_list: {
         parameters: {
             query?: {
@@ -3685,6 +5511,436 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RegistrationModel"];
+                };
+            };
+        };
+    };
+    v0_shift_list: {
+        parameters: {
+            query?: {
+                /** @description Конечная дата в формате YYYY-MM-DD */
+                end_date?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description Начальная дата в формате YYYY-MM-DD */
+                start_date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedShiftList"];
+                };
+            };
+        };
+    };
+    v0_shift_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Shift"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Shift"];
+                };
+            };
+        };
+    };
+    v0_shift_transfers_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedShiftTransferList"];
+                };
+            };
+        };
+    };
+    v0_shift_transfers_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShiftTransfer"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShiftTransfer"];
+                };
+            };
+        };
+    };
+    v0_shift_transfers_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Передача врачебной смены. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShiftTransfer"];
+                };
+            };
+        };
+    };
+    v0_shift_transfers_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Передача врачебной смены. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShiftTransfer"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShiftTransfer"];
+                };
+            };
+        };
+    };
+    v0_shift_transfers_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Передача врачебной смены. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_shift_transfers_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Передача врачебной смены. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedShiftTransfer"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ShiftTransfer"];
+                };
+            };
+        };
+    };
+    v0_shift_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Врачебная смена. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Shift"];
+                };
+            };
+        };
+    };
+    v0_shift_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Врачебная смена. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Shift"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Shift"];
+                };
+            };
+        };
+    };
+    v0_shift_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Врачебная смена. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_shift_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Врачебная смена. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedShift"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Shift"];
+                };
+            };
+        };
+    };
+    v0_specialization_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedSpecializationList"];
+                };
+            };
+        };
+    };
+    v0_specialization_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Specialization"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Specialization"];
+                };
+            };
+        };
+    };
+    v0_specialization_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Специализация врача. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Specialization"];
+                };
+            };
+        };
+    };
+    v0_specialization_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Специализация врача. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Specialization"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Specialization"];
+                };
+            };
+        };
+    };
+    v0_specialization_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Специализация врача. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_specialization_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Специализация врача. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedSpecialization"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Specialization"];
                 };
             };
         };

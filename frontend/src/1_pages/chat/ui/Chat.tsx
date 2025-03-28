@@ -1,56 +1,47 @@
 import React from 'react';
-import { useMediaQuery, Theme, Box, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { ChatMenu } from "@6_shared/ChatMenu";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ChatPerson } from "@6_shared/ChatPerson";
-import { mockMessages } from "@6_shared/ChatPerson/ui/chatMocks";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
 import Grid from '@mui/material/Grid';
-import { useUserChatRooms } from "@5_entities/chat/api/useUserChatRooms.ts";
 
 export const Chat: React.FC = () => {
-  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const { id } = useParams();
-  const navigate = useNavigate();
   const theme = useTheme();
-  const { rooms, loading } = useUserChatRooms();
-  const handleBack = () => navigate("/chat");
 
   return (
     <Box sx={{ ...globalsStyleSx.container, overflow: 'hidden' }}>
       <Grid container sx={{
         flex: 1,
-        overflow: "hidden",
-        minHeight: "80dvh",
-        maxHeight: "80dvh",
+        height: '80dvh',
+        overflow: 'hidden'
       }}>
-        {/* Меню чатов - теперь всегда видимо */}
-        <Grid item xs={12} md={3}
-              sx={{
-                bgcolor: {
-                  md: theme.palette.grey[100],
-                  xs: theme.palette.background.paper
-                },
-                zIndex: 1,
-                pt: { md: 1, xs: 0.5 },
-                overflow: "auto"
-              }}>
-          <ChatMenu menuItems={mockMessages} />
+        <Grid item xs={12} md={3} sx={{
+          bgcolor: theme.palette.grey[100],
+          borderRight: `1px solid ${theme.palette.divider}`,
+          overflowY: 'auto'
+        }}>
+          <ChatMenu />
         </Grid>
 
-        {/* Область чата */}
-        <Grid item xs={12} md={9} sx={{ height: "100%" }}>
+        <Grid item xs={12} md={9} sx={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          bgcolor: 'background.paper'
+        }}>
           {id ? (
-            <ChatPerson id={id} onBack={isMobile ? handleBack : undefined} />
+            <ChatPerson id={id} />
           ) : (
             <Box sx={{
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: theme.palette.grey[800]
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'text.secondary'
             }}>
-              Выберите чат для начала общения
+              Выберите чат из списка слева
             </Box>
           )}
         </Grid>
