@@ -69,7 +69,7 @@ jobs:
 
   deploy:
       name: Deploy to Server
-      needs: tests
+      needs: test
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repository
