@@ -10,25 +10,25 @@ def setup_positions():
             'name': 'Врач',
             'short_name': 'Врач',
             'minzdrav_position': 'Доктор',
-            'group_name': 'Врачи'
+            'group_name': 'Врач'
         },
         {
             'name': 'Медсестра',
             'short_name': 'Медсестра',
             'minzdrav_position': 'Медсестра',
-            'group_name': 'Медсестры'
+            'group_name': 'Медсестра'
         },
         {
             'name': 'Администратор',
             'short_name': 'Админ',
             'minzdrav_position': 'Администратор',
-            'group_name': 'Администраторы'
+            'group_name': 'Администратор'
         },
         {
             'name': 'Регистратор',
             'short_name': 'Регистратор',
             'minzdrav_position': 'Регистратор',
-            'group_name': 'Регистраторы'
+            'group_name': 'Регистратор'
         },
     ]
 
