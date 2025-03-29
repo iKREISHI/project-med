@@ -18,6 +18,8 @@ from entrypoints.position import setup_positions
 from entrypoints.diagnosis import import_diagnoses_from_json
 from entrypoints.patients import import_patients_from_json
 from entrypoints.contractors import import_contractors_from_json
+from entrypoints.filials import import_filials_from_json
+from entrypoints.specializations import import_specializations_from_json
 
 
 def main():
@@ -50,10 +52,8 @@ def main():
         is_superuser=True
     )
 
-    # Задайте путь к JSON файлу (измените путь при необходимости)
     diagnosis_json_file_path = os.path.join(os.path.dirname(__file__), 'entrypoints/data', 'diagnosis.json')
 
-    # Вызываем функцию импорта данных
     import_diagnoses_from_json(diagnosis_json_file_path)
 
     patients_json_file_path = os.path.join(os.path.dirname(__file__), 'entrypoints/data', 'patients.json')
@@ -61,6 +61,11 @@ def main():
 
     contractors_json_file_path = os.path.join(os.path.dirname(__file__),'entrypoints/data', 'contractors.json')
     import_contractors_from_json(contractors_json_file_path)
+
+    json_file_path = os.path.join(os.path.dirname(__file__), 'entrypoints/data', 'filials.json')
+    import_filials_from_json(json_file_path)
+
+    import_specializations_from_json(os.path.join(os.path.dirname(__file__), 'entrypoints/data', 'specializations.json'))
 
 
 if __name__ == '__main__':
