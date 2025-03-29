@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import {FC, useEffect, useState} from "react";
 import { Box, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { InputForm } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
@@ -10,6 +10,9 @@ import { staffFormSx } from "./staffFormSx";
 import { CustomSelect } from "@6_shared/Select";
 import { addNewEmployee } from "@5_entities/emloyee/api/addNewEmployee.ts";
 import { Employee } from "@5_entities/emloyee/model/model.ts";
+import { getAllDepartaments } from "@5_entities/departament/api/getAllDepartaments.ts";
+import {FilialDepartament} from "@5_entities/departament";
+import {getAllPositions} from "@5_entities/position";
 
 export const StaffForm: FC = () => {
     // Инициализируем состояние с пустым объектом Employee
@@ -17,12 +20,43 @@ export const StaffForm: FC = () => {
         gender: 'U' // Устанавливаем значение по умолчанию
     });
 
+    const [departaments, setDepartaments] = useState<{id: number, name: string}[]>([]);
+    const [positions, setPositions] = useState<{id: number, name: string}[]>([]);
+    useEffect(() => {
+        const fetchDepartaments = async () => {
+            try {
+                const data = await getAllDepartaments();
+                // Преобразуем данные департаментов в формат {id, name}
+                const formattedDepartaments = data.map(dept => ({
+                    id: dept.id,
+                    name: dept.name
+                }));
+                setDepartaments(formattedDepartaments);
+            } catch (error) {
+                console.error("Ошибка при загрузке департаментов:", error);
+            }
+        };
+
+        const fetchPositions = async () => {
+            try {
+                const data = await getAllPositions();
+                console.log('Positions from API:', data); // Добавьте это
+                const formattedPositions = data.results.map(pos => ({
+                    id: pos.id,
+                    name: pos.name
+                }));
+                setPositions(formattedPositions);
+            } catch (error) {
+                console.error('Ошибка при загрузке должностей: ', error);
+            }
+        };
+        fetchPositions();
+        fetchDepartaments();
+    }, []);
+
+
     const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-    const divisions_list = [
-        { id: 1, name: "division 1" },
-        { id: 2, name: "division 2" },
-    ];
 
     const positions_list = [
         { id: 1, name: "Врач-терапевт" },
@@ -68,8 +102,8 @@ export const StaffForm: FC = () => {
                           <Box sx={{ ...globalsStyleSx.inputContainer, m: 0, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
                               <InputForm
                                 type="text"
-                                value={employee.lastName || ''}
-                                onChange={(e) => handleChange('lastName')(e.target.value)}
+                                value={employee.last_name || ''}
+                                onChange={(e) => handleChange('last_name')(e.target.value)}
                                 required
                                 fullWidth
                                 label="Фамилия"
@@ -77,8 +111,8 @@ export const StaffForm: FC = () => {
                               <InputForm
                                 type="text"
                                 label="Имя"
-                                value={employee.firstName || ''}
-                                onChange={(e) => handleChange('firstName')(e.target.value)}
+                                value={employee.first_name || ''}
+                                onChange={(e) => handleChange('first_name')(e.target.value)}
                                 required
                                 fullWidth
                               />
@@ -95,8 +129,8 @@ export const StaffForm: FC = () => {
                           <InputForm
                             type="date"
                             label="Дата рождения"
-                            value={employee.birthDate || ''}
-                            onChange={(e) => handleChange('birthDate')(e.target.value)}
+                            value={employee.date_of_birth || ''}
+                            onChange={(e) => handleChange('date_of_birth')(e.target.value)}
                             required
                             fullWidth
                           />
@@ -164,8 +198,8 @@ export const StaffForm: FC = () => {
                           <InputForm
                             type="text"
                             label="Адрес регистрации"
-                            value={employee.registrationAddress || ''}
-                            onChange={(e) => handleChange('registrationAddress')(e.target.value)}
+                            value={employee.registration_address || ''}
+                            onChange={(e) => handleChange('registration_address')(e.target.value)}
                             fullWidth
                             required
                           />
@@ -175,8 +209,8 @@ export const StaffForm: FC = () => {
                           <InputForm
                             type="text"
                             label="Адрес проживания"
-                            value={employee.actualAddress || ''}
-                            onChange={(e) => handleChange('actualAddress')(e.target.value)}
+                            value={employee.actual_address || ''}
+                            onChange={(e) => handleChange('actual_address')(e.target.value)}
                             fullWidth
                           />
                       </Box>
@@ -188,16 +222,22 @@ export const StaffForm: FC = () => {
                           <InputForm
                             label="Длительность приема (мин)"
                             type="number"
-                            value={employee.appointmentDuration || ''}
-                            onChange={(e) => handleChange('appointmentDuration')(e.target.value)}
+                            value={employee.appointment_duration || ''}
+                            onChange={(e) => handleChange('appointment_duration')(e.target.value)}
                             fullWidth
                           />
                       </Box>
                       <Box sx={{ mt: 2 }}>
                           <CustomAutocomplete
-                            value={employee.division || ''}
-                            onChange={(value) => handleChange('division')(value)}
-                            options={divisions_list}
+                            value={employee.department ?
+                              departaments.find(d => d.id === employee.department)?.name || ''
+                              : ''}
+                            onChange={(value) => {
+                                // Находим id департамента по имени
+                                const selectedDept = departaments.find(d => d.name === value);
+                                handleChange('department')(selectedDept?.id);
+                            }}
+                            options={departaments.map(d => d.name)} // Передаем только названия
                             placeholder="Введите подразделение"
                             label="Подразделение"
                             required
@@ -205,23 +245,16 @@ export const StaffForm: FC = () => {
                       </Box>
                       <Box sx={{ mt: 2 }}>
                           <CustomAutocomplete
-                            value={employee.position || ''}
-                            onChange={(value) => handleChange('position')(value)}
-                            options={positions_list}
+                            value={employee.position ?
+                              positions.find(p => p.id === employee.position)?.name || ''
+                          : ''}
+                            onChange={(value) => {
+                                const selectedPos = positions.find(f => f.name === value);
+                                handleChange('position')(selectedPos?.id);
+                            }}
+                            options={positions.map(f => f.name)}
                             placeholder="Выберите должность"
                             label="Должность"
-                            required
-                          />
-                      </Box>
-                      <Box sx={{ mt: 2 }}>
-                          <CustomSelect
-                            value={employee.specialization || ''}
-                            onChange={(value) => handleChange('specialization')(value)}
-                            options={specializations_list}
-                            placeholder="Выберите специализацию"
-                            label="Специализация"
-                            fullWidth
-                            disabled={!employee.position}
                             required
                           />
                       </Box>
@@ -232,8 +265,8 @@ export const StaffForm: FC = () => {
                             type="text"
                             rows={5}
                             label="Краткое описание"
-                            value={employee.shortDescription || ''}
-                            onChange={(e) => handleChange('shortDescription')(e.target.value)}
+                            value={employee.short_description || ''}
+                            onChange={(e) => handleChange('short_description')(e.target.value)}
                             placeholder="Введите краткое описание"
                           />
                       </Box>

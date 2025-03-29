@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, Toolbar, AppBar, Switch, useTheme } from '@mui/material';
 import { headerSx } from './headerSx';
@@ -19,17 +20,26 @@ interface User {
 
 interface HeaderProps {
   handleDrawerToggle: () => void;
-  handleSearch: () => void;
   user: User;
   users?: User[];
 }
 
-const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch }) => {
+const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const { toggleTheme, mode } = useThemeContext();
   const theme = useTheme();
   const [search, setSearch] = useState('');
+  const [suggestions, setSuggestions] = useState<{name: string, path: string}[]>([]);
   const isDarkText = !(theme.palette.mode === "dark");
+
+  // Список доступных пунктов меню для поиска
+  const menuItems = [
+    { name: 'Главная', path: '' },
+    { name: 'Чат', path: '/chat' },
+    { name: 'Регистрация', path: '/registry' },
+    { name: 'Прием', path: '/admission' },
+  ];
 
   // Настройка голосового ввода
   const {
@@ -46,6 +56,18 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
     }
   }, [transcript]);
 
+  // Обновление подсказок при изменении поискового запроса
+  useEffect(() => {
+    if (search.trim()) {
+      const matchedItems = menuItems.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setSuggestions(matchedItems);
+    } else {
+      setSuggestions([]);
+    }
+  }, [search]);
+
   // Проверка поддержки браузером
   const isSpeechSupported = browserSupportsSpeechRecognition;
 
@@ -59,6 +81,32 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
         language: 'ru-RU',
         continuous: true
       });
+    }
+  };
+
+  // Обработчик поиска
+  const handleSearch = () => {
+    if (!search.trim()) return;
+
+    const foundItem = menuItems.find(item =>
+      item.name.toLowerCase() === search.toLowerCase()
+    );
+
+    if (foundItem) {
+      navigate(foundItem.path);
+      setSearch('');
+      setSuggestions([]);
+    } else if (suggestions.length > 0) {
+      navigate(suggestions[0].path);
+      setSearch('');
+      setSuggestions([]);
+    }
+  };
+
+  // Обработчик нажатия Enter
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -131,6 +179,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
             display: 'flex',
             alignItems: 'center',
             flexGrow: 1,
+            position: 'relative'
           }}>
             <Box
               sx={{
@@ -139,18 +188,21 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
                 margin: '0 auto',
                 alignItems: 'center',
                 gap: 1,
+                position: 'relative'
               }}
             >
               <InputSearch
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
                 fullWidth
                 placeholder={listening ? "Говорите сейчас..." : "Введите запрос"}
                 onSearch={handleSearch}
                 isDarkText={isDarkText}
                 bgcolorFlag={true}
               />
+
               {/* микрофон */}
               {isSpeechSupported && (
                 <IconButton
@@ -168,7 +220,6 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
                       : theme.palette.grey[400]}`,
                     backgroundColor: theme.palette.background.paper,
                     borderRadius: '50%',
-                    
                     animation: listening ? 'pulse 1.5s infinite' : 'none',
                     '@keyframes pulse': {
                       '0%': { transform: 'scale(1)' },
@@ -179,6 +230,47 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
                 >
                   <MicNoneOutlinedIcon sx={{ fontSize: '26px' }} />
                 </IconButton>
+              )}
+
+              {/* Подсказки поиска */}
+              {suggestions.length > 0 && (
+                <Box sx={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  right: 0,
+                  zIndex: 1300,
+                  bgcolor: 'background.paper',
+                  boxShadow: 2,
+                  maxHeight: 200,
+                  overflowY: 'auto',
+                  mt: 1,
+                  border: `1px solid ${theme.palette.divider}`,
+                  borderRadius: 1
+                }}>
+                  {suggestions.map((item, index) => (
+                    <Box
+                      key={index}
+                      onClick={() => {
+                        navigate(item.path);
+                        setSearch('');
+                        setSuggestions([]);
+                      }}
+                      sx={{
+                        p: 2,
+                        cursor: 'pointer',
+                        '&:hover': {
+                          bgcolor: 'action.hover'
+                        },
+                        borderBottom: index < suggestions.length - 1
+                          ? `1px solid ${theme.palette.divider}`
+                          : 'none'
+                      }}
+                    >
+                      {item.name}
+                    </Box>
+                  ))}
+                </Box>
               )}
             </Box>
           </Box>

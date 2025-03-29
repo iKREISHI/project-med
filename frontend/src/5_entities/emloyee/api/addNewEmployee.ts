@@ -4,7 +4,7 @@ import {POST} from "@6_shared/api";
 export const addNewEmployee = async (
   employeeData: Omit<Employee, 'id' | 'data_created'>
 ): Promise<void> => {
-  const response = await POST('/api/v0/employee/', {
+  const response = await POST('/api/v0/register-new-employee/', {
     body: employeeData,
   });
 
