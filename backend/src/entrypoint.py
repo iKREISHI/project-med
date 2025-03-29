@@ -20,6 +20,8 @@ from entrypoints.patients import import_patients_from_json
 from entrypoints.contractors import import_contractors_from_json
 from entrypoints.filials import import_filials_from_json
 from entrypoints.specializations import import_specializations_from_json
+from entrypoints.departaments import import_filial_departments_from_json
+from entrypoints.employees import import_employees_from_json
 
 
 def main():
@@ -66,6 +68,10 @@ def main():
     import_filials_from_json(json_file_path)
 
     import_specializations_from_json(os.path.join(os.path.dirname(__file__), 'entrypoints/data', 'specializations.json'))
+
+    import_filial_departments_from_json(os.path.join(os.path.dirname(__file__), 'entrypoints/data', 'departaments.json'))
+
+    import_employees_from_json(os.path.join(os.path.dirname(__file__), 'entrypoints/data', 'employees.json'))
 
 
 if __name__ == '__main__':
