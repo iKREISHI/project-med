@@ -20,3 +20,6 @@ class Specialization(models.Model):
     class Meta:
         verbose_name = 'Специализация врача'
         verbose_name_plural = 'Специализации врачей'
+
+    def __str__(self) -> str:
+        return self.title

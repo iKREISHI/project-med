@@ -1,0 +1,452 @@
+[
+  {
+    "full_name": "Уральский банк реконструкции и развития",
+    "inn": "7675510469",
+    "kpp": "978275936",
+    "bank_account": null,
+    "economic_activity_type": "Библиотековед",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "НПО «Шарова Егорова»",
+    "inn": "1982626543",
+    "kpp": "553867110",
+    "bank_account": null,
+    "economic_activity_type": "Монтажник радиоэлектронной аппаратуры и приборов",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ОАО «Ершов, Самсонов и Ефремова»",
+    "inn": "2464107985",
+    "kpp": "873129382",
+    "bank_account": null,
+    "economic_activity_type": "Оператор вооружения",
+    "ownership_form": "Инкорпорэйтед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Кулаков Групп",
+    "inn": "2434755884",
+    "kpp": "550442115",
+    "bank_account": null,
+    "economic_activity_type": "Композитор",
+    "ownership_form": "и партнеры",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Интернешнл Пейпер (International Paper)",
+    "inn": "7662881265",
+    "kpp": "914927003",
+    "bank_account": null,
+    "economic_activity_type": "Сборщик",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "НПО «Голубева-Савельева»",
+    "inn": "9527844703",
+    "kpp": "358693045",
+    "bank_account": null,
+    "economic_activity_type": "Авиационный техник",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ИП «Богданов-Фомин»",
+    "inn": "2866744289",
+    "kpp": "697380131",
+    "bank_account": null,
+    "economic_activity_type": "Борт-инженер",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ЗАО «Гордеева, Рябов и Быков»",
+    "inn": "6490173553",
+    "kpp": "329839428",
+    "bank_account": null,
+    "economic_activity_type": "Баталер",
+    "ownership_form": "Инкорпорэйтед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "АО «Хохлов»",
+    "inn": "8019370296",
+    "kpp": "577803138",
+    "bank_account": null,
+    "economic_activity_type": "Сапожник",
+    "ownership_form": "и партнеры",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ОАО «Тетерин»",
+    "inn": "4195100016",
+    "kpp": "865101381",
+    "bank_account": null,
+    "economic_activity_type": "Монтажник связи",
+    "ownership_form": "Инкорпорэйтед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Николаев Инк",
+    "inn": "3346291021",
+    "kpp": "308646097",
+    "bank_account": null,
+    "economic_activity_type": "Программист",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ЗАО «Морозов Горбунова»",
+    "inn": "4363849482",
+    "kpp": "343011031",
+    "bank_account": null,
+    "economic_activity_type": "Пограничник",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Рогова Групп",
+    "inn": "9119594350",
+    "kpp": "590919812",
+    "bank_account": null,
+    "economic_activity_type": "Невропатолог",
+    "ownership_form": "Инкорпорэйтед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Мишина Лимитед",
+    "inn": "1932842629",
+    "kpp": "311949382",
+    "bank_account": null,
+    "economic_activity_type": "Брейдер",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ЗАО «Яковлева-Соболева»",
+    "inn": "6455694828",
+    "kpp": "309060211",
+    "bank_account": null,
+    "economic_activity_type": "Артист цирка",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "АО «Белова Гуляев»",
+    "inn": "7881376556",
+    "kpp": "720974912",
+    "bank_account": null,
+    "economic_activity_type": "Диетолог",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "АО «Беляев Нестерова»",
+    "inn": "5731201335",
+    "kpp": "312577880",
+    "bank_account": null,
+    "economic_activity_type": "Конвоир",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Аэрофлот — Российские авиалинии",
+    "inn": "2886969368",
+    "kpp": "845318157",
+    "bank_account": null,
+    "economic_activity_type": "Сиделка",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Щукин Инк",
+    "inn": "6904040327",
+    "kpp": "262843156",
+    "bank_account": null,
+    "economic_activity_type": "Ботаник",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ЛГ Электроникс Рус (LG)",
+    "inn": "8489601489",
+    "kpp": "443475768",
+    "bank_account": null,
+    "economic_activity_type": "Неонатолог",
+    "ownership_form": "и партнеры",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ООО «Мишина, Пахомов и Богданов»",
+    "inn": "1058903799",
+    "kpp": "535980688",
+    "bank_account": null,
+    "economic_activity_type": "Повар",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Лебедева Лимитед",
+    "inn": "9771556499",
+    "kpp": "902759750",
+    "bank_account": null,
+    "economic_activity_type": "Изобретатр",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ИП «Сысоев»",
+    "inn": "1316322932",
+    "kpp": "103458816",
+    "bank_account": null,
+    "economic_activity_type": "Садовник",
+    "ownership_form": "и партнеры",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "РАО «Селезнев Кудряшов»",
+    "inn": "9873959807",
+    "kpp": "460652007",
+    "bank_account": null,
+    "economic_activity_type": "Борт-инженер",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ОАО «Васильева»",
+    "inn": "5995143945",
+    "kpp": "721621480",
+    "bank_account": null,
+    "economic_activity_type": "Сталевар",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ОАО «Мишин Филиппов»",
+    "inn": "8060389449",
+    "kpp": "355359797",
+    "bank_account": null,
+    "economic_activity_type": "Воспитатель",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Александров Инк",
+    "inn": "4110059109",
+    "kpp": "233883013",
+    "bank_account": null,
+    "economic_activity_type": "Диджей",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "НПО «Галкин-Логинова»",
+    "inn": "9180921155",
+    "kpp": "136414516",
+    "bank_account": null,
+    "economic_activity_type": "Столяр",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ИП «Фролова-Кузьмина»",
+    "inn": "3162821499",
+    "kpp": "426026479",
+    "bank_account": null,
+    "economic_activity_type": "Экспедитор на дальних поездках",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ИП «Беляева-Беспалова»",
+    "inn": "7617321955",
+    "kpp": "797455460",
+    "bank_account": null,
+    "economic_activity_type": "Радиомеханик",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "НПК Уралвагонзавод",
+    "inn": "3767895168",
+    "kpp": "672501263",
+    "bank_account": null,
+    "economic_activity_type": "Проктолог",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ООО «Мухин, Селиверстова и Жданова»",
+    "inn": "5593565542",
+    "kpp": "121544253",
+    "bank_account": null,
+    "economic_activity_type": "Водолаз",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ООО «Александрова-Бобылева»",
+    "inn": "7233295180",
+    "kpp": "824158500",
+    "bank_account": null,
+    "economic_activity_type": "Верстальщик",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "НПО «Игнатьева Красильникова»",
+    "inn": "2547344480",
+    "kpp": "204934361",
+    "bank_account": null,
+    "economic_activity_type": "Парикмахер",
+    "ownership_form": "Инкорпорэйтед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "РАО «Терентьев-Данилов»",
+    "inn": "9340472348",
+    "kpp": "334111027",
+    "bank_account": null,
+    "economic_activity_type": "Авиадиспетчер",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "НПО «Савина, Маслов и Романов»",
+    "inn": "4769545108",
+    "kpp": "489252026",
+    "bank_account": null,
+    "economic_activity_type": "Композитор",
+    "ownership_form": "Инкорпорэйтед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ООО «Кудряшов Туров»",
+    "inn": "6582620724",
+    "kpp": "401620066",
+    "bank_account": null,
+    "economic_activity_type": "Кондитер",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ООО «Федотов-Елисеев»",
+    "inn": "9291299759",
+    "kpp": "111494396",
+    "bank_account": null,
+    "economic_activity_type": "Зенитчик",
+    "ownership_form": "и партнеры",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ООО «Белозеров»",
+    "inn": "9635916158",
+    "kpp": "569985524",
+    "bank_account": null,
+    "economic_activity_type": "Доула",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Николаев Групп",
+    "inn": "5965254578",
+    "kpp": "454605890",
+    "bank_account": null,
+    "economic_activity_type": "Фуражир",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "РАО «Власова, Никифоров и Семенова»",
+    "inn": "3187801521",
+    "kpp": "642197543",
+    "bank_account": null,
+    "economic_activity_type": "Радиотелефонист",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Селиверстова Инк",
+    "inn": "2150849664",
+    "kpp": "640644272",
+    "bank_account": null,
+    "economic_activity_type": "Садовод",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ЗАО «Лапин Павлов»",
+    "inn": "2566561080",
+    "kpp": "246285616",
+    "bank_account": null,
+    "economic_activity_type": "Автоэлектрик",
+    "ownership_form": "Инк",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "НПО «Беляков»",
+    "inn": "6219240125",
+    "kpp": "946197831",
+    "bank_account": null,
+    "economic_activity_type": "Лимфолог",
+    "ownership_form": "Инкорпорэйтед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ОАО «Стрелков-Уварова»",
+    "inn": "9967903884",
+    "kpp": "889599729",
+    "bank_account": null,
+    "economic_activity_type": "Татуировщик",
+    "ownership_form": "и партнеры",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ОАО «Буров-Кошелева»",
+    "inn": "4737611590",
+    "kpp": "929012374",
+    "bank_account": null,
+    "economic_activity_type": "Зенитчик",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Колесников Лимитед",
+    "inn": "7277831728",
+    "kpp": "382796641",
+    "bank_account": null,
+    "economic_activity_type": "Орнитолог",
+    "ownership_form": "Лтд",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "Гаврилова Лимитед",
+    "inn": "3289066824",
+    "kpp": "837602351",
+    "bank_account": null,
+    "economic_activity_type": "Переплётчик",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ИП «Мясников, Горбунова и Лебедев»",
+    "inn": "9119231742",
+    "kpp": "689543282",
+    "bank_account": null,
+    "economic_activity_type": "Крупье",
+    "ownership_form": "Лимитед",
+    "insurance_organization": null
+  },
+  {
+    "full_name": "ЗАО «Юдин»",
+    "inn": "4250433199",
+    "kpp": "578212870",
+    "bank_account": null,
+    "economic_activity_type": "Логик",
+    "ownership_form": "Групп",
+    "insurance_organization": null
+  }
+]
