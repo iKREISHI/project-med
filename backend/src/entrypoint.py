@@ -41,7 +41,7 @@ def main():
         first_name='Root',
         last_name='User',
         position_name='Администратор',
-        group_name='Администраторы',
+        group_name='Администратор',
         is_superuser=True
     )
     create_user_and_employee(
@@ -50,7 +50,7 @@ def main():
         first_name='Super',
         last_name='User',
         position_name='Администратор',
-        group_name='Администраторы',
+        group_name='Администратор',
         is_superuser=True
     )
 
