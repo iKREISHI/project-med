@@ -1,7 +1,5 @@
 import datetime
 from django.urls import reverse
-from django.utils import timezone
-from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
@@ -34,7 +32,7 @@ class ReceptionTimeViewSetTestCase(APITestCase):
         # Данные для создания ReceptionTime через API: для полей ForeignKey передаем pk
         self.valid_data = {
             "doctor": self.doctor.pk,
-            "reception_day": now() + datetime.timedelta(days=1),
+            "reception_day": "2030-03-15",
             "start_time": "09:00:00",
             "end_time": "17:00:00"
         }
@@ -53,7 +51,7 @@ class ReceptionTimeViewSetTestCase(APITestCase):
         for i in range(15):
             data = self.valid_data.copy()
             day = 15 + i
-            data["reception_day"] = f"2023-03-{day:02d}"
+            data["reception_day"] = f"2030-03-{day:02d}"
             self.create_reception_time(data)
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -72,7 +70,7 @@ class ReceptionTimeViewSetTestCase(APITestCase):
         detail_url = reverse('reception-time-detail', kwargs={'id': reception_id})
         response = self.client.get(detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["reception_day"], "2023-03-15")
+        self.assertEqual(response.data["reception_day"], "2030-03-15")
 
     def test_retrieve_reception_time_not_found(self):
         """Проверяем, что при запросе несуществующей записи возвращается 404."""
@@ -86,7 +84,7 @@ class ReceptionTimeViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         reception_id = response.data.get("id")
         reception = ReceptionTime.objects.get(id=reception_id)
-        self.assertEqual(reception.reception_day, datetime.date(2023, 3, 15))
+        self.assertEqual(reception.reception_day, datetime.date(2030, 3, 15))
         self.assertEqual(reception.start_time, datetime.time(9, 0, 0))
         self.assertEqual(reception.end_time, datetime.time(17, 0, 0))
 
@@ -111,24 +109,17 @@ class ReceptionTimeViewSetTestCase(APITestCase):
         """Проверяем частичное обновление записи через PATCH."""
         response_create = self.create_reception_time()
         self.assertEqual(response_create.status_code, status.HTTP_201_CREATED)
-
         reception_id = response_create.data["id"]
         detail_url = reverse('reception-time-detail', kwargs={'id': reception_id})
-
-        # Генерируем дату не раньше завтра
-        min_date = timezone.now().date() + datetime.timedelta(days=1)
         update_data = {
-            "reception_day": min_date.isoformat(),
+            "reception_day": "2030-03-16",
             "start_time": "10:00:00",
             "end_time": "18:00:00"
         }
-
         response_update = self.client.patch(detail_url, update_data, format="json")
-
-        # Проверки
         self.assertEqual(response_update.status_code, status.HTTP_200_OK)
         reception = ReceptionTime.objects.get(id=reception_id)
-        self.assertEqual(reception.reception_day, min_date)
+        self.assertEqual(reception.reception_day, datetime.date(2030, 3, 16))
         self.assertEqual(reception.start_time, datetime.time(10, 0, 0))
         self.assertEqual(reception.end_time, datetime.time(18, 0, 0))
 

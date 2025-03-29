@@ -37,14 +37,14 @@ class HospitalStaysSerializerTestCase(TestCase):
             reception_day=timezone.now().date() + datetime.timedelta(days=1),
             start_time=datetime.time(8, 0, 0),
             end_time=datetime.time(18, 0, 0),
-            doctor=self.assigned_doctor,
+            doctor=self.employee,
         )
 
         # Создаем тестовый приём, передавая все обязательные поля
         self.appointment = DoctorAppointment.objects.create(
             signed_by=self.employee,
             assigned_doctor=self.employee,
-            reception_day=timezone.now().date() + datetime.timedelta(days=1),
+            appointment_date=timezone.now().date() + datetime.timedelta(days=1),
             start_time=datetime.time(9, 0),
             end_time=datetime.time(10, 0),
             reception_template=self.reception_template

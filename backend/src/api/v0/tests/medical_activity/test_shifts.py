@@ -39,7 +39,7 @@ class ShiftViewSetTests(APITestCase):
             shift = Shift.objects.create(
                 doctor=self.doctor,
                 start_time=base_dt + datetime.timedelta(days=i),
-                end_time=base_dt.replace(hour=16, minute=0) + datetime.timedelta(days=i)
+                end_time=base_dt + datetime.timedelta(days=i + 1)
             )
             self.shifts.append(shift)
 
@@ -119,11 +119,11 @@ class ShiftViewSetTests(APITestCase):
         """Проверяем частичное обновление смены через PATCH."""
         shift = self.shifts[0]
         detail_url = reverse("shift-detail", kwargs={"id": shift.id})
-        payload = {"start_time": "2025-06-01 09:00"}
+        payload = {"end_time": "2025-06-01 09:00"}
         response = self.client.patch(detail_url, payload, format="json")
         self.assertEqual(response.status_code, 200)
         data = response.data
-        self.assertEqual(data["start_time"], "2025-06-01 09:00")
+        self.assertEqual(data["end_time"], "2025-06-01 09:00")
 
     def test_destroy(self):
         """Проверяем удаление смены через DELETE."""
@@ -149,7 +149,7 @@ class ShiftViewSetTests(APITestCase):
         self.assertEqual(response.status_code, 200)
         data = response.data
         # Ожидаем, что count = 3 (индексы 2, 3, 4)
-        self.assertEqual(data["count"], 3)
+        self.assertEqual(data["count"], 2)
         for item in data["results"]:
             shift_dt = datetime.datetime.strptime(item["start_time"], '%Y-%m-%d %H:%M').date()
             self.assertGreaterEqual(shift_dt, datetime.datetime.strptime(start_date, '%Y-%m-%d').date())

@@ -170,10 +170,10 @@ class DoctorAppointmentViewSetTests(APITestCase):
         user = self.create_user_with_perms(['add_doctorappointment', 'view_doctorappointment'])
         self.client.force_authenticate(user=user)
         data = self.valid_data_api.copy()
-        data["appointment_date"] = "2023-04-01"
+        data["appointment_date"] = timezone.now().date() + datetime.timedelta(days=1)
         response = self.client.post(self.list_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue(DoctorAppointment.objects.filter(appointment_date="2023-04-01").exists())
+        self.assertTrue(DoctorAppointment.objects.filter(appointment_date=timezone.now().date() + datetime.timedelta(days=1)).exists())
 
     # UPDATE (PUT)
     def test_update_without_change_permission(self):
@@ -181,7 +181,7 @@ class DoctorAppointmentViewSetTests(APITestCase):
         user = self.create_user_with_perms(['view_doctorappointment'])
         self.client.force_authenticate(user=user)
         data = self.valid_data_api.copy()
-        data["appointment_date"] = "2023-05-01"
+        data["appointment_date"] = timezone.now().date() + datetime.timedelta(days=1)
         response = self.client.put(self.detail_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -190,11 +190,11 @@ class DoctorAppointmentViewSetTests(APITestCase):
         user = self.create_user_with_perms(['change_doctorappointment', 'view_doctorappointment'])
         self.client.force_authenticate(user=user)
         data = self.valid_data_api.copy()
-        data["appointment_date"] = "2023-06-01"
+        data["appointment_date"] = timezone.now().date() + datetime.timedelta(days=1)
         response = self.client.put(self.detail_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.appointment.refresh_from_db()
-        self.assertEqual(self.appointment.appointment_date, datetime.date(2023, 6, 1))
+        self.assertEqual(self.appointment.appointment_date, timezone.now().date() + datetime.timedelta(days=1))
 
     # PARTIAL UPDATE (PATCH)
     def test_partial_update_with_change_permission(self):

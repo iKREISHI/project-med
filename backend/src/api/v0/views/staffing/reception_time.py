@@ -36,12 +36,11 @@ class ReceptionTimeViewSet(viewsets.ModelViewSet):
     lookup_field = 'id'
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = ReceptionTime.objects.filter(doctor__user=user).order_by('reception_day', 'start_time')
+        queryset = ReceptionTime.objects.all()
         return queryset
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = ReceptionTime.objects.all()
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)

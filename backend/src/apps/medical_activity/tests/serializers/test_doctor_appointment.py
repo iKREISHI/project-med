@@ -78,7 +78,7 @@ class DoctorAppointmentSerializerTestCase(TestCase):
         self.assertEqual(appointment.reason_for_inspection, "Routine check-up")
         self.assertEqual(appointment.inspection_choice, "no_inspection")
         # Проверяем дату и время
-        self.assertEqual(appointment.appointment_date, datetime.date(2023, 3, 15))
+        self.assertEqual(appointment.appointment_date, timezone.now().date() + datetime.timedelta(days=1))
         self.assertEqual(appointment.start_time, datetime.time(9, 0, 0))
         self.assertEqual(appointment.end_time, datetime.time(17, 0, 0))
 
@@ -90,14 +90,14 @@ class DoctorAppointmentSerializerTestCase(TestCase):
         update_data = {
             "reason_for_inspection": "Updated reason",
             "start_time": "10:00:00",
-            "end_time": "18:00:00"
+            "end_time": "17:00:00"
         }
         serializer_update = DoctorAppointmentSerializer(instance=appointment, data=update_data, partial=True)
         self.assertTrue(serializer_update.is_valid(), serializer_update.errors)
         updated_appointment = serializer_update.save()
         self.assertEqual(updated_appointment.reason_for_inspection, "Updated reason")
         self.assertEqual(updated_appointment.start_time, datetime.time(10, 0, 0))
-        self.assertEqual(updated_appointment.end_time, datetime.time(18, 0, 0))
+        self.assertEqual(updated_appointment.end_time, datetime.time(17, 0, 0))
 
     def test_unknown_field_error(self):
         """Проверяет, что передача неизвестного поля вызывает ошибку валидации."""
