@@ -1,6 +1,7 @@
 import datetime
 from django.urls import reverse, path, include
 from django.test import override_settings
+from django.utils.timezone import now
 from rest_framework.routers import DefaultRouter
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
@@ -33,7 +34,7 @@ class ShiftViewSetTests(APITestCase):
 
         # Создаем 15 объектов Shift для тестирования (с разными датами)
         self.shifts = []
-        base_dt = datetime.datetime(2025, 3, 26, 8, 0)
+        base_dt = now()
         for i in range(15):
             shift = Shift.objects.create(
                 doctor=self.doctor,
