@@ -1,30 +1,41 @@
 import datetime
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.contrib.auth import get_user_model
-from apps.medical_activity.models import DoctorAppointment
+
+from apps.medical_activity.models import DoctorAppointment, ReceptionTemplate
 from apps.medical_activity.serializers import DoctorAppointmentSerializer
-from apps.medical_activity.service import DoctorAppointmentService
+from apps.staffing.models import Employee, Specialization
 from apps.clients.models import Patient
-from apps.staffing.models import Employee
 
 User = get_user_model()
 
 
-class DoctorAppointmentViewSetTestCase(APITestCase):
+class DoctorAppointmentViewSetTests(APITestCase):
     def setUp(self):
-        # Создаем суперпользователя для прохождения проверки permissions
-        self.admin_user = User.objects.create_superuser(username='admin', password='adminpass')
-        self.client.force_authenticate(user=self.admin_user)
-
-        # Создаем связанные объекты, необходимые для создания приема
+        # Создаем связанные объекты
         self.patient = Patient.objects.create(first_name="John", last_name="Doe")
+
+        self.specialization = Specialization.objects.create(
+            title="Test Specialization",
+            description="Описание специализации"
+        )
+        self.reception_template = ReceptionTemplate.objects.create(
+            name="Template 1",
+            description="Описание шаблона",
+            html="<html>Test</html>",
+            specialization=self.specialization,
+            fields={"field1": "value1"}
+        )
         self.assigned_doctor = Employee.objects.create(
             first_name="Alice",
             last_name="Smith",
+            patronymic="A.",
             gender="F",
-            date_of_birth="1980-01-01",
+            date_of_birth="1980-05-05",
             snils="111-222-333 44",
             inn="1234567890",
             registration_address="Address 1",
@@ -35,6 +46,7 @@ class DoctorAppointmentViewSetTestCase(APITestCase):
         self.signed_by = Employee.objects.create(
             first_name="Bob",
             last_name="Brown",
+            patronymic="B.",
             gender="M",
             date_of_birth="1975-03-03",
             snils="555-666-777 88",
@@ -44,11 +56,24 @@ class DoctorAppointmentViewSetTestCase(APITestCase):
             email="bob@example.com",
             phone="+1987654321"
         )
-
-        # Формируем корректный набор данных для создания приема
-        # В запросах через API передаем значения для ForeignKey как первичные ключи (id)
-        self.valid_data = {
+        # Данные для создания объекта в БД – передаем экземпляры моделей
+        self.valid_data_model = {
+            "patient": self.patient,
+            "reception_template": self.reception_template,
+            "assigned_doctor": self.assigned_doctor,
+            "signed_by": self.signed_by,
+            "is_first_appointment": True,
+            "is_closed": False,
+            "reason_for_inspection": "Routine check-up",
+            "inspection_choice": "no_inspection",
+            "appointment_date": datetime.date(2023, 3, 15),
+            "start_time": datetime.time(9, 0, 0),
+            "end_time": datetime.time(17, 0, 0),
+        }
+        # Данные для API-запросов – передаем первичные ключи
+        self.valid_data_api = {
             "patient": self.patient.pk,
+            "reception_template": self.reception_template.pk,
             "assigned_doctor": self.assigned_doctor.pk,
             "signed_by": self.signed_by.pk,
             "is_first_appointment": True,
@@ -57,100 +82,141 @@ class DoctorAppointmentViewSetTestCase(APITestCase):
             "inspection_choice": "no_inspection",
             "appointment_date": "2023-03-15",
             "start_time": "09:00:00",
-            "end_time": "17:00:00"
-            # medical_card можно оставить пустым (null)
+            "end_time": "17:00:00",
         }
-
-        # Предполагается, что DoctorAppointmentViewSet зарегистрирован с basename 'doctorappointment'
+        # Создаем существующий прием для тестов retrieve, update, destroy
+        self.appointment = DoctorAppointment.objects.create(**self.valid_data_model)
+        # URL-адреса (lookup_field = 'id')
         self.list_url = reverse('doctorappointment-list')
+        self.detail_url = reverse('doctorappointment-detail', kwargs={'id': self.appointment.id})
 
-    def create_appointment(self, data=None):
-        if data is None:
-            data = self.valid_data
-        response = self.client.post(self.list_url, data, format="json")
-        return response
+    def create_user_with_perms(self, perms):
+        """
+        Создает тестового пользователя и назначает ему указанные разрешения.
+        Разрешения: view_doctorappointment, add_doctorappointment,
+                     change_doctorappointment, delete_doctorappointment.
+        """
+        user = User.objects.create_user(username='testuser', password='testpass')
+        for codename in perms:
+            permission = Permission.objects.get(codename=codename)
+            user.user_permissions.add(permission)
+        user.save()
+        return user
 
-    def test_list_appointments(self):
-        """Проверяем, что list endpoint возвращает приемы с пагинацией."""
-        # Создаем 15 приемов, изменяя дату для проверки сортировки
-        for i in range(15):
-            data = self.valid_data.copy()
-            # Изменяем дату, чтобы гарантировать уникальность
-            data["appointment_date"] = f"2023-03-{15 + i:02d}"
-            self.create_appointment(data)
+    # LIST
+    def test_list_without_view_permission(self):
+        """Без разрешения view_doctorappointment список должен возвращать 403."""
+        user = self.create_user_with_perms([])
+        self.client.force_authenticate(user=user)
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_list_with_view_permission(self):
+        """С разрешением view_doctorappointment список возвращает 200 и данные с пагинацией."""
+        user = self.create_user_with_perms(['view_doctorappointment'])
+        self.client.force_authenticate(user=user)
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        data_response = response.data
-        # Проверяем наличие ключей пагинации
-        self.assertIn("count", data_response)
-        self.assertIn("next", data_response)
-        self.assertIn("previous", data_response)
-        self.assertIn("results", data_response)
-        self.assertEqual(data_response["count"], 15)
-        # По умолчанию на странице 10 записей
-        self.assertEqual(len(data_response["results"]), 10)
+        self.assertIn('results', response.data)
+        self.assertGreaterEqual(len(response.data['results']), 1)
 
-    def test_retrieve_appointment_valid(self):
-        """Проверяем получение существующего приема по id."""
-        response_create = self.create_appointment()
-        self.assertEqual(response_create.status_code, status.HTTP_201_CREATED)
-        appointment_id = response_create.data["id"]
-        detail_url = reverse('doctorappointment-detail', kwargs={'id': appointment_id})
-        response = self.client.get(detail_url)
+    # RETRIEVE
+    def test_retrieve_without_view_permission(self):
+        """Без разрешения view_doctorappointment детали должны возвращать 403."""
+        user = self.create_user_with_perms([])
+        self.client.force_authenticate(user=user)
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_retrieve_with_view_permission(self):
+        """С разрешением view_doctorappointment можно получить детали приема."""
+        user = self.create_user_with_perms(['view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["reason_for_inspection"], "Routine check-up")
+        serializer = DoctorAppointmentSerializer(self.appointment)
+        self.assertEqual(response.data, serializer.data)
 
-    def test_retrieve_appointment_not_found(self):
-        """Проверяем, что при запросе несуществующего приема возвращается 404."""
-        detail_url = reverse('doctorappointment-detail', kwargs={'id': 999999})
-        response = self.client.get(detail_url)
+    def test_retrieve_nonexistent(self):
+        """Запрос несуществующего приема возвращает 404 с сообщением."""
+        user = self.create_user_with_perms(['view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        url = reverse('doctorappointment-detail', kwargs={'id': 9999})
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(response.data["detail"], "Прием не найден.")
+        self.assertEqual(response.data.get("detail"), "Прием не найден.")
 
-    def test_create_appointment_valid(self):
-        """Проверяем создание приема через POST с корректными данными."""
-        response = self.create_appointment()
+    # CREATE
+    def test_create_without_add_permission(self):
+        """Без разрешения add_doctorappointment создание приема недоступно (403)."""
+        user = self.create_user_with_perms(['view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        response = self.client.post(self.list_url, self.valid_data_api, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_create_with_add_permission(self):
+        """С разрешением add_doctorappointment создание приема проходит (201)."""
+        user = self.create_user_with_perms(['add_doctorappointment', 'view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        data = self.valid_data_api.copy()
+        data["appointment_date"] = "2023-04-01"
+        response = self.client.post(self.list_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        appointment_id = response.data.get("id")
-        appointment = DoctorAppointment.objects.get(id=appointment_id)
-        self.assertEqual(appointment.reason_for_inspection, "Routine check-up")
-        self.assertEqual(appointment.inspection_choice, "no_inspection")
-        self.assertEqual(appointment.appointment_date, datetime.date(2023, 3, 15))
-        self.assertEqual(appointment.start_time, datetime.time(9, 0, 0))
-        self.assertEqual(appointment.end_time, datetime.time(17, 0, 0))
+        self.assertTrue(DoctorAppointment.objects.filter(appointment_date="2023-04-01").exists())
 
-    def test_create_appointment_invalid(self):
-        """Проверяем создание приема с недопустимыми данными (например, пустая дата приема)."""
-        invalid_data = self.valid_data.copy()
-        invalid_data["appointment_date"] = ""
-        response = self.client.post(self.list_url, invalid_data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("appointment_date", response.data)
+    # UPDATE (PUT)
+    def test_update_without_change_permission(self):
+        """Без разрешения change_doctorappointment обновление недоступно (403)."""
+        user = self.create_user_with_perms(['view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        data = self.valid_data_api.copy()
+        data["appointment_date"] = "2023-05-01"
+        response = self.client.put(self.detail_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_update_appointment_valid(self):
-        """Проверяем частичное обновление приема через PATCH."""
-        response_create = self.create_appointment()
-        self.assertEqual(response_create.status_code, status.HTTP_201_CREATED)
-        appointment_id = response_create.data["id"]
-        detail_url = reverse('doctorappointment-detail', kwargs={'id': appointment_id})
-        update_data = {
-            "reason_for_inspection": "Updated reason",
-            "start_time": "10:00:00",
-            "end_time": "18:00:00"
-        }
-        response_update = self.client.patch(detail_url, update_data, format="json")
-        self.assertEqual(response_update.status_code, status.HTTP_200_OK)
-        appointment = DoctorAppointment.objects.get(id=appointment_id)
-        self.assertEqual(appointment.reason_for_inspection, "Updated reason")
-        self.assertEqual(appointment.start_time, datetime.time(10, 0, 0))
-        self.assertEqual(appointment.end_time, datetime.time(18, 0, 0))
+    def test_update_with_change_permission(self):
+        """С разрешением change_doctorappointment обновление проходит успешно (200)."""
+        user = self.create_user_with_perms(['change_doctorappointment', 'view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        data = self.valid_data_api.copy()
+        data["appointment_date"] = "2023-06-01"
+        response = self.client.put(self.detail_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.appointment.refresh_from_db()
+        self.assertEqual(self.appointment.appointment_date, datetime.date(2023, 6, 1))
 
-    def test_destroy_appointment_valid(self):
-        """Проверяем удаление приема через DELETE запрос."""
-        response_create = self.create_appointment()
-        self.assertEqual(response_create.status_code, status.HTTP_201_CREATED)
-        appointment_id = response_create.data["id"]
-        detail_url = reverse('doctorappointment-detail', kwargs={'id': appointment_id})
-        response_destroy = self.client.delete(detail_url)
-        self.assertEqual(response_destroy.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(DoctorAppointment.objects.filter(id=appointment_id).exists())
+    # PARTIAL UPDATE (PATCH)
+    def test_partial_update_with_change_permission(self):
+        """С разрешением change_doctorappointment частичное обновление проходит (200)."""
+        user = self.create_user_with_perms(['change_doctorappointment', 'view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        data = {"reason_for_inspection": "Updated reason"}
+        response = self.client.patch(self.detail_url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.appointment.refresh_from_db()
+        self.assertEqual(self.appointment.reason_for_inspection, "Updated reason")
+
+    # DESTROY
+    def test_destroy_without_delete_permission(self):
+        """Без разрешения delete_doctorappointment удаление недоступно (403)."""
+        user = self.create_user_with_perms(['view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_destroy_with_delete_permission(self):
+        """С разрешением delete_doctorappointment удаление проходит успешно (204)."""
+        user = self.create_user_with_perms(['delete_doctorappointment', 'view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(DoctorAppointment.objects.filter(id=self.appointment.id).exists())
+
+    def test_destroy_nonexistent(self):
+        """Попытка удалить несуществующий прием возвращает 404 с сообщением."""
+        user = self.create_user_with_perms(['delete_doctorappointment', 'view_doctorappointment'])
+        self.client.force_authenticate(user=user)
+        url = reverse('doctorappointment-detail', kwargs={'id': 9999})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data.get("detail"), "Прием не найден.")

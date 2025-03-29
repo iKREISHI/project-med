@@ -4,9 +4,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
-from apps.staffing.models import Employee
+from apps.staffing.models import Employee, Specialization
 
 User = get_user_model()
+
 
 class EmployeeViewSetTests(APITestCase):
     def setUp(self):
@@ -30,10 +31,14 @@ class EmployeeViewSetTests(APITestCase):
             defaults={'name': 'Can delete Employee', 'content_type': ct}
         )
 
-        # Создаем тестового сотрудника и обязательно привязываем его к пользователю.
+        # Создаем тестового суперпользователя и специализацию
         self.admin_user = self.user_model.objects.create_superuser(username='admin', password='adminpass')
+        self.specialization = Specialization.objects.create(title="Test Specialization",
+                                                            description="Описание специализации")
+
+        # Создаем сотрудника с указанной специализацией
         self.employee = Employee.objects.create(
-            user=self.admin_user,  # <-- обязательно задаем пользователя
+            user=self.admin_user,  # обязательно задаем пользователя
             last_name="Testov",
             first_name="Test",
             patronymic="Testovich",
@@ -46,11 +51,11 @@ class EmployeeViewSetTests(APITestCase):
             actual_address="Test address 2",
             email="employee@test.com",
             phone="+7 111 222-33-44",
+            specialization=self.specialization  # новое поле
         )
         # Используем reverse для получения URL-адресов из роутера.
         self.list_url = reverse('employee-list')
         self.detail_url = reverse('employee-detail', kwargs={'pk': self.employee.pk})
-
 
     def create_user_with_perms(self, perms):
         """
@@ -66,7 +71,7 @@ class EmployeeViewSetTests(APITestCase):
 
     def test_list_without_view_permission(self):
         """Проверяем, что пользователь без permission 'view_employee' получает список сотрудников.
-           (Поведение разрешает GET-запросы даже без явного права просмотра.)"""
+           (GET-запросы разрешены даже без явного права просмотра.)"""
         user = self.create_user_with_perms([])
         self.client.force_authenticate(user=user)
         response = self.client.get(self.list_url)
@@ -81,7 +86,7 @@ class EmployeeViewSetTests(APITestCase):
 
     def test_retrieve_without_view_permission(self):
         """Проверяем, что без permission 'view_employee' можно получить детали сотрудника.
-           (Поведение разрешает GET-запросы даже без явного права просмотра.)"""
+           (GET-запросы разрешены даже без явного права просмотра.)"""
         user = self.create_user_with_perms([])
         self.client.force_authenticate(user=user)
         response = self.client.get(self.detail_url)
@@ -111,7 +116,8 @@ class EmployeeViewSetTests(APITestCase):
             "actual_address": "New Address 2",
             "email": "new.employee@test.com",
             "phone": "+7 222 333-44-55",
-            "user": None
+            "user": None,
+            "specialization": self.specialization.pk  # новое поле
         }
         response = self.client.post(self.list_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -133,7 +139,8 @@ class EmployeeViewSetTests(APITestCase):
             "actual_address": "New Address 2",
             "email": "new.employee@test.com",
             "phone": "+72223334455",
-            "user": None
+            "user": None,
+            "specialization": self.specialization.pk  # новое поле
         }
         response = self.client.post(self.list_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -155,7 +162,8 @@ class EmployeeViewSetTests(APITestCase):
             "actual_address": self.employee.actual_address,
             "email": self.employee.email,
             "phone": self.employee.phone,
-            "user": None
+            "user": None,
+            "specialization": self.specialization.pk  # новое поле
         }
         response = self.client.put(self.detail_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -177,7 +185,8 @@ class EmployeeViewSetTests(APITestCase):
             "actual_address": self.employee.actual_address,
             "email": self.employee.email,
             "phone": None,
-            "user": None
+            "user": None,
+            "specialization": self.specialization.pk  # новое поле
         }
         response = self.client.put(self.detail_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

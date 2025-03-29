@@ -140,3 +140,7 @@ class AbstractPersonModel(models.Model):
     def get_full_name(self):
         parts = [self.last_name, self.first_name, self.patronymic]
         return " ".join(filter(None, parts))
+
+    def get_short_name(self):
+        parts = [self.last_name, self.first_name[0] if self.first_name else "", self.patronymic[0] if self.patronymic else ""]
+        return " ".join(filter(None, parts))

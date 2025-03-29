@@ -1,15 +1,25 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models import SET_NULL
+from apps import medical_activity
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 from apps.clients.models import Patient
 from apps.registry.models import MedicalCard
 import uuid
 
+
 class DoctorAppointment(AbstractElectronicSignature):
     """
     Прием к врачу
     """
+    booking_appointment = models.ForeignKey(
+        'medical_activity.BookingAppointment',
+        on_delete=models.PROTECT,
+        verbose_name='Запись на прием',
+        blank=True,
+        null=True,
+    )
+
     patient = models.ForeignKey(
         Patient,
         on_delete=models.SET_NULL,
@@ -17,6 +27,24 @@ class DoctorAppointment(AbstractElectronicSignature):
         blank=True,
         verbose_name='Пациент',
         help_text='Внешний ключ на пациента направленного на приём'
+    )
+
+    reception_template = models.ForeignKey(
+        'medical_activity.ReceptionTemplate',
+        on_delete=models.PROTECT,
+        verbose_name=_('Шаблон приема')
+    )
+
+    reception_document = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=_('Документ приема')
+    )
+
+    reception_document_fields = models.JSONField(
+        blank=True,
+        null=True,
+        verbose_name=_('Поля документа')
     )
 
     assigned_doctor = models.ForeignKey(
@@ -94,12 +122,25 @@ class DoctorAppointment(AbstractElectronicSignature):
         verbose_name="Дата создания"
     )
 
+    date_updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата обновления'
+    )
+
     medical_card = models.ForeignKey(
         'registry.MedicalCard',
         max_length=255,
         blank=True,
         null=True,
         on_delete=SET_NULL,
+    )
+
+    diagnosis = models.ForeignKey(
+        'medical_activity.Diagnosis',
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        verbose_name=_('Диагноз')
     )
 
     def __str__(self):
