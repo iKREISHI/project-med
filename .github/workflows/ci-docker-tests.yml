@@ -86,7 +86,7 @@ jobs:
             script: |
               cd /home/shiro/project-med/
               # Обновляем код на сервере
-              git pull origin main
+              git pull origin master
               # Создаем или обновляем файл .env
               cat <<EOF > .env
               REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
