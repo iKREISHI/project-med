@@ -108,6 +108,6 @@ jobs:
               SERVER_BACKEND_IP_ADDRESS=${{ secrets.SERVER_BACKEND_IP_ADDRESS }}
               EOF
               # Останавливаем текущие контейнеры (если запущены)
-              docker compose down
+              docker compose -f docker-compose.yml down
               # Собираем и запускаем контейнеры с обновленным кодом и настройками
-              docker compose up -d --build
+              docker compose -f docker-compose.yml up -d --build
