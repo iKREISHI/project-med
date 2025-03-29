@@ -29,6 +29,7 @@ from .views.medical_activity.patient_conditions import PatientConditionViewSet
 from .views.medical_activity.hospital_stays import HospitalStaysViewSet
 from api.v0.views.medical_activity.diagnosis import DiagnosisViewSet
 from api.v0.views.medical_activity.diagnosis_category import DiagnosisCategoryViewSet
+from api.v0.views.medical_activity.booking_appointment import BookingAppointmentViewSet
 
 router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
@@ -54,6 +55,8 @@ router.register(r'patient-conditions', PatientConditionViewSet, basename='patien
 router.register(r'hospital-stays', HospitalStaysViewSet, basename='hospitalstays')
 router.register(r'diagnoses', DiagnosisViewSet, basename='diagnosis')
 router.register(r'diagnosis-categories', DiagnosisCategoryViewSet, basename='diagnosiscategory')
+router.register(r'booking-appointments', BookingAppointmentViewSet, basename='bookingappointment')
+
 
 urlpatterns = (
 [

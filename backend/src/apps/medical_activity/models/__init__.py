@@ -6,3 +6,4 @@ from .patient_conditions import PatientCondition
 from .hospital_stays import HospitalStays
 from .diagnosis_category import DiagnosisCategory
 from .diagnosis import Diagnosis
+from .booking_appointment import BookingAppointment

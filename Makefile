@@ -22,3 +22,6 @@ rm-dev:
 
 rm-v-dev:
 	docker compose -f docker-compose.local.dev.yml down -v
+
+drop-db:
+	docker compose -f docker-compose.local.dev.yml exec postgres /bin/bash psql -U postgres -d med_db -c "DO $$$$ DECLARE rec RECORD; BEGIN FOR rec IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(rec.tablename) || ' CASCADE'; END LOOP; END $$$$;"

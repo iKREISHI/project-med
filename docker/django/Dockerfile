@@ -25,5 +25,9 @@ COPY ./backend/src /app
 ENV DJANGO_SETTINGS_MODULE=config.settings
 #RUN python3 manage.py collectstatic --noinput --clear
 COPY docker/django/entrypoint.sh /entrypoint.sh
+COPY docker/django/entrypoint-ci.sh /entrypoint-ci.sh
+
 RUN dos2unix /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+RUN dos2unix /entrypoint-ci.sh
+RUN chmod +x /entrypoint-ci.sh
