@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from apps.medical_activity.models import ReceptionTemplate
 from apps.medical_activity.serializers import ReceptionTemplateSerializer
@@ -33,3 +33,9 @@ class ReceptionTemplateViewSet(viewsets.ModelViewSet):
     pagination_class = StandardResultsSetPagination
     permission_classes = [IsAuthenticated, StrictDjangoModelPermissions]
     lookup_field = 'id'
+
+    filter_backends = [filters.SearchFilter]
+    search_fields = [
+        'name',
+        'specialization__title',
+    ]

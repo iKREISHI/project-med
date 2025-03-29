@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema, OpenApiParameter, extend_schema_view
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
@@ -80,6 +80,14 @@ class DoctorAppointmentViewSet(viewsets.ModelViewSet):
     pagination_class = DoctorAppointmentPagination
     permission_classes = [IsAuthenticated, StrictDjangoModelPermissions]
     lookup_field = 'id'
+
+    filter_backends = [filters.SearchFilter]
+    search_fields = [
+        'patient__last_name',
+        'patient__first_name',
+        'diagnosis__name',
+        'start_time'
+    ]
 
     def retrieve(self, request, *args, **kwargs):
         appointment_id = kwargs.get(self.lookup_field)

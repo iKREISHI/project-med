@@ -1,6 +1,6 @@
 from crypt import methods
 from xmlrpc.client import Fault
-
+from rest_framework import filters
 from django.contrib.admin import action
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, extend_schema, OpenApiExample, extend_schema_view
@@ -102,6 +102,12 @@ class PatientViewSet(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
     pagination_class = PatientPagination
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+
+    filter_backends = [filters.SearchFilter]
+    search_fields = [
+        '=last_name', '=first_name', '=patronymic',
+        'date_of_birth', 'email',
+    ]
 
     @extend_schema(
         parameters=[
