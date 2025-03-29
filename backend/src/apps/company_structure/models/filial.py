@@ -6,6 +6,19 @@ class Filial(models.Model):
         Филиал
     """
 
+    name = models.CharField(
+        max_length=255,
+        verbose_name='Название',
+        blank=True,
+        null=True
+    )
+
+    description = models.TextField(
+        verbose_name='Описание',
+        blank=True,
+        null=True
+    )
+
     house = models.CharField(
         max_length=255,
         verbose_name='Дом',

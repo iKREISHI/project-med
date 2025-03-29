@@ -7,7 +7,7 @@ class Diagnosis(models.Model):
     Диагноз
     """
     name = models.CharField(
-        max_length=128,
+        max_length=256,
         verbose_name='Название',
     )
 
