@@ -8,6 +8,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ruRU } from '@mui/x-data-grid/locales';
 import { InputSearch } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
+import {AddTemplateModal} from "@4_features/admin/templateModal/addTemplateModal/ui/AddTemplateModal.tsx";
 
 const templatesData = [
   {
@@ -24,6 +25,8 @@ export const HtmlTemplates: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [searchQuery, setSearchQuery] = useState('');
   const isDarkText = !(theme.palette.mode === "dark");
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   const desktopColumns: GridColDef[] = [
     { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
@@ -121,6 +124,7 @@ export const HtmlTemplates: React.FC = () => {
         <CustomButton
           variant="contained"
           startIcon={<AddIcon />}
+          onClick={()=>setModalOpen(true)}
         >
           Создать шаблон
         </CustomButton>
@@ -162,6 +166,10 @@ export const HtmlTemplates: React.FC = () => {
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         />
       </Paper>
+      <AddTemplateModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+      ></AddTemplateModal>
     </Box>
   );
 };
