@@ -8,6 +8,7 @@ import { ruRU } from '@mui/x-data-grid/locales';
 import { InputSearch } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
 import { useNavigate } from 'react-router-dom';
+import { MedicalRecordEditModal } from '@6_shared/MedicalRecordAdd';
 
 const medicalRecordsData = [
   {
@@ -42,6 +43,8 @@ export const MedicalRecordList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const isDarkText = !(theme.palette.mode === "dark");
   const navigate = useNavigate();
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedRecordId, setSelectedRecordId] = useState<number | null>(null);
 
   const desktopColumns: GridColDef[] = [
     { field: 'cardNumber', headerName: 'Номер Карты', flex: 1, minWidth: 120 },
@@ -98,10 +101,17 @@ export const MedicalRecordList: React.FC = () => {
       .includes(searchQuery.toLowerCase())
   );
 
+
   const columns = isMobile ? mobileColumns : desktopColumns;
 
   const handleEdit = (id: number) => {
-    console.log(`Editing record with id: ${id}`);
+    setSelectedRecordId(id);
+    setEditModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setEditModalOpen(false);
+    setSelectedRecordId(null);
   };
 
   return (
@@ -176,6 +186,13 @@ export const MedicalRecordList: React.FC = () => {
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         />
       </Paper>
+
+      {/* Модальное окно редактирования */}
+      <MedicalRecordEditModal
+        open={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        recordId={selectedRecordId || undefined}
+      />
     </Box>
   );
 };

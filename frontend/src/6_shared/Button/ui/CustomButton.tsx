@@ -10,11 +10,13 @@ interface CustomButtonProps {
   variant?: 'text' | 'contained' | 'outlined';
   startIcon?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset'
+  color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ children, onClick, fullWidth = false, variant = 'contained', startIcon, type}) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ children, onClick, fullWidth = false, variant = 'contained', startIcon, type, color}) => {
   return (
     <Button
+    color={color}
       variant={variant}
       // disableElevation
       onClick={onClick}

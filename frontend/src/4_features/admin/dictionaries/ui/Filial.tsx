@@ -2,16 +2,16 @@ import { FC, useState } from "react";
 import { Box, Paper, Theme, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ruRU } from '@mui/x-data-grid/locales';
-import { Add, Edit } from "@mui/icons-material";
+import { Add, Delete, Edit } from "@mui/icons-material";
 import { CustomButton } from "@6_shared/Button";
 import { InputForm } from "@6_shared/Input";
 
 interface Branch {
-  id: number;
-  city: string;
-  street: string;
-  house: string;
-  building: string;
+    id: number;
+    city: string;
+    street: string;
+    house: string;
+    building: string;
 }
 
 export const Filial: FC = () => {
@@ -29,6 +29,8 @@ export const Filial: FC = () => {
     ]);
 
     const [openModal, setOpenModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentId, setCurrentId] = useState<number | null>(null);
     const [newBranch, setNewBranch] = useState<Omit<Branch, 'id'>>({
         city: "",
         street: "",
@@ -50,9 +52,14 @@ export const Filial: FC = () => {
             minWidth: 80,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} disableRipple>
+                        <Edit />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} disableRipple color="error">
+                        <Delete />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
@@ -67,32 +74,65 @@ export const Filial: FC = () => {
             minWidth: 80,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} disableRipple>
+                        <Edit />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} disableRipple color="error">
+                        <Delete />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
 
-    // Обработчики
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
+    const handleOpenModal = () => {
+        setIsEditing(false);
+        setCurrentId(null);
+        setNewBranch({
+            city: "",
+            street: "",
+            house: "",
+            building: "",
+        });
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setIsEditing(false);
+        setCurrentId(null);
+    };
+
+    const handleDelete = (id: number) => {
+        if (window.confirm('Вы уверены, что хотите удалить этот филиал?')) {
+            alert('Филиал удален');
+        }
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setNewBranch((prev) => ({
+        setNewBranch(prev => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const handleEdit = (id: number) => {
-        console.log(id);
+    const handleEdit = (branch: Branch) => {
+        setIsEditing(true);
+        setCurrentId(branch.id);
+        setNewBranch({
+            city: branch.city,
+            street: branch.street,
+            house: branch.house,
+            building: branch.building,
+        });
+        setOpenModal(true);
     };
 
     return (
         <Box sx={{ width: '100%', boxSizing: 'border-box' }}>
-            <Box sx={{ mb: 2, display: {lg:'flex'}, justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ mb: 2, display: { lg: 'flex' }, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h1" gutterBottom>
                     Филиалы
                 </Typography>
@@ -142,12 +182,11 @@ export const Filial: FC = () => {
                 />
             </Paper>
 
-            {/* Модальное окно добавления */}
-            <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth sx={{}}>
-                <DialogTitle>Добавить филиал</DialogTitle>
+            {/* Модальное окно добавления/редактирования */}
+            <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
+                <DialogTitle>{isEditing ? 'Редактировать филиал' : 'Добавить филиал'}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
-
                         <InputForm
                             type="text"
                             name="city"
@@ -183,7 +222,6 @@ export const Filial: FC = () => {
                                 value={newBranch.building}
                                 onChange={handleInputChange}
                                 fullWidth
-                                required
                             />
                         </Box>
                     </Box>
@@ -193,7 +231,7 @@ export const Filial: FC = () => {
                     <CustomButton
                         variant="contained"
                     >
-                        Сохранить
+                        {isEditing ? 'Обновить' : 'Сохранить'}
                     </CustomButton>
                 </DialogActions>
             </Dialog>

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Box, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { InputForm } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
@@ -9,28 +9,95 @@ import { CustomAutocomplete } from "@6_shared/Autocomplete";
 import { staffFormSx } from "./staffFormSx";
 import { CustomSelect } from "@6_shared/Select";
 
-// Форма регистрации сотрудника
-export const StaffForm: FC = () => {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [patronymic, setPatronymic] = useState('');
-    const [bday, setBday] = useState('');
-    const [gender, setGender] = useState('');
+interface StaffFormProps {
+  initialData?: {
+    firstname?: string;
+    lastname?: string;
+    patronymic?: string;
+    bday?: string;
+    gender?: string;
+    divisions?: string;
+    snils?: string;
+    inn?: string;
+    regAddress?: string;
+    factAddress?: string;
+    email?: string;
+    phone?: string;
+    position?: string;
+    appointmentDuration?: string;
+    shortDescription?: string;
+    specialization?: string;
+  };
+  onSubmit?: (data: any) => void;
+  isEditMode?: boolean;
+}
+
+export const StaffForm: FC<StaffFormProps> = ({ initialData, onSubmit, isEditMode = false }) => {
+    const [firstname, setFirstname] = useState(initialData?.firstname || '');
+    const [lastname, setLastname] = useState(initialData?.lastname || '');
+    const [patronymic, setPatronymic] = useState(initialData?.patronymic || '');
+    const [bday, setBday] = useState(initialData?.bday || '');
+    const [gender, setGender] = useState(initialData?.gender || '');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [divisions, setDivisions] = useState("");
-    const [snils, setSnils] = useState("");
-    const [inn, setInn] = useState("");
-    const [regAddress, setRegAddress] = useState("");
-    const [factAddress, setFactAddress] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [position, setPosition] = useState("");
-    const [appointmentDuration, setAppointmentDuration] = useState("");
-    const [shortDescription, setShortDescription] = useState("");
-    const [specialization, setSpecialization] = useState("");
+    const [divisions, setDivisions] = useState(initialData?.divisions || "");
+    const [snils, setSnils] = useState(initialData?.snils || "");
+    const [inn, setInn] = useState(initialData?.inn || "");
+    const [regAddress, setRegAddress] = useState(initialData?.regAddress || "");
+    const [factAddress, setFactAddress] = useState(initialData?.factAddress || "");
+    const [email, setEmail] = useState(initialData?.email || "");
+    const [phone, setPhone] = useState(initialData?.phone || "");
+    const [position, setPosition] = useState(initialData?.position || "");
+    const [appointmentDuration, setAppointmentDuration] = useState(initialData?.appointmentDuration || "");
+    const [shortDescription, setShortDescription] = useState(initialData?.shortDescription || "");
+    const [specialization, setSpecialization] = useState(initialData?.specialization || "");
+
+    useEffect(() => {
+        if (initialData) {
+            setFirstname(initialData.firstname || '');
+            setLastname(initialData.lastname || '');
+            setPatronymic(initialData.patronymic || '');
+            setBday(initialData.bday || '');
+            setGender(initialData.gender || '');
+            setDivisions(initialData.divisions || "");
+            setSnils(initialData.snils || "");
+            setInn(initialData.inn || "");
+            setRegAddress(initialData.regAddress || "");
+            setFactAddress(initialData.factAddress || "");
+            setEmail(initialData.email || "");
+            setPhone(initialData.phone || "");
+            setPosition(initialData.position || "");
+            setAppointmentDuration(initialData.appointmentDuration || "");
+            setShortDescription(initialData.shortDescription || "");
+            setSpecialization(initialData.specialization || "");
+        }
+    }, [initialData]);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        
+        const formData = {
+            firstname,
+            lastname,
+            patronymic,
+            bday,
+            gender,
+            divisions,
+            snils,
+            inn,
+            regAddress,
+            factAddress,
+            email,
+            phone,
+            position,
+            appointmentDuration,
+            shortDescription,
+            specialization
+        };
+
+        if (onSubmit) {
+            onSubmit(formData);
+        }
+        
         setSnackbarOpen(true);
     };
 
@@ -60,7 +127,6 @@ export const StaffForm: FC = () => {
                     {/* Левая колонка */}
                     <Grid size={{ xs: 12, lg: 8 }}>
                         <Box>
-                            {/* <Typography component="p" sx={{ fontSize: '0.9rem' }}>ФИО</Typography> */}
                             <Box sx={{ ...globalsStyleSx.inputContainer, m: 0, gridTemplateColumns: { sm: '1fr 1fr 1fr' } }}>
                                 <InputForm
                                     type="text"
@@ -217,7 +283,7 @@ export const StaffForm: FC = () => {
                                 placeholder="Выберите специализацию"
                                 label="Специализация"
                                 fullWidth
-                                disabled={!position} // доступным только если выбрана должность
+                                disabled={!position}
                                 required
                             />
                         </Box>
@@ -241,7 +307,7 @@ export const StaffForm: FC = () => {
                         type="submit"
                         variant="contained"
                     >
-                        Зарегистрировать
+                        {isEditMode ? "Сохранить изменения" : "Зарегистрировать"}
                     </CustomButton>
                 </Box>
             </form>
@@ -249,7 +315,7 @@ export const StaffForm: FC = () => {
             <CustomSnackbar
                 open={snackbarOpen}
                 onClose={handleCloseSnackbar}
-                message="Сотрудник создан!"
+                message={isEditMode ? "Данные сотрудника обновлены!" : "Сотрудник создан!"}
             />
         </Box>
     );

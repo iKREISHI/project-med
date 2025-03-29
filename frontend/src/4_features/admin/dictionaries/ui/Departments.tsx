@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
-import { Box, Paper, Theme, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, useTheme, useMediaQuery, } from "@mui/material";
+import { Box, Paper, Theme, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ruRU } from '@mui/x-data-grid/locales';
-import { Add, Edit } from "@mui/icons-material";
+import { Add, Edit, Delete } from "@mui/icons-material";
 import { CustomButton } from "@6_shared/Button";
 import { InputForm } from "@6_shared/Input";
 import { CustomSelect } from "@6_shared/Select";
@@ -13,7 +13,6 @@ export const Departments: FC = () => {
 
     const branchOptions = [
         { id: 1, name: "Филиал 1" },
-
     ];
 
     const [departments, setDepartments] = useState([
@@ -22,16 +21,16 @@ export const Departments: FC = () => {
             branch: "Филиал 1",
             manager: "Иванов И.И.",
             fullName: "Полное наименование",
-            departmentCode: "Код123",
         },
     ]);
 
     const [openModal, setOpenModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentId, setCurrentId] = useState<number | null>(null);
     const [newDepartment, setNewDepartment] = useState({
         branch: "",
         manager: "",
         fullName: "",
-        departmentCode: ""
     });
 
     // для десктопной версии
@@ -40,17 +39,21 @@ export const Departments: FC = () => {
         { field: 'branch', headerName: 'Филиал', flex: 1, minWidth: 150 },
         { field: 'manager', headerName: 'Руководитель', flex: 1, minWidth: 150 },
         { field: 'fullName', headerName: 'Полное наименование', flex: 2, minWidth: 250 },
-        { field: 'departmentCode', headerName: 'Код отдела', flex: 1, minWidth: 120 },
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
+            flex: 1,
+            minWidth: 120,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} disableRipple>
+                        <Edit />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} disableRipple color="error">
+                        <Delete />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
@@ -61,20 +64,44 @@ export const Departments: FC = () => {
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
+            flex: 1,
+            minWidth: 100,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} size="small" disableRipple>
+                        <Edit fontSize="small" />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} size="small" disableRipple color="error">
+                        <Delete fontSize="small" />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
 
-    // Обработчики
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
+    const handleOpenModal = () => {
+        setIsEditing(false);
+        setCurrentId(null);
+        setNewDepartment({
+            branch: "",
+            manager: "",
+            fullName: "",
+        });
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setIsEditing(false);
+        setCurrentId(null);
+    };
+
+    const handleDelete = (id: number) => {
+        if (window.confirm('Вы уверены, что хотите удалить это подразделение?')) {
+            alert('Подразделение удалено');
+        }
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -91,13 +118,20 @@ export const Departments: FC = () => {
         }));
     };
 
-    const handleEdit = (id: number) => {
-        console.log(id);
+    const handleEdit = (department: any) => {
+        setIsEditing(true);
+        setCurrentId(department.id);
+        setNewDepartment({
+            branch: department.branch,
+            manager: department.manager,
+            fullName: department.fullName
+        });
+        setOpenModal(true);
     };
 
     return (
         <Box sx={{ width: '100%', boxSizing: 'border-box' }}>
-            <Box sx={{ mb: 2, display: {lg:'flex'}, justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ mb: 2, display: { lg: 'flex' }, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h1" gutterBottom>
                     Подразделения
                 </Typography>
@@ -147,9 +181,9 @@ export const Departments: FC = () => {
                 />
             </Paper>
 
-            {/* Модальное окно */}
+            {/* Модальное окно добавления/редактирования */}
             <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-                <DialogTitle>Добавить подразделение</DialogTitle>
+                <DialogTitle>{isEditing ? 'Редактировать подразделение' : 'Добавить подразделение'}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
                         <CustomSelect
@@ -178,21 +212,12 @@ export const Departments: FC = () => {
                             fullWidth
                             required
                         />
-                        <InputForm
-                            type="text"
-                            name="departmentCode"
-                            label="Код отдела"
-                            value={newDepartment.departmentCode}
-                            onChange={handleInputChange}
-                            fullWidth
-                            required
-                        />
                     </Box>
                 </DialogContent>
                 <DialogActions>
                     <CustomButton onClick={handleCloseModal} variant="outlined">Отмена</CustomButton>
                     <CustomButton variant="contained">
-                        Сохранить
+                        {isEditing ? 'Обновить' : 'Сохранить'}
                     </CustomButton>
                 </DialogActions>
             </Dialog>

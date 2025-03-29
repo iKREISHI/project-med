@@ -25,12 +25,19 @@ import { PatientList } from "@1_pages/patientList";
 import { VisitHistory } from "@6_shared/VisitHistory";
 import { PatientAdd } from "@6_shared/PatientAdd";
 import { MedicalRecordAdd } from "@6_shared/MedicalRecordAdd";
-import { CardTypes, Departments, Dictionaries, Filial, Positions, Specializations } from "@4_features/admin/dictionaries";
-
+import { CardTypes, Departments, Dictionaries, Filial, FilialDepartment, Positions, Specializations } from "@4_features/admin/dictionaries";
+import { DoctorShift } from "@1_pages/doctorShift";
+import { ShiftTransfer } from "@1_pages/shiftTransfer";
+import { ShiftCreate } from "@1_pages/shiftCreate";
+import { ShiftEdit } from "@1_pages/shiftEdit";
+import { PatientCondition } from "@4_features/shift/PatientCondition";
+import { PatchedHospitalStays } from "@4_features/shift/PatchedHospitalStays";
+import { MainRegistry } from "@1_pages/mainRegistry";
+import { MainHeadDoctor } from "@1_pages/mainHeadDoctor";
 
 export const RouterComponent: FC = () => {
   const user = {
-    role: "staff", // admin staff
+    role: "head_doctor", // admin staff registry head_doctor
   };
 
   return (
@@ -42,11 +49,18 @@ export const RouterComponent: FC = () => {
         <Route
           path="*"
           element={
-            <ProtectedRoute role={user.role} allowedRoles={["admin", "staff"]}>
+            <ProtectedRoute
+              role={user.role}
+              allowedRoles={["admin", "staff", "registry", "head_doctor"]}
+            >
               {user.role === "admin" ? (
                 <MainAdmin />
+              ) : user.role === "registry" ? (
+                <MainRegistry />
+              ) : user.role === "head_doctor" ? (
+                <MainHeadDoctor />
               ) : (
-                <Main /> 
+                <Main />
               )}
             </ProtectedRoute>
           }
@@ -56,7 +70,7 @@ export const RouterComponent: FC = () => {
             <>
               <Route path="staff" element={<StaffList />} />
               <Route path="staff/create" element={<StaffAdd />} />
-            
+
               <Route path="patients" element={<PatientList />} />
               <Route path="patients/create" element={<PatientAdd />}>
                 <Route path="info" element={<PatientInfo />} />
@@ -66,25 +80,27 @@ export const RouterComponent: FC = () => {
                 <Route path="visit-history" element={<VisitHistory />} />
                 <Route path="additional-info" element={<PatientAddForm />} />
               </Route>
-            
+
               <Route path="medical-records" element={<MedicalRecordList />} />
               <Route path="medical-records/create" element={<MedicalRecordAdd />} />
-            
+
               <Route path="html-templates" element={<HtmlTemplates />} />
-              
+
               {/* Справочников */}
               <Route path="dictionaries" element={<Dictionaries />}>
                 <Route index element={<Navigate to="specializations" replace />} />
                 <Route path="specializations" element={<Specializations />} />
                 <Route path="filial" element={<Filial />} />
+                <Route path="filial-department" element={<FilialDepartment />} />
                 <Route path="positions" element={<Positions />} />
                 <Route path="departments" element={<Departments />} />
                 <Route path="card-types" element={<CardTypes />} />
               </Route>
-              
+
               <Route path="" element={<Navigate to="/staff" replace />} />
             </>
           )}
+
           {/* Маршруты для сотрудника */}
           {user.role === "staff" && (
             <>
@@ -93,7 +109,6 @@ export const RouterComponent: FC = () => {
                 <Route index element={<Chat />} />
                 <Route path=":id" element={<Chat />} />
               </Route>
-              <Route path="document" element={<div>document</div>} />
               <Route path="registry" element={<Registry />} />
               <Route path="admission" element={<Admission />} >
                 <Route path="diagnosis" element={<Diagnosis />} />
@@ -105,6 +120,67 @@ export const RouterComponent: FC = () => {
                 <Route path="passport" element={<PatientPassport />} />
                 <Route path="medical-data" element={<MedicalData />} />
                 <Route path="addresses" element={<PatientAddresses />} />
+                <Route path="additional-info" element={<PatientAddForm />} />
+              </Route>
+              <Route path="doctor-shift" element={<DoctorShift />} />
+              <Route path="doctor-shift/transfer" element={<ShiftTransfer />} />
+              <Route path="doctor-shift/create" element={<ShiftCreate />} />
+
+              <Route path="doctor-shift/edit/:id" element={<ShiftEdit />}>
+                <Route path="hospitalization" element={<PatchedHospitalStays />} />
+                <Route path="conditions" element={<PatientCondition />} />
+              </Route>
+            </>
+          )}
+
+          {/* Маршруты для регистратуры */}
+          {user.role === "registry" && (
+            <>
+              <Route path="" element={<Navigate to="/medical-records" replace />} />
+
+              <Route path="medical-records" element={<MedicalRecordList />} />
+              <Route path="medical-records/create" element={<MedicalRecordAdd />} />
+              <Route path="chat">
+                <Route index element={<Chat />} />
+                <Route path=":id" element={<Chat />} />
+              </Route>
+              <Route path="registry" element={<Registry />} />
+              <Route path="registry/patient" element={<Patient />}>
+                <Route path="info" element={<PatientInfo />} />
+                <Route path="passport" element={<PatientPassport />} />
+                <Route path="medical-data" element={<MedicalData />} />
+                <Route path="addresses" element={<PatientAddresses />} />
+                <Route path="additional-info" element={<PatientAddForm />} />
+              </Route>
+              <Route path="record" element={<Record />} />
+
+            </>
+          )}
+
+          {/* Маршруты для заведующего отделением */}
+          {user.role === "head_doctor" && (
+            <>
+              <Route path="" element={<Navigate to="/doctor-shift" replace />} />
+              <Route path="staff" element={<StaffList />} />
+              <Route path="staff/create" element={<StaffAdd />} />
+              <Route path="chat">
+                <Route index element={<Chat />} />
+                <Route path=":id" element={<Chat />} />
+              </Route>
+              <Route path="doctor-shift" element={<DoctorShift userRole={user.role} />} />
+              <Route path="doctor-shift/transfer" element={<ShiftTransfer />} />
+              <Route path="doctor-shift/create" element={<ShiftCreate />} />
+              <Route path="doctor-shift/edit/:id" element={<ShiftEdit />}>
+                <Route path="hospitalization" element={<PatchedHospitalStays />} />
+                <Route path="conditions" element={<PatientCondition />} />
+              </Route>
+              <Route path="patients" element={<PatientList />} />
+              <Route path="patients/create" element={<PatientAdd />}>
+                <Route path="info" element={<PatientInfo />} />
+                <Route path="passport" element={<PatientPassport />} />
+                <Route path="medical-data" element={<MedicalData />} />
+                <Route path="addresses" element={<PatientAddresses />} />
+                <Route path="visit-history" element={<VisitHistory />} />
                 <Route path="additional-info" element={<PatientAddForm />} />
               </Route>
             </>

@@ -1,55 +1,76 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Box, Paper, useTheme, useMediaQuery, Theme, Typography, IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
+import { Box, Paper, useTheme, useMediaQuery, Theme, IconButton } from '@mui/material';
 import { ruRU } from '@mui/x-data-grid/locales';
 import { useNavigate } from 'react-router-dom';
 import { InputSearch } from "@6_shared/Input";
-import { CustomButton } from "@6_shared/Button";
-import { StaffEditModal } from '@6_shared/Staff';
+import { CustomButton } from '@6_shared/Button';
+import EditIcon from '@mui/icons-material/Edit';
 
-const staffData = [
+interface Shift {
+    id: number;
+    doctor: string;
+    start_time: string;
+    end_time: string;
+    document_template: string;
+    document: string;
+    document_fields: string;
+}
+
+const shifts: Shift[] = [
     {
         id: 1,
-        lastname: "Иванов",
-        firstname: "Иван",
-        patronymic: "Иванович",
-        position: "Главный врач",
-        date_created: "988-01-15"
+        doctor: "Иванов И.И.",
+        start_time: "2023-05-15 08:00",
+        end_time: "2023-05-15 20:00",
+        document_template: "Самая обычная смена",
+        document: "Дежурство №1",
+        document_fields: "не знаю что это",
     },
 ];
 
-export const StaffList: React.FC = () => {
+// дежурства / семны (таблица)
+interface DoctorShiftProps {
+    userRole?: string;
+}
+
+export const DoctorShift: React.FC<DoctorShiftProps> = ({ userRole }) => {
+    const isHeadDoctor = userRole === 'head_doctor';
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
     const isDarkText = !(theme.palette.mode === "dark");
-    const [editModalOpen, setEditModalOpen] = useState(false);
-    const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
 
-    // для мобильной версии
-    const processedStaff = staffData.map(staff => ({
-        ...staff,
-        full_name: `${staff.lastname} ${staff.firstname[0]}.${staff.patronymic[0]}.`
-    }));
+    const filteredShifts = shifts.filter((shift) =>
+        `${shift.doctor} `
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+    );
 
     const desktopColumns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
-        { field: 'lastname', headerName: 'Фамилия', flex: 1, minWidth: 120 },
-        { field: 'firstname', headerName: 'Имя', flex: 1, minWidth: 120 },
-        { field: 'patronymic', headerName: 'Отчество', flex: 1, minWidth: 120 },
-        { field: 'position', headerName: 'Должность', flex: 1.5, minWidth: 150 },
+        { field: 'doctor', headerName: 'Врач', flex: 1, minWidth: 140 },
+        {
+            field: 'time',
+            headerName: 'Время',
+            flex: 1,
+            minWidth: 150,
+            renderCell: (params) => {
+                const shift = shifts.find(s => s.id === params.id);
+                return shift ? `${shift.start_time} - ${shift.end_time}` : '';
+            }
+        },
+        { field: 'document_template', headerName: 'Шаблон документа', flex: 1.5, minWidth: 180 },
+        { field: 'document', headerName: 'Документ', flex: 1, minWidth: 150 },
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
-            sortable: false,
+            flex: 0.8,
+            minWidth: 120,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
+                <IconButton onClick={() => navigate(`/doctor-shift/edit/${params.id}`)} disableRipple>
                     <EditIcon />
                 </IconButton>
             ),
@@ -57,52 +78,37 @@ export const StaffList: React.FC = () => {
     ];
 
     const mobileColumns: GridColDef[] = [
+        { field: 'doctor', headerName: 'Врач', flex: 1, minWidth: 120 },
         {
-            field: 'full_name',
-            headerName: 'ФИО',
+            field: 'time',
+            headerName: 'Время',
             flex: 1,
-            minWidth: 120,
+            minWidth: 150,
+            renderCell: (params) => {
+                const shift = shifts.find(s => s.id === params.id);
+                return shift ? `${shift.start_time} - ${shift.end_time}` : '';
+            }
         },
-        { field: 'position', headerName: 'Должность', flex: 1, minWidth: 120 },
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
-            sortable: false,
+            flex: 0.8,
+            minWidth: 100,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)}>
+                <IconButton onClick={() => navigate(`/doctor-shift/edit/${params.id}`)} disableRipple>
                     <EditIcon />
                 </IconButton>
             ),
         },
     ];
 
-    const filteredStaff = processedStaff.filter((staff) =>
-        `${staff.lastname} ${staff.firstname} ${staff.patronymic}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-    );
-
     const columns = isMobile ? mobileColumns : desktopColumns;
-
-    const handleEdit = (id: number) => {
-        setSelectedStaffId(id);
-        setEditModalOpen(true);
-    };
-
-    const handleDeleteStaff = (id: number) => {
-        console.log("Удаление сотрудника с ID:", id);
-    };
 
     return (
         <Box sx={{
             width: '100%',
             boxSizing: 'border-box'
         }}>
-            <Typography variant="h1" gutterBottom>
-                Сотрудники
-            </Typography>
 
             <Box sx={{
                 mb: 1,
@@ -115,22 +121,27 @@ export const StaffList: React.FC = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     fullWidth
-                    placeholder="Поиск сотрудников"
+                    placeholder="Поиск по врачам"
                     isDarkText={isDarkText}
                     bgcolorFlag={true}
                 />
             </Box>
-
-            <Box sx={{ mb: 1 }}>
+            <Box sx={{ mb: 1, display: 'flex', gap: 1 }}>
+                {isHeadDoctor && (
+                    <CustomButton
+                        variant="contained"
+                        onClick={() => navigate(`/doctor-shift/create`)}
+                    >
+                        Открыть смену
+                    </CustomButton>
+                )}
                 <CustomButton
                     variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => navigate("/staff/create")}
+                    onClick={() => navigate(`/doctor-shift/transfer`)}
                 >
-                    Добавить сотрудника
+                    Передать смену
                 </CustomButton>
             </Box>
-
             <Paper sx={{
                 width: {
                     xs: `91vw`,
@@ -141,7 +152,7 @@ export const StaffList: React.FC = () => {
                 borderRadius: (theme: Theme) => theme.shape.borderRadius,
             }}>
                 <DataGrid
-                    rows={filteredStaff}
+                    rows={filteredShifts}
                     columns={columns}
                     autoHeight
                     disableRowSelectionOnClick
@@ -167,13 +178,6 @@ export const StaffList: React.FC = () => {
                     localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
                 />
             </Paper>
-
-            <StaffEditModal
-                open={editModalOpen}
-                onClose={() => setEditModalOpen(false)}
-                staffId={selectedStaffId || undefined}
-                onDelete={handleDeleteStaff}
-            />
         </Box>
     );
 };

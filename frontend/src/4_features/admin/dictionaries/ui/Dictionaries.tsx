@@ -10,6 +10,7 @@ export const Dictionaries: FC = () => {
   const menuItems = [
     { name: "Специализации", path: "specializations" },
     { name: "Филиалы", path: "filial" },
+    { name: "Подразделения филиалов", path: "filial-department" },
     { name: "Должности", path: "positions" },
     { name: "Подразделения", path: "departments" },
     { name: "Типы карт", path: "card-types" },
@@ -34,7 +35,8 @@ export const Dictionaries: FC = () => {
             flex: 1, 
             mt: isMobile ? 6 : 0, 
             overflow: 'auto',
-            p: 3
+            p: 3,
+            minHeight: '70vh'
           }}>
             <Outlet />
           </Box>

@@ -1,0 +1,1 @@
+export { MainRegistry } from './ui/MainRegistry'

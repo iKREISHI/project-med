@@ -5,50 +5,45 @@ import { ruRU } from '@mui/x-data-grid/locales';
 import { Add, Edit, Delete } from "@mui/icons-material";
 import { CustomButton } from "@6_shared/Button";
 import { InputForm } from "@6_shared/Input";
+import { CustomSelect } from "@6_shared/Select";
 
-interface CardType {
-  id: number;
-  name: string;
-  suffix: string;
-  prefix: string;
-  begin_number: string;
-  description: string;
-}
-
-export const CardTypes: FC = () => {
+export const FilialDepartment: FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const [cardTypes, setCardTypes] = useState<CardType[]>([
+    const filialOptions = [
+        { id: 1, name: "Филиал 1" },
+    ];
+
+    const directorOptions = [
+        { id: 1, name: "Иванов И.И." },
+        { id: 2, name: "Петров П.П." },
+    ];
+
+    const [departments, setDepartments] = useState([
         {
             id: 1,
-            name: "Стандартная",
-            suffix: "suff",
-            prefix: "perf",
-            begin_number: "0",
-            description: "Стандартная карта"
+            name: "Подразделение 1",
+            director: "Иванов И.И.",
+            filial: "Филиал 1",
         },
     ]);
 
     const [openModal, setOpenModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [currentId, setCurrentId] = useState<number | null>(null);
-    const [newCardType, setNewCardType] = useState<Omit<CardType, 'id'>>({
+    const [newDepartment, setNewDepartment] = useState({
         name: "",
-        suffix: "",
-        prefix: "",
-        begin_number: "",
-        description: ""
+        director: "",
+        filial: ""
     });
 
     // для десктопной версии
-    const desktopColumns: GridColDef<CardType>[] = [
+    const desktopColumns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
-        { field: 'name', headerName: 'Название', flex: 1, minWidth: 150 },
-        { field: 'prefix', headerName: 'Префикс', flex: 0.5, minWidth: 80 },
-        { field: 'suffix', headerName: 'Суффикс', flex: 0.5, minWidth: 80 },
-        { field: 'begin_number', headerName: 'Начальный номер', flex: 1, minWidth: 120 },
-        { field: 'description', headerName: 'Описание', flex: 2, minWidth: 200 },
+        { field: 'name', headerName: 'Название подразделения', flex: 1, minWidth: 200 },
+        { field: 'director', headerName: 'Руководитель', flex: 1, minWidth: 150 },
+        { field: 'filial', headerName: 'Филиал', flex: 1, minWidth: 150 },
         {
             field: 'actions',
             headerName: 'Действия',
@@ -69,9 +64,8 @@ export const CardTypes: FC = () => {
     ];
 
     // для мобильной версии
-    const mobileColumns: GridColDef<CardType>[] = [
-        { field: 'name', headerName: 'Название', flex: 1, minWidth: 120 },
-        { field: 'prefix', headerName: 'Префикс', flex: 0.5, minWidth: 60 },
+    const mobileColumns: GridColDef[] = [
+        { field: 'name', headerName: 'Подразделение', flex: 1, minWidth: 120 },
         {
             field: 'actions',
             headerName: 'Действия',
@@ -94,12 +88,10 @@ export const CardTypes: FC = () => {
     const handleOpenModal = () => {
         setIsEditing(false);
         setCurrentId(null);
-        setNewCardType({
+        setNewDepartment({
             name: "",
-            suffix: "",
-            prefix: "",
-            begin_number: "",
-            description: ""
+            director: "",
+            filial: ""
         });
         setOpenModal(true);
     };
@@ -111,28 +103,33 @@ export const CardTypes: FC = () => {
     };
 
     const handleDelete = (id: number) => {
-        if (window.confirm('Вы уверены, что хотите удалить этот тип карты?')) {
-            alert('Тип карты удален');
+        if (window.confirm('Вы уверены, что хотите удалить это подразделение?')) {
+            alert('Подразделение удалено');
         }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setNewCardType((prev) => ({
+        setNewDepartment((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const handleEdit = (cardType: CardType) => {
+    const handleSelectChange = (name: string, value: string) => {
+        setNewDepartment((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleEdit = (department: any) => {
         setIsEditing(true);
-        setCurrentId(cardType.id);
-        setNewCardType({
-            name: cardType.name,
-            suffix: cardType.suffix,
-            prefix: cardType.prefix,
-            begin_number: cardType.begin_number,
-            description: cardType.description
+        setCurrentId(department.id);
+        setNewDepartment({
+            name: department.name,
+            director: department.director,
+            filial: department.filial
         });
         setOpenModal(true);
     };
@@ -141,7 +138,7 @@ export const CardTypes: FC = () => {
         <Box sx={{ width: '100%', boxSizing: 'border-box' }}>
             <Box sx={{ mb: 2, display: { lg: 'flex' }, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h1" gutterBottom>
-                    Типы карт
+                    Подразделения филиалов
                 </Typography>
                 <CustomButton
                     variant="contained"
@@ -162,7 +159,7 @@ export const CardTypes: FC = () => {
                 borderRadius: (theme: Theme) => theme.shape.borderRadius,
             }}>
                 <DataGrid
-                    rows={cardTypes}
+                    rows={departments}
                     columns={isMobile ? mobileColumns : desktopColumns}
                     autoHeight
                     disableRowSelectionOnClick
@@ -191,53 +188,32 @@ export const CardTypes: FC = () => {
 
             {/* Модальное окно добавления/редактирования */}
             <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-                <DialogTitle>{isEditing ? 'Редактировать тип карты' : 'Добавить тип карты'}</DialogTitle>
+                <DialogTitle>{isEditing ? 'Редактировать подразделение' : 'Добавить подразделение'}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
                         <InputForm
                             type="text"
                             name="name"
-                            label="Название"
-                            value={newCardType.name}
+                            label="Название подразделения"
+                            value={newDepartment.name}
                             onChange={handleInputChange}
                             fullWidth
                             required
                         />
-                        <Box sx={{ display: 'flex', gap: 2 }}>
-                            <InputForm
-                                type="text"
-                                name="prefix"
-                                label="Префикс"
-                                value={newCardType.prefix}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-                            <InputForm
-                                type="text"
-                                name="suffix"
-                                label="Суффикс"
-                                value={newCardType.suffix}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-                        </Box>
-                        <InputForm
-                            type="text"
-                            name="begin_number"
-                            label="Начальный номер"
-                            value={newCardType.begin_number}
-                            onChange={handleInputChange}
-                            fullWidth
+                        <CustomSelect
+                            value={newDepartment.director}
+                            onChange={(value) => handleSelectChange('director', value)}
+                            options={directorOptions}
+                            placeholder="Выберите руководителя"
+                            label="Руководитель"
                         />
-                        <InputForm
-                            type="text"
-                            name="description"
-                            label="Описание"
-                            value={newCardType.description}
-                            onChange={handleInputChange}
-                            fullWidth
-                            multiline
-                            rows={3}
+                        <CustomSelect
+                            value={newDepartment.filial}
+                            onChange={(value) => handleSelectChange('filial', value)}
+                            options={filialOptions}
+                            placeholder="Выберите филиал"
+                            label="Филиал"
+                            required
                         />
                     </Box>
                 </DialogContent>

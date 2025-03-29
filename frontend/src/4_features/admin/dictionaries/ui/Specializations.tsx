@@ -1,11 +1,10 @@
 import { FC, useState } from "react";
-import { Box, Paper, Theme, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, useTheme, useMediaQuery, } from "@mui/material";
+import { Box, Paper, Theme, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ruRU } from '@mui/x-data-grid/locales';
-import { Add, Edit } from "@mui/icons-material";
+import { Add, Edit, Delete } from "@mui/icons-material";
 import { CustomButton } from "@6_shared/Button";
 import { InputForm } from "@6_shared/Input";
-
 
 export const Specializations: FC = () => {
     const theme = useTheme();
@@ -16,13 +15,13 @@ export const Specializations: FC = () => {
             id: 1,
             name: "имя",
             description: "Специалист",
-            document_template_id: "temp1",
         },
-
     ]);
 
     // Состояние модального окна
     const [openModal, setOpenModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentId, setCurrentId] = useState<number | null>(null);
     const [newSpecialization, setNewSpecialization] = useState({
         name: "",
         description: "",
@@ -34,17 +33,21 @@ export const Specializations: FC = () => {
         { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
         { field: 'name', headerName: 'Название', flex: 1, minWidth: 150 },
         { field: 'description', headerName: 'Описание', flex: 2, minWidth: 200 },
-        { field: 'document_template_id', headerName: 'ID шаблона', flex: 1, minWidth: 150 },
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
+            flex: 1,
+            minWidth: 120,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} disableRipple>
+                        <Edit />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} disableRipple color="error">
+                        <Delete />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
@@ -55,20 +58,39 @@ export const Specializations: FC = () => {
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
+            flex: 1,
+            minWidth: 100,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} size="small" disableRipple>
+                        <Edit fontSize="small" />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} size="small" disableRipple color="error">
+                        <Delete fontSize="small" />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
 
     // Обработчики
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
+    const handleOpenModal = () => {
+        setIsEditing(false);
+        setCurrentId(null);
+        setNewSpecialization({
+            name: "",
+            description: "",
+            document_template_id: "",
+        });
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setIsEditing(false);
+        setCurrentId(null);
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -78,15 +100,30 @@ export const Specializations: FC = () => {
         }));
     };
 
-    const handleEdit = (id: number) => {
-        console.log(id);
+    const handleEdit = (row: any) => {
+        setIsEditing(true);
+        setCurrentId(row.id);
+        setNewSpecialization({
+            name: row.name,
+            description: row.description,
+            document_template_id: row.document_template_id || "",
+        });
+        setOpenModal(true);
+    };
+
+    const handleDelete = (id: number) => {
+        if (window.confirm('Вы уверены, что хотите удалить эту специализацию?')) {
+            alert('Специализация удалена');
+        }
+    };
+
+    const handleSave = () => {
+        handleCloseModal();
     };
 
     return (
         <Box sx={{ width: '100%', boxSizing: 'border-box' }}>
-
-
-            <Box sx={{ mb: 2, display: {lg:'flex'}, justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ mb: 2, display: { lg: 'flex' }, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h1" gutterBottom>
                     Специализации
                 </Typography>
@@ -136,9 +173,9 @@ export const Specializations: FC = () => {
                 />
             </Paper>
 
-            {/* Модальное окно добавления */}
-            <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth sx={{}}>
-                <DialogTitle>Добавить специализацию</DialogTitle>
+            {/* Модальное окно добавления/редактирования */}
+            <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
+                <DialogTitle>{isEditing ? 'Редактировать специализацию' : 'Добавить специализацию'}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
                         <InputForm
@@ -161,23 +198,15 @@ export const Specializations: FC = () => {
                             onChange={handleInputChange}
                             placeholder="Введите краткое описание"
                         />
-                        <InputForm
-                            type="text"
-                            name="document_template_id"
-                            label="ID шаблона документа"
-                            value={newSpecialization.document_template_id}
-                            onChange={handleInputChange}
-                            fullWidth
-                            required
-                        />
                     </Box>
                 </DialogContent>
                 <DialogActions>
                     <CustomButton onClick={handleCloseModal} variant="outlined">Отмена</CustomButton>
                     <CustomButton
                         variant="contained"
+                        onClick={handleSave}
                     >
-                        Сохранить
+                        {isEditing ? 'Обновить' : 'Сохранить'}
                     </CustomButton>
                 </DialogActions>
             </Dialog>
