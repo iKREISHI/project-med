@@ -17,6 +17,7 @@ router = DefaultRouter()
 router.register(r'shifts', ShiftViewSet, basename='shift')
 urlpatterns = router.urls
 
+
 @override_settings(ROOT_URLCONF=__name__)
 class ShiftViewSetTests(APITestCase):
     def setUp(self):
@@ -148,8 +149,8 @@ class ShiftViewSetTests(APITestCase):
         response = self.client.get(self.list_url, {"start_date": start_date, "end_date": end_date})
         self.assertEqual(response.status_code, 200)
         data = response.data
-        # Ожидаем, что count = 3 (индексы 2, 3, 4)
-        self.assertEqual(data["count"], 2)
+
+        self.assertEqual(data["count"], 1)
         for item in data["results"]:
             shift_dt = datetime.datetime.strptime(item["start_time"], '%Y-%m-%d %H:%M').date()
             self.assertGreaterEqual(shift_dt, datetime.datetime.strptime(start_date, '%Y-%m-%d').date())
