@@ -58,6 +58,7 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
         setPatients(patientsData.results);
         setEmployee(userData);
 
+
         if (patientName && patientsData.results.length) {
           const foundPatient = patientsData.results.find(p =>
             `${p.last_name} ${p.first_name} ${p.patronymic}`.includes(patientName)
@@ -246,6 +247,7 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
                 label="Врач"
                 disabled
                 fullWidth
+                onChange={(e) => setField('signed_by', e.target.value)}
               />
             </Box>
 

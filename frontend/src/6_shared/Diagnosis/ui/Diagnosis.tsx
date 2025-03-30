@@ -15,7 +15,7 @@ export const Diagnosis: FC = () => {
   return (
     <Box sx={{ p: 1 }}>
       <Typography variant="h1" gutterBottom>
-        Медицинское заключение
+        Первичный осмотр
       </Typography>
       <DocumentEditor
         templateHtml={`

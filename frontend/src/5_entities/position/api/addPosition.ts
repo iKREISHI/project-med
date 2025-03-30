@@ -1,12 +1,12 @@
-import { Patient } from "../model/model.ts";
-import { POST } from "../../../6_shared/api";
+import { Position } from "../model/model.ts";
+import { POST } from "../../../6_shared/api/index.ts";
 
 //Добавление нового пациента
-export const addNewPatient = async (
-  patientData: Omit<Patient, "id" | "data_created">
-): Promise<Patient> => {
+export const addNewPosition = async (
+  positionData: Omit<, "id" | "data_created">
+): Promise<Position> => {
   const response = await POST("/api/v0/patient/", {
-    body: patientData,
+    body: positionData,
   });
 
   if (!response || !response.data) {
