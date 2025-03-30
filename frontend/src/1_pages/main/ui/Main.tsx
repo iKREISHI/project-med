@@ -10,6 +10,7 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
+import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
 import { Header } from '../../../6_shared/Header';
 import { CustomDrawer } from '../../../6_shared/Drawer';
 import { Plane } from '../../../6_shared/Plane';
@@ -41,6 +42,7 @@ export function Main() {
     { name: 'Прием', path: '/admission', icon: <MedicalServicesOutlinedIcon /> },
     { name: 'Запись', path: '/record', icon: <EditCalendarOutlinedIcon /> },
     { name: 'Дежурства', path: '/doctor-shift', icon: <AssignmentOutlinedIcon /> },
+    { name: 'Рецепты', path: '/recipes', icon: <BallotOutlinedIcon /> },
   ];
 
   const tasks = [
@@ -55,7 +57,7 @@ export function Main() {
       <Header
         handleDrawerToggle={handleDrawerToggle}
         user={{ name: 'Петр Петров', surname: 'Иванов' }}
-        handleSearch={handleSearch}
+        // handleSearch={handleSearch}
       />
 
       <CustomDrawer

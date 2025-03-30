@@ -10,28 +10,23 @@ export const Chat: React.FC = () => {
   const { id } = useParams();
   const theme = useTheme();
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
-  const navigate = useNavigate();
-
-  const handleChatSelect = (chatId: string) => {
-    navigate(`/chat/${chatId}`);
-  };
 
   // Стили для мобильной версии
   const mobileContainerSx = {
     ...globalsStyleSx.container,
     overflow: 'hidden',
-    height: '70dvh', // Уменьшенная высота для мобильных устройств
-    mt: 2,          // Небольшой отступ сверху
-    mb: 2,          // Небольшой отступ снизу
-    borderRadius: 2, // Закругленные углы
-    boxShadow: 1    // Легкая тень для лучшего визуального отделения
+    height: '70dvh',
+    mt: 2,          
+    mb: 2,          
+    borderRadius: 2,
+    boxShadow: 1   
   };
 
   // Если это мобильное устройство и не выбран чат, показываем только меню
   if (isMobile && !id) {
     return (
       <Box sx={mobileContainerSx}>
-        <ChatMenu onChatSelect={handleChatSelect} />
+        <ChatMenu />
       </Box>
     );
   }
@@ -45,7 +40,7 @@ export const Chat: React.FC = () => {
     );
   }
 
-  // Десктопная версия (без изменений)
+  // Десктопная версия 
   return (
     <Box sx={{ ...globalsStyleSx.container, overflow: 'hidden' }}>
       <Grid container sx={{
@@ -58,7 +53,7 @@ export const Chat: React.FC = () => {
           borderRight: `1px solid ${theme.palette.divider}`,
           overflowY: 'auto'
         }}>
-          <ChatMenu onChatSelect={handleChatSelect} />
+          <ChatMenu  />
         </Grid>
 
         <Grid item xs={12} md={9} sx={{

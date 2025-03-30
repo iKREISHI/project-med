@@ -11,15 +11,117 @@ import { getCurrentUser } from "@5_entities/user";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 
+
 interface ChatPersonProps {
   id: string;
+  currentUsername?: string;
 }
 
-const MessageItem = ({ message }: { message: any }) => {
+// const MessageItem = ({ message, currentUsername }: any) => {
+//   const renderFile = (fileData: string, fileExtension: string, index: number) => {
+//     const fileType = fileExtension || fileData.split(';')[0].split(':')[1];
+//     const isImage = fileType.startsWith("image/") || ['png', 'jpg', 'jpeg', 'gif'].includes(fileExtension);
+
+//     return isImage ? (
+//       <img
+//         key={index}
+//         src={fileData}
+//         alt="Uploaded"
+//         style={{ maxWidth: "100%", maxHeight: 200, marginBottom: 8 }}
+//       />
+//     ) : (
+//       <a
+//         key={index}
+//         href={fileData}
+//         download={`file.${fileExtension}`}
+//         style={{ display: "block", color: 'inherit', marginBottom: 8 }}
+//       >
+//         Скачать файл{fileExtension}
+//       </a>
+//     );
+//   };
+
+//   return (
+//     <Box sx={{
+//       display: 'flex',
+//       flexDirection: 'column',
+//       mb: 2,
+//       width: '100%'
+//     }}>
+//       <Box sx={{
+//         p: 2,
+//         borderRadius: 4,
+//         maxWidth: '75%',
+//         width: "fit-content",
+//         bgcolor: message.sender == currentUsername
+//           ? (message.status === 'sending' ? 'grey.300' : `${globalsStyle.colors.blueLight}`)
+//           : 'background.paper',
+//         color:  message.sender == currentUsername ? 'primary.contrastText' : 'text.primary',
+//         boxShadow: 2,
+//         position: 'relative',
+//         transition: 'background-color 0.3s ease',
+//         alignSelf:  message.sender == currentUsername ? "flex-end" : "flex-start",
+//       }}>
+//         {!message.fromCurrentUser && (
+//           <Box>
+//             <Typography
+//               variant="caption"
+//               sx={{
+//                 fontWeight: 500,
+//                 mb: 0.5,
+//               }}
+//             >
+//               {message.sender || 'Unknown'}
+//             </Typography>
+//           </Box>
+//         )}
+
+//         {message.content}
+
+//         {message.file_data && (
+//           <Box sx={{ mt: 1 }}>
+//             {Array.isArray(message.file_data) ? (
+//               message.file_data.map((file: any, index: number) => (
+//                 renderFile(file.file_data, file.file_extension, index)
+//               ))
+//             ) : (
+//               renderFile(message.file_data, message.file_extension, 0)
+//             )}
+//           </Box>
+//         )}
+
+//         {message.status === 'sending' && (
+//           <CircularProgress
+//             size={16}
+//             sx={{ position: 'absolute', right: 8, bottom: 8 }}
+//           />
+//         )}
+
+//         <Box sx={{ justifyContent: 'end', display: 'flex' }}>
+//           <Typography
+//             variant="caption"
+//             sx={{
+//               mt: 0.5,
+//             }}
+//           >
+//             {new Date(message.timestamp).toLocaleString([], {
+//               year: 'numeric',
+//               month: 'numeric',
+//               day: 'numeric',
+//               hour: '2-digit',
+//               minute: '2-digit'
+//             })}
+//           </Typography>
+//         </Box>
+//       </Box>
+//     </Box>
+//   );
+// };
+const MessageItem = ({ message, currentUsername }: any) => {
   const renderFile = (fileData: string, fileExtension: string, index: number) => {
     const fileType = fileExtension || fileData.split(';')[0].split(':')[1];
     const isImage = fileType.startsWith("image/") || ['png', 'jpg', 'jpeg', 'gif'].includes(fileExtension);
-    
+
     return isImage ? (
       <img
         key={index}
@@ -34,10 +136,15 @@ const MessageItem = ({ message }: { message: any }) => {
         download={`file.${fileExtension}`}
         style={{ display: "block", color: 'inherit', marginBottom: 8 }}
       >
-        Скачать файл{fileExtension}
+        Скачать файл.{fileExtension}
       </a>
     );
   };
+
+  // Не отображаем сообщения со статусом 'sending'
+  if (message.status === 'sending') {
+    return null;
+  }
 
   return (
     <Box sx={{
@@ -51,14 +158,13 @@ const MessageItem = ({ message }: { message: any }) => {
         borderRadius: 4,
         maxWidth: '75%',
         width: "fit-content",
-        bgcolor: message.sender == "root"
-          ? (message.status === 'sending' ? 'grey.300' : `${globalsStyle.colors.blueLight}`)
+        bgcolor: message.sender == currentUsername
+          ? `${globalsStyle.colors.blueLight}`
           : 'background.paper',
-        color: message.sender == "root" ? 'primary.contrastText' : 'text.primary',
+        color:  message.sender == currentUsername ? 'primary.contrastText' : 'text.primary',
         boxShadow: 2,
         position: 'relative',
-        transition: 'background-color 0.3s ease',
-        alignSelf: message.sender == "root" ? "flex-end" : "flex-start",
+        alignSelf:  message.sender == currentUsername ? "flex-end" : "flex-start",
       }}>
         {!message.fromCurrentUser && (
           <Box>
@@ -75,7 +181,7 @@ const MessageItem = ({ message }: { message: any }) => {
         )}
 
         {message.content}
-        
+
         {message.file_data && (
           <Box sx={{ mt: 1 }}>
             {Array.isArray(message.file_data) ? (
@@ -86,13 +192,6 @@ const MessageItem = ({ message }: { message: any }) => {
               renderFile(message.file_data, message.file_extension, 0)
             )}
           </Box>
-        )}
-
-        {message.status === 'sending' && (
-          <CircularProgress
-            size={16}
-            sx={{ position: 'absolute', right: 8, bottom: 8 }}
-          />
         )}
 
         <Box sx={{ justifyContent: 'end', display: 'flex' }}>
@@ -115,7 +214,6 @@ const MessageItem = ({ message }: { message: any }) => {
     </Box>
   );
 };
-
 export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
   const { messages: wsMessages, sendMessage, isConnected } = useChatWebSocket(id);
   const { messages: restMessages, fetchMessages, loading, error } = useChatMessages();
@@ -126,6 +224,20 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const onBack = () => navigate(-1);
+  const [currentUsername, setCurrentUsername] = useState<string>("");
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUsername(user.username || "");
+      } catch (error) {
+        console.error("Failed to fetch user", error);
+      }
+    };
+
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
     if (id && !hasFetchedHistory) {
@@ -133,7 +245,6 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
       setHasFetchedHistory(true);
     }
   }, [id, hasFetchedHistory, fetchMessages]);
-
   const mergedMessages = useMemo(() => {
     const combined = [...restMessages, ...wsMessages];
     return combined
@@ -154,42 +265,66 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
   }, [mergedMessages.length, files]);
 
   const handleSend = async () => {
-    if (!isConnected) return;
+    if (!isConnected) {
+      console.log("Не отправлено: WebSocket не подключен");
+      return;
+    }
   
     try {
       // Если есть файлы - обрабатываем их
       if (files.length > 0) {
+        console.log("Начало обработки файлов. Количество файлов:", files.length);
+        
         for (const file of files) {
-          const fileData = await readFileAsBase64(file);
+          console.log("Обработка файла:", file.name, "тип:", file.type, "размер:", file.size);
           
+          const fileData = await readFileAsBase64(file);
+          console.log("Файл конвертирован в base64. Длина данных:", fileData.length);
+  
           const message = {
             message_type: "file",
-            file_data: fileData,  
+            file_data: fileData,
             file_extension: getFileExtension(file.name),
             content: newMessage || `${file.name}`,
             timestamp: new Date().toISOString()
           };
   
-          console.log("Sending file message:", message);
+          console.log("Подготовлено сообщение с файлом:", {
+            ...message,
+            file_data: `${message.file_data.substring(0, 50)}...` // Выводим только начало base64
+          });
+          
           sendMessage(message);
+          console.log("Сообщение с файлом отправлено");
         }
-      } 
+      }
       // Если есть текст - отправляем текстовое сообщение
       else if (newMessage.trim()) {
-        sendMessage({
+        const textMessage = {
           message_type: "text",
           content: newMessage,
           timestamp: new Date().toISOString()
-        });
+        };
+        
+        console.log("Отправка текстового сообщения:", textMessage);
+        sendMessage(textMessage);
+        console.log("Текстовое сообщение отправлено");
+      } else {
+        console.log("Нечего отправлять: нет текста и файлов");
       }
   
       setNewMessage("");
       setFiles([]);
+      console.log("Состояние очищено");
     } catch (error) {
-      console.error("Ошибка при отправке:", error);
+      console.error("Ошибка при отправке:", {
+        error: error,
+        message: error.message,
+        stack: error.stack
+      });
     }
   };
-  
+
   // Вспомогательные функции
   const readFileAsBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -199,7 +334,7 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
       reader.readAsDataURL(file);
     });
   };
-  
+
   const getFileExtension = (filename: string): string => {
     return filename.split('.').pop()?.toLowerCase() || '';
   };
@@ -224,11 +359,11 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
         zIndex: 1,
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        {isMobile && (
-          <IconButton onClick={onBack}>
-            <ArrowBackIcon />
-          </IconButton>
-        )}
+          {isMobile && (
+            <IconButton onClick={onBack} disableRipple>
+              <ArrowBackIcon />
+            </IconButton>
+          )}
           <span style={{ fontWeight: 500 }}>Чат #{id}</span>
           {loading && <CircularProgress size={20} />}
           {!isConnected && (
@@ -284,7 +419,7 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
         )}
 
         {mergedMessages.map((msg) => (
-          <MessageItem key={`${msg.id}_${msg.timestamp}`} message={msg} />
+          <MessageItem key={`${msg.id}_${msg.timestamp}`} message={msg} currentUsername={currentUsername}/>
         ))}
       </Box>
 
@@ -335,6 +470,7 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
                   onClick={() => handleRemoveFile(index)}
                   size="small"
                   sx={{ ml: 'auto' }}
+                  disableRipple
                 >
                   <CloseIcon fontSize="small" />
                 </IconButton>
@@ -362,6 +498,7 @@ export const ChatPerson: React.FC<ChatPersonProps> = ({ id }) => {
               alignSelf: 'center',
               color: isConnected ? 'inherit' : 'action.disabled'
             }}
+            disableRipple
           >
             <AttachFileIcon />
             <input

@@ -1,4 +1,4 @@
-import {GET} from "@6_shared/api";
+import {PUT} from "@6_shared/api";
 import { Filial } from '../model/model.ts'
 
 
@@ -6,7 +6,7 @@ export const updateFilial = async (
   filialId: number,
   filialData: Omit<Filial, 'id' | 'date_created'>
 ): Promise<Filial> => {
-  const response = await GET('/api/v0/filial/{id}/', {
+  const response = await PUT('/api/v0/filial/{id}/', {
     params: {
       path:{
         id:filialId,

@@ -23,7 +23,8 @@ export function MainAdmin() {
     { name: 'Сотрудники', path: '/staff' },
     { name: 'Шаблоны HTML', path: '/html-templates' },
     { name: 'Медкарты', path: '/medical-records' },
-    { name: 'Пациенты', path: '/patients' },
+    { name: 'Пациенты', path: '/registry' },
+    // { name: 'Пациенты', path: '/patients' },
     { name: 'Справочники', path: '/dictionaries' },
   ];
 

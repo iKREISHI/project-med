@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Box,
   Modal,
@@ -15,8 +15,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { DocumentEditor } from "@2_widgets/documetEditor";
 import { addTemplate } from "@5_entities/reseptionTemplate";
-import {getAllSpecialization} from "@5_entities/specialization";
-import {CustomAutocomplete} from "@6_shared/Autocomplete";
+import { getAllSpecialization } from "@5_entities/specialization";
+import { CustomAutocomplete } from "@6_shared/Autocomplete";
 
 interface AddTemplateModalProps {
   open: boolean;
@@ -30,14 +30,14 @@ interface SpecializationOption {
 }
 
 export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
-                                                                    open,
-                                                                    onClose,
-                                                                    onUpdate
-                                                                  }) => {
+  open,
+  onClose,
+  onUpdate
+}) => {
   const [template, setTemplate] = useState({
     name: '',
     description: '',
-    specialization: 0
+    specialization: null as number | null // Измените на nullable
   });
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -73,14 +73,23 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
     setTemplate(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSpecializationChange = (event: React.SyntheticEvent, value: SpecializationOption | null) => {
+  useEffect(() => {
+    if (specializations.length > 0) {
+      const foundSpec = template.specialization
+        ? specializations.find(spec => spec.id === template.specialization)
+        : null;
+      setSelectedSpecialization(foundSpec || null);
+    }
+  }, [specializations, template.specialization]);
+
+  const handleSpecializationChange = (value: SpecializationOption | null) => {
+    console.log('Selected:', value);
     setSelectedSpecialization(value);
     setTemplate(prev => ({
       ...prev,
-      specialization: value?.id || 0
+      specialization: value?.id ?? null
     }));
   };
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       processFile(e.target.files[0]);
@@ -226,7 +235,7 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
             <CustomAutocomplete
               options={specializations}
               value={selectedSpecialization}
-              onChange={handleSpecializationChange}
+              onChange={handleSpecializationChange} 
               getOptionLabel={(option) => option.name}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               renderInput={(params) => (
