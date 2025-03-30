@@ -73,7 +73,7 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
     setTemplate(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSpecializationChange = (event: React.SyntheticEvent, value: SpecializationOption | null) => {
+  const nnhandleSpecializationChange = (event: React.SyntheticEvent, value: SpecializationOption | null) => {
     setSelectedSpecialization(value);
     setTemplate(prev => ({
       ...prev,

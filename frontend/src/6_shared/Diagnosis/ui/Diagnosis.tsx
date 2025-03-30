@@ -1,10 +1,15 @@
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import { DocumentEditor } from "@2_widgets/documetEditor";
+import {useAppointmentsFormStore} from "@4_features/admission/model/store.ts";
 
 export const Diagnosis: FC = () => {
+  const { setField } = useAppointmentsFormStore()
+
+
   const handleDataExtract = (data: Record<string, any>) => {
     console.log("Собранные данные:", JSON.stringify(data, null, 2));
+    setField('reception_document_fields', JSON.stringify(data, null, 2));
   };
 
   return (

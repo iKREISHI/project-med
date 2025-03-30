@@ -24,6 +24,8 @@
     "bvi": "^1.0.2",
     "dayjs": "^1.11.13",
     "dompurify": "^3.2.4",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
     "openapi-fetch": "^0.13.5",
     "react": "^19.0.0",
     "react-accessibility": "^0.13.1",
