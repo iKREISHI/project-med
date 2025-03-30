@@ -32,6 +32,7 @@ from api.v0.views.medical_activity.diagnosis_category import DiagnosisCategoryVi
 from api.v0.views.medical_activity.booking_appointment import BookingAppointmentViewSet
 from api.v0.views.auth.permission_group import GetGroupAndPermissions4CurrentUser
 from api.v0.views.medical_activity.ai_recommendations.appointment import AIDoctorAppointmentViewSet
+from api.v0.views.medical_activity.ai_recommendations.patient_conditions import AIPatientConditionViewSet
 
 router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
@@ -60,6 +61,9 @@ router.register(r'diagnosis-categories', DiagnosisCategoryViewSet, basename='dia
 router.register(r'booking-appointments', BookingAppointmentViewSet, basename='bookingappointment')
 router.register(r'permission-group-current-user', GetGroupAndPermissions4CurrentUser, basename='permission-group-current-user')
 router.register(r'ai-recommendation/doctor-appointment', AIDoctorAppointmentViewSet, basename='ai-recommendation-doctor-appointment')
+router.register(r'ai-recommendation/patient-condition', AIPatientConditionViewSet, basename='ai-recommendation-patient-condition')
+
+
 
 
 urlpatterns = (
