@@ -52,6 +52,7 @@ class Diagnosis(models.Model):
         verbose_name = 'Диагноз'
         verbose_name_plural = verbose_name + 'ы'
 
+
     def __str__(self):
         return self.name
 

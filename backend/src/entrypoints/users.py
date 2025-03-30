@@ -46,7 +46,7 @@ def create_user_and_employee(username, password, first_name, last_name, position
 
     # Получение объекта должности
     try:
-        position = Position.objects.get(name=position_name)
+        position = Position.objects.filter(name=position_name).first()
     except Position.DoesNotExist:
         print(f"Должность '{position_name}' не найдена. Проверьте правильность названия.")
         return None

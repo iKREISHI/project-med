@@ -9,6 +9,7 @@ class MedicalCardTypePagination(PageNumberPagination):
     page_size = 10  # Количество элементов на странице по умолчанию
     page_size_query_param = 'page_size'  # Параметр для изменения количества элементов на странице
     max_page_size = 100  # Максимально допустимое количество элементов на странице
+    ordering = 'id'
 
 
 class MedicalCardTypeViewSet(viewsets.ModelViewSet):

@@ -56,6 +56,13 @@ class Patient(AbstractPersonModel):
         verbose_name=_("Законный представитель")
     )
 
+    oms = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name=_('ОМС')
+    )
+
     class Meta:
         verbose_name = _("Пациент")
         verbose_name_plural = _("Пациенты")

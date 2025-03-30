@@ -25,9 +25,7 @@ class Employee(AbstractPersonModel):
         blank=True,
     )
 
-    # TODO: поменять на ForeignKey
     department = models.ForeignKey(
-        # on_delete=models.SET_NULL,
         'company_structure.FilialDepartment',
         on_delete=models.SET_NULL,
         null=True,

@@ -27,3 +27,6 @@ class UsersViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
+    search_fields = [
+        'username',
+    ]
