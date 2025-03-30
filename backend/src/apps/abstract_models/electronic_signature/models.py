@@ -6,18 +6,24 @@ from apps import staffing
 class AbstractElectronicSignature(models.Model):
     is_signed = models.BooleanField(
         default=False,
-        verbose_name=_('Подписано ЭП')
+        verbose_name=_('Подписано ЭП'),
+        blank=True,
+        null=True,
     )
 
     signed_by = models.ForeignKey(
         'staffing.Employee',
         on_delete=models.PROTECT,
-        verbose_name=_('Кем подписан')
+        verbose_name=_('Кем подписан'),
+        blank=True,
+        null=True,
     )
 
     signed_date = models.DateField(
         auto_now=True,
-        verbose_name=_('Дата подписания')
+        verbose_name=_('Дата подписания'),
+        blank=True,
+        null=True,
     )
 
 

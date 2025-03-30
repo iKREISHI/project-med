@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'apps.medical_activity.apps.MedicalActivityConfig',
     'apps.registry.apps.RegistryConfig',
     'apps.chat.apps.ChatConfig',
+    'apps.ai_recommendations',
 
     # API apps
     'api.v0.apps.V0Config',
