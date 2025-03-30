@@ -36,8 +36,10 @@ import { MainRegistry } from "@1_pages/mainRegistry";
 import { MainHeadDoctor } from "@1_pages/mainHeadDoctor";
 
 export const RouterComponent: FC = () => {
+  const userLocal = JSON.parse(localStorage.getItem('user') || '{}');
+  const position = userLocal.position || 'staff';
   const user = {
-    role: "head_doctor", // admin staff registry head_doctor
+    role: 'Работник' // Администратор Работник Регистратура Заведующий
   };
 
   return (
@@ -51,13 +53,14 @@ export const RouterComponent: FC = () => {
           element={
             <ProtectedRoute
               role={user.role}
-              allowedRoles={["admin", "staff", "registry", "head_doctor"]}
+              allowedRoles={["Администратор", "Работник", "Регистратура", "Заведующий"]}
             >
-              {user.role === "admin" ? (
+              {user.role === "Администратор" ? (
+
                 <MainAdmin />
-              ) : user.role === "registry" ? (
+              ) : user.role === "Регистратура" ? (
                 <MainRegistry />
-              ) : user.role === "head_doctor" ? (
+              ) : user.role === "Заведующий" ? (
                 <MainHeadDoctor />
               ) : (
                 <Main />
@@ -66,7 +69,7 @@ export const RouterComponent: FC = () => {
           }
         >
           {/* Маршруты для админа */}
-          {user.role === "admin" && (
+          {user.role === "Администратор" && (
             <>
               <Route path="staff" element={<StaffList />} />
               <Route path="staff/create" element={<StaffAdd />} />
@@ -102,7 +105,7 @@ export const RouterComponent: FC = () => {
           )}
 
           {/* Маршруты для сотрудника */}
-          {user.role === "staff" && (
+          {user.role === "Работник" && (
             <>
               <Route path="" element={<DashBoard />} />
               <Route path="chat">
@@ -134,7 +137,7 @@ export const RouterComponent: FC = () => {
           )}
 
           {/* Маршруты для регистратуры */}
-          {user.role === "registry" && (
+          {user.role === "Регистратура" && (
             <>
               <Route path="" element={<Navigate to="/medical-records" replace />} />
 
@@ -158,7 +161,7 @@ export const RouterComponent: FC = () => {
           )}
 
           {/* Маршруты для заведующего отделением */}
-          {user.role === "head_doctor" && (
+          {user.role === "Заведующий" && (
             <>
               <Route path="" element={<Navigate to="/doctor-shift" replace />} />
               <Route path="staff" element={<StaffList />} />

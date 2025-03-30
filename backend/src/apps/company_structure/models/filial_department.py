@@ -6,11 +6,11 @@ from django.core.exceptions import ValidationError
 
 class FilialDepartment(models.Model):
     """
-    Подразделение
+    Отделения (подразделения)
     """
     name = models.CharField(
         max_length=255,
-        verbose_name=_("Название подразделения")
+        verbose_name=_("Название отделения")
     )
     director = models.ForeignKey(
         'staffing.Employee',
@@ -29,8 +29,8 @@ class FilialDepartment(models.Model):
     )
 
     class Meta:
-        verbose_name = _('Подразделение филиала')
-        verbose_name_plural = _('Подразделения филиала')
+        verbose_name = _('Отделение филиала')
+        verbose_name_plural = _('Отделения филиала')
         unique_together = (('filial', 'name'),)
 
     def __str__(self):

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, Toolbar, AppBar, Switch, useTheme } from '@mui/material';
 import { headerSx } from './headerSx';
@@ -25,7 +26,6 @@ interface User {
 
 interface HeaderProps {
   handleDrawerToggle: () => void;
-  handleSearch: () => void;
   user: User;
   users?: User[];
 }
@@ -79,12 +79,22 @@ const useSpeechToText = () => {
   };
 };
 
-const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch }) => {
+const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const { toggleTheme, mode } = useThemeContext();
   const theme = useTheme();
   const [search, setSearch] = useState('');
+  const [suggestions, setSuggestions] = useState<{name: string, path: string}[]>([]);
   const isDarkText = !(theme.palette.mode === "dark");
+
+  // Список доступных пунктов меню для поиска
+  const menuItems = [
+    { name: 'Главная', path: '' },
+    { name: 'Чат', path: '/chat' },
+    { name: 'Регистрация', path: '/registry' },
+    { name: 'Прием', path: '/admission' },
+  ];
 
   const {
     transcript,
@@ -100,11 +110,49 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
     }
   }, [transcript]);
 
+  // Обновление подсказок при изменении поискового запроса
+  useEffect(() => {
+    if (search.trim()) {
+      const matchedItems = menuItems.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setSuggestions(matchedItems);
+    } else {
+      setSuggestions([]);
+    }
+  }, [search]);
+
   const toggleListening = () => {
     if (isListening) {
       stopListening();
     } else {
       startListening();
+    }
+  };
+
+  // Обработчик поиска
+  const handleSearch = () => {
+    if (!search.trim()) return;
+
+    const foundItem = menuItems.find(item =>
+      item.name.toLowerCase() === search.toLowerCase()
+    );
+
+    if (foundItem) {
+      navigate(foundItem.path);
+      setSearch('');
+      setSuggestions([]);
+    } else if (suggestions.length > 0) {
+      navigate(suggestions[0].path);
+      setSearch('');
+      setSuggestions([]);
+    }
+  };
+
+  // Обработчик нажатия Enter
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -182,6 +230,7 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
             display: 'flex',
             alignItems: 'center',
             flexGrow: 1,
+            position: 'relative'
           }}>
             <Box
               sx={{
@@ -190,44 +239,49 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user, handleSearch 
                 margin: '0 auto',
                 alignItems: 'center',
                 gap: 1,
+                position: 'relative'
               }}
             >
               <InputSearch
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
                 fullWidth
                 placeholder={isListening ? "Говорите сейчас..." : "Введите запрос"}
                 onSearch={handleSearch}
                 isDarkText={isDarkText}
                 bgcolorFlag={true}
               />
-              
-              <IconButton
-                aria-label="микрофон"
-                onClick={isSpeechSupported ? toggleListening : handleVoiceInputFallback}
-                disableRipple
-                sx={{
-                  color: isListening
-                    ? theme.palette.primary.main
-                    : isDarkText
-                      ? theme.palette.grey[900]
-                      : theme.palette.common.white,
-                  border: `1px solid ${isListening
-                    ? theme.palette.primary.main
-                    : theme.palette.grey[400]}`,
-                  backgroundColor: theme.palette.background.paper,
-                  borderRadius: '50%',
-                  animation: isListening ? 'pulse 1.5s infinite' : 'none',
-                  '@keyframes pulse': {
-                    '0%': { transform: 'scale(1)' },
-                    '50%': { transform: 'scale(1.1)' },
-                    '100%': { transform: 'scale(1)' }
-                  }
-                }}
-              >
-                <MicNoneOutlinedIcon sx={{ fontSize: '26px' }} />
-              </IconButton>
+              {/* микрофон */}
+              {isSpeechSupported && (
+                <IconButton
+                  aria-label="микрофон"
+                  onClick={toggleListening}
+                  disableRipple
+                  sx={{
+                    color: isListening
+                      ? theme.palette.primary.main
+                      : isDarkText
+                        ? theme.palette.grey[900]
+                        : theme.palette.common.white,
+                    border: `1px solid ${isListening
+                      ? theme.palette.primary.main
+                      : theme.palette.grey[400]}`,
+                    backgroundColor: theme.palette.background.paper,
+                    borderRadius: '50%',
+                    
+                    animation: isListening ? 'pulse 1.5s infinite' : 'none',
+                    '@keyframes pulse': {
+                      '0%': { transform: 'scale(1)' },
+                      '50%': { transform: 'scale(1.1)' },
+                      '100%': { transform: 'scale(1)' }
+                    }
+                  }}
+                >
+                  <MicNoneOutlinedIcon sx={{ fontSize: '26px' }} />
+                </IconButton>
+              )}
             </Box>
           </Box>
 

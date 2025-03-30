@@ -1,7 +1,8 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import { Theme, Typography } from '@mui/material';
-
+import Typography from '@mui/material/Typography';
+import { Theme } from '@mui/material/styles';
+import { grey } from '@mui/material/colors'; // Добавляем серый цвет из палитры MUI
 
 interface CustomButtonProps {
   children: React.ReactNode;
@@ -9,24 +10,43 @@ interface CustomButtonProps {
   fullWidth?: boolean;
   variant?: 'text' | 'contained' | 'outlined';
   startIcon?: React.ReactNode;
-  type?: 'button' | 'submit' | 'reset'
+  type?: 'button' | 'submit' | 'reset';
   color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+  disabled?: boolean;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ children, onClick, fullWidth = false, variant = 'contained', startIcon, type, color}) => {
+const CustomButton: React.FC<CustomButtonProps> = ({
+  children,
+  onClick,
+  fullWidth = false,
+  variant = 'contained',
+  startIcon,
+  type = 'button',
+  color = 'primary',
+  disabled = false,
+}) => {
   return (
     <Button
-    color={color}
+      color={color}
       variant={variant}
-      // disableElevation
       onClick={onClick}
       fullWidth={fullWidth}
       startIcon={startIcon}
       disableRipple
       type={type}
-      sx={{borderRadius: (theme: Theme) => theme.shape.borderRadius,}}
+      disabled={disabled}
+      sx={{
+        borderRadius: (theme: Theme) => theme.shape.borderRadius,
+        ...(disabled && {
+          backgroundColor: grey[300], 
+          color: grey[600],          
+          '&:hover': {
+            backgroundColor: grey[300], 
+          },
+        }),
+      }}
     >
-      <Typography style={{ textTransform: 'none' }}>
+      <Typography sx={{ textTransform: 'none' }}>
         {children}
       </Typography>
     </Button>

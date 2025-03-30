@@ -1,0 +1,1 @@
+export { EditPatientModal } from './ui/EditPatientModal.tsx'

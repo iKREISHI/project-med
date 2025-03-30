@@ -7,7 +7,6 @@ import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';

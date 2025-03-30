@@ -1,0 +1,1 @@
+export { type FilialDepartament } from './model/model.ts'

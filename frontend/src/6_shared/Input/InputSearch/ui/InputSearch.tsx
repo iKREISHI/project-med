@@ -10,6 +10,7 @@ interface InputProps {
   fullWidth?: boolean;
   placeholder?: string;
   onSearch?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   shadowColor?: string;
   isDarkText?: boolean;
   bgcolorFlag?: boolean;
@@ -25,6 +26,7 @@ const InputSearch: React.FC<InputProps> = ({
   fullWidth,
   placeholder,
   onSearch,
+  onKeyDown,
   isDarkText = false,
   bgcolorFlag = false,
   colorPlaceholder,
@@ -32,8 +34,16 @@ const InputSearch: React.FC<InputProps> = ({
 }) => {
   const theme = useTheme();
 
+  // Обработчик нажатия клавиш
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
+    if (event.key === 'Enter' && onSearch) {
+      onSearch();
+    }
+  };
 
-  // Определяем цвет плейсхолдера
   const placeholderColor = colorPlaceholder
     ? colorPlaceholder 
     : isDarkText
@@ -46,6 +56,7 @@ const InputSearch: React.FC<InputProps> = ({
         type={type}
         value={value}
         onChange={onChange}
+        onKeyDown={handleKeyPress}
         fullWidth={fullWidth}
         placeholder={placeholder}
         sx={{

@@ -1,0 +1,1 @@
+export {type InspectionChoice} from './model/inspectionChoice.ts'

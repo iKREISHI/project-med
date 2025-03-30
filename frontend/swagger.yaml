@@ -1290,10 +1290,92 @@ paths:
 
         Поддерживаются операции:
           - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
           - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
           - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Номер страницы для пагинации.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Количество объектов на странице.
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: 'Поисковый запрос для поиска по следующим полям: name, number,
+          card_type__name, client__last_name, client__first_name, client__patronymic,
+          client__date_of_birth.'
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMedicalCardList'
+          description: ''
+    post:
+      operationId: v0_medical_card_create
+      description: |-
+        API для работы с медицинскими картами с поддержкой пагинации.
+
+        Поддерживаются операции:
+          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
+          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
+          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
+          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Номер страницы для пагинации.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Количество объектов на странице.
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: 'Поисковый запрос для поиска по следующим полям: name, number,
+          card_type__name, client__last_name, client__first_name, client__patronymic,
+          client__date_of_birth.'
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalCard'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCard'
+          description: ''
+  /api/v0/medical-card-types/:
+    get:
+      operationId: v0_medical_card_types_list
+      description: |-
+        ViewSet для работы с объектами MedicalCardType.
+        Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+        Добавлены права на вход и проверки Django-пермишенов на уровне модели.
       parameters:
       - name: page
         required: false
@@ -1316,26 +1398,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedMedicalCardList'
+                $ref: '#/components/schemas/PaginatedMedicalCardTypeList'
           description: ''
     post:
-      operationId: v0_medical_card_create
+      operationId: v0_medical_card_types_create
       description: |-
-        API для работы с медицинскими картами с поддержкой пагинации.
-
-        Поддерживаются операции:
-          - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
-          - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
-          - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
-          - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
+        ViewSet для работы с объектами MedicalCardType.
+        Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+        Добавлены права на вход и проверки Django-пермишенов на уровне модели.
       tags:
       - v0
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MedicalCard'
+              $ref: '#/components/schemas/MedicalCardType'
         required: true
       security:
       - cookieAuth: []
@@ -1344,8 +1421,112 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MedicalCard'
+                $ref: '#/components/schemas/MedicalCardType'
           description: ''
+  /api/v0/medical-card-types/{id}/:
+    get:
+      operationId: v0_medical_card_types_retrieve
+      description: |-
+        ViewSet для работы с объектами MedicalCardType.
+        Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+        Добавлены права на вход и проверки Django-пермишенов на уровне модели.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тип мед.карты.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCardType'
+          description: ''
+    put:
+      operationId: v0_medical_card_types_update
+      description: |-
+        ViewSet для работы с объектами MedicalCardType.
+        Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+        Добавлены права на вход и проверки Django-пермишенов на уровне модели.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тип мед.карты.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalCardType'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCardType'
+          description: ''
+    patch:
+      operationId: v0_medical_card_types_partial_update
+      description: |-
+        ViewSet для работы с объектами MedicalCardType.
+        Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+        Добавлены права на вход и проверки Django-пермишенов на уровне модели.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тип мед.карты.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMedicalCardType'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalCardType'
+          description: ''
+    delete:
+      operationId: v0_medical_card_types_destroy
+      description: |-
+        ViewSet для работы с объектами MedicalCardType.
+        Поддерживает методы: list, create, retrieve, update, partial_update, destroy.
+        Добавлены права на вход и проверки Django-пермишенов на уровне модели.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Тип мед.карты.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v0/medical-card/{id}/:
     get:
       operationId: v0_medical_card_retrieve
@@ -1354,7 +1535,7 @@ paths:
 
         Поддерживаются операции:
           - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
           - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
           - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
@@ -1365,6 +1546,23 @@ paths:
           type: integer
         description: A unique integer value identifying this Медицинская карта.
         required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Номер страницы для пагинации.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Количество объектов на странице.
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: 'Поисковый запрос для поиска по следующим полям: name, number,
+          card_type__name, client__last_name, client__first_name, client__patronymic,
+          client__date_of_birth.'
       tags:
       - v0
       security:
@@ -1383,7 +1581,7 @@ paths:
 
         Поддерживаются операции:
           - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
           - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
           - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
@@ -1394,6 +1592,23 @@ paths:
           type: integer
         description: A unique integer value identifying this Медицинская карта.
         required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Номер страницы для пагинации.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Количество объектов на странице.
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: 'Поисковый запрос для поиска по следующим полям: name, number,
+          card_type__name, client__last_name, client__first_name, client__patronymic,
+          client__date_of_birth.'
       tags:
       - v0
       requestBody:
@@ -1418,7 +1633,7 @@ paths:
 
         Поддерживаются операции:
           - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
           - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
           - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
@@ -1429,6 +1644,23 @@ paths:
           type: integer
         description: A unique integer value identifying this Медицинская карта.
         required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Номер страницы для пагинации.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Количество объектов на странице.
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: 'Поисковый запрос для поиска по следующим полям: name, number,
+          card_type__name, client__last_name, client__first_name, client__patronymic,
+          client__date_of_birth.'
       tags:
       - v0
       requestBody:
@@ -1452,7 +1684,7 @@ paths:
 
         Поддерживаются операции:
           - list: получение списка медицинских карт (требуется permission "registry.view_medicalcard"),
-          - retrieve: получение медицинской карты по UUID (требуется permission "registry.view_medicalcard"),
+          - retrieve: получение медицинской карты по ID (требуется permission "registry.view_medicalcard"),
           - create: создание новой медицинской карты (требуется permission "registry.add_medicalcard"),
           - update/partial_update: обновление медицинской карты (требуется permission "registry.change_medicalcard"),
           - destroy: удаление медицинской карты (требуется permission "registry.delete_medicalcard").
@@ -1463,6 +1695,23 @@ paths:
           type: integer
         description: A unique integer value identifying this Медицинская карта.
         required: true
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Номер страницы для пагинации.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Количество объектов на странице.
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: 'Поисковый запрос для поиска по следующим полям: name, number,
+          card_type__name, client__last_name, client__first_name, client__patronymic,
+          client__date_of_birth.'
       tags:
       - v0
       security:
@@ -1477,7 +1726,7 @@ paths:
         API для работы с пациентами с поддержкой пагинации.
         Поддерживаются операции:
           - list: получение списка пациентов с пагинацией,
-          - retrieve: получение пациента по UUID,
+          - retrieve: получение пациента по ID,
           - create: создание нового пациента,
           - update / partial_update: обновление пациента,
           - destroy: удаление пациента.
@@ -1511,7 +1760,7 @@ paths:
         API для работы с пациентами с поддержкой пагинации.
         Поддерживаются операции:
           - list: получение списка пациентов с пагинацией,
-          - retrieve: получение пациента по UUID,
+          - retrieve: получение пациента по ID,
           - create: создание нового пациента,
           - update / partial_update: обновление пациента,
           - destroy: удаление пациента.
@@ -1539,7 +1788,7 @@ paths:
         API для работы с пациентами с поддержкой пагинации.
         Поддерживаются операции:
           - list: получение списка пациентов с пагинацией,
-          - retrieve: получение пациента по UUID,
+          - retrieve: получение пациента по ID,
           - create: создание нового пациента,
           - update / partial_update: обновление пациента,
           - destroy: удаление пациента.
@@ -1567,7 +1816,7 @@ paths:
         API для работы с пациентами с поддержкой пагинации.
         Поддерживаются операции:
           - list: получение списка пациентов с пагинацией,
-          - retrieve: получение пациента по UUID,
+          - retrieve: получение пациента по ID,
           - create: создание нового пациента,
           - update / partial_update: обновление пациента,
           - destroy: удаление пациента.
@@ -1601,7 +1850,7 @@ paths:
         API для работы с пациентами с поддержкой пагинации.
         Поддерживаются операции:
           - list: получение списка пациентов с пагинацией,
-          - retrieve: получение пациента по UUID,
+          - retrieve: получение пациента по ID,
           - create: создание нового пациента,
           - update / partial_update: обновление пациента,
           - destroy: удаление пациента.
@@ -1634,7 +1883,7 @@ paths:
         API для работы с пациентами с поддержкой пагинации.
         Поддерживаются операции:
           - list: получение списка пациентов с пагинацией,
-          - retrieve: получение пациента по UUID,
+          - retrieve: получение пациента по ID,
           - create: создание нового пациента,
           - update / partial_update: обновление пациента,
           - destroy: удаление пациента.
@@ -2078,6 +2327,177 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegistrationModel'
           description: ''
+  /api/v0/users/:
+    get:
+      operationId: v0_users_list
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          — list: получение списка пользователей с пагинацией,
+          — retrieve: получение пользователя по ID,
+          — create: создание нового пациента,
+          — update / partial_update: обновление пациента,
+          — destroy: удаление пациента.
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: v0_users_create
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          — list: получение списка пользователей с пагинацией,
+          — retrieve: получение пользователя по ID,
+          — create: создание нового пациента,
+          — update / partial_update: обновление пациента,
+          — destroy: удаление пациента.
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v0/users/{id}/:
+    get:
+      operationId: v0_users_retrieve
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          — list: получение списка пользователей с пагинацией,
+          — retrieve: получение пользователя по ID,
+          — create: создание нового пациента,
+          — update / partial_update: обновление пациента,
+          — destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this пользователь.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: v0_users_update
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          — list: получение списка пользователей с пагинацией,
+          — retrieve: получение пользователя по ID,
+          — create: создание нового пациента,
+          — update / partial_update: обновление пациента,
+          — destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this пользователь.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: v0_users_partial_update
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          — list: получение списка пользователей с пагинацией,
+          — retrieve: получение пользователя по ID,
+          — create: создание нового пациента,
+          — update / partial_update: обновление пациента,
+          — destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this пользователь.
+        required: true
+      tags:
+      - v0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: v0_users_destroy
+      description: |-
+        API для работы с пациентами с поддержкой пагинации.
+        Поддерживаются операции:
+          — list: получение списка пользователей с пагинацией,
+          — retrieve: получение пользователя по ID,
+          — create: создание нового пациента,
+          — update / partial_update: обновление пациента,
+          — destroy: удаление пациента.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this пользователь.
+        required: true
+      tags:
+      - v0
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
 components:
   schemas:
     ChatRoom:
@@ -2431,8 +2851,6 @@ components:
         id:
           type: integer
           readOnly: true
-        card_type:
-          type: string
         is_signed:
           type: boolean
           title: Подписано ЭП
@@ -2441,11 +2859,30 @@ components:
           format: date
           readOnly: true
           title: Дата подписания
+        name:
+          type: string
+          title: Наименование
+          maxLength: 255
+        number:
+          type: string
+          title: Номер карты
+          maxLength: 64
         date_created:
           type: string
           format: date-time
           readOnly: true
           title: Дата регистрации
+        date_updated:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: Дата обновления
+        date_closed:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дата закрытия
         comment:
           type: string
           nullable: true
@@ -2457,16 +2894,53 @@ components:
           type: integer
           nullable: true
           title: Пациент
+        card_type:
+          type: integer
+          nullable: true
+          title: Тип карты
         filial:
           type: integer
           nullable: true
           title: Филиал
       required:
-      - card_type
       - date_created
+      - date_updated
       - id
+      - name
       - signed_by
       - signed_date
+    MedicalCardType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Название
+          maxLength: 255
+        suffix:
+          type: string
+          nullable: true
+          title: Суффикс номера карты
+          maxLength: 16
+        prefix:
+          type: string
+          nullable: true
+          title: Префикс номера карты
+          maxLength: 16
+        begin_number:
+          type: string
+          nullable: true
+          title: Начальный номер
+          maxLength: 16
+        description:
+          type: string
+          nullable: true
+          title: Описание
+      required:
+      - id
+      - name
     PaginatedContractorList:
       type: object
       required:
@@ -2582,6 +3056,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MedicalCard'
+    PaginatedMedicalCardTypeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MedicalCardType'
     PaginatedPatientList:
       type: object
       required:
@@ -2929,8 +3426,6 @@ components:
         id:
           type: integer
           readOnly: true
-        card_type:
-          type: string
         is_signed:
           type: boolean
           title: Подписано ЭП
@@ -2939,11 +3434,30 @@ components:
           format: date
           readOnly: true
           title: Дата подписания
+        name:
+          type: string
+          title: Наименование
+          maxLength: 255
+        number:
+          type: string
+          title: Номер карты
+          maxLength: 64
         date_created:
           type: string
           format: date-time
           readOnly: true
           title: Дата регистрации
+        date_updated:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: Дата обновления
+        date_closed:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дата закрытия
         comment:
           type: string
           nullable: true
@@ -2955,10 +3469,43 @@ components:
           type: integer
           nullable: true
           title: Пациент
+        card_type:
+          type: integer
+          nullable: true
+          title: Тип карты
         filial:
           type: integer
           nullable: true
           title: Филиал
+    PatchedMedicalCardType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Название
+          maxLength: 255
+        suffix:
+          type: string
+          nullable: true
+          title: Суффикс номера карты
+          maxLength: 16
+        prefix:
+          type: string
+          nullable: true
+          title: Префикс номера карты
+          maxLength: 16
+        begin_number:
+          type: string
+          nullable: true
+          title: Начальный номер
+          maxLength: 16
+        description:
+          type: string
+          nullable: true
+          title: Описание
     PatchedPatient:
       type: object
       properties:
@@ -3108,6 +3655,22 @@ components:
         doctor:
           type: integer
           title: Врач
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          title: Имя пользователя
+          maxLength: 128
+        position_id:
+          type: string
+          readOnly: true
+        position_name:
+          type: string
+          readOnly: true
     Patient:
       type: object
       properties:
