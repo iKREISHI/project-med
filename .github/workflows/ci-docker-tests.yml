@@ -106,6 +106,7 @@ jobs:
               MINIO_INSTANCE_ADDRESS=${{ secrets.MINIO_INSTANCE_ADDRESS }}
               
               SERVER_BACKEND_IP_ADDRESS=${{ secrets.SERVER_BACKEND_IP_ADDRESS }}
+              GIGACHAT_API_KEY=${{ secrets.GIGACHAT_API_KEY }}
               EOF
               # Останавливаем текущие контейнеры (если запущены)
               docker compose -f docker-compose.yml down
