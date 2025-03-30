@@ -11,6 +11,8 @@ import { getAllPatients, Patient } from "@5_entities/patient";
 import {patientRegisterFormSx} from "@4_features/patient/RegisterForm/ui/patientRegisterFormSx.ts";
 import {globalsStyleSx} from "@6_shared/styles/globalsStyleSx.ts";
 import { Select } from "@mui/material";
+import {Employee} from "@5_entities/emloyee/model/model.ts";
+import {getCurrentUser, User} from "@5_entities/user";
 
 // Форма приема пациента
 interface AdmissionInfoFormProps {
@@ -25,6 +27,8 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
     const [date, setDate] = useState("");
     const [medcard, setMedcard] = useState("");
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [employee, setEmployee] = useState<User>();
+
 
     const inspectionOptions = [
       { id: 1, name: 'Без осмотра', value: 'no_Inspection' },
@@ -54,7 +58,25 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
             }
         };
 
+      const getEmployee = async () => {
+        try {
+          const data = await getCurrentUser();
+          console.log("Current user data:", data); // Добавьте лог для отладки
+          setEmployee(data);
+        } catch (error) {
+          console.error("Failed to fetch current user:", error);
+          // Можно установить значение по умолчанию или показать ошибку
+          setEmployee({
+            id: 0,
+            username: "Неизвестный врач",
+            position_id: "",
+            position_name: ""
+          });
+        }
+      }
+
         fetchPatients();
+        getEmployee();
     }, []);
 
 
@@ -169,6 +191,15 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
                           />
                         </Grid>
                       </Grid>
+                    </Box>
+                    <Box sx={{ mt: 2 }}>
+                      <InputForm
+                        type="text"
+                        value={employee?.username || ''}
+                        label="Врач"
+                        disabled
+                      />
+
                     </Box>
                       <Box sx={{ mt: 2 }}>
                           <CustomButton type="submit" variant="contained">

@@ -13,15 +13,21 @@ import { Employee } from "@5_entities/emloyee/model/model.ts";
 import { getAllDepartaments } from "@5_entities/departament/api/getAllDepartaments.ts";
 import {FilialDepartament} from "@5_entities/departament";
 import {getAllPositions} from "@5_entities/position";
+import {UserCredentialsModal} from "@4_features/admin/useCredentialsModa";
 
 export const StaffForm: FC = () => {
     // Инициализируем состояние с пустым объектом Employee
     const [employee, setEmployee] = useState<Partial<Employee>>({
-        gender: 'U' // Устанавливаем значение по умолчанию
+        gender: 'U',
     });
 
     const [departaments, setDepartaments] = useState<{id: number, name: string}[]>([]);
     const [positions, setPositions] = useState<{id: number, name: string}[]>([]);
+    const [credentialsModalOpen, setCredentialsModalOpen] = useState(false);
+    const [userCredentials, setUserCredentials] = useState({
+        login: '',
+        password: ''
+    });
     useEffect(() => {
         const fetchDepartaments = async () => {
             try {
@@ -78,13 +84,23 @@ export const StaffForm: FC = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            await addNewEmployee(employee as Employee);
+            // Добавляем id_django_user: true к данным перед отправкой
+            const response = await addNewEmployee({
+                ...employee,
+                is_django_user: true // Фиксированное значение
+            } as Employee);
+            // setUserCredentials({
+            //     login: response.login,
+            //     password: response.password
+            // }
+            //   )
+            console.log(response);
             setSnackbarOpen(true);
+            //setCredentialsModalOpen(true)
             // Очистка формы после успешной отправки
-            setEmployee({ gender: 'U' });
+            //setEmployee({ gender: 'U' });
         } catch (error) {
             console.error("Ошибка при создании сотрудника:", error);
-            // Можно добавить обработку ошибки (например, показать другой snackbar)
         }
     };
 
@@ -287,6 +303,12 @@ export const StaffForm: FC = () => {
             open={snackbarOpen}
             onClose={handleCloseSnackbar}
             message="Сотрудник создан!"
+          />
+
+          <UserCredentialsModal
+            open={credentialsModalOpen}
+            onClose={() => setCredentialsModalOpen(false)}
+            credentials={userCredentials}
           />
       </Box>
     );

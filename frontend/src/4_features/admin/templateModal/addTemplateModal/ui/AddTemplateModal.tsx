@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import {
   Box,
   Modal,
@@ -15,11 +15,18 @@ import CloseIcon from '@mui/icons-material/Close';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { DocumentEditor } from "@2_widgets/documetEditor";
 import { addTemplate } from "@5_entities/reseptionTemplate";
+import {getAllSpecialization} from "@5_entities/specialization";
+import {CustomAutocomplete} from "@6_shared/Autocomplete";
 
 interface AddTemplateModalProps {
   open: boolean;
   onClose: () => void;
   onUpdate?: () => void;
+}
+
+interface SpecializationOption {
+  id: number;
+  name: string;
 }
 
 export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
@@ -37,6 +44,24 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
   const [htmlContent, setHtmlContent] = useState<string>('');
   const [fields, setFields] = useState<Record<string, any>>({});
   const [dragActive, setDragActive] = useState(false);
+  const [specializations, setSpecializations] = useState<SpecializationOption[]>([]);
+  const [selectedSpecialization, setSelectedSpecialization] = useState<SpecializationOption | null>(null);
+
+  useEffect(() => {
+    const fetchSpecializations = async () => {
+      try {
+        const data = await getAllSpecialization();
+        const formattedSpecializations = data.results.map(spec => ({
+          id: spec.id,
+          name: spec.title,
+        }));
+        setSpecializations(formattedSpecializations);
+      } catch (error) {
+        console.error('Ошибка загрузки специализаций:', error);
+      }
+    };
+    fetchSpecializations();
+  }, []);
 
   const handleDataExtract = (data: Record<string, any>) => {
     console.log("Собранные данные:", data);
@@ -46,6 +71,14 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTemplate(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSpecializationChange = (event: React.SyntheticEvent, value: SpecializationOption | null) => {
+    setSelectedSpecialization(value);
+    setTemplate(prev => ({
+      ...prev,
+      specialization: value?.id || 0
+    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,13 +223,20 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
               onChange={handleChange}
             />
 
-            <TextField
-              name="specialization"
-              label="Специализация"
-              type="number"
-              fullWidth
-              value={template.specialization}
-              onChange={handleChange}
+            <CustomAutocomplete
+              options={specializations}
+              value={selectedSpecialization}
+              onChange={handleSpecializationChange}
+              getOptionLabel={(option) => option.name}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Специализация"
+                  placeholder="Выберите специализацию"
+                  required
+                />
+              )}
             />
           </Stack>
         </SectionBlock>
@@ -294,7 +334,7 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
           <CustomButton
             onClick={handleSave}
             variant="contained"
-            disabled={loading || !template.name || !file}
+            disabled={loading || !template.name || !file || !template.specialization}
           >
             {loading ? "Сохранение..." : "Сохранить шаблон"}
           </CustomButton>
