@@ -1,6 +1,7 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+
 from apps.company_structure.models.filial_department import FilialDepartment
 from apps.company_structure.serializers.filial_department import FilialDepartmentSerializer
 
@@ -26,6 +27,13 @@ class FilialDepartmentViewSet(viewsets.ModelViewSet):
     serializer_class = FilialDepartmentSerializer
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]  # Подключаем поиск
+    search_fields = [
+        'name',
+        'director__last_name',
+        'director__first_name',
+        'director__patronymic',
+    ]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

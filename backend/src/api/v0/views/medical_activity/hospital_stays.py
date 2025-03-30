@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from api.v0.views.abstract import CustomPagination
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
@@ -28,3 +28,10 @@ class HospitalStaysViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated, StrictDjangoModelPermissions)
     lookup_field = 'id'
+    filter_backends = [filters.SearchFilter]
+    search_fields = [
+        'patient__last_name',
+        'patient__first_name',
+        'ward_number',
+        'start_date'
+    ]

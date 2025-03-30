@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models import SET_NULL
-from apps import medical_activity
+from rest_framework.serializers import ValidationError
 from apps.abstract_models.electronic_signature.models import AbstractElectronicSignature
 from apps.clients.models import Patient
-from apps.registry.models import MedicalCard
-import uuid
+
+from apps.staffing.models import ReceptionTime
+
 
 
 class DoctorAppointment(AbstractElectronicSignature):
@@ -142,6 +143,21 @@ class DoctorAppointment(AbstractElectronicSignature):
         null=True,
         verbose_name=_('Диагноз')
     )
+
+    def save(self, *args, **kwargs):
+        if self.assigned_doctor and self.appointment_date:
+
+            reception_time = ReceptionTime.objects.filter(
+                doctor=self.assigned_doctor,
+                reception_day=self.appointment_date,
+                start_time__lte=self.start_time,
+                end_time__gte=self.end_time
+            ).exists()
+
+            if not reception_time:
+                raise ValidationError({"non_field_errors":_("Время записи не попадает в рабочие часы врача")})
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.patient} - {self.assigned_doctor} ({self.appointment_date} {self.start_time}-{self.end_time})"

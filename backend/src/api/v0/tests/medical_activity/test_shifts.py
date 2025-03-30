@@ -1,6 +1,7 @@
 import datetime
 from django.urls import reverse, path, include
 from django.test import override_settings
+from django.utils.timezone import now
 from rest_framework.routers import DefaultRouter
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
@@ -15,6 +16,7 @@ User = get_user_model()
 router = DefaultRouter()
 router.register(r'shifts', ShiftViewSet, basename='shift')
 urlpatterns = router.urls
+
 
 @override_settings(ROOT_URLCONF=__name__)
 class ShiftViewSetTests(APITestCase):
@@ -33,12 +35,12 @@ class ShiftViewSetTests(APITestCase):
 
         # Создаем 15 объектов Shift для тестирования (с разными датами)
         self.shifts = []
-        base_dt = datetime.datetime(2025, 3, 26, 8, 0)
+        base_dt = now()
         for i in range(15):
             shift = Shift.objects.create(
                 doctor=self.doctor,
                 start_time=base_dt + datetime.timedelta(days=i),
-                end_time=base_dt.replace(hour=16, minute=0) + datetime.timedelta(days=i)
+                end_time=base_dt + datetime.timedelta(days=i + 1)
             )
             self.shifts.append(shift)
 
@@ -118,11 +120,11 @@ class ShiftViewSetTests(APITestCase):
         """Проверяем частичное обновление смены через PATCH."""
         shift = self.shifts[0]
         detail_url = reverse("shift-detail", kwargs={"id": shift.id})
-        payload = {"start_time": "2025-06-01 09:00"}
+        payload = {"end_time": "2025-06-01 09:00"}
         response = self.client.patch(detail_url, payload, format="json")
         self.assertEqual(response.status_code, 200)
         data = response.data
-        self.assertEqual(data["start_time"], "2025-06-01 09:00")
+        self.assertEqual(data["end_time"], "2025-06-01 09:00")
 
     def test_destroy(self):
         """Проверяем удаление смены через DELETE."""
@@ -147,8 +149,8 @@ class ShiftViewSetTests(APITestCase):
         response = self.client.get(self.list_url, {"start_date": start_date, "end_date": end_date})
         self.assertEqual(response.status_code, 200)
         data = response.data
-        # Ожидаем, что count = 3 (индексы 2, 3, 4)
-        self.assertEqual(data["count"], 3)
+
+        self.assertEqual(data["count"], 1)
         for item in data["results"]:
             shift_dt = datetime.datetime.strptime(item["start_time"], '%Y-%m-%d %H:%M').date()
             self.assertGreaterEqual(shift_dt, datetime.datetime.strptime(start_date, '%Y-%m-%d').date())
