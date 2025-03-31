@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'apps.registry.apps.RegistryConfig',
     'apps.chat.apps.ChatConfig',
     'apps.external_systems.apps.ExternalSystemsConfig',
+    'apps.ai_recommendations',
 
     # API apps
     'api.v0.apps.V0Config',

@@ -4,6 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from apps.company_structure.models.filial import Filial
 from apps.company_structure.serializers import FilialSerializer
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
 
 
 class FilialPagination(PageNumberPagination):
@@ -12,6 +13,51 @@ class FilialPagination(PageNumberPagination):
     max_page_size = 100
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Список филиалов",
+        description="Получение списка филиалов с пагинацией. Требуется permission 'company_structure.view_filial'.",
+        parameters=[
+            OpenApiParameter("page", type=int, description="Номер страницы", required=False),
+            OpenApiParameter("page_size", type=int, description="Количество элементов на странице", required=False),
+            OpenApiParameter(
+                name='search',
+                description='Поисковая строка (разделение терминов пробелом)',
+                required=False,
+                type=str,
+            )
+        ],
+        responses=FilialSerializer(many=True),
+    ),
+    retrieve=extend_schema(
+        summary="Детали филиала",
+        description="Получение информации о филиале по его id. Требуется permission 'company_structure.view_filial'.",
+        responses=FilialSerializer,
+    ),
+    create=extend_schema(
+        summary="Создание филиала",
+        description="Создание нового филиала. Требуется permission 'company_structure.add_filial'.",
+        request=FilialSerializer,
+        responses=FilialSerializer,
+    ),
+    update=extend_schema(
+        summary="Обновление филиала",
+        description="Обновление данных филиала. Требуется permission 'company_structure.change_filial'.",
+        request=FilialSerializer,
+        responses=FilialSerializer,
+    ),
+    partial_update=extend_schema(
+        summary="Частичное обновление филиала",
+        description="Частичное обновление данных филиала. Требуется permission 'company_structure.change_filial'.",
+        request=FilialSerializer,
+        responses=FilialSerializer,
+    ),
+    destroy=extend_schema(
+        summary="Удаление филиала",
+        description="Удаление филиала. Требуется permission 'company_structure.delete_filial'.",
+        responses={204: None},
+    ),
+)
 class FilialViewSet(viewsets.ModelViewSet):
     """
     API для работы с филиалами.
@@ -28,6 +74,9 @@ class FilialViewSet(viewsets.ModelViewSet):
     pagination_class = FilialPagination
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
     lookup_field = 'id'
+    search_fields = [
+        'city', 'street', 'house'
+    ]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
