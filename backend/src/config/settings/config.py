@@ -1,6 +1,10 @@
 import os
+from email.policy import default
+
 import environ
 from pathlib import Path
+
+from django.template.defaultfilters import default
 
 # Определяем корневую директорию, где должен находиться файл .env.
 ENV_PATH = Path(__file__).resolve().parents[2]
@@ -39,3 +43,12 @@ MINIO_ROOT_PASSWORD = env('MINIO_ROOT_PASSWORD', default='minioroot')
 MINIO_INSTANCE_ADDRESS = env('MINIO_INSTANCE_ADDRESS', default='127.0.0.1:9000')
 
 SERVER_BACKEND_IP_ADDRESS = env('SERVER_BACKEND_IP_ADDRESS', default='127.0.0.1:8000')
+
+
+# External API`s
+PHARMACY_URL = env('PHARMACY_URL', default='http://87.228.37.14:61509/')
+PHARMACY_AUTH = env('PHARMACY_AUTH', default='auth')
+PHARMACY_MEDICINE = env('PHARMACY_MEDICINE', default='medicines')
+PHARMACY_TOKEN = env('PHARMACY_TOKEN', default='550e8400-e29b-41d4-a716-446655440000')
+LABORATORY_URL = env('LABORATORY_URL', default='http://87.228.37.14:61510')
+LABORATORY_AUTH = env('LABORATORY_AUTH', default='auth')

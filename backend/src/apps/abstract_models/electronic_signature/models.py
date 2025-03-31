@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from apps import staffing
 
 
 class AbstractElectronicSignature(models.Model):
@@ -12,6 +11,8 @@ class AbstractElectronicSignature(models.Model):
     signed_by = models.ForeignKey(
         'staffing.Employee',
         on_delete=models.PROTECT,
+        blank=True,
+        null=True,
         verbose_name=_('Кем подписан')
     )
 
@@ -19,7 +20,6 @@ class AbstractElectronicSignature(models.Model):
         auto_now=True,
         verbose_name=_('Дата подписания')
     )
-
 
     class Meta:
         abstract = True
