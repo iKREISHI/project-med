@@ -149,7 +149,7 @@ class DoctorAppointmentViewSet(viewsets.ModelViewSet):
         pk = kwargs.get('pk')  # Получаем pk из kwargs
 
         if not pk:
-            return Response({'detail': 'Объект не найден.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'Объект не найден.'}, status=status.HTTP_404_NOT_FOUND)
 
         # Проверка на авторизацию
         if not self.request.user.is_authenticated:
