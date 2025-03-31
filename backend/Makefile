@@ -3,7 +3,13 @@ start-venv:
 	venv/bin/pip install -r requirements.txt
 
 run-docker-containers:
-	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio rabbitmq -d
+	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio rabbitmq celery_worker celery_beat -d
+
+logs-celery-worker:
+	docker compose --file ../docker-compose.local.dev.yml logs celery_worker
+
+logs-celery-beat:
+	docker compose --file ../docker-compose.local.dev.yml logs celery_beat
 
 stop-docker-containers:
 	docker compose --file ../docker-compose.local.dev.yml down
