@@ -11,6 +11,9 @@ logs-celery-worker:
 logs-celery-beat:
 	docker compose --file ../docker-compose.local.dev.yml logs celery_beat
 
+restart-celery:
+	docker compose --file ../docker-compose.local.dev.yml restart celery_worker celery_beat
+
 stop-docker-containers:
 	docker compose --file ../docker-compose.local.dev.yml down
 
