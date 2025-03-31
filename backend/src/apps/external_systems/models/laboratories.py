@@ -84,8 +84,6 @@ class LaboratoryResearch(models.Model):
         verbose_name=_("Лаборатория")
     )
 
-
-
     class Meta:
         verbose_name = _("Лабораторное исследование")
         verbose_name_plural = _("Лабораторные исследования")
