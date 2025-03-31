@@ -43,7 +43,7 @@ export const useChatWebSocket = (chatId: string | null) => {
   useEffect(() => {
     if (!chatId) return;
 
-    const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/`;
+    const wsUrl = `ws://127.0.0.1:80/ws/chat/${chatId}/`;
     socketRef.current = createSocket(wsUrl);
 
     return () => {
