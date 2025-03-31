@@ -6,7 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 
 
-export const StaffAdd: FC = () => {
+export const StaffAdd: FC = () => { 
   const navigate = useNavigate();
   return (
     <Box sx={staffSx.containerMain}>

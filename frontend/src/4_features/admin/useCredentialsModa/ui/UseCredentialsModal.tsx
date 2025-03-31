@@ -23,10 +23,10 @@ interface UserCredentialsModalProps {
 }
 
 export const UserCredentialsModal: React.FC<UserCredentialsModalProps> = ({
-                                                                            open,
-                                                                            onClose,
-                                                                            credentials
-                                                                          }) => {
+  open,
+  onClose,
+  credentials
+}) => {
   const handlePrint = () => {
     const printContent = `
       <h2>Данные для входа</h2>

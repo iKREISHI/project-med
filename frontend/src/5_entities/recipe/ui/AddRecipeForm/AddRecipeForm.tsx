@@ -17,16 +17,27 @@ interface Patient {
   patronymic?: string;
 }
 
+// Мок-данные лекарств
+const mockMedicines = [
+  { id: 1, name: 'Парацетамол' },
+  { id: 2, name: 'Ибупрофен' },
+];
+
 export const AddRecipeForm: FC = () => {
   const [formData, setFormData] = useState({
     doctor: null as Employee | null,
     patient: null as Patient | null,
+    medicine: null as { id: number; name: string } | null,
     description: "",
-    diagnosis: ""
+    diagnosis: "",
+    dosage: "",
+    duration: ""
   });
+  
   const { appointment, setField } = useAppointmentsFormStore();
   const [patients, setPatients] = useState<Patient[]>([]);
   const [doctors, setDoctors] = useState<Employee[]>([]);
+  const [medicines] = useState(mockMedicines); 
   const [loading, setLoading] = useState({
     patients: false,
     doctors: false
@@ -56,6 +67,7 @@ export const AddRecipeForm: FC = () => {
       setFormData(prev => ({ ...prev, doctor: foundDoctor || null }));
     }
   }, [appointment.doctor, doctors]);
+
   const handlePatientChange = (value: Patient | null) => {
     setFormData(prev => ({
       ...prev,
@@ -71,6 +83,14 @@ export const AddRecipeForm: FC = () => {
     }));
     setField("doctor", value?.id || null);
   };
+
+  const handleMedicineChange = (value: { id: number; name: string } | null) => {
+    setFormData(prev => ({
+      ...prev,
+      medicine: value
+    }));
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -96,20 +116,6 @@ export const AddRecipeForm: FC = () => {
     fetchData();
   }, []);
 
-  const handleFieldChange = (field: keyof typeof formData) => 
-    (event: React.SyntheticEvent, value: Employee | Patient | null) => {
-      setFormData(prev => ({
-        ...prev,
-        [field]: value
-      }));
-  
-      if (field === 'patient') {
-        setField("patient", value?.id || null);
-      } else if (field === 'doctor') {
-        setField("doctor", value?.id || null);
-      }
-    };
-
   const handleInputChange = (field: keyof typeof formData) => 
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setFormData(prev => ({
@@ -120,7 +126,8 @@ export const AddRecipeForm: FC = () => {
 
   return (
     <>
-      <Box sx={{ ...globalsStyleSx.container, p: 3, mb: 1 }}>
+      <Box sx={{ ...globalsStyleSx.container, p: 3, mb: 1, display: 'flex', flexDirection: 'column', gap:1 }}>
+        {/* Поле выбора врача */}
         <CustomAutocomplete<Employee>
           value={formData.doctor}
           onChange={handleDoctorChange}
@@ -131,16 +138,10 @@ export const AddRecipeForm: FC = () => {
           loading={loading.doctors}
           isOptionEqualToValue={(option, value) => option?.id === value?.id}
           getOptionLabel={(option) => getFullName(option)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Врач"
-              placeholder="Начните вводить ФИО врача"
-              required
-            />
-          )}
+
         />
 
+        {/* Поле выбора пациента */}
         <CustomAutocomplete<Patient>
           value={formData.patient}
           onChange={handlePatientChange}
@@ -151,14 +152,39 @@ export const AddRecipeForm: FC = () => {
           loading={loading.patients}
           isOptionEqualToValue={(option, value) => option?.id === value?.id}
           getOptionLabel={(option) => getFullName(option)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Пациент"
-              placeholder="Начните вводить ФИО"
-              required
-            />
-          )}
+
+        />
+
+        {/* Поле выбора лекарства */}
+        <CustomAutocomplete<{ id: number; name: string }>
+          value={formData.medicine}
+          onChange={handleMedicineChange}
+          options={medicines}
+          placeholder="Выберите лекарство"
+          label="Лекарство"
+          required
+          isOptionEqualToValue={(option, value) => option?.id === value?.id}
+          getOptionLabel={(option) => option.name}
+        />
+
+        {/* Поле дозировки */}
+        <InputForm
+          value={formData.dosage}
+          type="text"
+          label="Дозировка"
+          onChange={handleInputChange('dosage')}
+          fullWidth
+          placeholder="500 мг 3 раза в день"
+        />
+
+        {/* Поле продолжительности приема */}
+        <InputForm
+          value={formData.duration}
+          type="text"
+          label="Продолжительность приема"
+          onChange={handleInputChange('duration')}
+          fullWidth
+          placeholder="7 дней"
         />
 
         {/* Поле описания */}
@@ -170,6 +196,7 @@ export const AddRecipeForm: FC = () => {
           fullWidth
           multiline
           rows={3}
+          placeholder="Дополнительные указания по приему"
         />
 
         {/* Поле диагноза */}
@@ -181,6 +208,7 @@ export const AddRecipeForm: FC = () => {
           fullWidth
           multiline
           rows={3}
+          placeholder="Диагноз пациента"
         />
       </Box>
       <AddRecipeFormHtml />

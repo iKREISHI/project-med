@@ -24,9 +24,9 @@ export const Recipes: React.FC = () => {
         </Box>
       </Box>
 
-      {/* <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
         <RecipesList key={refreshKey} />
-      </Paper> */}
+      </Box>
 
     </Box>
   );

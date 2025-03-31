@@ -49,7 +49,7 @@ export const AddRecipeFormHtml: FC = () => {
             <div style="margin: 20px 0; border: 1px solid #000; padding: 10px;">
               <div class="form-section">
                 <label>Rp:</label>
-                <input type="text" name="medication1" class="form-input">
+                <textarea name="medication1" class="form-textarea"></textarea>
                 <label style="width: 50px; margin-left: 10px;">Руб:</label>
                 <input type="text" name="priceRub1" class="form-input" style="width: 50px;">
                 <label style="width: 50px; margin-left: 10px;">Коп:</label>
@@ -58,7 +58,7 @@ export const AddRecipeFormHtml: FC = () => {
 
               <div class="form-section">
                 <label>Rp:</label>
-                <input type="text" name="medication2" class="form-input">
+                <textarea name="medication2" class="form-textarea"></textarea>
                 <label style="width: 50px; margin-left: 10px;">Руб:</label>
                 <input type="text" name="priceRub2" class="form-input" style="width: 50px;">
                 <label style="width: 50px; margin-left: 10px;">Коп:</label>
@@ -67,7 +67,7 @@ export const AddRecipeFormHtml: FC = () => {
 
               <div class="form-section">
                 <label>Rp:</label>
-                <input type="text" name="medication3" class="form-input">
+                <textarea name="medication3" class="form-textarea"></textarea>
                 <label style="width: 50px; margin-left: 10px;">Руб:</label>
                 <input type="text" name="priceRub3" class="form-input" style="width: 50px;">
                 <label style="width: 50px; margin-left: 10px;">Коп:</label>
@@ -108,7 +108,6 @@ export const AddRecipeFormHtml: FC = () => {
                 width: 200px;
               }
               .form-input {
-                border-bottom: 1px solid #000;
                 padding: 5px;
                 flex-grow: 1;
                 background: transparent;
@@ -117,10 +116,10 @@ export const AddRecipeFormHtml: FC = () => {
               }
               .form-textarea {
                 width: 100%;
-                border: 1px solid #000;
+                border: none;
+                border-bottom: 1px solid #000;
                 padding: 5px;
-                margin-top: 5px;
-                min-height: 50px;
+                flex-grow: 1;
               }
               .form-footer {
                 margin-top: 30px;

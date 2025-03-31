@@ -195,7 +195,7 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 800,
+          width: {lg: 800, xs: 'auto'},
           bgcolor: "background.paper",
           p: 4,
           borderRadius: 2,
@@ -336,7 +336,7 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
 
         <Divider sx={{ my: 3 }} />
 
-        <Box sx={{ mt: 4, display: "flex", justifyContent: "flex-end", gap: 2 }}>
+        <Box sx={{ mt: 4, display: "flex", justifyContent: "flex-end", gap: 2, flexDirection: {xs: 'column', lg: 'row'} }}>
           <CustomButton onClick={onClose} variant="outlined" disabled={loading}>
             Отмена
           </CustomButton>

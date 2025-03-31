@@ -148,7 +148,7 @@ export const DoctorShift: React.FC<DoctorShiftProps> = ({ userRole }) => {
                     sm: '100%'
                 },
                 overflow: 'hidden',
-                boxShadow: theme.shadows[3],
+                boxShadow: theme.shadows[0],
                 borderRadius: (theme: Theme) => theme.shape.borderRadius,
             }}>
                 <DataGrid

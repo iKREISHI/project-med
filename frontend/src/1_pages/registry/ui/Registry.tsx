@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Paper, useTheme } from "@mui/material";
+import { Box, Paper, Theme, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { ruRU } from "@mui/x-data-grid/locales";
 import { useNavigate } from "react-router-dom";
@@ -88,19 +88,35 @@ export const Registry: React.FC = () => {
         </Box>
       </Box>
 
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <Paper sx={{
+        width: {
+          xs: `91vw`,
+          sm: '100%'
+        },
+        overflow: 'hidden',
+        boxShadow: theme.shadows[0],
+        borderRadius: (theme: Theme) => theme.shape.borderRadius,
+      }}>
         <DataGrid
           rows={filteredPatients}
           columns={columns}
           autoHeight
           disableRowSelectionOnClick
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-          sx={{'& .MuiDataGrid-columnHeaders': {
+          sx={{
+            borderRadius: (theme: Theme) => theme.shape.borderRadius,
+            '& .MuiDataGrid-cell': {
+              whiteSpace: 'normal',
+              lineHeight: '1.5',
+              padding: theme.spacing(1),
+            },
+            '& .MuiDataGrid-columnHeaders': {
               backgroundColor: 'transparent',
             },
             '& .css-ok32b7-MuiDataGrid-overlay': {
               bgcolor: 'transparent'
-            }}}
+            }
+          }}
         />
       </Paper>
 
