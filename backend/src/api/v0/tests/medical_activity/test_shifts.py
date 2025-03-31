@@ -35,7 +35,8 @@ class ShiftViewSetTests(APITestCase):
 
         # Создаем 15 объектов Shift для тестирования (с разными датами)
         self.shifts = []
-        base_dt = now()
+        # base_dt = now()
+        base_dt = datetime.datetime(2030, 6, 1)
         for i in range(15):
             shift = Shift.objects.create(
                 doctor=self.doctor,
