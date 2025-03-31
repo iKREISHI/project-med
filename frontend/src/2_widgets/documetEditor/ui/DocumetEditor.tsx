@@ -1,57 +1,63 @@
-// DocumentEditor.tsx
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import DOMPurify from "dompurify";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 
 interface DocumentEditorProps {
   templateHtml: string;
+  initialData: Record<string, any>;
   onDataExtract: (data: Record<string, any>) => void;
 }
 
-export const DocumentEditor = forwardRef(({ templateHtml, onDataExtract }: DocumentEditorProps, ref) => {
-  const [content, setContent] = useState("");
-  const formRef = useRef<HTMLDivElement>(null);
+interface DocumentEditorRef {
+  exportToPdf: () => Promise<void>;
+  extractFormData: () => void;
+}
 
-  useImperativeHandle(ref, () => ({
-    extractFormData: () => {
-      if (!formRef.current) return;
+export const DocumentEditor = forwardRef<DocumentEditorRef, DocumentEditorProps>(
+  ({ templateHtml, initialData, onDataExtract }, ref) => {
+    const formRef = useRef<HTMLDivElement>(null);
+    const [processedHtml, setProcessedHtml] = React.useState('');
 
-      const inputs = formRef.current.querySelectorAll("input, textarea, select");
-      const formData: Record<string, any> = {};
+    // Process template with initial data
+    const processTemplate = (data: Record<string, any>) => {
+      let result = templateHtml;
+      result = result.replace(/\{\{(\w+)\}\}/g, (_, key) => data[key] ?? "");
+      return DOMPurify.sanitize(result);
+    };
 
-      inputs.forEach((input) => {
-        const fieldName = input.getAttribute("name") || "";
-        if (fieldName) {
-          formData[fieldName] = (input as HTMLInputElement).value;
-        }
-      });
+    // Initialize with initial data
+    useEffect(() => {
+      setProcessedHtml(processTemplate(initialData));
+    }, [templateHtml, initialData]);
 
-      onDataExtract(formData);
-    },
-    exportToPdf: async () => {
-      if (!formRef.current) return;
-      const canvas = await html2canvas(formRef.current, { scale: 2 });
-      const pdf = new jsPDF({ orientation: "portrait", unit: "px" });
-      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
-      pdf.save("document.pdf");
-    },
-    exportToDoc: () => {
-      if (!formRef.current) return;
-      const blob = new Blob([formRef.current.innerHTML], { type: "application/msword" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "document.doc";
-      link.click();
-    }
-  }));
+    useImperativeHandle(ref, () => ({
+      extractFormData: () => {
+        if (!formRef.current) return;
 
-  useEffect(() => {
-    setContent(templateHtml);
-  }, [templateHtml]);
+        const inputs = formRef.current.querySelectorAll("input, textarea, select");
+        const formData: Record<string, any> = {};
 
-  return (
-    <div ref={formRef} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
-  );
-});
+        inputs.forEach((input) => {
+          const fieldName = input.getAttribute("name") || "";
+          if (fieldName) {
+            formData[fieldName] = (input as HTMLInputElement).value;
+          }
+        });
+
+        onDataExtract(formData);
+      },
+      exportToPdf: async () => {
+        if (!formRef.current) return;
+        const canvas = await html2canvas(formRef.current, { scale: 2 });
+        const pdf = new jsPDF({ orientation: "portrait", unit: "px" });
+        pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save("document.pdf");
+      }
+    }));
+
+    return (
+      <div ref={formRef} dangerouslySetInnerHTML={{ __html: processedHtml }} />
+    );
+  }
+);

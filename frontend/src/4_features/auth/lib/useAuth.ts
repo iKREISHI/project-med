@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { login } from "../api/login.ts";
 import { logoutRequest } from "../api/logout.ts";
 import type { LoginModel } from "@5_entities/user";
 import type { AuthResponse } from "@5_entities/auth";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<AuthResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Проверяем, есть ли данные в localStorage при загрузке компонента
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUserData(parsedUser);
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const handleLogin = async (credentials: LoginModel) => {
     try {
@@ -33,8 +43,9 @@ export const useAuth = () => {
     try {
       await logoutRequest();
       setIsAuthenticated(false);
-      localStorage.removeItem("user");
       setUserData(null);
+      localStorage.removeItem("user");
+      navigate("/login"); // Переход на страницу входа или другую страницу по желанию
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An unknown error occurred");
       console.error(error);
@@ -42,7 +53,7 @@ export const useAuth = () => {
   };
 
   // Геттер для user_id
-  const userId = userData?.user_id || JSON.parse(localStorage.getItem("user") || "{}")?.user_id || null;
+  const userId = userData?.user_id || null;
 
   return { isAuthenticated, userId, userData, error, handleLogin, handleLogout };
 };
