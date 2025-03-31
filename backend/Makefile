@@ -3,13 +3,13 @@ start-venv:
 	venv/bin/pip install -r requirements.txt
 
 run-docker-containers:
-	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio -d
+	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio rabbitmq -d
 
 stop-docker-containers:
 	docker compose --file ../docker-compose.local.dev.yml down
 
 migrate:
-	venv/bin/python3 src/manage.py makemigrations users clients company_structure staffing  medical_activity registry chat external_systems
+	venv/bin/python3 src/manage.py makemigrations users clients company_structure staffing  medical_activity registry chat external_systems django_celery_results
 	venv/bin/python3 src/manage.py migrate
 
 entrypoint:

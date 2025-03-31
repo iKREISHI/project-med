@@ -117,6 +117,13 @@ services:
     depends_on:
       - backend
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
 volumes:
   redis_data:
   minio_data:
