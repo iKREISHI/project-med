@@ -127,11 +127,11 @@ class AIRecommendationsDoctorAppointmentSerializer(serializers.Serializer):
         #     f"временем начала {start_time} и окончанием {end_time}."
         # )
         prompt = (
-            f"Пациент: {patient_obj.get_short_name()}, пол - {patient_obj.gender if patient_obj.gender else 'Не определен'}, дата рождение - {patient_obj.date_of_birth if patient_obj.date_of_birth else "Не определен"};"
+            f"Пациент: {patient_obj.get_short_name()}, пол - {patient_obj.gender if patient_obj.gender else 'Не определен'}, дата рождение - {patient_obj.date_of_birth if patient_obj.date_of_birth else 'Не определен'};"
             f"Диагноз: {diagnosis.name}; "
             f"Жалобы: {complaints}; "
             f"Анамнез болезни: {illness_history}; "
-            f"Анамнез жизни: {life_history if life_history else "N/A"}; "
+            f"Анамнез жизни: {life_history if life_history else 'N/A'}; "
             f"Состояние пациента: {objective_status};"
         )
         return prompt

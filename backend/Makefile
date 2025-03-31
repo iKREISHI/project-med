@@ -19,7 +19,6 @@ collect-static:
 	venv/bin/python3 src/manage.py collectstatic
 
 startapp: start-venv run-docker-containers migrate collect-static entrypoint
-	start-venv run-docker-containers migrate collect-static entrypoint
 
 test:
 	venv/bin/python3 src/manage.py test api apps --parallel
