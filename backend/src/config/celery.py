@@ -13,4 +13,12 @@ app.conf.beat_schedule = {
         'task': 'apps.external_systems.tasks.empty_task',  # убедитесь, что указан правильный путь к задаче
         'schedule': 10.0,  # интервал выполнения задачи в секундах
     },
+    'update-medicine-1-day': {
+        'task': 'apps.external_systems.tasks.update_medicine',
+        'schedule': 86400.0,
+    },
+    'update-laboratory-1-day': {
+        'task': 'apps.external_systems.tasks.update_laboratory',
+        'schedule': 86410.0,
+    },
 }

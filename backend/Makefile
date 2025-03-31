@@ -5,6 +5,12 @@ start-venv:
 run-docker-containers:
 	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio rabbitmq celery_worker celery_beat -d
 
+up-celery:
+	docker compose --file ../docker-compose.local.dev.yml up celery_worker celery_beat -d --build
+
+down-celery:
+	docker compose --file ../docker-compose.local.dev.yml down celery_worker celery_beat -v
+
 logs-celery-worker:
 	docker compose --file ../docker-compose.local.dev.yml logs celery_worker
 
@@ -12,7 +18,10 @@ logs-celery-beat:
 	docker compose --file ../docker-compose.local.dev.yml logs celery_beat
 
 restart-celery:
-	docker compose --file ../docker-compose.local.dev.yml restart celery_worker celery_beat
+	docker compose --file ../docker-compose.local.dev.yml exec celery_worker /bin/bash -c "rm -rf /app/celerybeat-schedule.*"
+	docker compose --file ../docker-compose.local.dev.yml restart celery_worker
+	docker compose --file ../docker-compose.local.dev.yml exec celery_beat /bin/bash -c "rm -rf /app/celerybeat-schedule.*"
+	docker compose --file ../docker-compose.local.dev.yml restart celery_beat
 
 stop-docker-containers:
 	docker compose --file ../docker-compose.local.dev.yml down
