@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Box, Paper, Theme, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ruRU } from '@mui/x-data-grid/locales';
-import { Add, Edit } from "@mui/icons-material";
+import { Add, Edit, Delete } from "@mui/icons-material";
 import { CustomButton } from "@6_shared/Button";
 import { InputForm } from "@6_shared/Input";
 
@@ -31,6 +31,8 @@ export const CardTypes: FC = () => {
     ]);
 
     const [openModal, setOpenModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentId, setCurrentId] = useState<number | null>(null);
     const [newCardType, setNewCardType] = useState<Omit<CardType, 'id'>>({
         name: "",
         suffix: "",
@@ -50,16 +52,22 @@ export const CardTypes: FC = () => {
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
+            flex: 1,
+            minWidth: 120,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} disableRipple>
+                        <Edit />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} disableRipple color="error">
+                        <Delete />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
+
     // для мобильной версии
     const mobileColumns: GridColDef<CardType>[] = [
         { field: 'name', headerName: 'Название', flex: 1, minWidth: 120 },
@@ -67,20 +75,46 @@ export const CardTypes: FC = () => {
         {
             field: 'actions',
             headerName: 'Действия',
-            flex: 0.5,
-            minWidth: 80,
+            flex: 1,
+            minWidth: 100,
             sortable: false,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEdit(params.row.id)} disableRipple>
-                    <Edit />
-                </IconButton>
+                <Box>
+                    <IconButton onClick={() => handleEdit(params.row)} size="small" disableRipple>
+                        <Edit fontSize="small" />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)} size="small" disableRipple color="error">
+                        <Delete fontSize="small" />
+                    </IconButton>
+                </Box>
             ),
         },
     ];
 
-    // Обработчики
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
+    const handleOpenModal = () => {
+        setIsEditing(false);
+        setCurrentId(null);
+        setNewCardType({
+            name: "",
+            suffix: "",
+            prefix: "",
+            begin_number: "",
+            description: ""
+        });
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setIsEditing(false);
+        setCurrentId(null);
+    };
+
+    const handleDelete = (id: number) => {
+        if (window.confirm('Вы уверены, что хотите удалить этот тип карты?')) {
+            alert('Тип карты удален');
+        }
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -90,13 +124,22 @@ export const CardTypes: FC = () => {
         }));
     };
 
-    const handleEdit = (id: number) => {
-        console.log(id);
+    const handleEdit = (cardType: CardType) => {
+        setIsEditing(true);
+        setCurrentId(cardType.id);
+        setNewCardType({
+            name: cardType.name,
+            suffix: cardType.suffix,
+            prefix: cardType.prefix,
+            begin_number: cardType.begin_number,
+            description: cardType.description
+        });
+        setOpenModal(true);
     };
 
     return (
         <Box sx={{ width: '100%', boxSizing: 'border-box' }}>
-            <Box sx={{ mb: 2, display: {lg:'flex'}, justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ mb: 2, display: { lg: 'flex' }, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h1" gutterBottom>
                     Типы карт
                 </Typography>
@@ -146,9 +189,9 @@ export const CardTypes: FC = () => {
                 />
             </Paper>
 
-            {/* Модальное окно */}
+            {/* Модальное окно добавления/редактирования */}
             <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-                <DialogTitle>Добавить тип карты</DialogTitle>
+                <DialogTitle>{isEditing ? 'Редактировать тип карты' : 'Добавить тип карты'}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
                         <InputForm
@@ -201,7 +244,7 @@ export const CardTypes: FC = () => {
                 <DialogActions>
                     <CustomButton onClick={handleCloseModal} variant="outlined">Отмена</CustomButton>
                     <CustomButton variant="contained">
-                        Сохранить
+                        {isEditing ? 'Обновить' : 'Сохранить'}
                     </CustomButton>
                 </DialogActions>
             </Dialog>

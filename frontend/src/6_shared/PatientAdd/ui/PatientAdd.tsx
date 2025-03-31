@@ -1,12 +1,15 @@
 import { FC } from "react";
-import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
+import { Box, Divider, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { PatientMenu } from "../../PatientMenu";
 import { PatientRegisterForm } from "@4_features/patient/RegisterForm/ui/PatientRegisterForm.tsx";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const PatientAdd: FC = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const navigate = useNavigate();
   const menuItems = [
     { name: "Контактная информация", path: "info" },
     { name: "Паспортные данные", path: "passport" },
@@ -21,9 +24,15 @@ export const PatientAdd: FC = () => {
     <Box sx={{ ...globalsStyleSx.container, overflow: 'hidden' }}>
 
       <Box sx={{ p: 4 }}>
-        <Typography variant="h1" gutterBottom>Регистрация пациента</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton onClick={() => navigate(-1)} sx={{ mr: 2 }} disableRipple>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h2">Регистрация пациента</Typography>
+        </Box>
         <PatientRegisterForm />
       </Box>
+
       <Divider />
       <Box sx={{
         position: 'relative',

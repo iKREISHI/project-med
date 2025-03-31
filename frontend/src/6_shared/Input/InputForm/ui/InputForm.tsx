@@ -3,12 +3,12 @@ import { Box, Typography, InputBase } from "@mui/material";
 import { inputFormSx } from "./inputFormSx.ts";
 
 interface InputProps {
-  type: string;
+  type?: string;
   value: string;
   name?: string;
   rows?: number;
   label?: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   fullWidth?: boolean;
   placeholder?: string;

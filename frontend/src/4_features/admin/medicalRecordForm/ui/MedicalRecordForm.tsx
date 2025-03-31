@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Box, Typography, FormControlLabel, Checkbox } from "@mui/material";
 import { InputForm } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
@@ -12,44 +12,77 @@ interface CardType {
     description?: string;
 }
 
-// interface CardView {
-//     id: number;
-//     name: string;
-// }
-
 interface Branch {
     id: number;
     name: string;
 }
 
-const cardTypesFromDB: CardType[] = [
-    { id: 1, name: "Амбулаторная карта", code: "AMB", description: "Для амбулаторных пациентов" },
-    { id: 2, name: "Стационарная карта", code: "STAT", description: "Для стационарных пациентов" },
-];
+interface StaffMember {
+    id: number;
+    name: string;
+    position: string;
+}
 
-// const cardViews: CardView[] = [
-//     { id: 1, name: "Электронная" },
-//     { id: 2, name: "Бумажная" },
-// ];
+interface FormData {
+    client: string;
+    cardNumber: string;
+    cardTypeId: string;
+    cardViewId: string;
+    closeDate: string;
+    signed_date: string;
+    signed_by: string;
+    registrationDate: string;
+    comment: string;
+    branch: string;
+    signedWithES: boolean;
+}
+
+interface MedicalRecordFormProps {
+    initialData?: Partial<FormData>;
+    onSubmit?: (data: FormData) => void;
+    isEditMode?: boolean;
+}
+
+const cardTypesFromDB: CardType[] = [
+    { id: 2, name: "Стационарная карта", code: "CODE", description: "Для стационарных пациентов" },
+];
 
 const branches: Branch[] = [
-    { id: 1, name: "Центральный филиал" },
-    { id: 2, name: "Северный филиал" },
+    { id: 1, name: "Левый филиал" },
 ];
 
-export const MedicalRecordForm: FC = () => {
-    const [formData, setFormData] = useState({
+const staffMembers: StaffMember[] = [
+    { id: 1, name: "Иванов Иван Иванович", position: "Врач" },
+];
+
+export const MedicalRecordForm: FC<MedicalRecordFormProps> = ({ 
+    initialData = {}, 
+    onSubmit, 
+    isEditMode = false 
+}) => {
+    const [formData, setFormData] = useState<FormData>({
         client: '',
         cardNumber: '',
         cardTypeId: '',
         cardViewId: '',
         closeDate: '',
         signed_date: '',
+        signed_by: '',
         registrationDate: new Date().toISOString().split('T')[0],
         comment: '',
         branch: '',
         signedWithES: false,
+        ...initialData
     });
+
+    useEffect(() => {
+        if (isEditMode && initialData) {
+            setFormData(prev => ({
+                ...prev,
+                ...initialData
+            }));
+        }
+    }, [initialData, isEditMode]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -70,7 +103,7 @@ export const MedicalRecordForm: FC = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(formData);
+        // onSubmit(formData);
     };
 
     return (
@@ -88,18 +121,9 @@ export const MedicalRecordForm: FC = () => {
                                 onChange={handleInputChange}
                                 required
                                 fullWidth
+                                disabled={isEditMode} 
                             />
                         </Box>
-                        {/* <Box sx={{ mt: 2 }}>
-                            <InputForm
-                                name="cardNumber"
-                                type="text"
-                                label="Номер карты"
-                                value={formData.cardNumber}
-                                onChange={handleInputChange}
-                                fullWidth
-                            />
-                        </Box> */}
                         <Box sx={{ mt: 2 }}>
                             <CustomSelect
                                 value={formData.branch}
@@ -108,6 +132,7 @@ export const MedicalRecordForm: FC = () => {
                                 label="Филиал"
                                 fullWidth
                                 placeholder="Выберите филиал"
+                                disabled={isEditMode}
                             />
                         </Box>
                         <Box sx={{ mt: 2 }}>
@@ -118,6 +143,19 @@ export const MedicalRecordForm: FC = () => {
                                 label="Тип карты"
                                 fullWidth
                                 placeholder="Выберите тип карты"
+                                disabled={isEditMode}
+                            />
+                        </Box>
+                        <Box sx={{ mt: 2 }}>
+                            <InputForm
+                                name="comment"
+                                fullWidth
+                                multiline
+                                type="text"
+                                rows={5}
+                                label="Комментарий"
+                                value={formData.comment}
+                                onChange={handleInputChange}
                             />
                         </Box>
                     </Grid>
@@ -156,7 +194,16 @@ export const MedicalRecordForm: FC = () => {
                                 required
                             />
                         </Box>
-
+                        <Box sx={{ mt: 2 }}>
+                            <CustomSelect
+                                value={formData.signed_by}
+                                onChange={handleSelectChange('signed_by')}
+                                options={staffMembers}
+                                label="Кем подписан"
+                                fullWidth
+                                placeholder="Выберите сотрудника"
+                            />
+                        </Box>
                         <Box sx={{ mt: 2 }}>
                             <Typography component="p" sx={{ fontSize: '0.9rem' }}>Статус</Typography>
                             <Box sx={{ m: 0 }}>
@@ -174,21 +221,6 @@ export const MedicalRecordForm: FC = () => {
                             </Box>
                         </Box>
                     </Grid>
-
-                    <Grid size={{ xs: 12 }}>
-                        <Box sx={{ mt: 2 }}>
-                            <InputForm
-                                name="comment"
-                                fullWidth
-                                multiline
-                                type="text"
-                                rows={4}
-                                label="Комментарий"
-                                value={formData.comment}
-                                onChange={handleInputChange}
-                            />
-                        </Box>
-                    </Grid>
                 </Grid>
 
                 <Box sx={{ mt: 3 }}>
@@ -196,7 +228,7 @@ export const MedicalRecordForm: FC = () => {
                         type="submit"
                         variant="contained"
                     >
-                        Зарегистрировать
+                        {isEditMode ? "Сохранить изменения" : "Зарегистрировать"}
                     </CustomButton>
                 </Box>
             </form>

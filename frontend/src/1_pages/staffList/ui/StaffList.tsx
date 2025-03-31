@@ -8,12 +8,13 @@ import { ruRU } from '@mui/x-data-grid/locales';
 import { useNavigate } from 'react-router-dom';
 import { InputSearch } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
+import { StaffEditModal } from '@6_shared/Staff';
 
 const staffData = [
     {
         id: 1,
-        last_name: "Иванов",
-        first_name: "Иван",
+        lastname: "Иванов",
+        firstname: "Иван",
         patronymic: "Иванович",
         position: "Главный врач",
         date_created: "988-01-15"
@@ -26,17 +27,19 @@ export const StaffList: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
     const isDarkText = !(theme.palette.mode === "dark");
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
 
     // для мобильной версии
     const processedStaff = staffData.map(staff => ({
         ...staff,
-        full_name: `${staff.last_name} ${staff.first_name[0]}.${staff.patronymic[0]}.`
+        full_name: `${staff.lastname} ${staff.firstname[0]}.${staff.patronymic[0]}.`
     }));
 
     const desktopColumns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
-        { field: 'last_name', headerName: 'Фамилия', flex: 1, minWidth: 120 },
-        { field: 'first_name', headerName: 'Имя', flex: 1, minWidth: 120 },
+        { field: 'lastname', headerName: 'Фамилия', flex: 1, minWidth: 120 },
+        { field: 'firstname', headerName: 'Имя', flex: 1, minWidth: 120 },
         { field: 'patronymic', headerName: 'Отчество', flex: 1, minWidth: 120 },
         { field: 'position', headerName: 'Должность', flex: 1.5, minWidth: 150 },
         {
@@ -76,7 +79,7 @@ export const StaffList: React.FC = () => {
     ];
 
     const filteredStaff = processedStaff.filter((staff) =>
-        `${staff.last_name} ${staff.first_name} ${staff.patronymic}`
+        `${staff.lastname} ${staff.firstname} ${staff.patronymic}`
             .toLowerCase()
             .includes(searchQuery.toLowerCase())
     );
@@ -84,8 +87,12 @@ export const StaffList: React.FC = () => {
     const columns = isMobile ? mobileColumns : desktopColumns;
 
     const handleEdit = (id: number) => {
-        console.log(id);
-        // navigate(`/edit/staff/${id}`);
+        setSelectedStaffId(id);
+        setEditModalOpen(true);
+    };
+
+    const handleDeleteStaff = (id: number) => {
+        console.log("Удаление сотрудника с ID:", id);
     };
 
     return (
@@ -160,6 +167,13 @@ export const StaffList: React.FC = () => {
                     localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
                 />
             </Paper>
+
+            <StaffEditModal
+                open={editModalOpen}
+                onClose={() => setEditModalOpen(false)}
+                staffId={selectedStaffId || undefined}
+                onDelete={handleDeleteStaff}
+            />
         </Box>
     );
 };

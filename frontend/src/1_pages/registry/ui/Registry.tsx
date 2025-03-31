@@ -18,6 +18,7 @@ export const Registry: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null);
   const navigate = useNavigate();
+  const isDarkText = !(theme.palette.mode === "dark");
 
   useEffect(() => {
     fetchPatients();
@@ -66,21 +67,25 @@ export const Registry: React.FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ mb: 2, display: "flex", flexDirection: "column", gap: theme.spacing(2) }}>
+      <Box sx={{ mb: 1, display: "flex", flexDirection: "column", gap: theme.spacing(2) }}>
         <InputSearch
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           fullWidth
           placeholder="Поиск"
+          isDarkText={isDarkText}
+          bgcolorFlag={true}
         />
-        <CustomButton
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => navigate("/registry/patient")}
-        >
-          Добавить пациента
-        </CustomButton>
+        <Box sx={{ mb: 1 }}>
+          <CustomButton
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => navigate("/registry/patient")}
+          >
+            Добавить пациента
+          </CustomButton>
+        </Box>
       </Box>
 
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -90,6 +95,12 @@ export const Registry: React.FC = () => {
           autoHeight
           disableRowSelectionOnClick
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+          sx={{'& .MuiDataGrid-columnHeaders': {
+              backgroundColor: 'transparent',
+            },
+            '& .css-ok32b7-MuiDataGrid-overlay': {
+              bgcolor: 'transparent'
+            }}}
         />
       </Paper>
 

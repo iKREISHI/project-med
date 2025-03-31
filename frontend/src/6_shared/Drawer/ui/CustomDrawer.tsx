@@ -1,6 +1,7 @@
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import React, { JSX, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ListItemText, ListItemButton, ListItem, List, Toolbar, Drawer, Box, IconButton, Typography, useTheme, SxProps, Theme, Divider, ListItemIcon, useMediaQuery, } from '@mui/material';
+import { ListItemText, ListItemButton, ListItem, List, Toolbar, Drawer, Box, IconButton, Typography, useTheme, SxProps, Theme, ListItemIcon, useMediaQuery, } from '@mui/material';
 import { customDrawerSx } from './customDrawerSx';
 import CloseIcon from '@mui/icons-material/Close';
 import { globalsStyle } from '../../styles/globalsStyle';
@@ -28,45 +29,33 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
     const [search, setSearch] = useState('');
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const isDarkText = !(theme.palette.mode === "dark");
-    const [isListening, setIsListening] = useState(false);
-    const [hasSpeechRecognition, setHasSpeechRecognition] = useState(false);
+    
+    const {
+        transcript,
+        resetTranscript,
+        listening: isListening,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition();
+    const hasSpeechRecognition = browserSupportsSpeechRecognition && isMobile;
 
     useEffect(() => {
-        // Проверяем поддержку API распознавания речи
-        const recognitionSupport = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
-        setHasSpeechRecognition(recognitionSupport && isMobile);
-    }, [isMobile]);
+        if (transcript) {
+            setSearch(transcript);
+            if (handleSearch) handleSearch();
+        }
+    }, [transcript, handleSearch]);
 
     const handleVoiceInput = () => {
-        if (!hasSpeechRecognition) return;
 
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-
-        recognition.lang = 'ru-RU';
-        recognition.interimResults = false;
-
-        recognition.onstart = () => {
-            setIsListening(true);
-        };
-
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            setSearch(transcript);
-            setIsListening(false);
-            if (handleSearch) handleSearch();
-        };
-
-        recognition.onerror = (event) => {
-            console.error('Speech recognition error', event.error);
-            setIsListening(false);
-        };
-
-        recognition.onend = () => {
-            setIsListening(false);
-        };
-
-        recognition.start();
+        if (isListening) {
+            SpeechRecognition.stopListening();
+          } else {
+            resetTranscript();
+            SpeechRecognition.startListening({
+              language: 'ru-RU',
+              continuous: true
+            });
+          }
     };
 
     const drawer = (
@@ -105,7 +94,7 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ mobileOpen, handleDrawerTog
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     fullWidth
-                                    placeholder="Введите запрос"
+                                    placeholder={isListening ? "Говорите сейчас..." : "Введите запрос"}
                                     onSearch={handleSearch}
                                     isDarkText={isDarkText}
                                 />

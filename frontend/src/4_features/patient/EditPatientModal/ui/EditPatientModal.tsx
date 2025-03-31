@@ -23,11 +23,11 @@ interface EditPatientModalProps {
 }
 
 export const EditPatientModal: React.FC<EditPatientModalProps> = ({
-                                                                    open,
-                                                                    onClose,
-                                                                    patientId,
-                                                                    onUpdate,
-                                                                  }) => {
+  open,
+  onClose,
+  patientId,
+  onUpdate,
+}) => {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -82,19 +82,19 @@ export const EditPatientModal: React.FC<EditPatientModalProps> = ({
         {/* Основная информация */}
         <SectionBlock title="Основная информация">
           <Stack spacing={2}>
-            <TextField
+            <InputForm
               label="Фамилия"
               fullWidth
               value={patient.last_name}
               onChange={(e) => setPatient({ ...patient, last_name: e.target.value })}
             />
-            <TextField
+            <InputForm
               label="Имя"
               fullWidth
               value={patient.first_name}
               onChange={(e) => setPatient({ ...patient, first_name: e.target.value })}
             />
-            <TextField
+            <InputForm
               label="Отчество"
               fullWidth
               value={patient.patronymic}
@@ -140,26 +140,26 @@ export const EditPatientModal: React.FC<EditPatientModalProps> = ({
         {/* Документы */}
         <SectionBlock title="Документы">
           <Stack spacing={2}>
-            <TextField
+            <InputForm
               label="СНИЛС"
               fullWidth
               value={patient.snils || ""}
               onChange={(e) => setPatient({ ...patient, snils: e.target.value })}
             />
-            <TextField
+            <InputForm
               label="ИНН"
               fullWidth
               value={patient.inn || ""}
               onChange={(e) => setPatient({ ...patient, inn: e.target.value })}
             />
             <Stack direction="row" spacing={2}>
-              <TextField
+              <InputForm
                 label="Серия паспорта"
                 fullWidth
                 value={patient.passport_series || ""}
                 onChange={(e) => setPatient({ ...patient, passport_series: e.target.value })}
               />
-              <TextField
+              <InputForm
                 label="Номер паспорта"
                 fullWidth
                 value={patient.passport_number || ""}
@@ -174,13 +174,13 @@ export const EditPatientModal: React.FC<EditPatientModalProps> = ({
         {/* Контактная информация */}
         <SectionBlock title="Контактная информация">
           <Stack spacing={2}>
-            <TextField
+            <InputForm
               label="Телефон"
               fullWidth
               value={patient.phone || ""}
               onChange={(e) => setPatient({ ...patient, phone: e.target.value })}
             />
-            <TextField
+            <InputForm
               label="Email"
               fullWidth
               value={patient.email || ""}
@@ -189,7 +189,6 @@ export const EditPatientModal: React.FC<EditPatientModalProps> = ({
           </Stack>
         </SectionBlock>
 
-        <Divider sx={{ my: 3 }} />
 
         {/* Действия */}
         <Box sx={{ mt: 4, display: "flex", justifyContent: "flex-end", gap: 2 }}>

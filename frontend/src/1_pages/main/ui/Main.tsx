@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import { Toolbar, CssBaseline, Box, IconButton, useMediaQuery } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+import { Toolbar, CssBaseline, Box, IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useTheme } from '@mui/material/styles';
 import { globalsStyle } from '../../../6_shared/styles/globalsStyle';
-
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
+import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
 import { Header } from '../../../6_shared/Header';
 import { CustomDrawer } from '../../../6_shared/Drawer';
 import { Plane } from '../../../6_shared/Plane';
@@ -20,11 +20,8 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 export function Main() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isRightMenuVisible, setRightMenuVisible] = React.useState(true);
-  const location = useLocation();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [search, setSearch] = React.useState('');
-  const isDarkText = !(theme.palette.mode === "dark");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -41,10 +38,11 @@ export function Main() {
   const listItems = [
     { name: 'Главная', path: '/', icon: <HomeOutlinedIcon /> },
     { name: 'Чат', path: '/chat', icon: <ChatBubbleOutlineOutlinedIcon /> },
-    { name: 'Документооборот', path: '/document', icon: <DescriptionOutlinedIcon /> },
     { name: 'Пациенты', path: '/registry', icon: <PeopleAltOutlinedIcon /> },
     { name: 'Прием', path: '/admission', icon: <MedicalServicesOutlinedIcon /> },
     { name: 'Запись', path: '/record', icon: <EditCalendarOutlinedIcon /> },
+    { name: 'Дежурства', path: '/doctor-shift', icon: <AssignmentOutlinedIcon /> },
+    { name: 'Рецепты', path: '/recipes', icon: <BallotOutlinedIcon /> },
   ];
 
   const tasks = [
@@ -53,15 +51,13 @@ export function Main() {
     { task: 'Задача 3', date: '14.02.2025' },
   ];
 
-  const currentMenuItem = listItems.find((item) => item.path === `/${location.pathname.split('/')[1]}`) || listItems[0];
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Header
         handleDrawerToggle={handleDrawerToggle}
         user={{ name: 'Петр Петров', surname: 'Иванов' }}
-        handleSearch={handleSearch}
+        // handleSearch={handleSearch}
       />
 
       <CustomDrawer

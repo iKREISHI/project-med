@@ -10,24 +10,24 @@ interface CustomAutocompleteProps<T> {
   onChange: (value: T | null) => void;
   options: T[];
   required?: boolean;
-  getOptionLabel: (option: T) => string;
+  getOptionLabel?: (option: T) => string;
   isOptionEqualToValue?: (option: T, value: T) => boolean;
   loading?: boolean;
 }
 
 export const CustomAutocomplete = <T extends unknown>({
-                                                        value,
-                                                        onChange,
-                                                        options,
-                                                        placeholder,
-                                                        label,
-                                                        fullWidth = false,
-                                                        disabled = false,
-                                                        required = false,
-                                                        getOptionLabel,
-                                                        isOptionEqualToValue = (option, value) => option === value,
-                                                        loading = false,
-                                                      }: CustomAutocompleteProps<T>) => {
+  value,
+  onChange,
+  options,
+  placeholder,
+  label,
+  fullWidth = false,
+  disabled = false,
+  required = false,
+  getOptionLabel,
+  isOptionEqualToValue = (option, value) => option === value,
+  loading = false,
+}: CustomAutocompleteProps<T>) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       {label && (

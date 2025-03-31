@@ -11,7 +11,13 @@ import { useThemeContext } from '@6_shared/Header/ThemeContext';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { InputSearch } from '../../Input';
 import MicNoneOutlinedIcon from '@mui/icons-material/MicNoneOutlined';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
 
 interface User {
   name: string;
@@ -23,6 +29,55 @@ interface HeaderProps {
   user: User;
   users?: User[];
 }
+
+const useSpeechToText = () => {
+  const [isListening, setIsListening] = useState(false);
+  const [transcript, setTranscript] = useState('');
+
+  const isSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
+
+  const recognition = isSupported 
+    ? new (window.SpeechRecognition || window.webkitSpeechRecognition)()
+    : null;
+
+  if (recognition) {
+    recognition.continuous = true;
+    recognition.lang = 'ru-RU';
+    recognition.interimResults = false;
+
+    recognition.onresult = (event: any) => {
+      const current = event.resultIndex;
+      const transcript = event.results[current][0].transcript;
+      setTranscript(prev => prev + ' ' + transcript);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error', event.error);
+      setIsListening(false);
+    };
+  }
+
+  const startListening = () => {
+    if (!isSupported) return;
+    setTranscript('');
+    setIsListening(true);
+    recognition?.start();
+  };
+
+  const stopListening = () => {
+    if (!isSupported) return;
+    setIsListening(false);
+    recognition?.stop();
+  };
+
+  return {
+    transcript,
+    isListening,
+    startListening,
+    stopListening,
+    isSupported
+  };
+};
 
 const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
   const navigate = useNavigate();
@@ -41,15 +96,14 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
     { name: 'Прием', path: '/admission' },
   ];
 
-  // Настройка голосового ввода
   const {
     transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
+    isListening,
+    startListening,
+    stopListening,
+    isSupported: isSpeechSupported
+  } = useSpeechToText();
 
-  // Обновление текста при получении результатов голосового ввода
   useEffect(() => {
     if (transcript) {
       setSearch(transcript);
@@ -68,19 +122,11 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
     }
   }, [search]);
 
-  // Проверка поддержки браузером
-  const isSpeechSupported = browserSupportsSpeechRecognition;
-
-  // Управление состоянием микрофона
   const toggleListening = () => {
-    if (listening) {
-      SpeechRecognition.stopListening();
+    if (isListening) {
+      stopListening();
     } else {
-      resetTranscript();
-      SpeechRecognition.startListening({
-        language: 'ru-RU',
-        continuous: true
-      });
+      startListening();
     }
   };
 
@@ -110,7 +156,6 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
     }
   };
 
-  // Загрузка скриптов для версии для слабовидящих
   useEffect(() => {
     const loadScript = (src: string, id: string): Promise<void> => {
       return new Promise((resolve, reject) => {
@@ -140,7 +185,6 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
     loadScripts();
   }, []);
 
-  // Отслеживание события прокрутки страницы
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 25) {
@@ -160,6 +204,13 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
     width: { sm: `calc(100% - ${globalsStyle.widthDrawer})` },
     backgroundColor: isScrolled ? theme.palette.background.paper : 'transparent',
     boxShadow: isScrolled ? '0 0 3px rgba(0, 0, 0, 0.1)' : '0',
+  };
+
+  const handleVoiceInputFallback = () => {
+    const voiceInput = prompt('Введите ваш запрос (голосовой ввод не поддерживается в вашем браузере):');
+    if (voiceInput) {
+      setSearch(voiceInput);
+    }
   };
 
   return (
@@ -197,12 +248,11 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={handleKeyDown}
                 fullWidth
-                placeholder={listening ? "Говорите сейчас..." : "Введите запрос"}
+                placeholder={isListening ? "Говорите сейчас..." : "Введите запрос"}
                 onSearch={handleSearch}
                 isDarkText={isDarkText}
                 bgcolorFlag={true}
               />
-
               {/* микрофон */}
               {isSpeechSupported && (
                 <IconButton
@@ -210,17 +260,18 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
                   onClick={toggleListening}
                   disableRipple
                   sx={{
-                    color: listening
+                    color: isListening
                       ? theme.palette.primary.main
                       : isDarkText
                         ? theme.palette.grey[900]
                         : theme.palette.common.white,
-                    border: `1px solid ${listening
+                    border: `1px solid ${isListening
                       ? theme.palette.primary.main
                       : theme.palette.grey[400]}`,
                     backgroundColor: theme.palette.background.paper,
                     borderRadius: '50%',
-                    animation: listening ? 'pulse 1.5s infinite' : 'none',
+                    
+                    animation: isListening ? 'pulse 1.5s infinite' : 'none',
                     '@keyframes pulse': {
                       '0%': { transform: 'scale(1)' },
                       '50%': { transform: 'scale(1.1)' },
@@ -230,47 +281,6 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
                 >
                   <MicNoneOutlinedIcon sx={{ fontSize: '26px' }} />
                 </IconButton>
-              )}
-
-              {/* Подсказки поиска */}
-              {suggestions.length > 0 && (
-                <Box sx={{
-                  position: 'absolute',
-                  top: '100%',
-                  left: 0,
-                  right: 0,
-                  zIndex: 1300,
-                  bgcolor: 'background.paper',
-                  boxShadow: 2,
-                  maxHeight: 200,
-                  overflowY: 'auto',
-                  mt: 1,
-                  border: `1px solid ${theme.palette.divider}`,
-                  borderRadius: 1
-                }}>
-                  {suggestions.map((item, index) => (
-                    <Box
-                      key={index}
-                      onClick={() => {
-                        navigate(item.path);
-                        setSearch('');
-                        setSuggestions([]);
-                      }}
-                      sx={{
-                        p: 2,
-                        cursor: 'pointer',
-                        '&:hover': {
-                          bgcolor: 'action.hover'
-                        },
-                        borderBottom: index < suggestions.length - 1
-                          ? `1px solid ${theme.palette.divider}`
-                          : 'none'
-                      }}
-                    >
-                      {item.name}
-                    </Box>
-                  ))}
-                </Box>
               )}
             </Box>
           </Box>
@@ -284,7 +294,6 @@ const Header: React.FC<HeaderProps> = ({ handleDrawerToggle, user }) => {
                 <ModeNightIcon sx={{ color: theme.palette.grey[900] }} />
               )}
             </Box>
-            {/* Кнопка для слабовидящих */}
             <IconButton
               id="specialButton"
               aria-label="ВЕРСИЯ ДЛЯ СЛАБОВИДЯЩИХ"
