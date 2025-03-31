@@ -14,6 +14,7 @@ export const Diagnosis: FC = () => {
       if (appointment.patient) {
         try {
           const patient = await getPatient(appointment.patient);
+          console.log(patient);
           setPatientData(patient);
         } catch (error) {
           console.error("Error loading patient:", error);
@@ -36,7 +37,7 @@ export const Diagnosis: FC = () => {
         ? `${appointment.start_time} - ${appointment.end_time}`
         : "Не указано"
     };
-    
+    console.log(JSON.stringify(mergedData));
     setField('reception_document_fields', JSON.stringify(mergedData));
   };
 
@@ -215,6 +216,9 @@ export const Diagnosis: FC = () => {
       />
 
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+      <Button variant="contained" onClick={() => console.log(appointment)}>
+          Проверить данные
+        </Button>
         <Button variant="contained" onClick={() => documentEditorRef.current?.extractFormData()}>
           Сохранить данные
         </Button>

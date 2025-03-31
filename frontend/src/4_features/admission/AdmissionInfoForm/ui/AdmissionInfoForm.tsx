@@ -13,6 +13,9 @@ import { patientRegisterFormSx } from "@4_features/patient/RegisterForm/ui/patie
 import { getCurrentUser, User } from "@5_entities/user";
 import {addAppointments} from "@5_entities/doctorAppointment";
 import {DoctorAppointment} from "@5_entities/doctorAppointment/model/model.ts";
+import { InspectionChoice } from '@5_entities/doctorAppointment/model/types';
+
+
 
 interface AdmissionInfoFormProps {
   patientName?: string;
@@ -26,17 +29,17 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
   const [employee, setEmployee] = useState<User>();
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
-  const inspectionOptions = [
-    { id: 1, name: "Без осмотра", value: "no_Inspection" },
-    { id: 2, name: "Дополнительный осмотр", value: "additional" },
-    { id: 3, name: "Центральный осмотр", value: "center" },
-    { id: 4, name: "Амбулаторный осмотр", value: "ambulatory" },
-    { id: 5, name: "Стационарный осмотр", value: "stationary" },
-    { id: 6, name: "Анаторий", value: "anatorium" },
-    { id: 7, name: "Диспансерный осмотр", value: "dispensary" },
-    { id: 8, name: "Профилактический осмотр", value: "preventive" },
-    { id: 9, name: "Направление", value: "referral" }
-  ];
+  const INSPECTION_CHOICE_LABELS: Record<InspectionChoice, string> = {
+    no_inspection: 'Не нуждается в обследовании',
+    additional: 'Нуждается в проведении доп обследования',
+    center: 'Нуждается в обследовании в центре',
+    ambulatory: 'Нуждается в амбулаторном обследовании',
+    stationary: 'Нуждается в стационарном обследовании',
+    sanatorium: 'Нуждается в санаторно-курортном лечении',
+    dispensary: 'Нуждается в диспансерном наблюдении',
+    preventive: 'Нуждается в лечебно-профилактических мероприятиях',
+    referral: 'Нуждается в направлении на медико-социальную экспертизу'
+  };
 
   // Синхронизация выбранного пациента с хранилищем
   useEffect(() => {
@@ -45,6 +48,12 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
       setSelectedPatient(foundPatient || null);
     }
   }, [appointment.patient, patients]);
+
+  // Преобразуем Enum в массив для селектора
+  const inspectionOptions = (Object.keys(INSPECTION_CHOICE_LABELS) as InspectionChoice[]).map(key => ({
+    id: key,
+    name: INSPECTION_CHOICE_LABELS[key]
+  }));
 
   // Загрузка данных
   useEffect(() => {
@@ -110,29 +119,20 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
               <Typography variant="h6" gutterBottom sx={{ color: "text.secondary" }}>
                 Данные пациента
               </Typography>
-              <CustomAutocomplete<Patient>
-                value={appointment.patient}
-                onChange={handlePatientChange}
-                options={patients}
-                placeholder="Введите ФИО пациента"
-                label="Пациент"
-                required
-                loading={loading}
-                isOptionEqualToValue={(option, value) => option.id === value?.id}
-                getOptionLabel={(option) => {
-                  const lastName = option.last_name || "";
-                  const firstName = option.first_name || "";
-                  const patronymic = option.patronymic || "";
-                  return `${lastName} ${firstName} ${patronymic}`.trim() || "Неизвестный пациент";
+              <CustomAutocomplete
+                value={appointment.patient ?
+                  patients.find(p => p.id === appointment.patient)?.first_name || ''
+                  : ''
+                }
+                onChange={(value) => {
+                  const selectedPat = patients.find(p => p.first_name === value);
+                  setField('patient', selectedPat?.id);
                 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Пациент"
-                    placeholder="Начните вводить ФИО"
-                    required
-                  />
-                )}
+                options={patients.map(p => p.first_name)}
+                placeholder="Выберите пациента"
+                label='Пациент'
+                required
+
               />
             </Box>
 
@@ -178,18 +178,16 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
               </Box>
 
               <Box sx={{ mt: 2 }}>
-                <CustomSelect
-                  value={appointment.inspection_choice || ""}
-                  onChange={(value) => setField("inspection_choice", value)}
-                  options={inspectionOptions.map((opt) => ({
-                    id: opt.id,
-                    name: opt.name
-                  }))}
-                  placeholder="Выберите тип осмотра"
-                  label="Тип осмотра"
-                  fullWidth
-                  required
-                />
+              <CustomSelect
+                value={inspectionOptions.find(opt => opt.id === appointment.inspection_choice) || null}
+                onChange={(option) => setField('inspection_choice', option?.id as InspectionChoice)}
+                options={inspectionOptions}
+                placeholder="Выберите тип осмотра"
+                label="Тип осмотра"
+                fullWidth
+                required
+              />
+
               </Box>
             </Box>
 
@@ -255,6 +253,9 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
             <Box sx={{ mt: 4 }}>
               <CustomButton type="submit" variant="contained" fullWidth>
                 Сохранить прием
+              </CustomButton>
+              <CustomButton type="submit" variant="contained" fullWidth onClick={() => console.log(appointment)}>
+                Проверить данные
               </CustomButton>
             </Box>
           </Grid>
