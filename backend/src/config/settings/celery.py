@@ -1,10 +1,10 @@
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_TIMEZONE = 'Asia/Yekaterinburg'
+import os
+from .locale import TIME_ZONE
 
-CELERY_BEAT_SCHEDULE = {
-    'update-medicines-daily': {
-        'task': 'apps.external_systems.tasks.update_medicines',
-        'schedule': 86400,
-    },
+
+CELERY = {
+    'broker_url': os.environ.get('CELERY_BROKER_URL'),
+    'worker_hijack_root_logger': False,
+    'timezone': TIME_ZONE,
+    'beat_schedule': 'django_celery_beat.schedulers:DatabaseScheduler',
 }

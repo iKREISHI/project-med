@@ -7,7 +7,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 
-def main():
+def update_medicine_data():
     client = MedicineAPIClient()
     try:
         client.get_and_save_medicines()
@@ -15,4 +15,4 @@ def main():
         print(f"Синхронизация завершилась ошибкой: {str(e)}")
 
 if __name__ == "__main__":
-    main()
+    update_medicine_data()
