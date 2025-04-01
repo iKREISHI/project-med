@@ -95,6 +95,7 @@ jobs:
               
               SERVER_BACKEND_IP_ADDRESS=${{ secrets.SERVER_BACKEND_IP_ADDRESS }}
               GIGACHAT_API_KEY=${{ secrets.GIGACHAT_API_KEY }}
+              TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
               EOF
               # Останавливаем текущие контейнеры (если запущены)
               docker compose -f docker-compose.yml down
