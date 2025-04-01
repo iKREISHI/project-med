@@ -41,15 +41,3 @@ def validate_department_name(name: str) -> None:
 
     if not re.match(r'^[А-Яа-яA-Za-z0-9\s\-"()/№#&]+$', name):
         raise ValidationError(_("Допустимы буквы, цифры и символы: -\"()/№#&"))
-
-
-
-def validate_director(director: Employee, current_department: FilialDepartment) -> None:
-    """
-        Проверка что руководитель принадлежит к текущему подразделению
-    """
-    if not director:
-        return
-
-    if director.department != current_department:
-        raise ValidationError(_("Руководитель должен быть из этого подразделения"))
