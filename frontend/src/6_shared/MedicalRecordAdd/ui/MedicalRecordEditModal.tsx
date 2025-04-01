@@ -1,64 +1,116 @@
 import { FC, useState, useEffect } from "react";
-import { Modal, Box, Typography } from "@mui/material";
+import { Modal, Box, Typography, CircularProgress } from "@mui/material";
 import { MedicalRecordForm } from "@4_features/admin/medicalRecordForm";
 import { CustomButton } from "@6_shared/Button";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
+import { MedicalCard } from "@5_entities/medicalCard/model/model";
+import { getAllPatients, Patient } from "@5_entities/patient";
+import { getMedicalCard } from "@5_entities/medicalCard/api/getMedicalCard";
+import { deleteMedicalCard } from "@5_entities/medicalCard/api/deleteMedicalCard";
+import { updateMedicalCard } from "@5_entities/medicalCard/api/updateMedicalCard";
+import { addNewMedicalCard } from "@5_entities/medicalCard/api/addNewMedicalCard";
 
 interface MedicalRecordEditModalProps {
   open: boolean;
   onClose: () => void;
   recordId?: number;
   onDelete?: (id: number) => void;
+  onSuccess?: () => void; 
 }
 
-interface MedicalRecordData {
-  client: string;
-  cardNumber: string;
-  cardTypeId: string;
-  cardViewId: string;
-  closeDate: string;
-  signed_date: string;
-  signed_by: string;
-  registrationDate: string;
-  comment: string;
-  branch: string;
-  signedWithES: boolean;
-}
-
-export const MedicalRecordEditModal: FC<MedicalRecordEditModalProps> = ({ open, onClose, recordId, }) => {
-  const [recordData, setRecordData] = useState<MedicalRecordData | null>(null);
+export const MedicalRecordEditModal: FC<MedicalRecordEditModalProps> = ({ 
+  open, 
+  onClose, 
+  recordId, 
+  onDelete,
+  onSuccess
+}) => {
+  const [initialData, setInitialData] = useState<Partial<MedicalCard> | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false); 
+  const [error, setError] = useState<string | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
   useEffect(() => {
-    if (recordId) {
+    if (open && recordId) { 
       const fetchRecordData = async () => {
-        const mockData: MedicalRecordData = {
-          client: "Иванов Иван Иванович",
-          cardNumber: "MR-2023-001",
-          cardTypeId: "2",
-          cardViewId: "1",
-          closeDate: "",
-          signed_date: "2023-05-15",
-          signed_by: "1",
-          registrationDate: "2023-05-10",
-          comment: "Пациент с хроническим заболеванием",
-          branch: "1",
-          signedWithES: true
-        };
-        setRecordData(mockData);
+        try {
+          setLoading(true);
+          setError(null);
+          
+          const cardData = await getMedicalCard(recordId);
+          setInitialData({
+            ...cardData,
+            date_created: cardData.date_created || new Date().toISOString().split('T')[0]
+          });
+          
+          const patientsResponse = await getAllPatients();
+          const patient = patientsResponse.results.find(p => p.id === cardData.client);
+          setSelectedPatient(patient || null);
+          
+        } catch (err) {
+          setError("Не удалось загрузить данные медицинской карты");
+          console.error("Error fetching medical card data:", err);
+        } finally {
+          setLoading(false);
+        }
       };
+      
       fetchRecordData();
+    } else if (open) { // Сбрасываем только при открытии модалки
+      setInitialData({
+        date_created: new Date().toISOString().split('T')[0],
+        is_signed: false
+      });
+      setSelectedPatient(null);
     }
-  }, [recordId]);
+  }, [recordId, open]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    if (!recordId) return;
+    
     if (window.confirm('Вы уверены, что хотите удалить медицинскую карту?')) {
-      alert("Медицинская карта удалена");
+      try {
+        setDeleteLoading(true);
+        setError(null);
+        
+        await deleteMedicalCard(recordId);
+        
+        onDelete?.(recordId);
+        onSuccess?.();
+        onClose();
+        
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : "Ошибка при удалении карты";
+        setError(errorMessage);
+        console.error("Error deleting medical card:", err);
+      } finally {
+        setDeleteLoading(false);
+      }
     }
   };
 
-  const handleSubmit = (data: MedicalRecordData) => {
-    console.log("Сохранение изменений медкарты:", data);
-    onClose();
+  const handleSubmit = async (data: MedicalCard) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      if (recordId) {
+        await updateMedicalCard(recordId, data);
+      } else {
+        await addNewMedicalCard(data);
+      }
+      
+      onSuccess?.();
+      onClose();
+      
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Ошибка при сохранении карты";
+      setError(errorMessage);
+      console.error("Error saving medical card:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -84,28 +136,51 @@ export const MedicalRecordEditModal: FC<MedicalRecordEditModalProps> = ({ open, 
             {recordId ? "Редактирование медкарты" : "Создание медкарты"}
           </Typography>
 
-          <MedicalRecordForm
-            initialData={recordData || undefined}
-            onSubmit={handleSubmit}
-            isEditMode={!!recordId}
-          />
+          {loading && <Typography>Загрузка данных...</Typography>}
+          {error && (
+            <Typography color="error" sx={{ mb: 2 }}>
+              {error}
+            </Typography>
+          )}
+          
+          {(!loading && !error) && (
+            <>
+              <MedicalRecordForm
+                initialData={initialData || undefined}
+                onSubmit={handleSubmit}
+                isEditMode={!!recordId}
+                selectedPatient={selectedPatient}
+              />
 
-          {recordId && (
-            <Box sx={{
-              display: 'flex',
-              justifyContent: { lg: 'flex-end' },
-              mt: 3,
-              gap: 1
-            }}>
-              <CustomButton
-                variant="outlined"
-                onClick={handleDelete}
-                color="error"
-              >
-                Удалить
-              </CustomButton>
-              <CustomButton onClick={onClose} variant="outlined">Отмена</CustomButton>
-            </Box>
+              {recordId && (
+                <Box sx={{
+                  display: 'flex',
+                  justifyContent: { lg: 'flex-end' },
+                  mt: 3,
+                  gap: 1
+                }}>
+                  <CustomButton
+                    variant="outlined"
+                    onClick={handleDelete}
+                    color="error"
+                    disabled={deleteLoading}
+                  >
+                    {deleteLoading ? (
+                      <CircularProgress size={24} color="inherit" />
+                    ) : (
+                      "Удалить"
+                    )}
+                  </CustomButton>
+                  <CustomButton 
+                    onClick={onClose} 
+                    variant="outlined"
+                    disabled={deleteLoading}
+                  >
+                    Отмена
+                  </CustomButton>
+                </Box>
+              )}
+            </>
           )}
         </Box>
       </Box>

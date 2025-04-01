@@ -1,13 +1,13 @@
 import { DELETE } from "@6_shared/api";
 
-export const deleteFilial = async (
-  filialId: number
+export const deleteMedicalCard = async (
+  medicalCardTypeId: number
 ): Promise<void> => {
   try {
-    const response = await DELETE('/api/v0/filial/{id}/', {
+    const response = await DELETE('/api/v0/medical-card/{id}/', {
       params: {
         path: {
-          id: filialId,
+          id: medicalCardTypeId,
         },
       },
     });
@@ -20,7 +20,7 @@ export const deleteFilial = async (
     }
     throw new Error(`Сервер вернул статус: ${response.response.status}`);
   } catch (error: any) {
-    console.error('Ошибка в deleteFilial:', {
+    console.error('Ошибка в deleteMedicalCard:', {
       error,
       message: error.message,
       stack: error.stack,

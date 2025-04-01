@@ -1,16 +1,21 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Box, Paper, Theme, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ruRU } from '@mui/x-data-grid/locales';
 import { Add, Edit, Delete } from "@mui/icons-material";
 import { CustomButton } from "@6_shared/Button";
 import { InputForm } from "@6_shared/Input";
+import { CustomSnackbar } from "@6_shared/Snackbar";
+import { getAllMedicalCardType } from "@5_entities/medicalCardType/api/getAllMedicalCardType";
+import { addNewMedicalCardType } from "@5_entities/medicalCardType/api/addNewMedicalCardType";
+import { updateMedicalCardType } from "@5_entities/medicalCardType/api/updateMedicalCardType";
+import { deleteMedicalCardType } from "@5_entities/medicalCardType/api/deleteMedicalCardType";
 
 interface CardType {
   id: number;
   name: string;
-  suffix: string;
   prefix: string;
+  suffix: string;
   begin_number: string;
   description: string;
 }
@@ -19,29 +24,92 @@ export const CardTypes: FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const [cardTypes, setCardTypes] = useState<CardType[]>([
-        {
-            id: 1,
-            name: "Стандартная",
-            suffix: "suff",
-            prefix: "perf",
-            begin_number: "0",
-            description: "Стандартная карта"
-        },
-    ]);
-
+    const [cardTypes, setCardTypes] = useState<CardType[]>([]);
     const [openModal, setOpenModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [currentId, setCurrentId] = useState<number | null>(null);
     const [newCardType, setNewCardType] = useState<Omit<CardType, 'id'>>({
         name: "",
-        suffix: "",
         prefix: "",
+        suffix: "",
         begin_number: "",
         description: ""
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'success' as 'success' | 'error' | 'info' | 'warning'
+    });
 
-    // для десктопной версии
+    // Загрузка данных
+    useEffect(() => {
+        const fetchCardTypes = async () => {
+            try {
+                setLoading(true);
+                const response = await getAllMedicalCardType();
+                // Извлекаем results из пагинированного ответа
+                setCardTypes(response.results || []);
+            } catch (error) {
+                console.error("Ошибка при загрузке типов карт:", error);
+                setSnackbar({
+                    open: true,
+                    message: 'Ошибка при загрузке типов карт',
+                    severity: 'error'
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchCardTypes();
+    }, []);
+
+    const handleSave = async () => {
+        setIsLoading(true);
+        try {
+            // Валидация
+            if (!newCardType.name) {
+                throw new Error('Название обязательно для заполнения');
+            }
+
+            if (isEditing && currentId) {
+                // Обновление существующего типа
+                const updatedCardType = await updateMedicalCardType(currentId, newCardType);
+                setCardTypes(prev => 
+                    prev.map(item => 
+                        item.id === currentId ? { ...updatedCardType, id: currentId } : item
+                    )
+                );
+                setSnackbar({
+                    open: true,
+                    message: 'Тип карты успешно обновлен',
+                    severity: 'success'
+                });
+            } else {
+                // Добавление нового типа
+                const createdCardType = await addNewMedicalCardType(newCardType);
+                setCardTypes(prev => [...prev, { ...createdCardType, id: createdCardType.id }]);
+                setSnackbar({
+                    open: true,
+                    message: 'Тип карты успешно добавлен',
+                    severity: 'success'
+                });
+            }
+            handleCloseModal();
+        } catch (error) {
+            console.error("Ошибка при сохранении типа карты:", error);
+            setSnackbar({
+                open: true,
+                message: error instanceof Error ? error.message : 'Ошибка при сохранении',
+                severity: 'error'
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const desktopColumns: GridColDef<CardType>[] = [
         { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
         { field: 'name', headerName: 'Название', flex: 1, minWidth: 150 },
@@ -68,7 +136,6 @@ export const CardTypes: FC = () => {
         },
     ];
 
-    // для мобильной версии
     const mobileColumns: GridColDef<CardType>[] = [
         { field: 'name', headerName: 'Название', flex: 1, minWidth: 120 },
         { field: 'prefix', headerName: 'Префикс', flex: 0.5, minWidth: 60 },
@@ -96,8 +163,8 @@ export const CardTypes: FC = () => {
         setCurrentId(null);
         setNewCardType({
             name: "",
-            suffix: "",
             prefix: "",
+            suffix: "",
             begin_number: "",
             description: ""
         });
@@ -110,15 +177,42 @@ export const CardTypes: FC = () => {
         setCurrentId(null);
     };
 
-    const handleDelete = (id: number) => {
-        if (window.confirm('Вы уверены, что хотите удалить этот тип карты?')) {
-            alert('Тип карты удален');
+    const handleDelete = async (id: number) => {
+        if (!window.confirm('Вы уверены, что хотите удалить этот тип карты?')) {
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const prevCardTypes = [...cardTypes];
+            
+            // Оптимистичное обновление
+            setCardTypes(prev => prev.filter(item => item.id !== id));
+
+            try {
+                await deleteMedicalCardType(id);
+                setSnackbar({
+                    open: true,
+                    message: 'Тип карты успешно удален',
+                    severity: 'success'
+                });
+            } catch (error) {
+                // Откат при ошибке
+                setCardTypes(prevCardTypes);
+                setSnackbar({
+                    open: true,
+                    message: error instanceof Error ? error.message : 'Ошибка при удалении',
+                    severity: 'error'
+                });
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setNewCardType((prev) => ({
+        setNewCardType(prev => ({
             ...prev,
             [name]: value,
         }));
@@ -129,12 +223,16 @@ export const CardTypes: FC = () => {
         setCurrentId(cardType.id);
         setNewCardType({
             name: cardType.name,
-            suffix: cardType.suffix,
             prefix: cardType.prefix,
+            suffix: cardType.suffix,
             begin_number: cardType.begin_number,
             description: cardType.description
         });
         setOpenModal(true);
+    };
+
+    const handleCloseSnackbar = () => {
+        setSnackbar(prev => ({ ...prev, open: false }));
     };
 
     return (
@@ -158,12 +256,13 @@ export const CardTypes: FC = () => {
                     sm: '100%'
                 },
                 overflow: 'hidden',
-                boxShadow: theme.shadows[3],
+                boxShadow: theme.shadows[0],
                 borderRadius: (theme: Theme) => theme.shape.borderRadius,
             }}>
                 <DataGrid
                     rows={cardTypes}
                     columns={isMobile ? mobileColumns : desktopColumns}
+                    loading={loading}
                     autoHeight
                     disableRowSelectionOnClick
                     initialState={{
@@ -189,13 +288,11 @@ export const CardTypes: FC = () => {
                 />
             </Paper>
 
-            {/* Модальное окно добавления/редактирования */}
             <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
                 <DialogTitle>{isEditing ? 'Редактировать тип карты' : 'Добавить тип карты'}</DialogTitle>
                 <DialogContent>
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
                         <InputForm
-                            type="text"
                             name="name"
                             label="Название"
                             value={newCardType.name}
@@ -205,7 +302,6 @@ export const CardTypes: FC = () => {
                         />
                         <Box sx={{ display: 'flex', gap: 2 }}>
                             <InputForm
-                                type="text"
                                 name="prefix"
                                 label="Префикс"
                                 value={newCardType.prefix}
@@ -213,7 +309,6 @@ export const CardTypes: FC = () => {
                                 fullWidth
                             />
                             <InputForm
-                                type="text"
                                 name="suffix"
                                 label="Суффикс"
                                 value={newCardType.suffix}
@@ -222,7 +317,6 @@ export const CardTypes: FC = () => {
                             />
                         </Box>
                         <InputForm
-                            type="text"
                             name="begin_number"
                             label="Начальный номер"
                             value={newCardType.begin_number}
@@ -230,7 +324,6 @@ export const CardTypes: FC = () => {
                             fullWidth
                         />
                         <InputForm
-                            type="text"
                             name="description"
                             label="Описание"
                             value={newCardType.description}
@@ -243,11 +336,21 @@ export const CardTypes: FC = () => {
                 </DialogContent>
                 <DialogActions>
                     <CustomButton onClick={handleCloseModal} variant="outlined">Отмена</CustomButton>
-                    <CustomButton variant="contained">
-                        {isEditing ? 'Обновить' : 'Сохранить'}
+                    <CustomButton
+                        variant="contained"
+                        onClick={handleSave}
+                        disabled={isLoading || !newCardType.name}
+                    >
+                        {isLoading ? 'Загрузка...' : isEditing ? 'Обновить' : 'Сохранить'}
                     </CustomButton>
                 </DialogActions>
             </Dialog>
+
+            <CustomSnackbar
+                open={snackbar.open}
+                onClose={handleCloseSnackbar}
+                message={snackbar.message}
+            />
         </Box>
     );
 };

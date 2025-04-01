@@ -35,7 +35,7 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
   onUpdate
 }) => {
   const [template, setTemplate] = useState({
-    name: '',
+    title: '',
     description: '',
     specialization: null as number | null // Измените на nullable
   });

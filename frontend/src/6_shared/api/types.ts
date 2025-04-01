@@ -1969,6 +1969,10 @@ export interface components {
         };
         Filial: {
             readonly id: number;
+            /** Название */
+            name?: string | null;
+            /** Описание */
+            description?: string | null;
             /** Дом */
             house: string;
             /** Строение */
@@ -1978,6 +1982,7 @@ export interface components {
             /** Город */
             city: string;
         };
+
         FilialDepartment: {
             readonly id: number;
             /** Название подразделения */
@@ -1986,6 +1991,7 @@ export interface components {
             director?: number | null;
             /** Филиал */
             filial: number | null;
+
         };
         /**
          * @description * `M` - Мужской

@@ -14,7 +14,28 @@ export const PatientRegisterForm: FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Предотвращаем перезагрузку страницы
-
+    const patient = {"place_of_work": "Сафонова Лтд",
+      "last_name": "Титов",
+      "first_name": "Лукия",
+      "patronymic": "Петровна",
+      "gender": "F",
+      "date_of_birth": "1983-10-13",
+      "date_created": "2025-03-30T09:28:09.861864",
+      "snils": "060-875-511 90",
+      "inn": "823623405155",
+      "passport_series": "6075",
+      "passport_number": "681434",
+      "photo": null,
+      "registration_address": "г. Палана, бул. Минина, д. 735, 012257",
+      "actual_address": "с. Рязань, пр. Пушкинский, д. 1 стр. 4/3, 333511",
+      "email": "harlampi_2018@guljaev.org",
+      "phone": "80675723211",
+      "additional_place_of_work": "РАО «Федоров»",
+      "profession": "Инженер-энергетик",
+      "registered_by": 1,
+      "contractor": null,
+      "legal_representative": null}
+    console.log(patient)
     try {
       const newPatient = await addNewPatient(patient);
       console.log("Пациент успешно добавлен:", newPatient);

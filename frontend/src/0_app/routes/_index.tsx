@@ -104,7 +104,7 @@ export const RouterComponent: FC = () => {
                 <Route index element={<Navigate to="specializations" replace />} />
                 <Route path="specializations" element={<Specializations />} />
                 <Route path="filial" element={<Filial />} />
-                <Route path="filial-department" element={<FilialDepartment />} />
+                {/* <Route path="filial-department" element={<FilialDepartment />} /> */}
                 <Route path="positions" element={<Positions />} />
                 <Route path="departments" element={<Departments />} />
                 <Route path="card-types" element={<CardTypes />} />

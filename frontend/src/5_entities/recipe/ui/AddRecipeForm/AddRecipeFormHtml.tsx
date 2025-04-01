@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Box } from "@mui/material";
 import { DocumentEditor } from "@2_widgets/documetEditor";
-import { useRecipeStore } from "../model/useRecipeStore";
+import { useRecipeStore } from "@5_entities/recipe/model/useRecipeStore";
 
 export const AddRecipeFormHtml: FC = () => {
   const { setField } = useRecipeStore();
