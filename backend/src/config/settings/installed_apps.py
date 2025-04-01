@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'apps.chat.apps.ChatConfig',
     'apps.external_systems.apps.ExternalSystemsConfig',
     'apps.ai_recommendations',
+    'apps.notification',
 
     # API apps
     'api.v0.apps.V0Config',
