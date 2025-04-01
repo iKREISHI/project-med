@@ -37,6 +37,9 @@ REDIS_IP_ADDRESS = env('REDIS_INSTANCE_IP_ADDRESS', default='127.0.0.1')
 REDIS_PORT = env('REDIS_INSTANCE_PORT', default='6380')
 REDIS_URL = env('REDIS_URL', default='redis://root:root@127.0.0.1:6379/0')
 
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://guest:guest@127.0.0.1:5672/')
+
+
 # MINIO
 MINIO_ROOT_USER = env('MINIO_ROOT_USER', default='minioroot')
 MINIO_ROOT_PASSWORD = env('MINIO_ROOT_PASSWORD', default='minioroot')

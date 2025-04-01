@@ -14,6 +14,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'drf_spectacular_sidecar',
     'minio_storage',
+    'django_celery_results',
+    'django_celery_beat',
 
     # Apps
     'apps.users.apps.UsersConfig',
