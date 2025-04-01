@@ -37,6 +37,8 @@ from api.v0.views.medical_activity.booking_appointment import BookingAppointment
 from api.v0.views.auth.permission_group import GetGroupAndPermissions4CurrentUser
 from api.v0.views.medical_activity.ai_recommendations.appointment import AIDoctorAppointmentViewSet
 from api.v0.views.medical_activity.ai_recommendations.patient_conditions import AIPatientConditionViewSet
+from api.v0.views.notification.get_notification_for_user import NotificationReadOnlyViewSet
+
 
 router = DefaultRouter()
 router.register('login', LoginViewSet, basename='login')
@@ -70,7 +72,7 @@ router.register(r'medical-drug', MedicineModelViewSet, basename='medical-drug')
 router.register(r'laboratory', LaboratoryModelViewSet, basename='laboratory')
 router.register(r'laboratory-research', LaboratoryResearchModelViewSet, basename='laboratory-research')
 router.register(r'laboratory-research-pdf', LaboratoryResearchPDFModelViewSet, basename='laboratory-research-pdf')
-
+router.register(r'notification', NotificationReadOnlyViewSet, basename='notification')
 
 
 urlpatterns = (

@@ -1,5 +1,7 @@
 from django.db import models
 from apps import clients, staffing
+from apps.notification.service import NotificationService
+from apps.users.models import User
 
 
 class BookingAppointment(models.Model):
@@ -21,7 +23,7 @@ class BookingAppointment(models.Model):
     STATUS_CHOICES = {
         'planning': 'планирование',
         'confirmation': 'подтверждение',
-        'отмена': 'cancellation'
+        'cancellation': 'отмена'
     }
 
     status = models.CharField(
@@ -53,3 +55,15 @@ class BookingAppointment(models.Model):
         doctor = self.doctor.get_short_name()
         date = self.vizit_datetime.strftime('%Y-%m-%d %H:%M')
         return f'{patient} - {doctor} - {date}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        user = None
+        if self.doctor.user:
+            user = User.objects.filter(pk=self.doctor.user.pk).first()
+        NotificationService.create_notification(
+            user=user,
+            message=f'',
+            status='planning',
+            date_notification=self.vizit_datetime,
+        )
