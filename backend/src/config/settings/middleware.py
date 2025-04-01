@@ -19,6 +19,9 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5000",
 ]
 
+SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = None
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from apps.abstract_models.electronic_signature.generate_org_signature import generate_org_signature
 
+
 class AbstractElectronicSignature(models.Model):
     is_signed = models.BooleanField(
         default=False,
