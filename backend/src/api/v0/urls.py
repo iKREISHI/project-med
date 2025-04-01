@@ -11,6 +11,10 @@ from .views.clients import (
 from .views.clients.contractor import ContractorViewSet
 from .views.company_structure.filial import FilialViewSet
 from .views.company_structure.filial_department import FilialDepartmentViewSet
+from .views.external_systems.laboratory import LaboratoryModelViewSet
+from .views.external_systems.laboratory_research import LaboratoryResearchModelViewSet
+from .views.external_systems.laboratory_research_pdf import LaboratoryResearchPDFModelViewSet
+from .views.external_systems.medicine import MedicineModelViewSet
 from .views.medical_activity.doctor_appointment import DoctorAppointmentViewSet
 from .views.medical_activity.shifts import ShiftViewSet
 from .views.registration import RegistrationViewSet
@@ -62,7 +66,10 @@ router.register(r'booking-appointments', BookingAppointmentViewSet, basename='bo
 router.register(r'permission-group-current-user', GetGroupAndPermissions4CurrentUser, basename='permission-group-current-user')
 router.register(r'ai-recommendation/doctor-appointment', AIDoctorAppointmentViewSet, basename='ai-recommendation-doctor-appointment')
 router.register(r'ai-recommendation/patient-condition', AIPatientConditionViewSet, basename='ai-recommendation-patient-condition')
-
+router.register(r'medical-drug', MedicineModelViewSet, basename='medical-drug')
+router.register(r'laboratory', LaboratoryModelViewSet, basename='laboratory')
+router.register(r'laboratory-research', LaboratoryResearchModelViewSet, basename='laboratory-research')
+router.register(r'laboratory-research-pdf', LaboratoryResearchPDFModelViewSet, basename='laboratory-research-pdf')
 
 
 

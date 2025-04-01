@@ -9,7 +9,7 @@ stop-docker-containers:
 	docker compose --file ../docker-compose.local.dev.yml down
 
 migrate:
-	venv/bin/python3 src/manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
+	venv/bin/python3 src/manage.py makemigrations users clients company_structure staffing  medical_activity registry chat external_systems
 	venv/bin/python3 src/manage.py migrate
 
 entrypoint:
@@ -19,7 +19,6 @@ collect-static:
 	venv/bin/python3 src/manage.py collectstatic
 
 startapp: start-venv run-docker-containers migrate collect-static entrypoint
-	start-venv run-docker-containers migrate collect-static entrypoint
 
 test:
 	venv/bin/python3 src/manage.py test api apps --parallel

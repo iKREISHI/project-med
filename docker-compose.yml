@@ -116,6 +116,7 @@ services:
     depends_on:
       - backend
 
+
 volumes:
   redis_data:
   minio_data:
