@@ -40,7 +40,7 @@ export function Main() {
     { name: 'Чат', path: '/chat', icon: <ChatBubbleOutlineOutlinedIcon /> },
     { name: 'Пациенты', path: '/registry', icon: <PeopleAltOutlinedIcon /> },
     { name: 'Прием', path: '/admission', icon: <MedicalServicesOutlinedIcon /> },
-    { name: 'Запись', path: '/record', icon: <EditCalendarOutlinedIcon /> },
+    { name: 'Запись', path: '/booking-appointment', icon: <EditCalendarOutlinedIcon /> },
     { name: 'Дежурства', path: '/doctor-shift', icon: <AssignmentOutlinedIcon /> },
     { name: 'Рецепты', path: '/recipes', icon: <BallotOutlinedIcon /> },
   ];
