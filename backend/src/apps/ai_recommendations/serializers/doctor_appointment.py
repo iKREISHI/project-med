@@ -6,6 +6,8 @@ from apps.staffing.models import Employee, ReceptionTime
 from apps.registry.models import MedicalCard
 import json
 
+from utils.json_decode import extract_fields
+
 
 class AIRecommendationsDoctorAppointmentSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
@@ -28,7 +30,7 @@ class AIRecommendationsDoctorAppointmentSerializer(serializers.Serializer):
         queryset=Employee.objects.all(), required=False, allow_null=True
     )
     signed_by = serializers.PrimaryKeyRelatedField(
-        queryset=Employee.objects.all()
+        queryset=Employee.objects.all(), required=False, allow_null=True
     )
     is_first_appointment = serializers.BooleanField(default=True)
     is_closed = serializers.BooleanField(default=False)
@@ -90,6 +92,8 @@ class AIRecommendationsDoctorAppointmentSerializer(serializers.Serializer):
 
         json_fields = json.loads(validated_data.get('reception_document_fields'))
 
+        json_datas = extract_fields(json_fields)
+
         medical_card = validated_data.get('medical_card')
         # if not medical_card:
         #     raise serializers.ValidationError(
@@ -101,24 +105,14 @@ class AIRecommendationsDoctorAppointmentSerializer(serializers.Serializer):
             raise serializers.ValidationError({"diagnosis": "Диагноз не найден"})
 
         # print(json_fields, type(json_fields))
-        complaints = json_fields.get('complaints')
-        if not complaints:
-            raise serializers.ValidationError({"complaints": "Нет жалоб"})
+        symptoms = json_datas.pop('symptoms')
+        if not symptoms:
+            raise serializers.ValidationError({"symptoms": "Нет жалоб"})
 
         # история_болезни
-        illness_history = json_fields.get('illness_history')
+        illness_history = json_datas.pop('illness_history')
         if not illness_history:
-            pass
-
-        # жизненная_история
-        life_history = json_fields.get('life_history')
-        if not life_history:
-            pass
-
-        # объективный_статус
-        objective_status = json_fields.get('objective_status')
-        if not objective_status:
-            pass
+            illness_history = ""
 
 
         # prompt = (
@@ -129,10 +123,9 @@ class AIRecommendationsDoctorAppointmentSerializer(serializers.Serializer):
         prompt = (
             f"Пациент: {patient_obj.get_short_name()}, пол - {patient_obj.gender if patient_obj.gender else 'Не определен'}, дата рождение - {patient_obj.date_of_birth if patient_obj.date_of_birth else 'Не определен'};"
             f"Диагноз: {diagnosis.name}; "
-            f"Жалобы: {complaints}; "
+            f"Жалобы: {symptoms}; "
             f"Анамнез болезни: {illness_history}; "
-            f"Анамнез жизни: {life_history if life_history else 'N/A'}; "
-            f"Состояние пациента: {objective_status};"
+            f"Данные осмотра пациента: {json_datas}"
         )
         return prompt
 
