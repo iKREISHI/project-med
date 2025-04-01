@@ -26,12 +26,6 @@ down-bot:
 logs-bot:
 	docker compose --file ../docker-compose.local.dev.yml logs tg_bot
 
-restart-celery:
-	docker compose --file ../docker-compose.local.dev.yml exec celery_worker /bin/bash -c "rm -rf /app/celerybeat-schedule.*"
-	docker compose --file ../docker-compose.local.dev.yml restart celery_worker
-	docker compose --file ../docker-compose.local.dev.yml exec celery_beat /bin/bash -c "rm -rf /app/celerybeat-schedule.*"
-	docker compose --file ../docker-compose.local.dev.yml restart celery_beat
-
 stop-docker-containers:
 	docker compose --file ../docker-compose.local.dev.yml down
 

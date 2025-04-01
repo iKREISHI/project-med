@@ -5,6 +5,7 @@ from .api_clients.update_laboratory_data import run_full_import
 
 logger = logging.getLogger('django')
 
+
 @celery_app.task
 def empty_task():
     logger.info('Empty task')
