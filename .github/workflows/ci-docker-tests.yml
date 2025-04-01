@@ -55,7 +55,7 @@ jobs:
           done
 
       - name: Подготовка к миграции
-        run: docker compose -f docker-compose-ci.yml exec backend python manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
+        run: docker compose -f docker-compose-ci.yml exec backend python manage.py makemigrations users clients company_structure staffing  medical_activity registry chat external_systems
 
       - name: Применение миграций
         run: docker compose -f docker-compose-ci.yml exec backend python manage.py migrate
