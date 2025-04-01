@@ -31,8 +31,6 @@ $RECYCLE.BIN/
 *.code-workspace
 *Zone.Identifier
 
-migrations/
-migration/
 staticfiles/
 .idea/
 .idea/*
