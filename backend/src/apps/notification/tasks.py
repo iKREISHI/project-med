@@ -15,14 +15,14 @@ def send_scheduled_message():
     async def send_messages():
         bot = Bot(token=settings.TELEGRAM_BOT_TOKEN)
 
-        # Получаем все уведомления с предзагрузкой поля user
+        # Получаем все уведомления, где статус равен 'Планируется'
         notifications = await sync_to_async(list)(
-            Notification.objects.all().select_related('user')
+            Notification.objects.filter(status='planning').select_related('user')
         )
 
         for notification in notifications:
-            # Используем user_id вместо notification.user, чтобы избежать ленивой загрузки
             try:
+                # Используем user_id для обращения без ленивой загрузки
                 employee = await sync_to_async(Employee.objects.get)(user_id=notification.user_id)
             except Employee.DoesNotExist:
                 logger.info(f"Сотрудник для пользователя {notification.user_id} не найден.")
@@ -41,6 +41,9 @@ def send_scheduled_message():
                         logger.info(
                             f"Уведомление отправлено для пользователя {notification.user_id} на чат {employee.telegram_chat_id}"
                         )
+                        # После успешной отправки обновляем статус на 'Доставлено'
+                        notification.status = 'delivered'
+                        await sync_to_async(notification.save)()
                     except Exception as e:
                         logger.error(
                             f"Ошибка отправки уведомления для пользователя {notification.user_id} с chat_id {employee.telegram_chat_id}: {e}"
@@ -52,5 +55,5 @@ def send_scheduled_message():
 
         await bot.session.close()
 
-    # Запускаем асинхронную функцию через asyncio.run()
+    # Запуск асинхронной функции через asyncio.run()
     asyncio.run(send_messages())
