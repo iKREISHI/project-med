@@ -58,6 +58,13 @@ class Employee(AbstractPersonModel):
         verbose_name=_('Специализация')
     )
 
+    telegram_chat_id = models.CharField(
+        null=True,
+        blank=True,
+        verbose_name='Чат ID телеграмма для отправки уведомлений',
+        max_length=255,
+    )
+
     class Meta:
         verbose_name = _("Сотрудник")
         verbose_name_plural = _("Сотрудники")

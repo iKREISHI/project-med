@@ -21,6 +21,8 @@ services:
         condition: service_started
       minio:
         condition: service_started
+      rabbitmq:
+        condition: service_started
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/med_db
       - REDIS_URL=redis://root:root@redis:6379/0
@@ -28,6 +30,30 @@ services:
       - MINIO_ROOT_PASSWORD=minioroot
       - MINIO_INSTANCE_ADDRESS=minio:9000
       - SERVER_BACKEND_IP_ADDRESS=127.0.0.1
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: celery -A config.celery_app worker --loglevel=info
+    depends_on:
+      - rabbitmq
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/med_db
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: celery -A config.celery_app beat --loglevel=info
+    depends_on:
+      - rabbitmq
+      - celery_worker
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/med_db
 
   redis:
     image: redis:latest
@@ -116,6 +142,13 @@ services:
       - static_volume:/static:ro  # Монтируем собранную статику Django
     depends_on:
       - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   redis_data:
