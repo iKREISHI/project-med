@@ -63,7 +63,7 @@ class BookingAppointment(models.Model):
             user = User.objects.filter(pk=self.doctor.user.pk).first()
         NotificationService.create_notification(
             user=user,
-            message=f'',
+            message=f'Прием запланирован на время: {self.vizit_datetime.strftime("%H:%M %d-%m-%Y ")} у {self.patient.get_short_name()}',
             status='planning',
             date_notification=self.vizit_datetime,
         )

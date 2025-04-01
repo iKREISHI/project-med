@@ -2,6 +2,7 @@ from split_settings.tools import include
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+from .config import TELEGRAM_BOT_TOKEN
 
 # Include
 include('commons.py')

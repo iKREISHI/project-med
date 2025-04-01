@@ -60,4 +60,5 @@ LAB_RESEARCH_PDF = env('LAB_RESEARCH_PDF', default='labReserchPdf')
 LAB_RESEARCH_PATIENT = env('patient', default='patient')
 
 GIGACHAT_API_KEY = env('GIGACHAT_API_KEY', default='')
+TELEGRAM_BOT_TOKEN = env('TELEGRAM_BOT_TOKEN', default='')
 

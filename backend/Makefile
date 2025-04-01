@@ -3,7 +3,7 @@ start-venv:
 	venv/bin/pip install -r requirements.txt
 
 run-docker-containers:
-	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio rabbitmq celery_worker celery_beat -d
+	docker compose --file ../docker-compose.local.dev.yml up redis postgres minio rabbitmq celery_worker celery_beat tg_bot -d
 
 up-celery:
 	docker compose --file ../docker-compose.local.dev.yml up celery_worker celery_beat -d --build
@@ -16,6 +16,15 @@ logs-celery-worker:
 
 logs-celery-beat:
 	docker compose --file ../docker-compose.local.dev.yml logs celery_beat
+
+up-bot:
+	docker compose --file ../docker-compose.local.dev.yml up tg_bot -d
+
+down-bot:
+	docker compose --file ../docker-compose.local.dev.yml down tg_bot
+
+logs-bot:
+	docker compose --file ../docker-compose.local.dev.yml logs tg_bot
 
 restart-celery:
 	docker compose --file ../docker-compose.local.dev.yml exec celery_worker /bin/bash -c "rm -rf /app/celerybeat-schedule.*"
