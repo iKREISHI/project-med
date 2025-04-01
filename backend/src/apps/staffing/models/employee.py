@@ -25,9 +25,7 @@ class Employee(AbstractPersonModel):
         blank=True,
     )
 
-    # TODO: поменять на ForeignKey
     department = models.ForeignKey(
-        # on_delete=models.SET_NULL,
         'company_structure.FilialDepartment',
         on_delete=models.SET_NULL,
         null=True,
@@ -58,6 +56,13 @@ class Employee(AbstractPersonModel):
         null=True,
         blank=True,
         verbose_name=_('Специализация')
+    )
+
+    telegram_chat_id = models.CharField(
+        null=True,
+        blank=True,
+        verbose_name='Чат ID телеграмма для отправки уведомлений',
+        max_length=255,
     )
 
     class Meta:

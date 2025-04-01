@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from .models import Position, Employee, Specialization, ReceptionTime
+
 
 
 @admin.register(Position)
@@ -35,3 +37,4 @@ class SpecializationAdmin(admin.ModelAdmin):
     list_filter = ('title',)
     ordering = ('title',)
     readonly_fields = ('id',)
+

@@ -8,7 +8,7 @@ backend/.env
 .env.docker
 myvenv/
 venv/
-.env
+../.env
 
 # Database
 db.sqlite3
@@ -31,11 +31,14 @@ $RECYCLE.BIN/
 *.code-workspace
 *Zone.Identifier
 
-migrations/
-migration/
+staticfiles/
 .idea/
 .idea/*
 media/
 
 # log
 *.log
+
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir

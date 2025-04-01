@@ -42,20 +42,20 @@ jobs:
       - name: Build и запуск контейнеров
         run: docker compose -f docker-compose-ci.yml up -d --build
 
-      - name: Ожидание готовности Postgres
-        run: |
-          for i in {1..10}; do
-            docker compose -f docker-compose-ci.yml exec postgres pg_isready -U ${POSTGRES_USER} && break || sleep 5;
-          done
-
-      - name: Ожидание готовности Redis
-        run: |
-          for i in {1..10}; do
-            docker compose -f docker-compose-ci.yml exec redis_container redis-cli -a ${REDIS_PASSWORD} ping && break || sleep 5;
-          done
+#      - name: Ожидание готовности Postgres
+#        run: |
+#          for i in {1..10}; do
+#            docker compose -f docker-compose-ci.yml exec postgres pg_isready -U ${POSTGRES_USER} && break || sleep 5;
+#          done
+#
+#      - name: Ожидание готовности Redis
+#        run: |
+#          for i in {1..10}; do
+#            docker compose -f docker-compose-ci.yml exec redis_container redis-cli -a ${REDIS_PASSWORD} ping && break || sleep 5;
+#          done
 
       - name: Подготовка к миграции
-        run: docker compose -f docker-compose-ci.yml exec backend python manage.py makemigrations users clients company_structure staffing  medical_activity registry chat
+        run: docker compose -f docker-compose-ci.yml exec backend python manage.py makemigrations users clients company_structure staffing  medical_activity registry chat external_systems
 
       - name: Применение миграций
         run: docker compose -f docker-compose-ci.yml exec backend python manage.py migrate
@@ -86,7 +86,7 @@ jobs:
             script: |
               cd /home/shiro/project-med/
               # Обновляем код на сервере
-              git pull origin main
+              git pull origin master
               # Создаем или обновляем файл .env
               cat <<EOF > .env
               REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
@@ -106,8 +106,9 @@ jobs:
               MINIO_INSTANCE_ADDRESS=${{ secrets.MINIO_INSTANCE_ADDRESS }}
               
               SERVER_BACKEND_IP_ADDRESS=${{ secrets.SERVER_BACKEND_IP_ADDRESS }}
+              GIGACHAT_API_KEY=${{ secrets.GIGACHAT_API_KEY }}
               EOF
               # Останавливаем текущие контейнеры (если запущены)
-              docker compose down
+              docker compose -f docker-compose.yml down
               # Собираем и запускаем контейнеры с обновленным кодом и настройками
-              docker compose up -d --build
+              docker compose -f docker-compose.yml up -d --build

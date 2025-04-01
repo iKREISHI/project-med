@@ -1,6 +1,9 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+
 from apps.medical_activity.models import DoctorAppointment
 from apps.medical_activity.service import DoctorAppointmentService
+from apps.medical_activity.validators.validate_appointment_date import validate_doctor_appointment_datetime
 
 
 class StrictCharField(serializers.CharField):
@@ -17,6 +20,17 @@ class DoctorAppointmentSerializer(serializers.ModelSerializer):
         model = DoctorAppointment
         fields = '__all__'
         read_only_fields = ('id', 'date_created',)
+
+    def validate(self, data):
+        instance = DoctorAppointment(**data)
+
+        if self.instance:
+            for field, value in data.items():
+                setattr(self.instance, field, value)
+            instance = self.instance
+
+            validate_doctor_appointment_datetime(instance)
+        return data
 
     def to_internal_value(self, data):
         unknown = set(data.keys()) - set(self.fields.keys())

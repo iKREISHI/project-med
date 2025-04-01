@@ -28,6 +28,9 @@ class ContractorViewSet(viewsets.ModelViewSet):
     pagination_class = ContractorPagination
     permission_classes = [IsAuthenticated, DjangoModelPermissions]
     lookup_field = 'id'
+    search_fields = [
+        'full_name', 'ownership_form', 'kpp', 'inn'
+    ]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

@@ -45,8 +45,5 @@ class FilialDepartment(models.Model):
         if self.name and not re.match(r'^[А-Яа-яЁё\s-]+$', self.name):
             raise ValidationError({'name': 'Недопустимые символы в названии'})
         # Если назначен директор, то у него должно быть установлено подразделение, и оно должно совпадать с текущим
-        if self.director:
-            if self.director.department is None or self.director.department != self:
-                raise ValidationError({'director': 'Сотрудник не принадлежит данному подразделению'})
         # Проверка уникальности (unique_together)
         self.validate_unique()

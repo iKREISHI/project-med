@@ -1,6 +1,7 @@
 import datetime
 from django.urls import reverse, path, include
 from django.test import override_settings
+from django.utils import timezone
 from rest_framework.routers import DefaultRouter
 from rest_framework.test import APITestCase
 from django.contrib.auth import get_user_model
@@ -10,7 +11,7 @@ from apps.medical_activity.models import HospitalStays
 from apps.medical_activity.serializers import HospitalStaysSerializer
 from apps.medical_activity.models import DoctorAppointment
 from apps.medical_activity.models import ReceptionTemplate
-from apps.staffing.models import Employee, Specialization
+from apps.staffing.models import Employee, Specialization, ReceptionTime
 from apps.clients.models import Patient
 from api.v0.views.medical_activity.hospital_stays import HospitalStaysViewSet
 
@@ -44,13 +45,21 @@ class HospitalStaysViewSetTests(APITestCase):
             specialization=self.specialization
         )
 
+        self.reception_time = ReceptionTime.objects.create(
+            reception_day=timezone.now().date() + datetime.timedelta(days=1),
+            start_time=datetime.time(8, 0, 0),
+            end_time=datetime.time(18, 0, 0),
+            doctor=self.employee,
+        )
+
         # Создаем минимальный объект DoctorAppointment с обязательными полями
         self.appointment = DoctorAppointment.objects.create(
             signed_by=self.employee,
-            appointment_date=datetime.date(2025, 3, 26),
+            appointment_date=timezone.now().date() + datetime.timedelta(days=1),
             start_time=datetime.time(9, 0),
             end_time=datetime.time(10, 0),
-            reception_template=self.reception_template
+            reception_template=self.reception_template,
+            assigned_doctor=self.employee,
         )
         # Переопределяем строковое представление приема для тестирования
         patcher_app = patch.object(DoctorAppointment, '__str__', return_value="Appointment 1")
