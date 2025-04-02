@@ -46,6 +46,7 @@ export const useAuth = () => {
       setIsAuthenticated(false);
       setUserData(null);
       localStorage.removeItem("user");
+      document.cookie = "sessionid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       navigate("/login"); // Переход на страницу входа или другую страницу по желанию
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An unknown error occurred");

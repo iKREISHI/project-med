@@ -5,6 +5,8 @@ import { Tooltip, IconButton, ListItemIcon, MenuItem, Menu, Avatar } from '@mui/
 import { avatarPersonSx } from './avatarPersonSx';
 import { useNavigate } from 'react-router-dom';
 import avatarDefault from '@0_app/assets/images/speaker-placeholder.png';
+import { useAuth } from '@4_features/auth/lib/useAuth';
+
 
 interface AvatarPersonProps {
   name: string;
@@ -18,6 +20,7 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name, withMenu = true }) =>
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const {handleLogout} = useAuth();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (withMenu) {
@@ -28,10 +31,6 @@ const AvatarPerson: React.FC<AvatarPersonProps> = ({ name, withMenu = true }) =>
   const handleClose = () => {
     setAnchorEl(null);
     console.log("Close");
-  };
-
-  const handleLogout = () => {
-    navigate('/login');
   };
 
   return (
