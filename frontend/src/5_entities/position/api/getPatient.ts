@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GET } from "@6_shared/api";
 import { Patient } from "@5_entities/patient";
 

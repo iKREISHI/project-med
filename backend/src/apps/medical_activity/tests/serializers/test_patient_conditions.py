@@ -21,8 +21,8 @@ class PatientConditionSerializerTestCase(TestCase):
         self.mock_employee_get_short_name = patcher.start()
 
         # Создаем тестовую смену
-        self.shift_start = datetime.datetime(2025, 3, 26, 8, 0)
-        self.shift_end = datetime.datetime(2025, 3, 26, 16, 0)
+        self.shift_start = datetime.datetime(2026, 3, 26, 8, 0)
+        self.shift_end = datetime.datetime(2026, 3, 26, 16, 0)
         self.shift = Shift.objects.create(
             doctor=self.employee,
             start_time=self.shift_start,

@@ -29,6 +29,8 @@ DATABASES_URL = env.db(
     default='postgres://postgres:postgres@127.0.0.1:5432/med_db'
 )
 
+DATABASE_URL = env('DATABASE_URL', default='postgres://postgres:postgres@127.0.0.1:5432/med_db')
+
 # REDIS
 REDIS_USER = env('REDIS_USER', default='root')
 REDIS_USER_PASSWORD = env('REDIS_USER_PASSWORD', default='root')
@@ -60,4 +62,5 @@ LAB_RESEARCH_PDF = env('LAB_RESEARCH_PDF', default='labReserchPdf')
 LAB_RESEARCH_PATIENT = env('patient', default='patient')
 
 GIGACHAT_API_KEY = env('GIGACHAT_API_KEY', default='')
+TELEGRAM_BOT_TOKEN = env('TELEGRAM_BOT_TOKEN', default='')
 

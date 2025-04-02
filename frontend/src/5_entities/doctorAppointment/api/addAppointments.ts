@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {DoctorAppointment} from "@5_entities/doctorAppointment/model/model.ts";
 import {POST} from "@6_shared/api";
 

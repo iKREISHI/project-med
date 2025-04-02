@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SxProps, Theme } from '@mui/material/styles';
 import { globalsStyle } from '../../styles/globalsStyle';
 

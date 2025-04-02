@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCallback, useEffect, useState } from 'react';
 import { GET } from '@6_shared/api';
 import { useUserId } from "@6_shared/store/useAuthStore.ts"

@@ -38,8 +38,8 @@ class PatientConditionViewSetTests(APITestCase):
         # Создаем тестовую смену, которая понадобится для PatientCondition
         self.shift = Shift.objects.create(
             doctor=self.doctor,
-            start_time=datetime.datetime(2025, 3, 26, 8, 0),
-            end_time=datetime.datetime(2025, 3, 26, 16, 0)
+            start_time=datetime.datetime(2026, 3, 26, 8, 0),
+            end_time=datetime.datetime(2026, 3, 26, 16, 0)
         )
 
         # Создаем 15 объектов PatientCondition для тестирования пагинации

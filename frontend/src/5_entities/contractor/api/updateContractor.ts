@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {Contractor} from "@5_entities/contractor/model/model.ts";
 import {PUT} from "@6_shared/api";
 

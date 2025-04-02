@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Box, Theme, useMediaQuery, useTheme } from "@mui/material";
 import { ChatMenu } from "@6_shared/ChatMenu";

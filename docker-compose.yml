@@ -42,7 +42,8 @@ services:
       - rabbitmq
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/med_db
+      - DATABASE_URL=${DATABASE_URL}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
 
   celery_beat:
     build:
@@ -54,7 +55,19 @@ services:
       - celery_worker
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/med_db
+      - DATABASE_URL=${DATABASE_URL}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+
+  tg_bot:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: python /app/manage.py run_aiobot
+    depends_on:
+      - postgres
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - DATABASE_URL=${DATABASE_URL}
 
   redis:
     image: redis:latest

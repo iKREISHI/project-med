@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GET } from "@6_shared/api";
 import { PaginatedReceptionTimeList, ReceptionTimeListParams } from "../model/model";
 

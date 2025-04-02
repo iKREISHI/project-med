@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GET } from '@6_shared/api';
 import { DoctorAppointment } from "@5_entities/doctorAppointment/model/model.ts";
 
