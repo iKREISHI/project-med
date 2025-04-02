@@ -32,6 +32,7 @@ $RECYCLE.BIN/
 *Zone.Identifier
 
 staticfiles/
+migrations/
 .idea/
 .idea/*
 media/
