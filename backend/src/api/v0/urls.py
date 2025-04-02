@@ -15,6 +15,7 @@ from .views.external_systems.laboratory import LaboratoryModelViewSet
 from .views.external_systems.laboratory_research import LaboratoryResearchModelViewSet
 from .views.external_systems.laboratory_research_pdf import LaboratoryResearchPDFModelViewSet
 from .views.external_systems.medicine import MedicineModelViewSet
+from .views.external_systems.medicine_prescription import MedicinePrescriptionViewSet
 from .views.medical_activity.doctor_appointment import DoctorAppointmentViewSet
 from .views.medical_activity.shifts import ShiftViewSet
 from .views.registration import RegistrationViewSet
@@ -73,7 +74,7 @@ router.register(r'laboratory', LaboratoryModelViewSet, basename='laboratory')
 router.register(r'laboratory-research', LaboratoryResearchModelViewSet, basename='laboratory-research')
 router.register(r'laboratory-research-pdf', LaboratoryResearchPDFModelViewSet, basename='laboratory-research-pdf')
 router.register(r'notification', NotificationReadOnlyViewSet, basename='notification')
-
+router.register(r'medicine-prescription', MedicinePrescriptionViewSet, basename='medicine-prescription')
 
 urlpatterns = (
 [
