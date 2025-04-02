@@ -37,14 +37,14 @@ class ShiftTransferViewSetTests(APITestCase):
         # Создаем первую смену (from_shift)
         self.shift_from = Shift.objects.create(
             doctor=self.doctor,
-            start_time=datetime.datetime(2025, 3, 26, 8, 0),
-            end_time=datetime.datetime(2025, 3, 26, 16, 0)
+            start_time=datetime.datetime(2026, 3, 26, 8, 0),
+            end_time=datetime.datetime(2026, 3, 26, 16, 0)
         )
         # Создаем вторую смену (to_shift)
         self.shift_to = Shift.objects.create(
             doctor=self.doctor,
-            start_time=datetime.datetime(2025, 3, 27, 8, 0),
-            end_time=datetime.datetime(2025, 3, 27, 16, 0)
+            start_time=datetime.datetime(2026, 3, 27, 8, 0),
+            end_time=datetime.datetime(2026, 3, 27, 16, 0)
         )
 
         # Создаем 10 объектов ShiftTransfer для тестирования пагинации
