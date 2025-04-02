@@ -174,27 +174,39 @@ export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, o
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const documentEditorRef = React.useRef<any>(null);
     const formDataRef = React.useRef<Record<string, any>>({});
-    const [patient, setPatient] = React.useState();
+    const [patient, setPatient] = React.useState('');
 
-
-    React.useEffect(() =>{
-      const fetchPatient = async () =>{
-        const patData = await getPatient(pCondition.patient || 1);
-        setPatient(patData.first_name + patData.last_name + patData.patronymic? : '');  
-
-      }
+    React.useEffect(() => {
+      const fetchPatient = async () => {
+        try {
+          if (!pCondition.patient) return;
+          const patData = await getPatient(pCondition.patient);
+          const fullName = [
+            patData.last_name,
+            patData.first_name,
+            patData.patronymic
+          ].filter(Boolean).join(' ');
+          setPatient(fullName);
+        } catch (error) {
+          console.error('Ошибка получения пациента:', error);
+          setPatient('');
+        }
+      };
       fetchPatient();
-    })
+    }, [pCondition.patient]);
+
+    if (!patient) {
+      return null; // или можно показать <Skeleton />
+    }
+    
+
 
     const handleDataExtract = (data: Record<string, any>) => {
         formDataRef.current = data;
         const processedHtml = documentEditorRef.current?.getProcessedHtml() || "";
         
-
-        setField('shift', '1');
-        setField('document', processedHtml);
-        setField('document_fields', JSON.stringify(data));
-        setField('patient', data.patient)
+        
+        
     };
 
     const handleSaveDocument = async () => {
@@ -221,7 +233,7 @@ export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, o
             });
 
 
-        
+            
             await addNewCondition(pCondition as PatientCondition);
             if (onSave) onSave(htmlContent, formData);
             onClose();
@@ -256,6 +268,7 @@ export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, o
                   initialData={{ patient_name: patient }}
                   onDataExtract={handleDataExtract}
                 />
+
 
 
 
