@@ -25,29 +25,39 @@ export const StaffList: React.FC = () => {
     const [staffData, setStaffData] = useState<Employee[]>([]);
     const [positions, setPositions] = useState<Position[]>([]);
     const [loading, setLoading] = useState(false);
+    const [rowCount, setRowCount] = useState(0);
+    
+    const [paginationModel, setPaginationModel] = useState({
+        page: 0,
+        pageSize: 10,
+    });
 
     // Загрузка данных сотрудников и должностей
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                // Загружаем данные параллельно
-                const [employeesResponse, positionsResponse] = await Promise.all([
-                    getAllEmployee(),
-                    getAllPositions()
-                ]);
-                
-                setStaffData(employeesResponse.results || []);
-                setPositions(positionsResponse.results || []);
-            } catch (error) {
-                console.error("Ошибка загрузки данных:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        
-        fetchData();
-    }, []);
+        fetchStaffData();
+    }, [paginationModel.page, paginationModel.pageSize, searchQuery]);
+
+    const fetchStaffData = async () => {
+        setLoading(true);
+        try {
+            // Загружаем данные параллельно
+            const [employeesResponse, positionsResponse] = await Promise.all([
+                getAllEmployee({
+                    page: paginationModel.page + 1,
+                    page_size: paginationModel.pageSize,
+                }),
+                getAllPositions()
+            ]);
+            
+            setStaffData(employeesResponse.results || []);
+            setRowCount(employeesResponse.count || 0);
+            setPositions(positionsResponse.results || []);
+        } catch (error) {
+            console.error("Ошибка загрузки данных:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Функция для получения названия должности по ID
     const getPositionName = (positionId: number): string => {
@@ -114,12 +124,6 @@ export const StaffList: React.FC = () => {
         },
     ];
 
-    const filteredStaff = processedStaff.filter((staff) =>
-        `${staff.last_name} ${staff.first_name} ${staff.patronymic || ''} ${staff.position_name}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-    );
-
     const columns = isMobile ? mobileColumns : desktopColumns;
 
     const handleEdit = (id: number) => {
@@ -177,16 +181,15 @@ export const StaffList: React.FC = () => {
                 borderRadius: (theme: Theme) => theme.shape.borderRadius,
             }}>
                 <DataGrid
-                    rows={filteredStaff}
+                    rows={processedStaff}
                     columns={columns}
                     autoHeight
                     loading={loading}
                     disableRowSelectionOnClick
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 13 },
-                        },
-                    }}
+                    paginationMode="server"
+                    paginationModel={paginationModel}
+                    onPaginationModelChange={setPaginationModel}
+                    rowCount={rowCount}
                     sx={{
                         borderRadius: (theme: Theme) => theme.shape.borderRadius,
                         '& .MuiDataGrid-cell': {

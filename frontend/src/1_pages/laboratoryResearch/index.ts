@@ -1,0 +1,1 @@
+export { LaboratoryResearch } from './ui/LaboratoryResearch'

@@ -158,6 +158,7 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
                       checked={appointment.is_first_appointment || false}
                       onChange={(e) => setField("is_first_appointment", e.target.checked)}
                       color="primary"
+                      disableRipple
                     />
                   }
                   label="Первый прием"
@@ -169,6 +170,7 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
                       checked={appointment.is_closed || false}
                       onChange={(e) => setField("is_closed", e.target.checked)}
                       color="primary"
+                      disableRipple
                     />
                   }
                   label="Прием закрыт"

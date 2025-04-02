@@ -36,12 +36,13 @@ import { MainRegistry } from "@1_pages/mainRegistry";
 import { MainHeadDoctor } from "@1_pages/mainHeadDoctor";
 import { Recipes } from "@1_pages/recipes";
 import { AddRecipeForm } from "@5_entities/recipe";
+import { LaboratoryResearch } from "@1_pages/laboratoryResearch";
 
 export const RouterComponent: FC = () => {
   const userLocal = JSON.parse(localStorage.getItem('user') || '{}');
   const position = userLocal.position || 'staff';
   const user = {
-    role: 'Администратор' // Администратор Работник Регистратура Заведующий
+    role: 'Работник' // Администратор Работник Регистратура Заведующий
   };
 
   return (
@@ -75,16 +76,6 @@ export const RouterComponent: FC = () => {
             <>
               <Route path="staff" element={<StaffList />} />
               <Route path="staff/create" element={<StaffAdd />} />
-
-              {/* <Route path="patients" element={<PatientList />} />
-              <Route path="patients/create" element={<PatientAdd />}>
-                <Route path="info" element={<PatientInfo />} />
-                <Route path="passport" element={<PatientPassport />} />
-                <Route path="medical-data" element={<MedicalData />} />
-                <Route path="addresses" element={<PatientAddresses />} />
-                <Route path="visit-history" element={<VisitHistory />} />
-                <Route path="additional-info" element={<PatientAddForm />} />
-              </Route> */}
               <Route path="registry" element={<Registry />} />
               <Route path="registry/patient" element={<Patient />}>
                 <Route path="info" element={<PatientInfo />} />
@@ -118,6 +109,7 @@ export const RouterComponent: FC = () => {
           {user.role === "Работник" && (
             <>
               <Route path="" element={<DashBoard />} />
+              {/* <Route path="laboratory" element={<LaboratoryResearch />} /> */}
               <Route path="chat">
                 <Route index element={<Chat />} />
                 <Route path=":id" element={<Chat />} />

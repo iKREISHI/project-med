@@ -195,6 +195,7 @@ export const ChatMenu: FC = () => {
           color="primary"
           aria-label="add"
           onClick={handleClick}
+          disableRipple
           sx={{
             bgcolor: 'primary.main',
             color: 'primary.contrastText',

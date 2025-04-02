@@ -6,7 +6,9 @@ export const getAllEmployee = async (
   queryParams: PatientListQueryParams
 ) :Promise<PaginatedEmployeeList> => {
   const response = await GET('/api/v0/employee/', {
-    query: queryParams,
+    params: {
+      query: queryParams 
+    } 
   });
 
   if (!response || !response.data) {

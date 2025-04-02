@@ -2041,6 +2041,39 @@ export interface components {
             username: string;
             password: string;
         };
+        Laboratory: {
+            readonly id: number;
+            /** Уникальный идентификатор лаборатории */
+            guid: string;
+            /** Название лаборатории */
+            name: string;
+            /** Адрес лаборатории */
+            address: string;
+        };
+        LabResearch: {
+            readonly id: number;
+            /** Уникальный идентификатор направления */
+            lab_direction_guid: string;
+            /** Статус направления */
+            status: "completed" | "process";
+            /** Номер направления */
+            number: string;
+            /** Дата создания */
+            readonly create_date: string;
+            /** Дата направления */
+            direction_date: string;
+            /** GUID предыдущего исследования */
+            previous_research_guid?: string | null;
+            /** Флаг предыдущего исследования */
+            is_previous_research?: boolean;
+            /** Флаг приоритетности */
+            is_priority?: boolean;
+            /** ID пациента */
+            patient?: number;
+            /** ID лаборатории */
+            laboratory: number;
+        };
+
         MedicalCard: {
             readonly id: number;
             /** Подписано ЭП */
@@ -2092,6 +2125,21 @@ export interface components {
             begin_number?: string | null;
             /** Описание */
             description?: string | null;
+        };
+        Notification: {
+            readonly id: number;
+            /** Текст уведомления */
+            message: string;
+            /** Статус уведомления */
+            status: 'delivered' | 'read' | 'unread';
+            /** Дата события */
+            readonly date: string;
+            /** Дата создания уведомления */
+            readonly date_created: string;
+            /** Дата доставки уведомления */
+            readonly date_delivered?: string | null;
+            /** ID пользователя, которому предназначено уведомление */
+            user: number;
         };
         PaginatedContractorList: {
             /** @example 123 */
@@ -2198,6 +2246,36 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["HospitalStays"][];
         };
+        PaginatedLabResearchList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["LabResearch"][];
+        };
+        PaginatedLaboratoryList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Laboratory"][];
+        };
         PaginatedMedicalCardList: {
             /** @example 123 */
             count: number;
@@ -2227,6 +2305,16 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["MedicalCardType"][];
+        };
+        PaginatedNotificationList: {
+            /** Общее количество уведомлений */
+            count: number;
+            /** Ссылка на следующую страницу */
+            next?: string | null;
+            /** Ссылка на предыдущую страницу */
+            previous?: string | null;
+            /** Результаты - список уведомлений */
+            results: components["schemas"]["Notification"][];
         };
         PaginatedPatientConditionList: {
             /** @example 123 */

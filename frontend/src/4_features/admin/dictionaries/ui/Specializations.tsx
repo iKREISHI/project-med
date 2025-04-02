@@ -28,35 +28,44 @@ export const Specializations: FC = () => {
         description: "",
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [rowCount, setRowCount] = useState(0);
+
+    const [paginationModel, setPaginationModel] = useState({
+        page: 0,
+        pageSize: 10,
+    });
 
     // Загрузка данных
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                // Загружаем все специализации сразу
-                const data = await getAllSpecialization();
-                
-                // Обрабатываем разные форматы ответа API
-                const items = Array.isArray(data) ? data : (data.results || []);
-                setSpecializations(items);
-            } catch (error) {
-                console.error("Ошибка при загрузке специализаций:", error);
-                setSnackbar({
-                    open: true,
-                    message: 'Ошибка при загрузке специализаций',
-                    severity: 'error'
-                });
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchData();
-    }, []);
+    }, [paginationModel.page, paginationModel.pageSize]);
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            // Загружаем все специализации сразу
+            const data = await getAllSpecialization({
+                page: paginationModel.page + 1,
+                page_size: paginationModel.pageSize,
+            });
+            setRowCount(data.count || 0);
+            // Обрабатываем разные форматы ответа API
+            const items = Array.isArray(data) ? data : (data.results || []);
+            setSpecializations(items);
+        } catch (error) {
+            console.error("Ошибка при загрузке специализаций:", error);
+            setSnackbar({
+                open: true,
+                message: 'Ошибка при загрузке специализаций',
+                severity: 'error'
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     // Колонки для DataGrid
-    const columns: GridColDef[] = isMobile 
+    const columns: GridColDef[] = isMobile
         ? [
             { field: 'title', headerName: 'Название', flex: 1, minWidth: 120 },
             {
@@ -142,8 +151,7 @@ export const Specializations: FC = () => {
         try {
             setLoading(true);
             const prevSpecializations = [...specializations];
-            
-            // Оптимистичное обновление UI
+
             setSpecializations(prev => prev.filter(item => item.id !== id));
 
             try {
@@ -183,11 +191,11 @@ export const Specializations: FC = () => {
                     title: newSpecialization.title,
                     description: newSpecialization.description
                 });
-                
+
                 setSpecializations(prev => prev.map(item =>
                     item.id === currentId ? response : item
                 ));
-                
+
                 setSnackbar({
                     open: true,
                     message: 'Специализация успешно обновлена',
@@ -198,20 +206,20 @@ export const Specializations: FC = () => {
                     title: newSpecialization.title,
                     description: newSpecialization.description
                 });
-                
+
                 if (!response || !response.id) {
                     throw new Error('Неверный формат ответа сервера');
                 }
-                
+
                 setSpecializations(prev => [...prev, response]);
-                
+
                 setSnackbar({
                     open: true,
                     message: 'Специализация успешно добавлена',
                     severity: 'success'
                 });
             }
-    
+
             handleCloseModal();
         } catch (error) {
             console.error("Ошибка при сохранении специализации:", error);
@@ -265,12 +273,13 @@ export const Specializations: FC = () => {
                     rows={specializations}
                     columns={columns}
                     autoHeight
+                    loading={loading}
                     disableRowSelectionOnClick
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 13 },
-                        },
-                    }}
+                    paginationMode="server"
+                    paginationModel={paginationModel}
+                    onPaginationModelChange={setPaginationModel}
+                    rowCount={rowCount}
+                   
                     sx={{
                         borderRadius: (theme: Theme) => theme.shape.borderRadius,
                         '& .MuiDataGrid-cell': {
