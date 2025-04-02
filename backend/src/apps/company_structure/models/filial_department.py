@@ -12,14 +12,6 @@ class FilialDepartment(models.Model):
         max_length=255,
         verbose_name=_("Название отделения")
     )
-    director = models.ForeignKey(
-        'staffing.Employee',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name=_("Руководитель"),
-        related_name='managed_departments'
-    )
     filial = models.ForeignKey(
         'company_structure.Filial',
         on_delete=models.SET_NULL,
