@@ -24,16 +24,12 @@ class Prescription(AbstractElectronicSignature):
         default="test"
     )
 
+    # document_number генерируется как строка
     document_number = models.CharField(
         max_length=255,
         unique=True,
         verbose_name=_("Номер документа"),
-        default=uuid.uuid4
-    )
-
-    creation_datetime = models.DateTimeField(
-        default=now,
-        verbose_name=_("Дата и время создания")
+        default='',
     )
 
     patient = models.ForeignKey(
@@ -46,18 +42,32 @@ class Prescription(AbstractElectronicSignature):
     description = models.TextField(
         verbose_name=_("Описание"),
         blank=True,
-        null=True
+        null=True,
+        default='Выписанный рецепт'
     )
 
-    doc_content = models.JSONField(
+    doc_content = models.TextField(
         verbose_name=_("Содержимое документа (HTML)"),
         blank=True,
         null=True
     )
 
+    is_send = models.BooleanField(
+        verbose_name='Отправлено ли на API аптеки',
+        default=False,
+    )
+
+    date_created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания"
+    )
+
     def save(self, *args, **kwargs):
         if self.is_signed and not self.org_signature:
             self.org_signature = generate_org_signature()
+
+        if not self.document_number:
+            self.document_number = str(uuid.uuid4())
         super().save(*args, **kwargs)
 
     class Meta:
