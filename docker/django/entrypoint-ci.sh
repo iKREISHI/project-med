@@ -9,6 +9,7 @@ python3 /app/manage.py makemigrations staffing
 python3 /app/manage.py makemigrations medical_activity
 python3 /app/manage.py makemigrations registry
 python3 /app/manage.py makemigrations chat external_systems notification
+python3 /app/manage.py migrate auth
 python3 /app/manage.py migrate
 #python3 /app/entrypoint.py
 
