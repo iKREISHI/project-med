@@ -205,12 +205,14 @@ export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, o
         formDataRef.current = data;
         const processedHtml = documentEditorRef.current?.getProcessedHtml() || "";
         
-        
+        setField('shift', '1');
+        setField('document', processedHtml);
+        setField('document_fields', JSON.stringify(data));
+        setField('patient', data.patient)
         
     };
 
     const handleSaveDocument = async () => {
-        try {
             if (!documentEditorRef.current) return;
             
             // Обновляем данные формы
@@ -226,21 +228,27 @@ export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, o
                 return;
             }
 
-            console.log("Сохраненные данные:", { 
-                html: htmlContent, 
-                formData,
-                storeData: pCondition 
-            });
-
-
+            // console.log("Сохраненные данные:", { 
+            //     html: htmlContent, 
+            //     formData,
+            //     storeData: pCondition 
+            // });
+            const finalCondition = {
+              shift: 1,
+              patient: Number(pCondition.patient),
+              document: htmlContent,
+              document_fields: JSON.stringify(formData),
+              status: 'Critical',
+              description: formData.general_state || '',
+            };
             
-            await addNewCondition(pCondition as PatientCondition);
+            console.log('📦 Финальные данные:', finalCondition);
+            
+            await addNewCondition(finalCondition);
+            
             if (onSave) onSave(htmlContent, formData);
             onClose();
-        } catch (error) {
-            console.error('Ошибка при сохранении:', error);
-            alert('Произошла ошибка при сохранении');
-        }
+
     };
 
     return (

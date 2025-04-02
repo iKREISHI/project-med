@@ -21,14 +21,13 @@ export const DocumentEditor = forwardRef<DocumentEditorRef, DocumentEditorProps>
     const formRef = useRef<HTMLDivElement>(null);
     const [processedHtml, setProcessedHtml] = React.useState('');
 
-    // Process template with initial data
+    // Шаблон с заменой {{field}} значений
     const processTemplate = (data: Record<string, any>) => {
       let result = templateHtml;
       result = result.replace(/\{\{(\w+)\}\}/g, (_, key) => data[key] ?? "");
       return DOMPurify.sanitize(result);
     };
 
-    // Initialize with initial data
     useEffect(() => {
       setProcessedHtml(processTemplate(initialData));
     }, [templateHtml, initialData]);
@@ -49,13 +48,46 @@ export const DocumentEditor = forwardRef<DocumentEditorRef, DocumentEditorProps>
 
         onDataExtract(formData);
       },
+
       exportToPdf: async () => {
         if (!formRef.current) return;
-        const canvas = await html2canvas(formRef.current, { scale: 2 });
-        const pdf = new jsPDF({ orientation: "portrait", unit: "px" });
-        pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
+      
+        const canvas = await html2canvas(formRef.current, {
+          scale: 2,
+          useCORS: true,
+        });
+      
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: "a4",
+        });
+      
+        const pageWidth = pdf.internal.pageSize.getWidth();   // 210mm
+        const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+      
+        const imgProps = {
+          width: canvas.width,
+          height: canvas.height,
+        };
+      
+        const pxPerMm = imgProps.width / pageWidth;
+      
+        const targetHeightMm = imgProps.height / pxPerMm;
+      
+        // Ограничим высоту до 295 мм (чуть меньше A4)
+        const finalHeightMm = targetHeightMm > 295 ? 295 : targetHeightMm;
+      
+        const finalWidthMm = pageWidth;
+      
+        const marginY = (pageHeight - finalHeightMm) / 2;
+      
+        pdf.addImage(imgData, "PNG", 0, marginY, finalWidthMm, finalHeightMm);
         pdf.save("document.pdf");
-      },
+      }
+      ,
+
       getProcessedHtml: () => formRef.current?.innerHTML || ""
     }));
 
