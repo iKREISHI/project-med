@@ -14,7 +14,7 @@ import { getCurrentUser, User } from "@5_entities/user";
 import {addAppointments} from "@5_entities/doctorAppointment";
 import {DoctorAppointment} from "@5_entities/doctorAppointment/model/model.ts";
 import { InspectionChoice } from '@5_entities/doctorAppointment/model/types';
-
+import { useLocation } from "react-router-dom";
 
 
 interface AdmissionInfoFormProps {
@@ -28,7 +28,7 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   //const [employee, setEmployee] = useState<User>();
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-
+  
   const inspectionOptions = [
     {id:'no_inspection', label: 'Не нуждается в обследовании'},
     {id:'additional', label:'Нуждается в проведении доп обследования'},

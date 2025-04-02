@@ -42,7 +42,7 @@ export const RouterComponent: FC = () => {
   const userLocal = JSON.parse(localStorage.getItem('user') || '{}');
   const position = userLocal.position || 'staff';
   const user = {
-    role: 'Работник' // Администратор Работник Регистратура Заведующий
+      role: 'Заведующий' // Администратор Работник Регистратура Заведующий
   };
 
   return (

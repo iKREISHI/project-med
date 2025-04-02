@@ -98,7 +98,7 @@ export const Diagnosis: FC = () => {
 
   <div class="vital-signs">
     <h2>Жизненно важные показатели</h2>
-    <div class="vital-grid">
+    <div class="vital-grid">ЙВ
       <div class="vital-item">
         <label>Температура тела (°C):</label>
         <input type="text" name="temperature" value="{{temperature}}" class="form-input">

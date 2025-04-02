@@ -3,7 +3,7 @@ import { CustomButton } from "@6_shared/Button";
 import { InputSearch } from "@6_shared/Input";
 import { useTheme } from "@emotion/react";
 import { Box, Paper } from "@mui/material";
-import { DataGrid, GridAddIcon, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridAddIcon, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -29,6 +29,25 @@ export const BookingAppointmentList: FC = () => {
     { field: "patient_name", headerName: "Пациент", flex: 1, minWidth: 150 },
     { field: "doctor_name", headerName: "Доктор", flex: 1, minWidth: 150 },
     { field: "vizit_datetime", headerName: "Дата приема", flex: 1, minWidth: 200 },
+    {
+      field: "actions",
+      headerName: "Действия",
+      flex: 1,
+      minWidth: 180,
+      renderCell: (params: GridRenderCellParams) => (
+        <CustomButton
+          variant="contained"
+          onClick={() => navigate(`/admission`, { 
+            state: { 
+              patientName: params.row.patient, 
+              visitDate: params.row.vizit_datetime 
+            } 
+          })}
+        >
+          Провести прием
+        </CustomButton>
+      ),
+    },
   ];
 
   useEffect(() => {
