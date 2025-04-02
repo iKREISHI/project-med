@@ -7,6 +7,7 @@ import { ruRU } from '@mui/x-data-grid/locales';
 import { ConditionModal } from './ConditionModal';
 import { CustomButton } from '@6_shared/Button';
 import EditIcon from '@mui/icons-material/Edit';
+import { PatientModal } from './PatientModal';
 
 interface PatientCondition {
     id: number;
@@ -48,6 +49,7 @@ export const PatientCondition: React.FC = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [conditions, setConditions] = useState<PatientCondition[]>([]);
     const [openModal, setOpenModal] = useState(false);
+    const [openPatientModal, setOpenPatientModal] = useState(false);
     const [currentCondition, setCurrentCondition] = useState<Partial<PatientCondition> | null>(null);
 
     useEffect(() => {
@@ -142,7 +144,7 @@ export const PatientCondition: React.FC = () => {
             }}>
                 <CustomButton
                     variant="contained"
-                    onClick={() => handleOpenModal(null)}
+                    onClick={() => setOpenPatientModal(true)}
                 >
                     Добавить
                 </CustomButton>
@@ -177,7 +179,9 @@ export const PatientCondition: React.FC = () => {
                     localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
                 />
             </Paper>
-
+            <PatientModal
+                open={openPatientModal}
+            />
             <ConditionModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
