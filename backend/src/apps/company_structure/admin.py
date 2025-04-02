@@ -8,5 +8,5 @@ class FilialAdmin(admin.ModelAdmin):
 
 @admin.register(FilialDepartment)
 class FilialDepartmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'director', 'filial')
+    list_display = ('name',  'filial')
     search_fields = ('name',)
