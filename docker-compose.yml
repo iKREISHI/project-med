@@ -146,7 +146,9 @@ services:
       retries: 5
 
   nginx:
-    image: nginx:alpine
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     container_name: nginx_server
     ports:
       - "80:80"
