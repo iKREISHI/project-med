@@ -328,8 +328,10 @@ export const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
               }}>
                 <DocumentEditor
                   templateHtml={htmlContent}
+                  initialData={{}} // <- добавь это!
                   onDataExtract={handleDataExtract}
                 />
+
               </Box>
             </SectionBlock>
           </>

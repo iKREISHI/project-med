@@ -111,6 +111,7 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
     setField('signed_date', '2025-04-01');
     try{
       await addAppointments(appointment as DoctorAppointment)
+      
     } catch (error){
       console.error(error);
     }

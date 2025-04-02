@@ -9,6 +9,9 @@ import { ConditionModal } from './ConditionModal';
 import { CustomButton } from '@6_shared/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import { PatientModal } from './PatientModal';
+import { getAllConditions } from '@5_entities/patientCondition';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 interface PatientCondition {
     id: number;
@@ -24,25 +27,6 @@ interface PatientCondition {
     document_fields?: object;
 }
 
-const mockPatients = [
-    { id: 1, name: 'Иванов Иван Иванович' },
-    { id: 2, name: 'Петров Петр Петрович' },
-    { id: 3, name: 'Сидорова Мария Сергеевна' },
-];
-
-const mockConditions: PatientCondition[] = [
-    {
-        id: 1,
-        patient: 'Иванов Иван Иванович',
-        shift: 1,
-        shift_str: 'Смена 1 (15.05.2023)',
-        description: 'Состояние стабильное, жалоб нет',
-        date: '2023-05-15T10:30:00',
-        status: 'stable',
-        condition_str: 'Стабильное'
-    },
-];
-
 export const PatientCondition: React.FC = () => {
     const { shiftId } = useParams();
     const theme = useTheme();
@@ -54,8 +38,17 @@ export const PatientCondition: React.FC = () => {
     const [currentCondition, setCurrentCondition] = useState<Partial<PatientCondition> | null>(null);
 
     useEffect(() => {
-        setConditions(mockConditions);
-    }, []);
+        const fetchConditions = async () => {
+            try {
+                const response = await getAllConditions({ shift: shiftId });
+                setConditions(response.results || []);
+            } catch (error) {
+                console.error('Ошибка при загрузке состояний:', error);
+            }
+        };
+
+        fetchConditions();
+    }, [shiftId]);
 
     useEffect(() => {
         if (shouldOpenConditionModal) {
@@ -73,6 +66,32 @@ export const PatientCondition: React.FC = () => {
             status: '',
         });
         setOpenModal(true);
+    };
+
+    const exportToExcel = () => {
+        const worksheetData = conditions.map((cond) => ({
+            ID: cond.id,
+            Пациент: cond.patient,
+            Смена: cond.shift_str,
+            Статус: cond.condition_str,
+            Описание: cond.description,
+            Дата: new Date(cond.date).toLocaleString(),
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Состояния");
+
+        const excelBuffer = XLSX.write(workbook, {
+            bookType: "xlsx",
+            type: "array",
+        });
+
+        const blob = new Blob([excelBuffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        saveAs(blob, "Состояния_пациентов.xlsx");
     };
 
     const desktopColumns: GridColDef[] = [
@@ -156,6 +175,13 @@ export const PatientCondition: React.FC = () => {
                 >
                     Добавить
                 </CustomButton>
+
+                <CustomButton
+                    variant="outlined"
+                    onClick={exportToExcel}
+                >
+                    Выгрузить в Excel
+                </CustomButton>
             </Box>
 
             <Paper sx={{
@@ -200,7 +226,7 @@ export const PatientCondition: React.FC = () => {
                 open={openModal}
                 onClose={() => setOpenModal(false)}
                 condition={currentCondition}
-                patients={mockPatients}
+                patients={[]} // можно подгрузить реально
             />
         </Box>
     );

@@ -1,140 +1,141 @@
 // @ts-nocheck
-import { FC } from "react";
-import { Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, TextField, Button, Typography, IconButton, Stack } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import { GET } from "@6_shared/api";
 import { DocumentEditor } from "@2_widgets/documetEditor";
 import { useRecipeStore } from "../model/useRecipeStore";
 
-export const AddRecipeFormHtml: FC = () => {
+export const AddRecipeFormHtml = () => {
   const { setField } = useRecipeStore();
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedDrugs, setSelectedDrugs] = useState([]);
+
+  const fetchDrugs = async () => {
+    try {
+      const response = await GET("/api/v0/medical-drug/", {
+        query: {
+          search: searchText,
+          page: 1,
+          page_size: 10
+        }
+      });
+
+      if (response.data && response.data.results) {
+        setSearchResults(response.data.results);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (err) {
+      console.error("Ошибка загрузки данных:", err);
+    }
+  };
 
   const handleDataExtract = (data: Record<string, any>) => {
     Object.entries(data).forEach(([key, value]) => {
-      setField(key as keyof Prescription, value);
+      setField(key, value);
     });
   };
 
+  const handleAddDrug = (drug) => {
+    setSelectedDrugs(prev => [...prev, drug]);
+    setSearchText('');
+    setSearchResults([]);
+  };
+
   return (
-    <Box >
-      <DocumentEditor
-        templateHtml={`
-          <div class="recipe-form">
-            <h2 style="text-align: center; margin-bottom: 10px">Рецепт</h2>
-            
-            <div style="text-align: center; margin-bottom: 20px;">
-              <select name="patientType" class="form-input" style="width: 150px; text-align: center; margin-bottom: 10px;">
-                <option value="adult">взрослый</option>
-                <option value="child">детский</option>
-              </select>
-              
-              <div class="form-section" style="justify-content: center;">
-                <label style="width: auto; margin-right: 10px;">Дата выписки:</label>
-                <input type="date" name="prescriptionDate" class="form-input" style="width: 120px;">
-              </div>
-            </div>
+    <Box>
+      <Typography variant="h6" gutterBottom>Добавить препарат</Typography>
+      <Stack direction="row" spacing={2} alignItems="center">
+        <TextField
+          label="Поиск препаратов"
+          variant="outlined"
+          size="small"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              fetchDrugs();
+              e.preventDefault();
+            }
+          }}
+        />
+        <Button variant="contained" onClick={fetchDrugs}>Поиск</Button>
+      </Stack>
 
-            <div class="form-section">
-              <label>ФИО пациента:</label>
-              <input type="text" name="patientFullName" class="form-input">
-            </div>
+      {searchResults.length > 0 && (
+        <Box mt={2}>
+          <Typography variant="body2">Результаты поиска:</Typography>
+          <ul>
+            {searchResults.map(drug => (
+              <li key={drug.id}>
+                {drug.name_trade} ({drug.country}) — {drug.name_producer}
+                <IconButton size="small" onClick={() => handleAddDrug(drug)}>
+                  <AddIcon />
+                </IconButton>
+              </li>
+            ))}
+          </ul>
+        </Box>
+      )}
 
-            <div class="form-section">
-              <label>Дата рождения:</label>
-              <input type="date" name="patientBirthDate" class="form-input">
-            </div>
+      {selectedDrugs.length > 0 && (
+        <Box mt={3}>
+          <Typography variant="h6" gutterBottom>Выбранные препараты</Typography>
+          <ul>
+            {selectedDrugs.map((d, idx) => (
+              <li key={idx}>
+                {d.name_trade} ({d.standard_doze}, {d.standard_form})
+              </li>
+            ))}
+          </ul>
+        </Box>
+      )}
 
-            <div class="form-section">
-              <label>ФИО лечащего врача:</label>
-              <input type="text" name="doctorFullName" class="form-input">
-            </div>
-
-            <div style="margin: 20px 0; border: 1px solid #000; padding: 10px;">
+      <Box mt={4}>
+        <DocumentEditor
+          templateHtml={`
+            <div class="recipe-form">
+              <h2 style="text-align: center;">Рецепт</h2>
               <div class="form-section">
-                <label>Rp:</label>
-                <input type="text" name="medication1" class="form-input">
-                <label style="width: 50px; margin-left: 10px;">Руб:</label>
-                <input type="text" name="priceRub1" class="form-input" style="width: 50px;">
-                <label style="width: 50px; margin-left: 10px;">Коп:</label>
-                <input type="text" name="priceKop1" class="form-input" style="width: 50px;">
+                <label>ФИО пациента:</label>
+                <input type="text" name="patientFullName" class="form-input">
               </div>
-
               <div class="form-section">
-                <label>Rp:</label>
-                <input type="text" name="medication2" class="form-input">
-                <label style="width: 50px; margin-left: 10px;">Руб:</label>
-                <input type="text" name="priceRub2" class="form-input" style="width: 50px;">
-                <label style="width: 50px; margin-left: 10px;">Коп:</label>
-                <input type="text" name="priceKop2" class="form-input" style="width: 50px;">
+                <label>Дата рождения:</label>
+                <input type="date" name="patientBirthDate" class="form-input">
               </div>
-
               <div class="form-section">
-                <label>Rp:</label>
-                <input type="text" name="medication3" class="form-input">
-                <label style="width: 50px; margin-left: 10px;">Руб:</label>
-                <input type="text" name="priceRub3" class="form-input" style="width: 50px;">
-                <label style="width: 50px; margin-left: 10px;">Коп:</label>
-                <input type="text" name="priceKop3" class="form-input" style="width: 50px;">
+                <label>ФИО лечащего врача:</label>
+                <input type="text" name="doctorFullName" class="form-input">
               </div>
-            </div>
-
-            <div class="form-footer">
-              <div class="form-section">
-                <label>Подпись врача:</label>
-                <span style="border-bottom: 1px solid #000; flex-grow: 1; margin-left: 10px;"></span>
-              </div>
-              
               <div class="form-section">
                 <label>Срок действия:</label>
-                <select name="validityPeriod" class="form-input" style="width: 150px;">
+                <select name="validityPeriod" class="form-input">
                   <option value="10">10 дней</option>
                   <option value="30">1 месяц</option>
                   <option value="90">3 месяца</option>
                 </select>
               </div>
+              <style>
+                .form-section {
+                  margin-bottom: 15px;
+                  display: flex;
+                  flex-direction: column;
+                }
+                .form-input {
+                  padding: 8px;
+                  border: 1px solid #ccc;
+                  font-size: 14pt;
+                  border-radius: 4px;
+                }
+              </style>
             </div>
-
-            <style>
-              .recipe-form {
-                font-family: 'Times New Roman', Times, serif;
-                font-size: 14pt;
-                max-width: 550px;
-                padding: 20px;
-                background-color: white
-              }
-              .form-section {
-                margin-bottom: 15px;
-                display: flex;
-                align-items: center;
-              }
-              .form-section label {
-                width: 200px;
-              }
-              .form-input {
-                border-bottom: 1px solid #000;
-                padding: 5px;
-                flex-grow: 1;
-                background: transparent;
-                border: none;
-                border-bottom: 1px solid #000;
-              }
-              .form-textarea {
-                width: 100%;
-                border: 1px solid #000;
-                padding: 5px;
-                margin-top: 5px;
-                min-height: 50px;
-              }
-              .form-footer {
-                margin-top: 30px;
-              }
-              select.form-input {
-                padding: 5px;
-                background: white;
-              }
-            </style>
-          </div>
-        `}
-        onDataExtract={handleDataExtract}
-      />
+          `}
+          onDataExtract={handleDataExtract}
+        />
+      </Box>
     </Box>
   );
 };
