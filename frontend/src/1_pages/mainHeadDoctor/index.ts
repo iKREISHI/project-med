@@ -1,0 +1,1 @@
+export { MainHeadDoctor } from './ui/MainHeadDoctor'

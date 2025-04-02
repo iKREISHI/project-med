@@ -5,7 +5,17 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+
+    position_id = serializers.CharField(
+        source='employee_profile.position.id',
+        read_only=True
+    )
+    position_name = serializers.CharField(
+        source='employee_profile.position.name',
+        read_only=True
+    )
+
     class Meta:
         model = User
-        fields = ['uuid', 'username']
-        read_only_fields = ['uuid']
+        fields = ['id', 'username', 'position_id', 'position_name']
+        read_only_fields = ['id']

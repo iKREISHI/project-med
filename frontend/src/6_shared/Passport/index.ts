@@ -1,0 +1,1 @@
+export { PatientPassport } from './ui/PatientPassport'

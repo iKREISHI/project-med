@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from .validators import (
@@ -66,6 +67,32 @@ class AbstractPersonModel(models.Model):
         validators=[validate_inn],
     )
 
+    passport_series = models.CharField(
+        max_length=4,
+        blank=True,
+        null=True,
+        verbose_name=_("Серия паспорта"),
+        validators=[
+            RegexValidator(
+                regex=r'^\d{4}$',
+                message=_("Серия паспорта должна состоять ровно из 4 цифр")
+            )
+        ]
+    )
+
+    passport_number = models.CharField(
+        max_length=6,
+        blank=True,
+        null=True,
+        verbose_name=_("Номер паспорта"),
+        validators=[
+            RegexValidator(
+                regex=r'^\d{6}$',
+                message=_("Номер паспорта должен состоять ровно из 6 цифр")
+            )
+        ]
+    )
+
     photo = models.ImageField(
         upload_to="photos/",
         blank=True,
@@ -112,4 +139,8 @@ class AbstractPersonModel(models.Model):
 
     def get_full_name(self):
         parts = [self.last_name, self.first_name, self.patronymic]
+        return " ".join(filter(None, parts))
+
+    def get_short_name(self):
+        parts = [self.last_name, self.first_name[0] if self.first_name else "", self.patronymic[0] if self.patronymic else ""]
         return " ".join(filter(None, parts))
