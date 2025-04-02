@@ -1,39 +1,33 @@
 import * as React from 'react';
 import { Box, Typography, Modal, useTheme, useMediaQuery } from '@mui/material';
 import { CustomButton } from '@6_shared/Button';
-import { DocumentEditor } from '@2_widgets/documetEditor';
 import { usePatientConditionFormStore } from '../model/store';
 import { CustomAutocomplete } from '@6_shared/Autocomplete';
-import { getAllPatients, PaginatedPatientList, Patient } from '@5_entities/patient';
-import { Cast } from '@mui/icons-material';
+import { getAllPatients, Patient } from '@5_entities/patient';
 
-
-interface ConditionModalProps {
+interface PatientModalProps {
     open: boolean;
     onClose: () => void;
-    onSave?: (documentContent: string) => void;
 }
 
+export const PatientModal: React.FC<PatientModalProps> = ({ open, onClose }) => {
+    const [patients, setPatients] = React.useState<Patient[]>([]);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const { pCondition, setField } = usePatientConditionFormStore();
 
-
-export const PatientModal: React.FC<ConditionModalProps> = ({ open, onClose, onSave }) => {
-    const [patients, setPatients] = React.useState<Patient[]>()
     React.useEffect(() => {
-        const fetchPatients = async () =>{
-            try{
-                const patientData = await getAllPatients(1, 10);
-                setPatients(patientData.results)
-            } catch (error){
+        const fetchPatients = async () => {
+            try {
+                const data = await getAllPatients(1, 10);
+                setPatients(data.results);
+            } catch (error) {
                 console.error(error);
             }
-        }
+        };
         fetchPatients();
     }, []);
-    
-    const theme = useTheme();
-    const { pCondition, setField } = usePatientConditionFormStore();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    
+
     return (
         <Modal open={open} onClose={onClose}>
             <Box sx={{
@@ -41,8 +35,8 @@ export const PatientModal: React.FC<ConditionModalProps> = ({ open, onClose, onS
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: isMobile ? '95%' : '80%',
-                height: '90vh',
+                width: isMobile ? '20%' : '30%',
+                height: '50vh',
                 bgcolor: 'background.paper',
                 boxShadow: 24,
                 p: 3,
@@ -58,33 +52,28 @@ export const PatientModal: React.FC<ConditionModalProps> = ({ open, onClose, onS
                         : ''
                     }
                     onChange={(value) => {
-                        const selectedPat = patients?.find(p => p.last_name === value);
-                        setField('patient', selectedPat?.id);
+                        const selected = patients?.find(p => p.last_name === value);
+                        setField('patient', selected?.id);
                     }}
                     options={patients?.map(p => p.last_name) || []}
                     placeholder='Выберите пациента'
-                    label = 'Пациент'
+                    label='Пациент'
                     required
                 />
-               
-                <Box sx={{ 
-                    display: 'flex', 
-                    justifyContent: 'flex-end', 
-                    gap: 2, 
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    gap: 2,
                     mt: 3,
                     position: 'sticky',
                     bottom: 0,
                     bgcolor: 'background.paper',
                     py: 2
                 }}>
-                    <CustomButton variant="outlined" onClick={onClose} sx={{ minWidth: 120 }}>
+                    <CustomButton variant="outlined" onClick={onClose}>
                         Отмена
                     </CustomButton>
-                    <CustomButton 
-                        variant="contained" 
-                        onClick={onClose}
-                        sx={{ minWidth: 160 }}
-                    >
+                    <CustomButton variant="contained" onClick={onClose}>
                         Сохранить
                     </CustomButton>
                 </Box>

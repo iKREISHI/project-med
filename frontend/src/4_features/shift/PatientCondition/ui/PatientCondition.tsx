@@ -43,7 +43,6 @@ const mockConditions: PatientCondition[] = [
     },
 ];
 
-// состояния пациентов (таблица)
 export const PatientCondition: React.FC = () => {
     const { shiftId } = useParams();
     const theme = useTheme();
@@ -51,11 +50,30 @@ export const PatientCondition: React.FC = () => {
     const [conditions, setConditions] = useState<PatientCondition[]>([]);
     const [openModal, setOpenModal] = useState(false);
     const [openPatientModal, setOpenPatientModal] = useState(false);
+    const [shouldOpenConditionModal, setShouldOpenConditionModal] = useState(false);
     const [currentCondition, setCurrentCondition] = useState<Partial<PatientCondition> | null>(null);
 
     useEffect(() => {
         setConditions(mockConditions);
-    });
+    }, []);
+
+    useEffect(() => {
+        if (shouldOpenConditionModal) {
+            setShouldOpenConditionModal(false);
+            handleOpenModal(null);
+        }
+    }, [shouldOpenConditionModal]);
+
+    const handleOpenModal = (condition: Partial<PatientCondition> | null) => {
+        setCurrentCondition(condition || {
+            patient: undefined,
+            shift: Number(shiftId),
+            description: '',
+            date: new Date().toISOString(),
+            status: '',
+        });
+        setOpenModal(true);
+    };
 
     const desktopColumns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
@@ -115,24 +133,13 @@ export const PatientCondition: React.FC = () => {
                         handleOpenModal(params.row);
                     }}
                 >
-                    <EditIcon  />
+                    <EditIcon />
                 </IconButton>
             ),
         },
     ];
 
     const columns = isMobile ? mobileColumns : desktopColumns;
-
-    const handleOpenModal = (condition: Partial<PatientCondition> | null) => {
-        setCurrentCondition(condition || {
-            patient: undefined,
-            shift: Number(shiftId),
-            description: '',
-            date: new Date().toISOString(),
-            status: '',
-        });
-        setOpenModal(true); 
-    };
 
     return (
         <Box>
@@ -180,9 +187,15 @@ export const PatientCondition: React.FC = () => {
                     localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
                 />
             </Paper>
+
             <PatientModal
                 open={openPatientModal}
+                onClose={() => {
+                    setOpenPatientModal(false);
+                    setShouldOpenConditionModal(true);
+                }}
             />
+
             <ConditionModal
                 open={openModal}
                 onClose={() => setOpenModal(false)}
