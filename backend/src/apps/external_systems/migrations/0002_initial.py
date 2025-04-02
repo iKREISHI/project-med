@@ -9,19 +9,22 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('registry', '0001_initial'),
+        ('external_systems', '0001_initial'),
         ('staffing', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='medicalcard',
+            model_name='prescription',
             name='signed_by',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='staffing.employee', verbose_name='Кем подписан'),
         ),
-        migrations.AddField(
-            model_name='medicalcard',
-            name='card_type',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='medical_card_types', to='registry.medicalcardtype', verbose_name='Тип карты'),
+        migrations.AddIndex(
+            model_name='laboratoryresearch',
+            index=models.Index(fields=['lab_direction_guid'], name='external_sy_lab_dir_f5c9fc_idx'),
+        ),
+        migrations.AddIndex(
+            model_name='laboratoryresearch',
+            index=models.Index(fields=['patient'], name='external_sy_patient_840b96_idx'),
         ),
     ]

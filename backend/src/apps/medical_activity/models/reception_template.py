@@ -32,8 +32,6 @@ class ReceptionTemplate(models.Model):
     )
 
     fields = models.JSONField(
-        # Поля приема для шаблона документа
-        # (т.к. шаблоны могут отличаться)
         blank=True,
         null=True,
         verbose_name=_('Поля приема')

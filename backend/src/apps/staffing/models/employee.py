@@ -8,7 +8,6 @@ from apps.staffing.validators.employee import (
     validate_appointment_duration,
     validate_short_description
 )
-from ... import staffing
 
 
 class Employee(AbstractPersonModel):
