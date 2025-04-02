@@ -8,7 +8,6 @@ from apps.clients.models import Patient
 from apps.staffing.models import ReceptionTime
 
 
-
 class DoctorAppointment(AbstractElectronicSignature):
     """
     Прием к врачу
@@ -33,7 +32,9 @@ class DoctorAppointment(AbstractElectronicSignature):
     reception_template = models.ForeignKey(
         'medical_activity.ReceptionTemplate',
         on_delete=models.PROTECT,
-        verbose_name=_('Шаблон приема')
+        verbose_name=_('Шаблон приема'),
+        blank=True,
+        null=True,
     )
 
     reception_document = models.TextField(
@@ -62,7 +63,9 @@ class DoctorAppointment(AbstractElectronicSignature):
         'staffing.Employee',
         on_delete=models.PROTECT,
         verbose_name='Кем подписан',
-        related_name='doctorappointment_signed'
+        related_name='doctorappointment_signed',
+        blank=True,
+        null=True,
     )
 
     is_first_appointment = models.BooleanField(
