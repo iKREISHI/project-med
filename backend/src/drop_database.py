@@ -14,7 +14,7 @@ django.setup()
 def drop_postgres_database():
     # Получаем DATABASE_URL из settings
     global cursor, conn
-    database_url = settings.DATABASES_URL
+    database_url = settings.DATABASE_URL
     # Парсим DATABASE_URL с помощью dj_database_url
     db_config = dj_database_url.parse(database_url)
 
