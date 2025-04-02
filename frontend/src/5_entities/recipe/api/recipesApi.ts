@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 // src/services/recipesApi.ts
 const API_BASE_URL = 'http://87.228.37.14:61509/api'; // Добавлен /api, если требуется
 const ACCESS_TOKEN = '550e8400-e29b-41d4-a716-446655440000';

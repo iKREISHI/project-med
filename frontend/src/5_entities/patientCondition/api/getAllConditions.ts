@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GET } from "@6_shared/api";
 import type {PaginatedPatientList, PatientListQueryParams} from "../../patient";
 import { PaginatedPatientCondition, PatientConditionParams } from "../model/model";

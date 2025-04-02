@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { LineChart } from '@mui/x-charts/LineChart';
 import { globalsStyle } from '../../../styles/globalsStyle';
 import { useRef, useState, useEffect } from 'react';

@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import React, { useState } from 'react';
 // import { InputForm, CustomButton } from '../../../6_shared';
 import { Typography, Box, Paper } from '@mui/material';

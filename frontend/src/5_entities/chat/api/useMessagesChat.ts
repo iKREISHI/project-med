@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { useState } from "react";
 import { ChatMessage } from "@5_entities/chat/model/model.ts";
 import { GET } from "@6_shared/api";

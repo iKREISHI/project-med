@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { FC, useState, useEffect } from "react";
 import { Box, TextField } from "@mui/material";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";

@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import React, { JSX, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';

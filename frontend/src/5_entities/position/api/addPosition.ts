@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { Position } from "../model/model.ts";
 import { POST } from "../../../6_shared/api/index.ts";
 

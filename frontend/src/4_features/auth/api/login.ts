@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { POST } from "../../../6_shared/api";
 import type { LoginModel } from "../../../5_entities/user";
 import type { AuthResponse } from "../../../5_entities/auth";

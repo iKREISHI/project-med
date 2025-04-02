@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import {Filial} from "@5_entities/filial/model/model.ts";
 import { GET } from "@6_shared/api";
 

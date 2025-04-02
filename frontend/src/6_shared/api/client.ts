@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import createClient from "openapi-fetch";
 import type { paths } from "./types";
 import { backendBaseUrl } from "../config";

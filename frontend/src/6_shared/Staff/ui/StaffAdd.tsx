@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { FC } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { staffSx } from "./staffSx";

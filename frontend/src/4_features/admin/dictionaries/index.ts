@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 export { Dictionaries } from './ui/Dictionaries.tsx'
 export { Specializations } from './ui/Specializations.tsx'
 export { Filial } from './ui/Filial.tsx'

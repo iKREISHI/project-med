@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import DOMPurify from "dompurify";
 import { jsPDF } from "jspdf";

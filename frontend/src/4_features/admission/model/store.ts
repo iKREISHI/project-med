@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { create } from "zustand";
 import { DoctorAppointment } from "@5_entities/doctorAppointment/model/model.ts";
 

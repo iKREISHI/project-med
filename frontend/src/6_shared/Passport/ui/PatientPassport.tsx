@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import {PatientPassportForm} from "@4_features/patient/PassportForm/ui/PatientPassportForm.tsx";

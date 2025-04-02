@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import {type PatientListQueryParams} from "@5_entities/patient";
 import {PaginatedEmployeeList} from "@5_entities/emloyee/model/model.ts";
 import {GET} from "@6_shared/api";

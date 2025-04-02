@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { User } from "@5_entities/user";
 import { GET } from "@6_shared/api";
 import { useEffect, useState } from "react";

@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import {Filial, PaginatedFilialList} from "@5_entities/filial/model/model.ts";
 import {POST} from "@6_shared/api";
 

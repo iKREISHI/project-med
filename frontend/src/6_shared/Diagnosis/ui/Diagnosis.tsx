@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { FC, useRef, useState, useEffect } from "react";
 import { Box, Typography, Button, Stack } from "@mui/material";
 import { DocumentEditor } from "@2_widgets/documetEditor";

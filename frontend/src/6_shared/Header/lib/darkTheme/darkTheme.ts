@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { createTheme } from '@mui/material/styles';
 import { globalsStyle } from "@6_shared/styles/globalsStyle"
 import { grey } from '@mui/material/colors';

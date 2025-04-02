@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { FC } from "react";
 import { admissionSx } from "./admissionSx";
 import { Box, Divider, Typography, useMediaQuery } from "@mui/material";

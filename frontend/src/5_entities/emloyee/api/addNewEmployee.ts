@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import {Employee} from "@5_entities/emloyee/model/model.ts";
 import {POST} from "@6_shared/api";
 

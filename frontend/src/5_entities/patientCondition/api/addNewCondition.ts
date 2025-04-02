@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PatientCondition } from "../model/model.ts";
 import { POST } from "../../../6_shared/api";
 

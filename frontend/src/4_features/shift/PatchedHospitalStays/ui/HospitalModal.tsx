@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import * as React from 'react';
 import { Box, Typography, Modal, useTheme, useMediaQuery } from '@mui/material';
 import { CustomButton } from '@6_shared/Button';

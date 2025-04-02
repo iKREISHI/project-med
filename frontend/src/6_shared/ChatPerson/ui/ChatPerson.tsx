@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { Box, CircularProgress, IconButton, Theme, Typography, useMediaQuery } from "@mui/material";
 import { useChatWebSocket } from "@5_entities/chat/";

@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import React, { createContext, useContext, useState } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { lightTheme, darkTheme } from './lib';

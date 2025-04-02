@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import React from "react";
 import { Box, Typography, InputBase } from "@mui/material";
 import { inputFormSx } from "./inputFormSx.ts";

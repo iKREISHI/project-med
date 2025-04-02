@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { GET } from "@6_shared/api";
 import {PaginatedPositionList, PositionListQueryParams} from "@5_entities/position/model/model.ts";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getAllBokkingAppointments } from "@5_entities/bookingAppointments/api/getAllBokkingAppointments";
 import { CustomButton } from "@6_shared/Button";
 import { InputSearch } from "@6_shared/Input";

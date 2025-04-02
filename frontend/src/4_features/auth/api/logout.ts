@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { POST } from "../../../6_shared/api";
 
 // Метод для выхода из системы

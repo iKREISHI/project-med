@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 // src/components/RecipesList/RecipesList.tsx
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';

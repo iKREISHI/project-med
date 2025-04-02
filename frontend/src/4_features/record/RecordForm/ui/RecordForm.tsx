@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import { FC, useEffect, useState, useCallback } from "react";
 import { Box } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";

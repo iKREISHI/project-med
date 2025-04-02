@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";

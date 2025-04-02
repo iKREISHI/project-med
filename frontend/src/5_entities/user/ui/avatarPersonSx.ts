@@ -1,4 +1,5 @@
 // @ts-nocheck
+// @ts-nocheck
 export const avatarPersonSx = {
 
   avatar: {

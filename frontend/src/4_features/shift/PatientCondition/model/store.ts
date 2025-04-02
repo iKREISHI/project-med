@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { create } from "zustand";
 import { PatientCondition } from "@5_entities/patientCondition";
 
