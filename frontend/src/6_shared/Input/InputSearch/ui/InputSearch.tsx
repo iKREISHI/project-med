@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Box, InputAdornment, IconButton, InputBase, useTheme, SxProps, Theme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';

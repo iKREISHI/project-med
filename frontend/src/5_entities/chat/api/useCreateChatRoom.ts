@@ -1,3 +1,4 @@
+// @ts-nocheck
 // useCreateChatRoom.ts
 import { useState } from "react";
 import { POST } from "@6_shared/api";

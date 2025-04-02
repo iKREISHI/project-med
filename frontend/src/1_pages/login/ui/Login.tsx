@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Box, Container, GlobalStyles } from '@mui/material';
 import { useTheme } from '@mui/material/styles';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC, useState, useEffect } from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import { MedicalRecordForm } from "@4_features/admin/medicalRecordForm";

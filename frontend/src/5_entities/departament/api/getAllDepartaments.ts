@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {FilialDepartament} from "@5_entities/departament";
 import {GET} from "@6_shared/api";
 

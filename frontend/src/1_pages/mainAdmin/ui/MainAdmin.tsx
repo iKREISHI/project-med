@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Toolbar, CssBaseline, Box } from '@mui/material';

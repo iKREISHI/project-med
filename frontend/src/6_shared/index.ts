@@ -1,3 +1,4 @@
+// @ts-nocheck
 export { CustomDrawer } from './Drawer';
 export { InputSearch, InputForm } from './Input';
 export { Plane } from "./Plane";

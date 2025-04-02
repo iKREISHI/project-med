@@ -16,8 +16,8 @@ class ShiftSerializerTestCase(TestCase):
         self.mock_get_short_name = patcher.start()
 
         # Определяем тестовые даты начала и окончания смены.
-        self.start_time = datetime.datetime(2025, 3, 26, 8, 0)
-        self.end_time = datetime.datetime(2025, 3, 26, 16, 0)
+        self.start_time = datetime.datetime(2026, 3, 26, 8, 0)
+        self.end_time = datetime.datetime(2026, 3, 26, 16, 0)
 
         # Создаем объект смены (Shift)
         self.shift = Shift.objects.create(
@@ -43,8 +43,8 @@ class ShiftSerializerTestCase(TestCase):
         # Проверяем корректность значений
         self.assertEqual(data['doctor'], self.employee.pk)
         self.assertEqual(data['doctor_name'], "Dr. Smith")
-        self.assertEqual(data['start_time'], "2025-03-26 08:00")
-        self.assertEqual(data['end_time'], "2025-03-26 16:00")
+        self.assertEqual(data['start_time'], "2026-03-26 08:00")
+        self.assertEqual(data['end_time'], "2026-03-26 16:00")
         self.assertEqual(data['shift_str'], str(self.shift))
 
     def test_read_only_fields(self):
@@ -54,8 +54,8 @@ class ShiftSerializerTestCase(TestCase):
         """
         update_data = {
             "doctor": self.employee.pk,
-            "start_time": "2025-03-26 09:00",
-            "end_time": "2025-03-26 17:00",
+            "start_time": "2026-03-26 09:00",
+            "end_time": "2026-03-26 17:00",
             "doctor_name": "Changed Name",
             "shift_str": "Changed Shift String",
         }
@@ -64,8 +64,8 @@ class ShiftSerializerTestCase(TestCase):
         updated_shift = serializer.save()
 
         # Поля start_time и end_time должны обновиться
-        self.assertEqual(updated_shift.start_time.strftime('%Y-%m-%d %H:%M'), "2025-03-26 09:00")
-        self.assertEqual(updated_shift.end_time.strftime('%Y-%m-%d %H:%M'), "2025-03-26 17:00")
+        self.assertEqual(updated_shift.start_time.strftime('%Y-%m-%d %H:%M'), "2026-03-26 09:00")
+        self.assertEqual(updated_shift.end_time.strftime('%Y-%m-%d %H:%M'), "2026-03-26 17:00")
 
         # После обновления сериализатор вычисляет doctor_name и shift_str заново,
         # используя патченный метод get_short_name.

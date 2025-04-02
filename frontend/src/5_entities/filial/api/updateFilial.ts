@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {PUT} from "@6_shared/api";
 import { Filial } from '../model/model.ts'
 

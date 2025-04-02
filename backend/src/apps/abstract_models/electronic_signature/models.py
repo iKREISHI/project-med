@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from apps.abstract_models.electronic_signature.generate_org_signature import generate_org_signature
 
+
 class AbstractElectronicSignature(models.Model):
     is_signed = models.BooleanField(
         default=False,
@@ -22,8 +23,8 @@ class AbstractElectronicSignature(models.Model):
         blank=True,
         null=True,
     )
-    # Поле для хранения организационной подписи, как она представлена во внешних системах.
-    org_signature = models.JSONField(
+    # Поле для хранения организационной подписи в виде текста.
+    org_signature = models.TextField(
         verbose_name=_("Организационная подпись"),
         blank=True,
         null=True,

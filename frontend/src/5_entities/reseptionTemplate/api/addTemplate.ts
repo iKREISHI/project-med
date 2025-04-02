@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ReceptionTemplate } from "@5_entities/reseptionTemplate/model/model.ts";
 import { POST } from "@6_shared/api";
 

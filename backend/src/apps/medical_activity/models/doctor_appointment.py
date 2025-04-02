@@ -8,7 +8,6 @@ from apps.clients.models import Patient
 from apps.staffing.models import ReceptionTime
 
 
-
 class DoctorAppointment(AbstractElectronicSignature):
     """
     Прием к врачу

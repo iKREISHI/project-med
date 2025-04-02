@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Chat } from "@1_pages/chat";

@@ -29,6 +29,8 @@ DATABASES_URL = env.db(
     default='postgres://postgres:postgres@127.0.0.1:5432/med_db'
 )
 
+DATABASE_URL = env('DATABASE_URL', default='postgres://postgres:postgres@127.0.0.1:5432/med_db')
+
 # REDIS
 REDIS_USER = env('REDIS_USER', default='root')
 REDIS_USER_PASSWORD = env('REDIS_USER_PASSWORD', default='root')
@@ -51,7 +53,9 @@ SERVER_BACKEND_IP_ADDRESS = env('SERVER_BACKEND_IP_ADDRESS', default='127.0.0.1:
 PHARMACY_URL = env('PHARMACY_URL', default='http://87.228.37.14:61509/')
 PHARMACY_AUTH = env('PHARMACY_AUTH', default='auth')
 PHARMACY_MEDICINE = env('PHARMACY_MEDICINE', default='medicines')
+PHARMACY_PRESCRIPTION= env('PHARMACY_PRESCRIPTION', default='prescriptionXml')
 PHARMACY_TOKEN = env('PHARMACY_TOKEN', default='550e8400-e29b-41d4-a716-446655440000')
+
 LAB_RESEARCH_URL = env('LABORATORY_URL', default='http://87.228.37.14:61510')
 LAB_RESEARCH_AUTH = env('LABORATORY_AUTH', default='auth')
 LAB_RESEARCH_TOKEN = env('LAB_RESEARCH_TOKEN', default='550e8400-e29b-41d4-a716-446655440000')
@@ -60,4 +64,5 @@ LAB_RESEARCH_PDF = env('LAB_RESEARCH_PDF', default='labReserchPdf')
 LAB_RESEARCH_PATIENT = env('patient', default='patient')
 
 GIGACHAT_API_KEY = env('GIGACHAT_API_KEY', default='')
+TELEGRAM_BOT_TOKEN = env('TELEGRAM_BOT_TOKEN', default='')
 
