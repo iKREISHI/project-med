@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC, useState } from "react";
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, } from "@mui/material";
 

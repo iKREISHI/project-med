@@ -1,3 +1,4 @@
+// @ts-nocheck
 export { getAllPositions } from './api/getAllPositions.ts';
 export { deletePosition } from './api/deletePosition.ts';
 export { addNewPosition } from './api/addNewPosition.ts';

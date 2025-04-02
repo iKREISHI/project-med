@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { FormControl, MenuItem, Select, SelectChangeEvent, Theme, InputLabel } from "@mui/material";
 

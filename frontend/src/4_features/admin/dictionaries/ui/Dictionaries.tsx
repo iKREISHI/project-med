@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";

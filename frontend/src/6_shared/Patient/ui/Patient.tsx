@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Box, Divider, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { PatientMenu } from "../../PatientMenu";

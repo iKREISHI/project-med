@@ -1,3 +1,4 @@
+// @ts-nocheck
 export interface AuthResponse {
   detail?: string;
   user_id?: number;

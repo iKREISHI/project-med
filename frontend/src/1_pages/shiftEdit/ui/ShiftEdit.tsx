@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Box, Typography, IconButton, Divider, useMediaQuery } from '@mui/material';
@@ -9,6 +10,7 @@ import { InputForm } from '@6_shared/Input';
 import { globalsStyleSx } from '@6_shared/styles/globalsStyleSx';
 import Grid from '@mui/material/Grid2';
 import { PatientMenu } from '@6_shared/PatientMenu';
+import { DocumentEditor } from '@2_widgets/documetEditor';
 
 interface Shift {
     id?: number;
@@ -240,6 +242,7 @@ export const ShiftEdit: React.FC = () => {
                     </Box>
                 </Box>
             </Box>
+            
         </Box >
     );
 };

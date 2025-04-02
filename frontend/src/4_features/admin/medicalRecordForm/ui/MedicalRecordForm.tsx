@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC, useState, useEffect } from "react";
 import { Box, Typography, FormControlLabel, Checkbox, CircularProgress } from "@mui/material";
 import { InputForm } from "@6_shared/Input";

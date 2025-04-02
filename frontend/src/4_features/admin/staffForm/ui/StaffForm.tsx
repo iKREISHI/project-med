@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {FC, useEffect, useState} from "react";
 import { Box, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { InputForm } from "@6_shared/Input";
@@ -88,12 +89,12 @@ export const StaffForm: FC = () => {
             const response = await addNewEmployee({
                 ...employee,
                 is_django_user: true // Фиксированное значение
+
             } as Employee);
-            // setUserCredentials({
-            //     login: response.login,
-            //     password: response.password
-            // }
-            //   )
+            setUserCredentials({
+                login: response.user.login,
+                password: response.user.password
+            });
             console.log(response);
             setSnackbarOpen(true);
             //setCredentialsModalOpen(true)

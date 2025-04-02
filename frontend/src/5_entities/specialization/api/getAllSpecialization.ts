@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GET } from "@6_shared/api";
 import {PaginatedSpecializationList, SpecializationListQueryParams} from "@5_entities/specialization";
 

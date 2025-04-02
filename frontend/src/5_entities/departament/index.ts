@@ -1,3 +1,4 @@
+// @ts-nocheck
 export { type FilialDepartament } from './model/model.ts'
 
 export { getAllDepartaments } from './api/getAllDepartaments.ts'

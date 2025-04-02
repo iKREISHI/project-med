@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { Box, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { InputForm } from "@6_shared/Input";

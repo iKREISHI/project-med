@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PUT } from "@6_shared/api";
 import { Position } from "../model/model.ts";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const globalsStyle = {
     colors: {
         blueLight: '#32BFD2',

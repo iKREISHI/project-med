@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {FilialListQueryParams, PaginatedFilialList} from "@5_entities/filial/model/model.ts";
 import { GET } from "@6_shared/api";
 

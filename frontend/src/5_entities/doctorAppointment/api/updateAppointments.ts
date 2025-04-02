@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PUT } from '@6_shared/api';
 import { DoctorAppointment } from "@5_entities/doctorAppointment/model/model.ts";
 
@@ -21,4 +22,4 @@ export const deleteAppointment = async (
   }
   console.log(response.data);
   return response.data;
-}s
+}

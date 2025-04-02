@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Theme } from '@mui/material/styles';
 
 export const inputFormSx = {

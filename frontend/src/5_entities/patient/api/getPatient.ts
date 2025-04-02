@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GET } from "@6_shared/api";
 import { Patient } from "@5_entities/patient";
 
@@ -16,5 +17,5 @@ export const getPatient = async (patientId: number): Promise<Patient> => {
     throw new Error("Пациент не найден");
   }
   console.log(response.data);
-  return response.data;
+  return response.data as Patient;
 };

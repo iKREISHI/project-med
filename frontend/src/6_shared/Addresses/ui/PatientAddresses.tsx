@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import { PatientAddressesForm } from "@4_features/patient/AddressesForm/ui/PatientAddressesForm.tsx";

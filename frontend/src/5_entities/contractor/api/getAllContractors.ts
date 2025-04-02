@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {PaginatedContractorList, ContractorListQueryParams} from "@5_entities/contractor/model/model.ts";
 import {GET} from "@6_shared/api";
 

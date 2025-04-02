@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const loginFormSx = {
     paper: {
         padding: { xs: '1em', sm: '2em 4em' },

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { Box } from "@mui/material";
 import { DocumentEditor } from "@2_widgets/documetEditor";

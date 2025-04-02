@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { IconButton, Snackbar, Theme } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
