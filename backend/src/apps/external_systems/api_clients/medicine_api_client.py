@@ -9,8 +9,8 @@ import logging
 from typing import List, Dict, Optional
 
 
-from apps.external_systems.models import Medicine
-from config.settings.config import PHARMACY_URL, PHARMACY_TOKEN, PHARMACY_MEDICINE, PHARMACY_AUTH
+from apps.external_systems.models import Medicine, Prescription
+from config.settings.config import PHARMACY_URL, PHARMACY_TOKEN, PHARMACY_MEDICINE, PHARMACY_AUTH, PHARMACY_PRESCRIPTION
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -24,6 +24,7 @@ class MedicineAPIClient:
         self.session_id = None
         self.auth_endpoint = PHARMACY_AUTH
         self.medicines_endpoint = PHARMACY_MEDICINE
+        self.prescription_endpoint = PHARMACY_PRESCRIPTION
 
     def check_connection(self):
         try:
@@ -71,19 +72,6 @@ class MedicineAPIClient:
             logger.error("Невалидный JSON в ответе аутентификации")
             raise
 
-    @retry(
-        stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=2, max=10),
-        retry=retry_if_exception_type((
-                requests.exceptions.ConnectionError,
-                requests.exceptions.Timeout,
-                requests.exceptions.HTTPError
-        )),
-        before_sleep=lambda _: logger.warning("Повторная попытка запроса данных..."),
-        reraise=True
-    )
-
-
     def _get_field_max_lengths(self) -> Dict[str, int]:
         """Получаем максимальные длины для всех CharField"""
         return {
@@ -113,9 +101,22 @@ class MedicineAPIClient:
                 processed[model_field] = value
         return processed
 
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((
+                requests.exceptions.ConnectionError,
+                requests.exceptions.Timeout,
+                requests.exceptions.HTTPError
+        )),
+        before_sleep=lambda _: logger.warning("Повторная попытка запроса данных..."),
+        reraise=True
+    )
     def get_and_save_medicines(self):
         """Основной метод для получения и сохранения данных"""
         url = f"{self.base_url}/{self.medicines_endpoint}"
+
 
         try:
             self.session.cookies.set("sessionId", self.get_session_id())
@@ -133,6 +134,7 @@ class MedicineAPIClient:
             raw_data = response.json()
 
             self._save_to_database(raw_data)
+            self._send_prescriptions_to_api()
 
             return True
 
@@ -220,6 +222,101 @@ class MedicineAPIClient:
 
         return processed
 
+    def _send_prescriptions_to_api(self):
+        """Отправка рецептов в API"""
+        prescriptions = Prescription.objects.filter(is_signed=True, is_send=False)
+
+        if not prescriptions.exists():
+            logger.info("Нет неподтвержденных рецептов для отправки.")
+            return
+
+        url = f"{self.base_url}/{self.prescription_endpoint}/"
+        session_id = self.get_session_id()
+        headers = {
+            "Content-Type": "application/json",
+            "Cookie": f"sessionId={session_id}"
+        }
+
+        for prescription in prescriptions:
+            data = self._prepare_prescription_data(prescription)
+            logger.info(data)
+            try:
+                response = requests.post(url, headers=headers, json=data, timeout=(3.05, 27))
+
+                # Если сессия устарела, обновляем session_id и повторяем запрос
+                if response.status_code == 401:
+                    logger.warning("Сессия устарела, обновляем session_id...")
+                    self.session_id = None
+                    session_id = self.get_session_id()
+                    headers["Cookie"] = f"sessionId={session_id}"
+                    response = requests.post(url, headers=headers, json=data, timeout=(3.05, 27))
+
+                response.raise_for_status()
+                response_data = response.json()
+
+                if response_data.get('errorCode') == '0':
+                    prescription.is_send = True
+                    prescription.save(update_fields=["is_send"])
+                    logger.info(f"Рецепт {prescription.id} успешно отправлен.")
+                else:
+                    logger.warning(f"Ошибка при отправке рецепта {prescription.id}: {response_data}")
+
+            except requests.exceptions.RequestException as e:
+                logger.error(f"Ошибка при отправке рецепта {prescription.id}: {str(e)}")
+
+
+    def _prepare_prescription_data(self, prescription: Prescription) -> Dict:
+        """
+        Формирование JSON-объекта для отправки рецепта.
+        Используются следующие поля:
+          - docContent: данные берутся из поля doc_content (HTML-текст) с вычислением контрольной суммы;
+          - orgSignature: подпись из поля org_signature в формате "data|checksum".
+        """
+        # Вычисляем checksum для doc_content (HTML-текст)
+        if prescription.doc_content:
+            doc_data = prescription.doc_content
+            doc_checksum = sum(bytearray(doc_data, 'utf-8'))
+        else:
+            doc_data = ""
+            doc_checksum = 0
+
+        # Обрабатываем подпись организации (org_signature) в формате "data|checksum"
+        if prescription.org_signature:
+            try:
+                org_data, org_checksum_str = prescription.org_signature.split("|")
+                org_checksum = int(org_checksum_str)
+            except (ValueError, AttributeError):
+                org_data = ""
+                org_checksum = 0
+        else:
+            org_data = ""
+            org_checksum = 0
+
+        return {
+            "localUid": str(prescription.id),
+            "system": prescription.system,
+            "documentNumber": prescription.document_number,
+            "creationDateTime": prescription.date_created.isoformat(),
+            "patient": {
+                "firstName": prescription.patient.first_name,
+                "middleName": prescription.patient.patronymic or "",
+                "lastName": prescription.patient.last_name,
+                "birthDate": prescription.patient.date_of_birth.strftime("%d.%m.%Y"),
+                "localId": str(prescription.patient.id),
+                "snils": prescription.patient.snils,
+                "oms": prescription.patient.oms
+            },
+            "description": prescription.description,
+            "docContent": {
+                "data": doc_data,
+                "checksum": doc_checksum
+            },
+            "orgSignature": {
+                "data": org_data,
+                "checksum": org_checksum
+            } if prescription.org_signature else None
+        }
+
     def _parse_date(self, date_str: str) -> Optional[datetime.date]:
         """Преобразование даты с обработкой ошибок"""
         if not date_str:
@@ -267,17 +364,3 @@ class MedicineAPIClient:
         except (ValueError, TypeError):
             return Decimal(0)
 
-
-
-#
-# if __name__ == "__main__":
-#     client = MedicineAPIClient()
-#
-#     try:
-#         success = client.get_and_save_medicines()
-#         if success:
-#             print("Данные успешно обновлены")
-#         else:
-#             print("Не удалось обновить данные")
-#     except Exception as e:
-#         print(f"Критическая ошибка: {str(e)}")
