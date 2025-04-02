@@ -5,6 +5,38 @@
  */
 
 export interface paths {
+    "/api/v0/ai-recommendation/doctor-appointment/ai-response/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["v0_ai_recommendation_doctor_appointment_ai_response_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/ai-recommendation/patient-condition/ai-response/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["v0_ai_recommendation_patient_condition_ai_response_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v0/appointments/": {
         parameters: {
             query?: never;
@@ -12,21 +44,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с приемами к врачу с поддержкой пагинации.
-         *     Поддерживаются операции:
-         *       - list: получение списка приемов с пагинацией
-         *         (требуется permission "doctor-appointment.view_doctorappointment"),
-         *       - retrieve: получение приема по id
-         *         (требуется permission "doctor-appointment.view_doctorappointment"),
-         *       - create: создание нового приема
-         *         (требуется permission "doctor-appointment.add_doctorappointment"),
-         *       - update / partial_update: обновление приема
-         *         (требуется permission "doctor-appointment.change_doctorappointment"),
-         *       - destroy: удаление приема
-         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
+        /**
+         * Получение списка приемов с пагинацией
+         * @description Возвращает список приемов к врачу с поддержкой пагинации и фильтрацией по диапазону дат. Если переданы query-параметры 'start_date' и 'end_date' в формате YYYY-MM-DD, то будут возвращаться только те приемы, у которых appointment_date попадает в указанный диапазон.
+         */
         get: operations["v0_appointments_list"];
         put?: never;
-        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+        /**
+         * Создание нового приема
+         * @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
          *         (требуется permission "doctor-appointment.view_doctorappointment"),
@@ -37,7 +63,8 @@ export interface paths {
          *       - update / partial_update: обновление приема
          *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment").
+         */
         post: operations["v0_appointments_create"];
         delete?: never;
         options?: never;
@@ -52,7 +79,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+        /**
+         * Получение приема по id
+         * @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
          *         (требуется permission "doctor-appointment.view_doctorappointment"),
@@ -63,9 +92,12 @@ export interface paths {
          *       - update / partial_update: обновление приема
          *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment").
+         */
         get: operations["v0_appointments_retrieve"];
-        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+        /**
+         * Полное обновление приема
+         * @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
          *         (требуется permission "doctor-appointment.view_doctorappointment"),
@@ -76,10 +108,13 @@ export interface paths {
          *       - update / partial_update: обновление приема
          *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment").
+         */
         put: operations["v0_appointments_update"];
         post?: never;
-        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+        /**
+         * Удаление приема
+         * @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
          *         (требуется permission "doctor-appointment.view_doctorappointment"),
@@ -90,11 +125,14 @@ export interface paths {
          *       - update / partial_update: обновление приема
          *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment").
+         */
         delete: operations["v0_appointments_destroy"];
         options?: never;
         head?: never;
-        /** @description API для работы с приемами к врачу с поддержкой пагинации.
+        /**
+         * Частичное обновление приема
+         * @description API для работы с приемами к врачу с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка приемов с пагинацией
          *         (требуется permission "doctor-appointment.view_doctorappointment"),
@@ -105,8 +143,137 @@ export interface paths {
          *       - update / partial_update: обновление приема
          *         (требуется permission "doctor-appointment.change_doctorappointment"),
          *       - destroy: удаление приема
-         *         (требуется permission "doctor-appointment.delete_doctorappointment"). */
+         *         (требуется permission "doctor-appointment.delete_doctorappointment").
+         */
         patch: operations["v0_appointments_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/appointments/{id}/sign/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Подписание приема врача с электронным подписям пользователем, который является сотрудником. */
+        post: operations["sign_doctor_appointment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/booking-appointments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получение списка записей на прием
+         * @description Возвращает список записей на прием с поддержкой пагинации и фильтрацией по диапазону дат. Если переданы query-параметры 'start_date' и 'end_date' в формате YYYY-MM-DD, то будут возвращаться только те записи, у которых vizit_datetime попадает в указанный диапазон от начала start_date до конца end_date (до 23:59:59).
+         */
+        get: operations["v0_booking_appointments_list"];
+        put?: never;
+        /**
+         * Создание новой записи на прием
+         * @description API для работы с записью на прием с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *       - retrieve: получение по id
+         *       - create: создание
+         *       - update / partial_update: обновление
+         *       - destroy: удаление
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те записи, у которых vizit_datetime попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        post: operations["v0_booking_appointments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/booking-appointments/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получение записи на прием по id
+         * @description API для работы с записью на прием с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *       - retrieve: получение по id
+         *       - create: создание
+         *       - update / partial_update: обновление
+         *       - destroy: удаление
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те записи, у которых vizit_datetime попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        get: operations["v0_booking_appointments_retrieve"];
+        /**
+         * Полное обновление записи на прием
+         * @description API для работы с записью на прием с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *       - retrieve: получение по id
+         *       - create: создание
+         *       - update / partial_update: обновление
+         *       - destroy: удаление
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те записи, у которых vizit_datetime попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        put: operations["v0_booking_appointments_update"];
+        post?: never;
+        /**
+         * Удаление записи на прием
+         * @description API для работы с записью на прием с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *       - retrieve: получение по id
+         *       - create: создание
+         *       - update / partial_update: обновление
+         *       - destroy: удаление
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те записи, у которых vizit_datetime попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        delete: operations["v0_booking_appointments_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * Частичное обновление записи на прием
+         * @description API для работы с записью на прием с поддержкой пагинации.
+         *     Поддерживаются операции:
+         *       - list: получение списка с пагинацией
+         *       - retrieve: получение по id
+         *       - create: создание
+         *       - update / partial_update: обновление
+         *       - destroy: удаление
+         *
+         *     Дополнительно поддерживается фильтрация по диапазону дат.
+         *     При передаче query-параметров "start_date" и "end_date" (формат YYYY-MM-DD)
+         *     будут возвращаться только те записи, у которых vizit_datetime попадает в диапазон
+         *     от начала start_date до конца end_date.
+         */
+        patch: operations["v0_booking_appointments_partial_update"];
         trace?: never;
     };
     "/api/v0/chat/rooms/": {
@@ -370,22 +537,26 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с сотрудниками с поддержкой пагинации.
-         *     Поддерживаются операции:
-         *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
-         *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
-         *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
-         *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
-         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+        /**
+         * Получение списка сотрудников
+         * @description Возвращает список сотрудников с пагинацией. Поддерживает поиск по: - Началу фамилии
+         *     - Началу имени
+         *     - Началу отчества
+         *     - Номеру телефона
+         *     Пример: /api/employees/?search=Иван Петров 7900
+         */
         get: operations["v0_employee_list"];
         put?: never;
-        /** @description API для работы с сотрудниками с поддержкой пагинации.
+        /**
+         * Создание нового сотрудника
+         * @description API для работы с сотрудниками с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
          *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
          *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
          *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
-         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+         */
         post: operations["v0_employee_create"];
         delete?: never;
         options?: never;
@@ -400,40 +571,52 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с сотрудниками с поддержкой пагинации.
+        /**
+         * Получение сотрудника по ID
+         * @description API для работы с сотрудниками с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
          *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
          *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
          *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
-         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+         */
         get: operations["v0_employee_retrieve"];
-        /** @description API для работы с сотрудниками с поддержкой пагинации.
+        /**
+         * Полное обновление данных сотрудника
+         * @description API для работы с сотрудниками с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
          *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
          *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
          *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
-         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+         */
         put: operations["v0_employee_update"];
         post?: never;
-        /** @description API для работы с сотрудниками с поддержкой пагинации.
+        /**
+         * Удаление сотрудника
+         * @description API для работы с сотрудниками с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
          *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
          *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
          *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
-         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+         */
         delete: operations["v0_employee_destroy"];
         options?: never;
         head?: never;
-        /** @description API для работы с сотрудниками с поддержкой пагинации.
+        /**
+         * Частичное обновление данных сотрудника
+         * @description API для работы с сотрудниками с поддержкой пагинации.
          *     Поддерживаются операции:
          *       - list: получение списка сотрудников с пагинацией (требуется permission "staffing.view_employee"),
          *       - retrieve: получение сотрудника по UUID (требуется permission "staffing.view_employee"),
          *       - create: создание нового сотрудника (требуется permission "staffing.add_employee"),
          *       - update / partial_update: обновление сотрудника (требуется permission "staffing.change_employee"),
-         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee"). */
+         *       - destroy: удаление сотрудника (требуется permission "staffing.delete_employee").
+         */
         patch: operations["v0_employee_partial_update"];
         trace?: never;
     };
@@ -444,24 +627,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с филиалами.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
-         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
-         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
-         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
-         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        /**
+         * Список филиалов
+         * @description Получение списка филиалов с пагинацией. Требуется permission 'company_structure.view_filial'.
+         */
         get: operations["v0_filial_list"];
         put?: never;
-        /** @description API для работы с филиалами.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
-         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
-         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
-         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
-         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        /**
+         * Создание филиала
+         * @description Создание нового филиала. Требуется permission 'company_structure.add_filial'.
+         */
         post: operations["v0_filial_create"];
         delete?: never;
         options?: never;
@@ -592,44 +767,28 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с филиалами.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
-         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
-         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
-         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
-         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        /**
+         * Детали филиала
+         * @description Получение информации о филиале по его id. Требуется permission 'company_structure.view_filial'.
+         */
         get: operations["v0_filial_retrieve"];
-        /** @description API для работы с филиалами.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
-         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
-         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
-         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
-         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        /**
+         * Обновление филиала
+         * @description Обновление данных филиала. Требуется permission 'company_structure.change_filial'.
+         */
         put: operations["v0_filial_update"];
         post?: never;
-        /** @description API для работы с филиалами.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
-         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
-         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
-         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
-         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        /**
+         * Удаление филиала
+         * @description Удаление филиала. Требуется permission 'company_structure.delete_filial'.
+         */
         delete: operations["v0_filial_destroy"];
         options?: never;
         head?: never;
-        /** @description API для работы с филиалами.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка филиалов (требуется permission "company_structure.view_filial"),
-         *       - retrieve: получение филиала по id (требуется permission "company_structure.view_filial"),
-         *       - create: создание нового филиала (требуется permission "company_structure.add_filial"),
-         *       - update/partial_update: обновление филиала (требуется permission "company_structure.change_filial"),
-         *       - destroy: удаление филиала (требуется permission "company_structure.delete_filial"). */
+        /**
+         * Частичное обновление филиала
+         * @description Частичное обновление данных филиала. Требуется permission 'company_structure.change_filial'.
+         */
         patch: operations["v0_filial_partial_update"];
         trace?: never;
     };
@@ -735,6 +894,108 @@ export interface paths {
          *       - destroy: удаление
          *         (требуется permission "hospital_stays.delete_hospitalstays"). */
         patch: operations["v0_hospital_stays_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/laboratory/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра лабораторий. */
+        get: operations["v0_laboratory_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/laboratory-research/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра лабораторных исследований. */
+        get: operations["v0_laboratory_research_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/laboratory-research-pdf/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра PDF отчетов лабораторных исследований. */
+        get: operations["v0_laboratory_research_pdf_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/laboratory-research-pdf/{research__lab_direction_guid}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра PDF отчетов лабораторных исследований. */
+        get: operations["v0_laboratory_research_pdf_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/laboratory-research/{lab_direction_guid}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра лабораторных исследований. */
+        get: operations["v0_laboratory_research_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/laboratory/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра лабораторий. */
+        get: operations["v0_laboratory_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v0/login/": {
@@ -899,6 +1160,57 @@ export interface paths {
         patch: operations["v0_medical_card_partial_update"];
         trace?: never;
     };
+    "/api/v0/medical-card/{id}/sign/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Подписание медицинской карты с электронным подписям пользователем, который является сотрудником. */
+        post: operations["sign_medical_card"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/medical-drug/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра аптечных препаратов. */
+        get: operations["v0_medical_drug_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v0/medical-drug/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description API для просмотра аптечных препаратов. */
+        get: operations["v0_medical_drug_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v0/patient/": {
         parameters: {
             query?: never;
@@ -906,22 +1218,33 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с пациентами с поддержкой пагинации.
-         *     Поддерживаются операции:
-         *       - list: получение списка пациентов с пагинацией,
-         *       - retrieve: получение пациента по ID,
-         *       - create: создание нового пациента,
-         *       - update / partial_update: обновление пациента,
-         *       - destroy: удаление пациента. */
+        /**
+         * Получение списка пациентов
+         * @description Возвращает список пациентов с пагинацией. Поддерживает поиск по: - Началу фамилии (регистронезависимый)
+         *     - Началу имени
+         *     - Началу отчества
+         *     - Номеру телефона
+         *     Пример: /api/patients/?search=Иван Петров 7900
+         */
         get: operations["v0_patient_list"];
         put?: never;
-        /** @description API для работы с пациентами с поддержкой пагинации.
+        /**
+         * Создание нового пациента
+         * @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
-         *       - list: получение списка пациентов с пагинацией,
+         *       - list: получение списка пациентов с пагинацией и поиском,
          *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
-         *       - destroy: удаление пациента. */
+         *       - destroy: удаление пациента.
+         *
+         *     Поиск пациентов осуществляется через параметр `search` в GET-запросе.
+         *     Поиск выполняется по:
+         *     - началу фамилии (case-insensitive)
+         *     - началу имени (case-insensitive)
+         *     - началу отчества (case-insensitive)
+         *     - названию контрагента (частичное совпадение)
+         */
         post: operations["v0_patient_create"];
         delete?: never;
         options?: never;
@@ -1040,41 +1363,98 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с пациентами с поддержкой пагинации.
+        /**
+         * Получение пациента по ID
+         * @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
-         *       - list: получение списка пациентов с пагинацией,
+         *       - list: получение списка пациентов с пагинацией и поиском,
          *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
-         *       - destroy: удаление пациента. */
+         *       - destroy: удаление пациента.
+         *
+         *     Поиск пациентов осуществляется через параметр `search` в GET-запросе.
+         *     Поиск выполняется по:
+         *     - началу фамилии (case-insensitive)
+         *     - началу имени (case-insensitive)
+         *     - началу отчества (case-insensitive)
+         *     - названию контрагента (частичное совпадение)
+         */
         get: operations["v0_patient_retrieve"];
-        /** @description API для работы с пациентами с поддержкой пагинации.
+        /**
+         * Полное обновление данных пациента
+         * @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
-         *       - list: получение списка пациентов с пагинацией,
+         *       - list: получение списка пациентов с пагинацией и поиском,
          *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
-         *       - destroy: удаление пациента. */
+         *       - destroy: удаление пациента.
+         *
+         *     Поиск пациентов осуществляется через параметр `search` в GET-запросе.
+         *     Поиск выполняется по:
+         *     - началу фамилии (case-insensitive)
+         *     - началу имени (case-insensitive)
+         *     - началу отчества (case-insensitive)
+         *     - названию контрагента (частичное совпадение)
+         */
         put: operations["v0_patient_update"];
         post?: never;
-        /** @description API для работы с пациентами с поддержкой пагинации.
+        /**
+         * Удаление пациента
+         * @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
-         *       - list: получение списка пациентов с пагинацией,
+         *       - list: получение списка пациентов с пагинацией и поиском,
          *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
-         *       - destroy: удаление пациента. */
+         *       - destroy: удаление пациента.
+         *
+         *     Поиск пациентов осуществляется через параметр `search` в GET-запросе.
+         *     Поиск выполняется по:
+         *     - началу фамилии (case-insensitive)
+         *     - началу имени (case-insensitive)
+         *     - началу отчества (case-insensitive)
+         *     - названию контрагента (частичное совпадение)
+         */
         delete: operations["v0_patient_destroy"];
         options?: never;
         head?: never;
-        /** @description API для работы с пациентами с поддержкой пагинации.
+        /**
+         * Частичное обновление данных пациента
+         * @description API для работы с пациентами с поддержкой пагинации.
          *     Поддерживаются операции:
-         *       - list: получение списка пациентов с пагинацией,
+         *       - list: получение списка пациентов с пагинацией и поиском,
          *       - retrieve: получение пациента по ID,
          *       - create: создание нового пациента,
          *       - update / partial_update: обновление пациента,
-         *       - destroy: удаление пациента. */
+         *       - destroy: удаление пациента.
+         *
+         *     Поиск пациентов осуществляется через параметр `search` в GET-запросе.
+         *     Поиск выполняется по:
+         *     - началу фамилии (case-insensitive)
+         *     - началу имени (case-insensitive)
+         *     - началу отчества (case-insensitive)
+         *     - названию контрагента (частичное совпадение)
+         */
         patch: operations["v0_patient_partial_update"];
+        trace?: never;
+    };
+    "/api/v0/permission-group-current-user/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description ViewSet для получения прав текущего пользователя и его групп. */
+        get: operations["v0_permission_group_current_user_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v0/position/": {
@@ -1084,24 +1464,23 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с должностями.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка должностей (требуется permission "staffing.view_position"),
-         *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
-         *       - create: создание новой должности (требуется permission "staffing.add_position"),
-         *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
-         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+        /**
+         * Получение списка должностей
+         * @description Возвращает список всех должностей с пагинацией
+         */
         get: operations["v0_position_list"];
         put?: never;
-        /** @description API для работы с должностями.
+        /**
+         * Создание новой должности
+         * @description API для работы с должностями.
          *
          *     Поддерживаются операции:
          *       - list: получение списка должностей (требуется permission "staffing.view_position"),
          *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
          *       - create: создание новой должности (требуется permission "staffing.add_position"),
          *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
-         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position").
+         */
         post: operations["v0_position_create"];
         delete?: never;
         options?: never;
@@ -1116,44 +1495,56 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description API для работы с должностями.
+        /**
+         * Получение должности по ID
+         * @description API для работы с должностями.
          *
          *     Поддерживаются операции:
          *       - list: получение списка должностей (требуется permission "staffing.view_position"),
          *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
          *       - create: создание новой должности (требуется permission "staffing.add_position"),
          *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
-         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position").
+         */
         get: operations["v0_position_retrieve"];
-        /** @description API для работы с должностями.
+        /**
+         * Полное обновление должности
+         * @description API для работы с должностями.
          *
          *     Поддерживаются операции:
          *       - list: получение списка должностей (требуется permission "staffing.view_position"),
          *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
          *       - create: создание новой должности (требуется permission "staffing.add_position"),
          *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
-         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position").
+         */
         put: operations["v0_position_update"];
         post?: never;
-        /** @description API для работы с должностями.
+        /**
+         * Удаление должности
+         * @description API для работы с должностями.
          *
          *     Поддерживаются операции:
          *       - list: получение списка должностей (требуется permission "staffing.view_position"),
          *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
          *       - create: создание новой должности (требуется permission "staffing.add_position"),
          *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
-         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position").
+         */
         delete: operations["v0_position_destroy"];
         options?: never;
         head?: never;
-        /** @description API для работы с должностями.
+        /**
+         * Частичное обновление должности
+         * @description API для работы с должностями.
          *
          *     Поддерживаются операции:
          *       - list: получение списка должностей (требуется permission "staffing.view_position"),
          *       - retrieve: получение должности по id (требуется permission "staffing.view_position"),
          *       - create: создание новой должности (требуется permission "staffing.add_position"),
          *       - update/partial_update: обновление должности (требуется permission "staffing.change_position"),
-         *       - destroy: удаление должности (требуется permission "staffing.delete_position"). */
+         *       - destroy: удаление должности (требуется permission "staffing.delete_position").
+         */
         patch: operations["v0_position_partial_update"];
         trace?: never;
     };
@@ -1271,11 +1662,11 @@ export interface paths {
         /** @description API для работы с временем приема.
          *
          *     Поддерживаются операции:
-         *       - list: получение списка записей времени приема
+         *       - list: получение списка записей времени приема с фильтрацией по подразделению
          *         (требуется permission "reception_time.view_receptiontime"),
          *       - retrieve: получение записи по id
          *         (требуется permission "reception_time.view_receptiontime"),
-         *       - create: создание новой записи
+         *       - create: создание новой записи (автоматическая привязка к текущему сотруднику)
          *         (требуется permission "reception_time.add_receptiontime"),
          *       - update/partial_update: обновление записи
          *         (требуется permission "reception_time.change_receptiontime"),
@@ -1286,11 +1677,11 @@ export interface paths {
         /** @description API для работы с временем приема.
          *
          *     Поддерживаются операции:
-         *       - list: получение списка записей времени приема
+         *       - list: получение списка записей времени приема с фильтрацией по подразделению
          *         (требуется permission "reception_time.view_receptiontime"),
          *       - retrieve: получение записи по id
          *         (требуется permission "reception_time.view_receptiontime"),
-         *       - create: создание новой записи
+         *       - create: создание новой записи (автоматическая привязка к текущему сотруднику)
          *         (требуется permission "reception_time.add_receptiontime"),
          *       - update/partial_update: обновление записи
          *         (требуется permission "reception_time.change_receptiontime"),
@@ -1313,40 +1704,27 @@ export interface paths {
         /** @description API для работы с временем приема.
          *
          *     Поддерживаются операции:
-         *       - list: получение списка записей времени приема
+         *       - list: получение списка записей времени приема с фильтрацией по подразделению
          *         (требуется permission "reception_time.view_receptiontime"),
          *       - retrieve: получение записи по id
          *         (требуется permission "reception_time.view_receptiontime"),
-         *       - create: создание новой записи
+         *       - create: создание новой записи (автоматическая привязка к текущему сотруднику)
          *         (требуется permission "reception_time.add_receptiontime"),
          *       - update/partial_update: обновление записи
          *         (требуется permission "reception_time.change_receptiontime"),
          *       - destroy: удаление записи
          *         (требуется permission "reception_time.delete_receptiontime"). */
         get: operations["v0_reception_time_retrieve"];
-        /** @description API для работы с временем приема.
-         *
-         *     Поддерживаются операции:
-         *       - list: получение списка записей времени приема
-         *         (требуется permission "reception_time.view_receptiontime"),
-         *       - retrieve: получение записи по id
-         *         (требуется permission "reception_time.view_receptiontime"),
-         *       - create: создание новой записи
-         *         (требуется permission "reception_time.add_receptiontime"),
-         *       - update/partial_update: обновление записи
-         *         (требуется permission "reception_time.change_receptiontime"),
-         *       - destroy: удаление записи
-         *         (требуется permission "reception_time.delete_receptiontime"). */
-        put: operations["v0_reception_time_update"];
+        put?: never;
         post?: never;
         /** @description API для работы с временем приема.
          *
          *     Поддерживаются операции:
-         *       - list: получение списка записей времени приема
+         *       - list: получение списка записей времени приема с фильтрацией по подразделению
          *         (требуется permission "reception_time.view_receptiontime"),
          *       - retrieve: получение записи по id
          *         (требуется permission "reception_time.view_receptiontime"),
-         *       - create: создание новой записи
+         *       - create: создание новой записи (автоматическая привязка к текущему сотруднику)
          *         (требуется permission "reception_time.add_receptiontime"),
          *       - update/partial_update: обновление записи
          *         (требуется permission "reception_time.change_receptiontime"),
@@ -1358,11 +1736,11 @@ export interface paths {
         /** @description API для работы с временем приема.
          *
          *     Поддерживаются операции:
-         *       - list: получение списка записей времени приема
+         *       - list: получение списка записей времени приема с фильтрацией по подразделению
          *         (требуется permission "reception_time.view_receptiontime"),
          *       - retrieve: получение записи по id
          *         (требуется permission "reception_time.view_receptiontime"),
-         *       - create: создание новой записи
+         *       - create: создание новой записи (автоматическая привязка к текущему сотруднику)
          *         (требуется permission "reception_time.add_receptiontime"),
          *       - update/partial_update: обновление записи
          *         (требуется permission "reception_time.change_receptiontime"),
@@ -1380,6 +1758,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Регистрация сотрудника
+         * @description Регистрация нового сотрудника. Данный эндпоинт доступен только для администратора.
+         */
         post: operations["v0_register_new_employee_create"];
         delete?: never;
         options?: never;
@@ -1779,6 +2161,78 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AIRecommendationPatientCondition: {
+            readonly id: number;
+            document_template?: number | null;
+            document?: string | null;
+            document_fields?: unknown;
+            patient: number;
+            shift: number;
+            description?: string | null;
+            /** Format: date-time */
+            readonly date: string;
+            status: components["schemas"]["Status1d6Enum"];
+        };
+        AIRecommendationsDoctorAppointment: {
+            readonly id: number;
+            booking_appointment?: number | null;
+            patient?: number | null;
+            reception_template: number;
+            reception_document?: string | null;
+            reception_document_fields?: unknown;
+            assigned_doctor?: number | null;
+            signed_by: number;
+            /** @default true */
+            is_first_appointment: boolean;
+            /** @default false */
+            is_closed: boolean;
+            reason_for_inspection?: string | null;
+            /** @default no_inspection */
+            inspection_choice: components["schemas"]["InspectionChoiceEnum"];
+            /** Format: date */
+            appointment_date: string;
+            /** Format: time */
+            start_time: string;
+            /** Format: time */
+            end_time: string;
+            /** Format: date-time */
+            readonly date_created: string;
+            /** Format: date-time */
+            readonly date_updated: string;
+            medical_card?: number | null;
+            diagnosis?: number | null;
+        };
+        BookingAppointment: {
+            readonly id: number;
+            /** Пациент */
+            patient: number;
+            readonly patient_name: string;
+            /** Врач */
+            doctor: number;
+            readonly doctor_name: string;
+            /** Статус */
+            status: components["schemas"]["BookingAppointmentStatusEnum"];
+            /** Format: date-time */
+            vizit_datetime: string;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly created_at: string;
+            /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly updated_at: string;
+            readonly booking_str: string;
+        };
+        /**
+         * @description * `planning` - планирование
+         *     * `confirmation` - подтверждение
+         *     * `отмена` - cancellation
+         * @enum {string}
+         */
+        BookingAppointmentStatusEnum: "planning" | "confirmation" | "отмена";
         ChatRoom: {
             readonly id: number;
             /** Название чата */
@@ -1841,12 +2295,14 @@ export interface components {
             readonly id: number;
             reason_for_inspection?: string | null;
             /** Подписано ЭП */
-            is_signed?: boolean;
+            is_signed?: boolean | null;
             /**
              * Дата подписания
              * Format: date
              */
-            readonly signed_date: string;
+            readonly signed_date: string | null;
+            /** Организационная подпись */
+            org_signature?: unknown;
             /** Документ приема */
             reception_document?: string | null;
             /** Поля документа */
@@ -1891,20 +2347,22 @@ export interface components {
              * Format: date-time
              */
             readonly date_updated: string;
+            /** Запись на прием */
+            booking_appointment?: number | null;
             /**
              * Пациент
              * @description Внешний ключ на пациента направленного на приём
              */
             patient?: number | null;
             /** Шаблон приема */
-            reception_template: number;
+            reception_template?: number | null;
             /**
              * Назначенный врач
              * @description Внешний ключ на врача, к которому был записан пациент
              */
             assigned_doctor?: number | null;
             /** Кем подписан */
-            signed_by: number;
+            signed_by?: number | null;
             medical_card?: number | null;
             /** Диагноз */
             diagnosis?: number | null;
@@ -1919,7 +2377,7 @@ export interface components {
             /** Отчество */
             patronymic?: string | null;
             /** Пол */
-            gender?: components["schemas"]["GenderEnum"];
+            gender?: components["schemas"]["Gender71aEnum"];
             /**
              * Дата рождения
              * Format: date
@@ -1959,6 +2417,8 @@ export interface components {
             phone?: string | null;
             /** Длительность приёма */
             appointment_duration?: string | null;
+            /** Чат ID телеграмма для отправки уведомлений */
+            telegram_chat_id?: string | null;
             /** Пользователь */
             user?: number | null;
             /** Подразделение */
@@ -1970,6 +2430,10 @@ export interface components {
         };
         Filial: {
             readonly id: number;
+            /** Название */
+            name?: string | null;
+            /** Описание */
+            description?: string | null;
             /** Дом */
             house: string;
             /** Строение */
@@ -1981,7 +2445,7 @@ export interface components {
         };
         FilialDepartment: {
             readonly id: number;
-            /** Название подразделения */
+            /** Название отделения */
             name: string;
             /** Руководитель */
             director?: number | null;
@@ -1991,10 +2455,16 @@ export interface components {
         /**
          * @description * `M` - Мужской
          *     * `F` - Женский
+         * @enum {string}
+         */
+        Gender62bEnum: "M" | "F";
+        /**
+         * @description * `M` - Мужской
+         *     * `F` - Женский
          *     * `U` - Не указан
          * @enum {string}
          */
-        GenderEnum: "M" | "F" | "U";
+        Gender71aEnum: "M" | "F" | "U";
         HospitalStays: {
             readonly id: number;
             /** Пациент */
@@ -2032,6 +2502,77 @@ export interface components {
          * @enum {string}
          */
         InspectionChoiceEnum: "no_inspection" | "additional" | "center" | "ambulatory" | "stationary" | "sanatorium" | "dispensary" | "preventive" | "referral";
+        LaboratoryModel: {
+            readonly id: number;
+            /**
+             * Уникальный идентификатор лаборатории
+             * Format: uuid
+             */
+            readonly guid: string;
+            /** Название лаборатории */
+            name: string;
+            /** Адрес лаборатории */
+            address: string;
+        };
+        LaboratoryResearchModel: {
+            readonly id: number;
+            /**
+             * GUID направления
+             * Format: uuid
+             */
+            readonly lab_direction_guid: string;
+            /** Статус исследования */
+            status: components["schemas"]["LaboratoryResearchModelStatusEnum"];
+            /** Номер документа */
+            number: string;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            create_date: string;
+            /**
+             * Дата направления
+             * Format: date-time
+             */
+            direction_date: string;
+            /**
+             * GUID предыдущего исследования
+             * Format: uuid
+             */
+            previous_research_guid?: string | null;
+            /** Предыдущее исследование выполнено */
+            is_previous_research?: boolean;
+            /** Приоритетное исследование (CITO) */
+            is_priority?: boolean;
+            /** Пациент */
+            patient?: number | null;
+            /** Лаборатория */
+            laboratory: number;
+        };
+        /**
+         * @description * `completed` - Завершено
+         *     * `process` - В процессе
+         * @enum {string}
+         */
+        LaboratoryResearchModelStatusEnum: "completed" | "process";
+        LaboratoryResearchPDFModel: {
+            readonly id: number;
+            /**
+             * PDF-документ
+             * Format: byte
+             */
+            readonly pdf_data: string;
+            /**
+             * Дата создания документа
+             * Format: date-time
+             */
+            readonly created_at: string;
+            /**
+             * GUID направления
+             * Format: uuid
+             */
+            research: string;
+        };
         Login: {
             username: string;
             password: string;
@@ -2039,12 +2580,14 @@ export interface components {
         MedicalCard: {
             readonly id: number;
             /** Подписано ЭП */
-            is_signed?: boolean;
+            is_signed?: boolean | null;
             /**
              * Дата подписания
              * Format: date
              */
-            readonly signed_date: string;
+            readonly signed_date: string | null;
+            /** Организационная подпись */
+            org_signature?: unknown;
             /** Наименование */
             name: string;
             /** Номер карты */
@@ -2067,7 +2610,7 @@ export interface components {
             /** Комментарий */
             comment?: string | null;
             /** Кем подписан */
-            signed_by: number;
+            signed_by?: number | null;
             /** Пациент */
             client?: number | null;
             /** Тип карты */
@@ -2087,6 +2630,86 @@ export interface components {
             begin_number?: string | null;
             /** Описание */
             description?: string | null;
+        };
+        MedicineModel: {
+            readonly id: number;
+            /** Внешний ID */
+            external_id: number;
+            /** Код КЛП */
+            klp_code: string;
+            /** Код узла СМНН */
+            smnn_code: string;
+            /** Код КТРУ */
+            ktru_code: string;
+            /** Торговое наименование */
+            name_trade: string;
+            /** Стандартизованное МНН */
+            standard_inn: string;
+            /** Стандартизованная лекарственная форма */
+            standard_form: string;
+            /** Стандартизованная лекарственная доза */
+            standard_doze: string;
+            /** Наименование производителя */
+            name_producer: string;
+            /** Код ОКСМ */
+            oksm_code: number;
+            /** Страна производителя */
+            country: string;
+            /** Номер регистрационного удостоверения */
+            number_registration: string;
+            /**
+             * Дата регистрационного удостоверения
+             * Format: date
+             * @description Формат: дд.мм.гггг
+             */
+            date_registration: string;
+            /** Наименование потребительской единицы */
+            name_unit: string;
+            /** Код ОКЕИ */
+            okei_code: number;
+            /** Нормализованная дозировка */
+            normalized_dosage: string;
+            /** Нормализованная форма */
+            normalized_form: string;
+            /** Наименование первичной упаковки */
+            name_1_packing: string;
+            /** Количество единиц в первичной упаковке */
+            number_units_1: string;
+            /** Наименование вторичной упаковки */
+            name_2_package: string;
+            /** Количество первичных упаковок во вторичной упаковке */
+            number_packages: number;
+            /** Количество единиц во вторичной упаковке */
+            number_units_2: string;
+            /** Код ОКПД 2 */
+            okpd_2_code: string;
+            /** ЖНВЛП */
+            essential_medicines: string;
+            /** Наличие наркотических/психотропных веществ */
+            narcotic_psychotropic: string;
+            /** Код АТХ */
+            code_atc: string;
+            /** Наименование АТХ */
+            name_atc: string;
+            /** Наименование ФТГ */
+            tn: string;
+            /** Комплектность упаковки */
+            completeness: string;
+        };
+        PaginatedBookingAppointmentList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["BookingAppointment"][];
         };
         PaginatedContractorList: {
             /** @example 123 */
@@ -2193,6 +2816,51 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["HospitalStays"][];
         };
+        PaginatedLaboratoryModelList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["LaboratoryModel"][];
+        };
+        PaginatedLaboratoryResearchModelList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["LaboratoryResearchModel"][];
+        };
+        PaginatedLaboratoryResearchPDFModelList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["LaboratoryResearchPDFModel"][];
+        };
         PaginatedMedicalCardList: {
             /** @example 123 */
             count: number;
@@ -2222,6 +2890,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["MedicalCardType"][];
+        };
+        PaginatedMedicineModelList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["MedicineModel"][];
         };
         PaginatedPatientConditionList: {
             /** @example 123 */
@@ -2343,6 +3026,30 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Specialization"][];
         };
+        PatchedBookingAppointment: {
+            readonly id?: number;
+            /** Пациент */
+            patient?: number;
+            readonly patient_name?: string;
+            /** Врач */
+            doctor?: number;
+            readonly doctor_name?: string;
+            /** Статус */
+            status?: components["schemas"]["BookingAppointmentStatusEnum"];
+            /** Format: date-time */
+            vizit_datetime?: string;
+            /**
+             * Дата создания
+             * Format: date-time
+             */
+            readonly created_at?: string;
+            /**
+             * Дата обновления
+             * Format: date-time
+             */
+            readonly updated_at?: string;
+            readonly booking_str?: string;
+        };
         PatchedChatRoom: {
             readonly id?: number;
             /** Название чата */
@@ -2405,12 +3112,14 @@ export interface components {
             readonly id?: number;
             reason_for_inspection?: string | null;
             /** Подписано ЭП */
-            is_signed?: boolean;
+            is_signed?: boolean | null;
             /**
              * Дата подписания
              * Format: date
              */
-            readonly signed_date?: string;
+            readonly signed_date?: string | null;
+            /** Организационная подпись */
+            org_signature?: unknown;
             /** Документ приема */
             reception_document?: string | null;
             /** Поля документа */
@@ -2455,20 +3164,22 @@ export interface components {
              * Format: date-time
              */
             readonly date_updated?: string;
+            /** Запись на прием */
+            booking_appointment?: number | null;
             /**
              * Пациент
              * @description Внешний ключ на пациента направленного на приём
              */
             patient?: number | null;
             /** Шаблон приема */
-            reception_template?: number;
+            reception_template?: number | null;
             /**
              * Назначенный врач
              * @description Внешний ключ на врача, к которому был записан пациент
              */
             assigned_doctor?: number | null;
             /** Кем подписан */
-            signed_by?: number;
+            signed_by?: number | null;
             medical_card?: number | null;
             /** Диагноз */
             diagnosis?: number | null;
@@ -2483,7 +3194,7 @@ export interface components {
             /** Отчество */
             patronymic?: string | null;
             /** Пол */
-            gender?: components["schemas"]["GenderEnum"];
+            gender?: components["schemas"]["Gender71aEnum"];
             /**
              * Дата рождения
              * Format: date
@@ -2523,6 +3234,8 @@ export interface components {
             phone?: string | null;
             /** Длительность приёма */
             appointment_duration?: string | null;
+            /** Чат ID телеграмма для отправки уведомлений */
+            telegram_chat_id?: string | null;
             /** Пользователь */
             user?: number | null;
             /** Подразделение */
@@ -2534,6 +3247,10 @@ export interface components {
         };
         PatchedFilial: {
             readonly id?: number;
+            /** Название */
+            name?: string | null;
+            /** Описание */
+            description?: string | null;
             /** Дом */
             house?: string;
             /** Строение */
@@ -2545,7 +3262,7 @@ export interface components {
         };
         PatchedFilialDepartment: {
             readonly id?: number;
-            /** Название подразделения */
+            /** Название отделения */
             name?: string;
             /** Руководитель */
             director?: number | null;
@@ -2579,12 +3296,14 @@ export interface components {
         PatchedMedicalCard: {
             readonly id?: number;
             /** Подписано ЭП */
-            is_signed?: boolean;
+            is_signed?: boolean | null;
             /**
              * Дата подписания
              * Format: date
              */
-            readonly signed_date?: string;
+            readonly signed_date?: string | null;
+            /** Организационная подпись */
+            org_signature?: unknown;
             /** Наименование */
             name?: string;
             /** Номер карты */
@@ -2607,7 +3326,7 @@ export interface components {
             /** Комментарий */
             comment?: string | null;
             /** Кем подписан */
-            signed_by?: number;
+            signed_by?: number | null;
             /** Пациент */
             client?: number | null;
             /** Тип карты */
@@ -2638,7 +3357,7 @@ export interface components {
             /** Отчество */
             patronymic?: string | null;
             /** Пол */
-            gender?: components["schemas"]["GenderEnum"];
+            gender?: components["schemas"]["Gender71aEnum"];
             /**
              * Дата рождения
              * Format: date
@@ -2680,6 +3399,8 @@ export interface components {
             additional_place_of_work?: string | null;
             /** Профессия */
             profession?: string | null;
+            /** ОМС */
+            oms?: string | null;
             /** Человек, который зарегистрировал пациента */
             registered_by?: number | null;
             /** Контрагент (работодатель клиента) */
@@ -2700,7 +3421,7 @@ export interface components {
             /** Format: date-time */
             readonly date?: string;
             /** Статус состояния пацента */
-            status?: components["schemas"]["StatusEnum"];
+            status?: components["schemas"]["Status1d6Enum"];
             readonly condition_str?: string;
             /** Шаблон документа */
             document_template?: number | null;
@@ -2814,7 +3535,7 @@ export interface components {
             /** Отчество */
             patronymic?: string | null;
             /** Пол */
-            gender?: components["schemas"]["GenderEnum"];
+            gender?: components["schemas"]["Gender71aEnum"];
             /**
              * Дата рождения
              * Format: date
@@ -2856,6 +3577,8 @@ export interface components {
             additional_place_of_work?: string | null;
             /** Профессия */
             profession?: string | null;
+            /** ОМС */
+            oms?: string | null;
             /** Человек, который зарегистрировал пациента */
             registered_by?: number | null;
             /** Контрагент (работодатель клиента) */
@@ -2876,7 +3599,7 @@ export interface components {
             /** Format: date-time */
             readonly date: string;
             /** Статус состояния пацента */
-            status: components["schemas"]["StatusEnum"];
+            status: components["schemas"]["Status1d6Enum"];
             readonly condition_str: string;
             /** Шаблон документа */
             document_template?: number | null;
@@ -2929,45 +3652,65 @@ export interface components {
             /** Врач */
             doctor: number;
         };
-        RegistrationModel: {
-            /** Имя */
+        RegistrationInput: {
+            /** @description Имя сотрудника */
             first_name: string;
-            /** Фамилия */
+            /** @description Фамилия сотрудника */
             last_name: string;
-            /** Отчество */
-            patronymic: string | null;
+            /** @description Отчество сотрудника */
+            patronymic: string;
+            /** @description Определяет, может ли пользователь заходить в систему */
             is_django_user: boolean;
-            /** Пол */
-            gender?: components["schemas"]["GenderEnum"];
+            /** @description Пол сотрудника
+             *
+             *     * `M` - Мужской
+             *     * `F` - Женский */
+            gender: components["schemas"]["Gender62bEnum"];
             /**
-             * Дата рождения
              * Format: date
+             * @description Дата рождения сотрудника
              */
-            date_of_birth?: string | null;
+            date_of_birth: string;
+            /** @description СНИЛС сотрудника */
+            snils: string;
+            /** @description ИНН сотрудника */
+            inn: string;
+            /** @description Адрес регистрации сотрудника */
+            registration_address: string;
+            /** @description Фактический адрес сотрудника */
+            actual_address: string;
             /**
-             * СНИЛС
-             * @description Укажите СНИЛС в формате 123-456-789 01 или 12345678901
-             */
-            snils?: string | null;
-            /** ИНН */
-            inn?: string | null;
-            /** Адрес регистрации */
-            registration_address?: string | null;
-            /** Адрес фактического проживания */
-            actual_address?: string | null;
-            /**
-             * Почта
              * Format: email
+             * @description Email сотрудника
              */
-            email?: string | null;
-            /** Номер телефона */
-            phone?: string | null;
-            /** Подразделение */
-            department?: number | null;
-            /** Должность */
-            position?: number | null;
-            /** Краткое описание */
-            short_description?: string | null;
+            email: string;
+            /** @description Номер телефона сотрудника */
+            phone: string;
+            /** @description ID отдела филиала */
+            department: number;
+            /** @description ID должности сотрудника */
+            position: number;
+            /** @description Краткое описание сотрудника */
+            short_description: string;
+        };
+        RegistrationOutput: {
+            first_name: string;
+            last_name: string;
+            patronymic: string;
+            gender: components["schemas"]["Gender62bEnum"];
+            /** Format: date */
+            date_of_birth: string;
+            snils: string;
+            inn: string;
+            registration_address: string;
+            actual_address: string;
+            /** Format: email */
+            email: string;
+            phone: string;
+            department: number;
+            position: number;
+            short_description: string;
+            user: components["schemas"]["UserCredentials"];
         };
         /**
          * @description * `private` - Личный
@@ -3030,13 +3773,17 @@ export interface components {
          *     * `No change` - Без изменений
          * @enum {string}
          */
-        StatusEnum: "Critical" | "Worsening" | "Stable" | "Improving" | "Recovering" | "Post-operative" | "Unstable" | "No change";
+        Status1d6Enum: "Critical" | "Worsening" | "Stable" | "Improving" | "Recovering" | "Post-operative" | "Unstable" | "No change";
         User: {
             readonly id: number;
             /** Имя пользователя */
             username: string;
             readonly position_id: string;
             readonly position_name: string;
+        };
+        UserCredentials: {
+            username: string;
+            password: string;
         };
     };
     responses: never;
@@ -3047,13 +3794,65 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    v0_ai_recommendation_doctor_appointment_ai_response_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AIRecommendationsDoctorAppointment"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIRecommendationsDoctorAppointment"];
+                };
+            };
+        };
+    };
+    v0_ai_recommendation_patient_condition_ai_response_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AIRecommendationPatientCondition"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AIRecommendationPatientCondition"];
+                };
+            };
+        };
+    };
     v0_appointments_list: {
         parameters: {
             query?: {
+                /** @description Конечная дата в формате YYYY-MM-DD */
+                end_date?: string;
                 /** @description A page number within the paginated result set. */
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /** @description Начальная дата в формате YYYY-MM-DD */
+                start_date?: string;
             };
             header?: never;
             path?: never;
@@ -3185,6 +3984,208 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DoctorAppointment"];
+                };
+            };
+        };
+    };
+    sign_doctor_appointment: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description Токен авторизации пользователя. */
+                Authorization: string;
+            };
+            path: {
+                /** @description A unique integer value identifying this Приём к врачу. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DoctorAppointment"];
+            };
+        };
+        responses: {
+            /** @description Успешное подписание приема врача */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Ошибка при подписании (например, если прием уже подписан) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Неавторизованный доступ */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Пользователь не является сотрудником, или не имеет прав на подписание */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Прием врача не найден или удалён */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_booking_appointments_list: {
+        parameters: {
+            query?: {
+                /** @description Конечная дата в формате YYYY-MM-DD */
+                end_date?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description Начальная дата в формате YYYY-MM-DD */
+                start_date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedBookingAppointmentList"];
+                };
+            };
+        };
+    };
+    v0_booking_appointments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingAppointment"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingAppointment"];
+                };
+            };
+        };
+    };
+    v0_booking_appointments_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Запись на прием. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingAppointment"];
+                };
+            };
+        };
+    };
+    v0_booking_appointments_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Запись на прием. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingAppointment"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingAppointment"];
+                };
+            };
+        };
+    };
+    v0_booking_appointments_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Запись на прием. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_booking_appointments_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Запись на прием. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedBookingAppointment"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingAppointment"];
                 };
             };
         };
@@ -3566,6 +4567,8 @@ export interface operations {
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description A search term. */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -3708,6 +4711,8 @@ export interface operations {
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description A search term. */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -3850,6 +4855,8 @@ export interface operations {
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description Поисковая строка (разделение терминов пробелом) */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -3886,6 +4893,16 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Employee"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };
@@ -3957,6 +4974,16 @@ export interface operations {
                 };
                 content?: never;
             };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
         };
     };
     v0_employee_partial_update: {
@@ -3988,10 +5015,12 @@ export interface operations {
     v0_filial_list: {
         parameters: {
             query?: {
-                /** @description A page number within the paginated result set. */
+                /** @description Номер страницы */
                 page?: number;
-                /** @description Number of results to return per page. */
+                /** @description Количество элементов на странице */
                 page_size?: number;
+                /** @description Поисковая строка (разделение терминов пробелом) */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -4034,7 +5063,10 @@ export interface operations {
     };
     v0_filial_departments_list: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description A search term. */
+                search?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -4079,7 +5111,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this Подразделение филиала. */
+                /** @description A unique integer value identifying this Отделение филиала. */
                 id: number;
             };
             cookie?: never;
@@ -4101,7 +5133,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this Подразделение филиала. */
+                /** @description A unique integer value identifying this Отделение филиала. */
                 id: number;
             };
             cookie?: never;
@@ -4127,7 +5159,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this Подразделение филиала. */
+                /** @description A unique integer value identifying this Отделение филиала. */
                 id: number;
             };
             cookie?: never;
@@ -4148,7 +5180,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /** @description A unique integer value identifying this Подразделение филиала. */
+                /** @description A unique integer value identifying this Отделение филиала. */
                 id: number;
             };
             cookie?: never;
@@ -4271,6 +5303,8 @@ export interface operations {
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description A search term. */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -4402,6 +5436,169 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HospitalStays"];
+                };
+            };
+        };
+    };
+    v0_laboratory_list: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, address. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedLaboratoryModelList"];
+                };
+            };
+        };
+    };
+    v0_laboratory_research_list: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по полям: number, status, laboratory__name. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedLaboratoryResearchModelList"];
+                };
+            };
+        };
+    };
+    v0_laboratory_research_pdf_list: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по полям: research__lab_direction_guid, created_at. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedLaboratoryResearchPDFModelList"];
+                };
+            };
+        };
+    };
+    v0_laboratory_research_pdf_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по полям: research__lab_direction_guid, created_at. */
+                search?: string;
+            };
+            header?: never;
+            path: {
+                research__lab_direction_guid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LaboratoryResearchPDFModel"];
+                };
+            };
+        };
+    };
+    v0_laboratory_research_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по полям: number, status, laboratory__name. */
+                search?: string;
+            };
+            header?: never;
+            path: {
+                lab_direction_guid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LaboratoryResearchModel"];
+                };
+            };
+        };
+    };
+    v0_laboratory_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, address. */
+                search?: string;
+            };
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Лаборатория. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LaboratoryModel"];
                 };
             };
         };
@@ -4783,6 +5980,124 @@ export interface operations {
             };
         };
     };
+    sign_medical_card: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: name, number, card_type__name, client__last_name, client__first_name, client__patronymic, client__date_of_birth. */
+                search?: string;
+            };
+            header: {
+                /** @description Токен авторизации пользователя. */
+                Authorization: string;
+            };
+            path: {
+                /** @description A unique integer value identifying this Медицинская карта. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MedicalCard"];
+            };
+        };
+        responses: {
+            /** @description Успешное подписание медицинской карты */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Ошибка при подписании (например, если карта уже подписана) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Неавторизованный доступ */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Пользователь не является сотрудником, или не имеет прав на подписание */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Медицинская карта не найдена или удалена */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    v0_medical_drug_list: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: klp_code, smnn_code, ktru_code, name_trade, country, oksm_code, name_producer. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedMedicineModelList"];
+                };
+            };
+        };
+    };
+    v0_medical_drug_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Номер страницы для пагинации. */
+                page?: number;
+                /** @description Количество объектов на странице. */
+                page_size?: number;
+                /** @description Поисковый запрос для поиска по следующим полям: klp_code, smnn_code, ktru_code, name_trade, country, oksm_code, name_producer. */
+                search?: string;
+            };
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this Лекарственный препарат. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MedicineModel"];
+                };
+            };
+        };
+    };
     v0_patient_list: {
         parameters: {
             query?: {
@@ -4790,6 +6105,8 @@ export interface operations {
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description Поисковая строка (разделение терминов пробелом) */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -4828,6 +6145,16 @@ export interface operations {
                     "application/json": components["schemas"]["Patient"];
                 };
             };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
         };
     };
     v0_patient_conditions_list: {
@@ -4837,6 +6164,8 @@ export interface operations {
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description A search term. */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -5039,6 +6368,16 @@ export interface operations {
                 };
                 content?: never;
             };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
         };
     };
     v0_patient_partial_update: {
@@ -5064,6 +6403,24 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Patient"];
                 };
+            };
+        };
+    };
+    v0_permission_group_current_user_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -5112,6 +6469,16 @@ export interface operations {
                     "application/json": components["schemas"]["Position"];
                 };
             };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
         };
     };
     v0_position_retrieve: {
@@ -5132,6 +6499,16 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Position"];
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };
@@ -5160,6 +6537,16 @@ export interface operations {
                     "application/json": components["schemas"]["Position"];
                 };
             };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
         };
     };
     v0_position_destroy: {
@@ -5180,6 +6567,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
             };
         };
     };
@@ -5216,6 +6613,8 @@ export interface operations {
                 page?: number;
                 /** @description Number of results to return per page. */
                 page_size?: number;
+                /** @description A search term. */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -5420,32 +6819,6 @@ export interface operations {
             };
         };
     };
-    v0_reception_time_update: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description A unique integer value identifying this Время приёма. */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ReceptionTime"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ReceptionTime"];
-                };
-            };
-        };
-    };
     v0_reception_time_destroy: {
         parameters: {
             query?: never;
@@ -5502,7 +6875,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["RegistrationModel"];
+                "application/json": components["schemas"]["RegistrationInput"];
             };
         };
         responses: {
@@ -5511,7 +6884,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RegistrationModel"];
+                    "application/json": components["schemas"]["RegistrationOutput"];
                 };
             };
         };

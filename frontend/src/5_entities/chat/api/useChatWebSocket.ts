@@ -1,7 +1,6 @@
-// @ts-nocheck
 // useChatWebSocket.ts
+import { webSocketBaseUrl } from "@6_shared/config";
 import { useState, useEffect, useCallback, useRef } from "react";
-import {websocketBaseUrl} from '@6_shared/config/backend.ts'
 
 export const useChatWebSocket = (chatId: string | null) => {
   const [messages, setMessages] = useState<any[]>([]);
@@ -45,7 +44,7 @@ export const useChatWebSocket = (chatId: string | null) => {
   useEffect(() => {
     if (!chatId) return;
 
-    const wsUrl = `ws://${websocketBaseUrl}/ws/chat/${chatId}/`;
+    const wsUrl = `ws://${webSocketBaseUrl}/ws/chat/${chatId}/`;
     socketRef.current = createSocket(wsUrl);
 
     return () => {

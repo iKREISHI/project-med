@@ -13,6 +13,7 @@ interface DocumentEditorProps {
 interface DocumentEditorRef {
   exportToPdf: () => Promise<void>;
   extractFormData: () => void;
+  getProcessedHtml: () => string;
 }
 
 export const DocumentEditor = forwardRef<DocumentEditorRef, DocumentEditorProps>(
@@ -54,7 +55,8 @@ export const DocumentEditor = forwardRef<DocumentEditorRef, DocumentEditorProps>
         const pdf = new jsPDF({ orientation: "portrait", unit: "px" });
         pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
         pdf.save("document.pdf");
-      }
+      },
+      getProcessedHtml: () => formRef.current?.innerHTML || ""
     }));
 
     return (

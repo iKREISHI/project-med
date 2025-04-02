@@ -4,17 +4,20 @@ import { Box, Typography, Button, Stack } from "@mui/material";
 import { DocumentEditor } from "@2_widgets/documetEditor";
 import { useAppointmentsFormStore } from "@4_features/admission/model/store.ts";
 import { getPatient } from "@5_entities/patient";
+import { getEmployee } from "@5_entities/emloyee/api/getEmployee";
+import { Employee } from "@5_entities/emloyee/model/model";
 
 export const Diagnosis: FC = () => {
   const { appointment, setField } = useAppointmentsFormStore();
   const documentEditorRef = useRef<any>(null);
   const [patientData, setPatientData] = useState<any>(null);
-
+  const [employee, setEmployee] = useState<Employee>()
   useEffect(() => {
     const fetchPatient = async () => {
       if (appointment.patient) {
         try {
           const patient = await getPatient(appointment.patient);
+          console.log(patient);
           setPatientData(patient);
         } catch (error) {
           console.error("Error loading patient:", error);
@@ -22,30 +25,52 @@ export const Diagnosis: FC = () => {
         }
       }
     };
+
+    const fetchEmplyeeData = async () => {
+      if (appointment.assigned_doctor) {
+        try {
+          const employeeData = await getEmployee(appointment.assigned_doctor);
+          console.log(employeeData);
+          setEmployee(employeeData)
+        } catch (error) {
+          console.error(error);
+
+        }
+      }
+    }
     fetchPatient();
+    fetchEmplyeeData();
   }, [appointment.patient]);
 
+
+  
+
   const handleDataExtract = (data: Record<string, any>) => {
+    // Получаем HTML с подставленными данными
+    const processedHtml = documentEditorRef.current?.getProcessedHtml() || "";
+  
     const mergedData = {
       ...data,
       patient: patientData 
         ? `${patientData.last_name} ${patientData.first_name} ${patientData.patronymic || ''}`.trim()
         : "Пациент не указан",
-      doctor: appointment.signed_by || "Не указан",
+      doctor: getEmployee(appointment.signed_by)  || "Не указан",
       date: appointment.appointment_date || "Не указана",
       time: appointment.start_time && appointment.end_time
         ? `${appointment.start_time} - ${appointment.end_time}`
         : "Не указано"
     };
-    
-    setField('reception_document_fields', JSON.stringify(mergedData));
+  
+    // Сохраняем и данные формы, и HTML
+    setField('reception_document_fields', mergedData);
+    setField('reception_document', processedHtml); // <-- Добавлено сохранение HTML
   };
 
   const initialData = {
     patient: patientData 
       ? `${patientData.last_name} ${patientData.first_name} ${patientData.patronymic || ''}`.trim()
       : "Пациент не указан",
-    doctor: appointment.signed_by || "Не указан",
+    doctor: employee?.first_name || "Не указан",
     date: appointment.appointment_date || "Не указана",
     time: appointment.start_time && appointment.end_time
       ? `${appointment.start_time} - ${appointment.end_time}`
@@ -74,7 +99,7 @@ export const Diagnosis: FC = () => {
 
   <div class="vital-signs">
     <h2>Жизненно важные показатели</h2>
-    <div class="vital-grid">
+    <div class="vital-grid">ЙВ
       <div class="vital-item">
         <label>Температура тела (°C):</label>
         <input type="text" name="temperature" value="{{temperature}}" class="form-input">
@@ -117,15 +142,16 @@ export const Diagnosis: FC = () => {
     <textarea name="symptoms" rows="4" class="form-textarea">{{symptoms}}</textarea>
   </div>
 
+  <div class="symptoms-section">
+    <h2>История болезни</h2>
+    <textarea name="illness_history" rows="4" class="form-textarea">{{symptoms}}</textarea>
+  </div>
+
   <div class="treatment-section">
     <h2>Назначения</h2>
     <div class="treatment-item">
       <label>Процедуры:</label>
       <textarea name="procedures" rows="3" class="form-textarea">{{procedures}}</textarea>
-    </div>
-    <div class="treatment-item">
-      <label>Диета:</label>
-      <input type="text" name="diet" value="{{diet}}" class="form-input" placeholder="Стол №">
     </div>
     <div class="treatment-item">
       <label>Дополнительные исследования:</label>
@@ -216,6 +242,9 @@ export const Diagnosis: FC = () => {
       />
 
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+      <Button variant="contained" onClick={() => console.log(appointment)}>
+          Проверить данные
+        </Button>
         <Button variant="contained" onClick={() => documentEditorRef.current?.extractFormData()}>
           Сохранить данные
         </Button>

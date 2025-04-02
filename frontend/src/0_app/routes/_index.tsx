@@ -37,12 +37,13 @@ import { MainRegistry } from "@1_pages/mainRegistry";
 import { MainHeadDoctor } from "@1_pages/mainHeadDoctor";
 import { Recipes } from "@1_pages/recipes";
 import { AddRecipeForm } from "@5_entities/recipe";
+import { BookingAppointmentList } from "@4_features/record/RecordList/ui/BookingAppointmentList";
 
 export const RouterComponent: FC = () => {
   const userLocal = JSON.parse(localStorage.getItem('user') || '{}');
   const position = userLocal.position || 'staff';
   const user = {
-    role: 'Работник' // Администратор Работник Регистратура Заведующий
+      role: 'Работник' // Администратор Работник Регистратура Заведующий
   };
 
   return (
@@ -132,7 +133,11 @@ export const RouterComponent: FC = () => {
                 <Route path="diagnosis" element={<Diagnosis />} />
                 <Route path="treatment-plan" element={<TreatmentPlan />} />
               </Route>
-              <Route path="record" element={<Record />} />
+              {/*<Route path="record" element={<Record />} />*/}
+
+              <Route path="booking-appointment" element={<BookingAppointmentList />}/>
+              <Route path="booking-appointment/record" element={<Record/>}/>
+
               <Route path="registry/patient" element={<Patient />}>
                 <Route path="info" element={<PatientInfo />} />
                 <Route path="passport" element={<PatientPassport />} />

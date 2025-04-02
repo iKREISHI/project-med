@@ -2,108 +2,222 @@
 import * as React from 'react';
 import { Box, Typography, Modal, useTheme, useMediaQuery } from '@mui/material';
 import { CustomButton } from '@6_shared/Button';
-import { InputForm } from '@6_shared/Input';
-import { CustomSelect } from '@6_shared/Select';
-
-interface PatientCondition {
-    id?: number;
-    patient?: string;
-    patient_name?: string;
-    shift?: number;
-    description?: string;
-    date?: string;
-    status?: string;
-}
+import { DocumentEditor } from '@2_widgets/documetEditor';
+import { usePatientConditionFormStore } from '../model/store';
+import { addNewCondition, PatientCondition } from '@5_entities/patientCondition';
 
 interface ConditionModalProps {
     open: boolean;
     onClose: () => void;
-    condition: Partial<PatientCondition> | null;
-    onSave?: (condition: Partial<PatientCondition>) => void;
-    patients: { id: number; name: string }[];
+    onSave?: (documentContent: string) => void;
 }
 
-const statusOptions = [
-    { id: 1, value: 'stable', label: 'Стабильное' },
-    { id: 2, value: 'observation', label: 'Под наблюдением' },
-    { id: 3, value: 'critical', label: 'Критическое' },
-    { id: 4, value: 'improving', label: 'Улучшение' },
-    { id: 5, value: 'worsening', label: 'Ухудшение' },
-];
+const medicalTemplate = `
+<div class="medical-document">
+  <header class="document-header">
+    <div class="clinic-info">
+      <p>Государственное бюджетное учреждение здравоохранения</p>
+      <p>"Шадринская городская больница"</p>
+      <p>г. Шадринск, ул.Михайловская </p>
+    </div>
+    
+    <h1>МЕДИЦИНСКАЯ КАРТА СТАЦИОНАРНОГО БОЛЬНОГО</h1>
+    <div class="document-number">
+      № <input type="text" name="document_number" class="underlined-input short">
+    </div>
+  </header>
 
-const documentTemplates = [
-    { id: 1, name: 'Шаблон 1' },
-    { id: 2, name: 'Шаблон 2' },
-];
+  <div class="patient-info">
+    <h2>Информация о пациенте:</h2>
+    <div class="info-row">
+        <div class="form-field">
+        <label>Пациент:</label>
+        <input type="text" name="patient" class="underlined-input" placeholder="Фио">
+      </div>
+    </div>
+  </div>
 
-type ShiftData = {
-    document_template: string;
-    document: string;
-    document_fields: string;
-};
+  <div class="main-content">
+    <h2>Объективный статус:</h2>
+    <div class="form-field">
+      <label>Cостояние:</label>
+      <input type="text" name="general_state" class="underlined-input" placeholder="удовлетворительное">
+    </div>
 
-export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, condition, onSave, patients }) => {
+    <h3>Жизненно важные показатели:</h3>
+    <div class="vital-signs">
+      <div class="form-field">
+        <label>АД:</label>
+        <input type="text" name="blood_pressure" class="underlined-input short" placeholder="120/80">
+      </div>
+      <div class="form-field">
+        <label>ЧДД:</label>
+        <input type="text" name="respiratory_rate" class="underlined-input short">
+      </div>
+      <div class="form-field">
+        <label>ЧСС:</label>
+        <input type="text" name="heart_rate" class="underlined-input short">
+      </div>
+    </div>
+
+    <h3>Неврологический статус:</h3>
+    <div class="form-field">
+      <textarea name="neurological_status" class="underlined-textarea"></textarea>
+    </div>
+
+    <h3>Назначения:</h3>
+    <div class="form-field">
+      <textarea name="prescriptions" class="underlined-textarea"></textarea>
+    </div>
+  </div>
+
+  <div class="doctor-signature">
+    <div class="signature-block">
+      <p>Лечащий врач:</p>
+      <div class="signature-line"></div>
+      <p class="doctor-name"><input type="text" name="doctor_fullname" class="underlined-input"></p>
+    </div>
+  </div>
+
+  <style>
+    .medical-document {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 14pt;
+      line-height: 1.5;
+      max-width: 21cm;
+      margin: 2cm auto;
+      padding: 1.5cm;
+      background: white;
+    }
+
+    .document-header {
+      text-align: center;
+      margin-bottom: 1.5cm;
+    }
+
+    .document-header h1 {
+      font-size: 16pt;
+      text-transform: uppercase;
+      margin: 20px 0;
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
+    }
+
+    .clinic-info p {
+      margin: 5px 0;
+      font-size: 12pt;
+    }
+
+    .document-number {
+      font-size: 12pt;
+      margin-top: 15px;
+    }
+
+    .patient-info {
+      margin: 1cm 0;
+    }
+
+    .form-field {
+      margin: 15px 0;
+    }
+
+    .underlined-input {
+      border: none;
+      border-bottom: 1px solid #000;
+      font-family: 'Times New Roman';
+      font-size: 14pt;
+      padding: 0 5px;
+      margin-left: 10px;
+      width: 200px;
+    }
+
+    .underlined-input.short {
+      width: 80px;
+    }
+
+    .underlined-textarea {
+      border: 1px solid #000;
+      width: 100%;
+      min-height: 100px;
+      padding: 5px;
+      font-family: 'Times New Roman';
+      font-size: 14pt;
+      line-height: 1.5;
+    }
+
+    .doctor-signature {
+      margin-top: 2cm;
+      text-align: right;
+    }
+
+    .signature-block {
+      display: inline-block;
+      text-align: left;
+    }
+
+    .signature-line {
+      width: 300px;
+      border-bottom: 1px solid #000;
+      margin: 40px 0 5px;
+    }
+
+    .doctor-name {
+      font-weight: bold;
+    }
+  </style>
+</div>
+`;
+
+export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, onSave }) => {
     const theme = useTheme();
+    const { pCondition, setField } = usePatientConditionFormStore();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const [localCondition, setLocalCondition] = React.useState<Partial<PatientCondition>>({});
-    const [shiftData, setShiftData] = React.useState<ShiftData>({
-        document_template: '',
-        document: '',
-        document_fields: ''
-    });
+    const documentEditorRef = React.useRef<any>(null);
+    const formDataRef = React.useRef<Record<string, any>>({});
 
-    React.useEffect(() => {
-        if (open) {
-            if (!condition) {
-                setLocalCondition({});
-                setShiftData({
-                    document_template: '',
-                    document: '',
-                    document_fields: ''
-                });
-            } else {
-                setLocalCondition(condition);
+    const handleDataExtract = (data: Record<string, any>) => {
+        formDataRef.current = data;
+        const processedHtml = documentEditorRef.current?.getProcessedHtml() || "";
+        
+
+        setField('shift', '1');
+        setField('document', processedHtml);
+        setField('document_fields', JSON.stringify(data));
+    };
+
+    const handleSaveDocument = async () => {
+        try {
+            if (!documentEditorRef.current) return;
+            
+            // Обновляем данные формы
+            documentEditorRef.current.extractFormData();
+            
+            // Получаем финальные данные
+            const htmlContent = documentEditorRef.current.getProcessedHtml();
+            const formData = formDataRef.current;
+
+            // Валидация
+            if (!htmlContent?.trim()) {
+                alert('Документ не может быть пустым');
+                return;
             }
+
+            console.log("Сохраненные данные:", { 
+                html: htmlContent, 
+                formData,
+                storeData: pCondition 
+            });
+
+
+        
+            await addNewCondition(pCondition as PatientCondition);
+            if (onSave) onSave(htmlContent, formData);
+            onClose();
+        } catch (error) {
+            console.error('Ошибка при сохранении:', error);
+            alert('Произошла ошибка при сохранении');
         }
-    }, [open, condition]);
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setLocalCondition(prev => ({ ...prev, [name]: value }));
     };
-
-    const handleStatusChange = (value: string) => {
-        setLocalCondition(prev => ({
-            ...prev,
-            status: value,
-            condition_str: statusOptions.find(opt => opt.value === value)?.label
-        }));
-    };
-
-    const handlePatientChange = (value: string) => {
-        setLocalCondition(prev => ({
-            ...prev,
-            patient: value,
-        }));
-    };
-
-    const handleSelectChange = (field: keyof ShiftData) => (value: string) => {
-        setShiftData(prev => ({ ...prev, [field]: value }));
-    };
-
-    const handleShiftInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setShiftData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = () => {
-        if (onSave) {
-            onSave(localCondition);
-        }
-        onClose();
-    };
-
-    const isDocumentTemplateSelected = !!shiftData.document_template;
 
     return (
         <Modal open={open} onClose={onClose}>
@@ -112,80 +226,58 @@ export const ConditionModal: React.FC<ConditionModalProps> = ({ open, onClose, c
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: isMobile ? '90%' : 600,
+                width: isMobile ? '95%' : '80%',
+                height: '90vh',
                 bgcolor: 'background.paper',
                 boxShadow: 24,
-                p: 4,
-                borderRadius: 1
+                p: 3,
+                borderRadius: 2,
+                overflowY: 'auto'
             }}>
-                <Typography variant="h6" sx={{ mb: 3 }}>
-                    {localCondition?.id ? 'Редактирование состояния' : 'Добавление состояния'}
+                <Typography variant="h5" sx={{ mb: 3 }}>
+                    Медицинский осмотр пациента
                 </Typography>
 
-                <Box sx={{ mb: 1, display: { lg: 'flex' }, gap: 1 }}>
-                    <CustomSelect
-                        value={localCondition.patient || ''}
-                        onChange={handlePatientChange}
-                        options={patients.map((patient) => ({
-                            id: patient.id,
-                            value: patient.id.toString(),
-                            name: patient.name,
-                        }))}
-                        placeholder="Выберите пациента"
-                        label="Пациент"
-                        required
-                        fullWidth
-                    />
+                <DocumentEditor 
+                    ref={documentEditorRef} 
+                    templateHtml={medicalTemplate}
+                    initialData={{}}
+                    onDataExtract={handleDataExtract}
+                />
 
-                    <CustomSelect
-                        value={localCondition?.status || ''}
-                        onChange={handleStatusChange}
-                        label="Статус состояния"
-                        required
-                        options={statusOptions.map((option) => ({
-                            id: option.id,
-                            value: option.value,
-                            name: option.label,
-                        }))}
-                        placeholder='Выберите статус состояния'
-                        fullWidth
-                    />
+                {/* Блок для отладки */}
+                <Box sx={{ mt: 2, display: 'none' /* Скрыто по умолчанию */ }}>
+                    <Typography variant="body2">Отладочная информация:</Typography>
+                    <pre>{JSON.stringify(formDataRef.current, null, 2)}</pre>
+                    <Typography variant="body2">HTML содержимое:</Typography>
+                    <div dangerouslySetInnerHTML={{__html: documentEditorRef.current?.getProcessedHtml() || ''}} />
                 </Box>
 
-                <InputForm
-                    type="text"
-                    label="Комментарий"
-                    name="description"
-                    value={localCondition?.description || ''}
-                    onChange={handleInputChange}
-                    multiline
-                    rows={2}
-                    fullWidth
-                />
-
-                <InputForm
-                    type="text"
-                    label="Название документа"
-                    name="document"
-                    value={shiftData.document}
-                    onChange={handleShiftInputChange}
-                    fullWidth
-                />
-
-
-
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 2 }}>
-                    <CustomButton
-                        variant="outlined"
-                        onClick={onClose}
-                    >
+                <Box sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'flex-end', 
+                    gap: 2, 
+                    mt: 3,
+                    position: 'sticky',
+                    bottom: 0,
+                    bgcolor: 'background.paper',
+                    py: 2
+                }}>
+                    <CustomButton variant="outlined" onClick={onClose} sx={{ minWidth: 120 }}>
                         Отмена
                     </CustomButton>
-                    <CustomButton
-                        variant="contained"
-                        onClick={handleSubmit}
+                    <CustomButton 
+                        variant="contained" 
+                        onClick={handleSaveDocument}
+                        sx={{ minWidth: 160 }}
                     >
-                        Сохранить
+                        Сохранить данные
+                    </CustomButton>
+                    <CustomButton 
+                        variant="outlined" 
+                        onClick={() => documentEditorRef.current?.exportToPdf()}
+                    >
+                        Экспорт в PDF
                     </CustomButton>
                 </Box>
             </Box>
