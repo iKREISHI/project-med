@@ -3,6 +3,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 from .config import TELEGRAM_BOT_TOKEN
+from .config import DATABASES_URL
 
 # Include
 include('commons.py')
