@@ -17,8 +17,8 @@ class ShiftTransferSerializerTestCase(TestCase):
         self.mock_get_short_name = patcher.start()
 
         # Создаем две смены с разными временами
-        self.shift1_start = datetime.datetime(2025, 3, 26, 8, 0)
-        self.shift1_end = datetime.datetime(2025, 3, 26, 16, 0)
+        self.shift1_start = datetime.datetime(2026, 3, 26, 8, 0)
+        self.shift1_end = datetime.datetime(2026, 3, 26, 16, 0)
         self.shift1 = Shift.objects.create(
             doctor=self.employee,
             start_time=self.shift1_start,
@@ -26,8 +26,8 @@ class ShiftTransferSerializerTestCase(TestCase):
             # При необходимости добавить обязательные поля, унаследованные от AbstractDocumentTemplate
         )
 
-        self.shift2_start = datetime.datetime(2025, 3, 27, 8, 0)
-        self.shift2_end = datetime.datetime(2025, 3, 27, 16, 0)
+        self.shift2_start = datetime.datetime(2026, 3, 27, 8, 0)
+        self.shift2_end = datetime.datetime(2026, 3, 27, 16, 0)
         self.shift2 = Shift.objects.create(
             doctor=self.employee,
             start_time=self.shift2_start,

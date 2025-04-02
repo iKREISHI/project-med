@@ -92,7 +92,6 @@ export const LaboratoryResearch: React.FC = () => {
             renderCell: (params) => (
                 <Chip
                     label={params.row.status_label}
-                    color={statusColors[params.row.status]}
                     size="small"
                 />
             )
@@ -117,22 +116,11 @@ export const LaboratoryResearch: React.FC = () => {
             renderCell: (params) => (
                 <Chip
                     label={params.row.status_label}
-                    color={statusColors[params.row.status]}
                     size="small"
                 />
             )
         },
         { field: 'patient_name', headerName: 'Пациент', flex: 1 },
-        {
-            field: 'actions',
-            headerName: 'Действия',
-            width: 60,
-            renderCell: (params) => (
-                <IconButton onClick={() => navigate(`/laboratory/researches/${params.row.id}`)}>
-                    <EditIcon fontSize="small" />
-                </IconButton>
-            ),
-        },
     ];
 
     return (

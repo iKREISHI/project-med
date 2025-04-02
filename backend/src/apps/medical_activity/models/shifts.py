@@ -1,12 +1,12 @@
 from datetime import timedelta
-
 from django.db import models
 from django.utils import timezone
 from django.utils.timezone import now
 from rest_framework.serializers import ValidationError
 from django.utils.translation import gettext_lazy as _
-
 from apps.medical_activity.models.abstract_document_template import AbstractDocumentTemplate
+from apps.notification.service import NotificationService
+
 
 class Shift(AbstractDocumentTemplate):
     """
@@ -53,3 +53,10 @@ class Shift(AbstractDocumentTemplate):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+        user = self.doctor.user
+        NotificationService.create_notification(
+            user=user,
+            message=f'Дежурство запланировано на время: {self.start_time.strftime("%H:%M %d-%m-%Y")}',
+            status='planning',
+            date_notification=self.start_time,
+        )

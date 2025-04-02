@@ -22,12 +22,53 @@ services:
         condition: service_started
       minio:
         condition: service_started
+      rabbitmq:
+        condition: service_started
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - REDIS_URL=${REDIS_URL}
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - MINIO_INSTANCE_ADDRESS=minio:9000
+      - SERVER_BACKEND_IP_ADDRESS=176.108.248.247
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: celery -A config.celery_app worker --loglevel=info
+    depends_on:
+      - rabbitmq
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - DATABASE_URL=${DATABASE_URL}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: celery -A config.celery_app beat --loglevel=info
+    depends_on:
+      - rabbitmq
+      - celery_worker
+    environment:
+      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - DATABASE_URL=${DATABASE_URL}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+
+  tg_bot:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: python /app/manage.py run_aiobot
+    depends_on:
+      - postgres
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - DATABASE_URL=${DATABASE_URL}
+
   redis:
     image: redis:latest
     container_name: redis_container
@@ -115,6 +156,13 @@ services:
       - static_volume:/static:ro  # Монтируем собранную статику Django
     depends_on:
       - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   redis_data:

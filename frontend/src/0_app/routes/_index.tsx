@@ -109,7 +109,7 @@ export const RouterComponent: FC = () => {
           {user.role === "Работник" && (
             <>
               <Route path="" element={<DashBoard />} />
-              {/* <Route path="laboratory" element={<LaboratoryResearch />} /> */}
+              <Route path="laboratory" element={<LaboratoryResearch />} />
               <Route path="chat">
                 <Route index element={<Chat />} />
                 <Route path=":id" element={<Chat />} />

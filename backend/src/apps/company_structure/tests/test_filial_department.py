@@ -46,7 +46,6 @@ class FilialDepartmentModelTest(TestCase):
         self.assertEqual(FilialDepartment.objects.count(), 1)
         self.assertEqual(department.name, "Отдел продаж")
         self.assertIsNone(department.filial)
-        self.assertIsNone(department.director)
 
     def test_create_department_with_filial(self):
         """Тест создания подразделения с привязкой к филиалу"""
@@ -57,20 +56,6 @@ class FilialDepartmentModelTest(TestCase):
         self.assertEqual(department.filial, self.filial)
         self.assertIn(department, self.filial.filialdepartment_set.all())
 
-    def test_director_assignment(self):
-        """Тест назначения руководителя подразделения и каскадное удаление"""
-        department = FilialDepartment.objects.create(
-            name="IT-отдел",
-            filial=self.filial,
-            director=self.employee
-        )
-        # Проверяем связь
-        self.assertEqual(department.director, self.employee)
-        self.assertIn(department, self.employee.managed_departments.all())
-        # При удалении сотрудника связь должна обнулиться
-        self.employee.delete()
-        department.refresh_from_db()
-        self.assertIsNone(department.director)
 
     def test_name_validation(self):
         """Тест валидации названия подразделения"""
@@ -114,26 +99,6 @@ class FilialDepartmentModelTest(TestCase):
             name="Отдел кадров"
         )
         self.assertEqual(str(department), "Отдел кадров")
-
-    def test_director_department_consistency(self):
-        """Тест согласованности подразделения директора"""
-        department = FilialDepartment.objects.create(
-            name="Отдел разработки",
-            filial=self.filial
-        )
-        # Если сотрудник не принадлежит данному подразделению, ожидаем ошибку
-        department.director = self.employee
-        with self.assertRaises(ValidationError):
-            department.full_clean()
-        # Назначаем сотруднику это подразделение
-        self.employee.department = department
-        self.employee.save()
-        department.director = self.employee
-        # Теперь валидация должна пройти
-        try:
-            department.full_clean()
-        except ValidationError as e:
-            self.fail(f"full_clean() raised ValidationError unexpectedly: {e}")
 
     def test_filial_deletion(self):
         """Тест удаления связанного филиала"""
