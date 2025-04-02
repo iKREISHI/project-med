@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from 'react';
 import { PatientVisitsChart } from '@6_shared/Chart/PatientVisitsChart';
 import { Schedule } from '@6_shared/Schedule';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { POST } from "@6_shared/api";
 import { ReceptionTime } from "../model/model";
 

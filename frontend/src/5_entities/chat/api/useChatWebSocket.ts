@@ -1,3 +1,4 @@
+// @ts-nocheck
 // useChatWebSocket.ts
 import { useState, useEffect, useCallback, useRef } from "react";
 

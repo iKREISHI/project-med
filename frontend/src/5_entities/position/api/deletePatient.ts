@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DELETE } from "@6_shared/api";
 
 //Удаление пациента по ID

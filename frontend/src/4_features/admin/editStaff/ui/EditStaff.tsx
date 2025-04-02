@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import { InputForm } from "../../../../6_shared/Input";

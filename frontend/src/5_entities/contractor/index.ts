@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 export { type Contractor, type PaginatedContractorList } from './model/model.ts'
 

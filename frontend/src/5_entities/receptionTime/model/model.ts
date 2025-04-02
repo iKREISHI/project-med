@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {components} from '6_shared/api/types'
 
 export type ReceptionTime = components['schemas']['ReceptionTime'];

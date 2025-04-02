@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import { useState } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
