@@ -26,11 +26,11 @@ app.conf.beat_schedule = {
     # },
     'update-medicine-1-day': {
         'task': 'apps.external_systems.tasks.update_medicine',
-        'schedule': 86400.0,
+        'schedule': 3600.0,
     },
     'update-laboratory-1-day': {
         'task': 'apps.external_systems.tasks.update_laboratory',
-        'schedule': 86410.0,
+        'schedule': 3600.0,
     },
     'telegram-bot-send-message': {
         'task': 'apps.notification.tasks.send_scheduled_message',

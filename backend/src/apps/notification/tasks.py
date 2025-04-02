@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @shared_task
 def send_scheduled_message():
     async def send_messages():
-        bot = Bot(token=settings.TELEGRAM_BOT_TOKEN)
+        bot = Bot(token=settings.TELEGRAM_BOT_TOKEN.strip())
 
         # Получаем все уведомления, где статус равен 'Планируется'
         notifications = await sync_to_async(list)(

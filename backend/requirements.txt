@@ -28,6 +28,7 @@ cron-descriptor==1.4.5
 cryptography==44.0.2
 daphne==4.1.2
 decouple==0.0.7
+dj-database-url==2.3.0
 Django==5.1.6
 django-celery-beat==2.7.0
 django-celery-results==2.5.1
