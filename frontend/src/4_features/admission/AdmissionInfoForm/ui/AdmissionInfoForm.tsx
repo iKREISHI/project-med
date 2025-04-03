@@ -107,8 +107,9 @@ export const AdmissionInfoForm: React.FC<AdmissionInfoFormProps> = ({ patientNam
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSnackbarOpen(true);
-    setField('is_signed', 'false');
+    setField('is_signed', 'true');
     setField('signed_date', '2025-04-01');
+    setField('diagnosis', 1);
     try{
       await addAppointments(appointment as DoctorAppointment)
       

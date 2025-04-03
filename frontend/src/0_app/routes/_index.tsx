@@ -43,8 +43,9 @@ import { BookingAppointmentList } from "@4_features/record/RecordList/ui/Booking
 export const RouterComponent: FC = () => {
   const userLocal = JSON.parse(localStorage.getItem('user') || '{}');
   const position = userLocal.position || 'staff';
+  console.log(position);
   const user = {
-      role: 'Работник' // Администратор Работник Регистратура Заведующий
+      role: position // Администратор Работник Регистратура Заведующий
   };
 
   return (
@@ -58,7 +59,7 @@ export const RouterComponent: FC = () => {
           element={
             <ProtectedRoute
               role={user.role}
-              allowedRoles={["Администратор", "Работник", "Регистратура", "Заведующий"]}
+              allowedRoles={["Администратор", "Врач", "Регистратор", "Заведующий отделением"]}
             >
               {user.role === "Администратор" ? (
 
@@ -108,7 +109,7 @@ export const RouterComponent: FC = () => {
           )}
 
           {/* Маршруты для сотрудника */}
-          {user.role === "Работник" && (
+          {user.role === "Врач" && (
             <>
               <Route path="" element={<DashBoard />} />
               <Route path="laboratory" element={<LaboratoryResearch />} />
@@ -173,7 +174,7 @@ export const RouterComponent: FC = () => {
           )}
 
           {/* Маршруты для заведующего отделением */}
-          {user.role === "Заведующий" && (
+          {user.role === "Заведующий отделением" && (
             <>
               <Route path="" element={<Navigate to="/doctor-shift" replace />} />
               <Route path="staff" element={<StaffList />} />

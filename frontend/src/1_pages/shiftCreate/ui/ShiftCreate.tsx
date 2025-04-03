@@ -1,195 +1,143 @@
 // @ts-nocheck
-import * as React from 'react';
-import { useState } from 'react';
-import { Box, Typography, IconButton } from '@mui/material';
-import { CustomButton } from "@6_shared/Button";
-import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { CustomSelect } from '@6_shared/Select';
-import { InputForm } from '@6_shared/Input';
-import { globalsStyleSx } from '@6_shared/styles/globalsStyleSx';
-import Grid from '@mui/material/Grid2';
+import { FC, useEffect, useState } from "react";
+import {
+  Box, TextField, Stack, Typography, Button
+} from "@mui/material";
+import { InputForm } from "@6_shared/Input";
+import { CustomAutocomplete } from "@6_shared/Autocomplete";
+import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
+import { GET, POST } from "@6_shared/api";
 
-interface Shift {
-    id?: number;
-    doctor: string;
-    doctor_name: string;
-    start_time: string;
-    end_time: string;
-    shift: string;
-    document_template?: string;
-    document?: string;
-    document_fields?: string;
-    comment?: string;
+interface Employee {
+  id: number;
+  last_name: string;
+  first_name: string;
+  patronymic?: string;
 }
 
-interface Option {
-    id: number;
-    name: string;
-    doctor?: string;
-    time?: string;
+interface Template {
+  id: number;
+  name: string;
 }
 
-const documentTemplates: Option[] = [
-    { id: 1, name: "Открытие смены" },
-];
+export const ShiftCreate: FC = () => {
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [formData, setFormData] = useState({
+    doctor: null as Employee | null,
+    start_time: '',
+    end_time: '',
+    document_template: null as Template | null,
+    document: '',
+    document_fields: ''
+  });
 
-const availableShifts: Option[] = [
-    { id: 1, name: "Смена 1 (Иванов И.И.)", doctor: "Иванов И.И.", time: "15.05.2023 08:00 - 15.05.2023 20:00" },
-];
+  const getFullName = (person: Employee) =>
+    `${person.last_name} ${person.first_name} ${person.patronymic || ''}`.trim();
 
-// создание / открытие смены 
-export const ShiftCreate: React.FC = () => {
-    const navigate = useNavigate();
-    const [shiftData, setShiftData] = useState<Shift>({
-        doctor: '',
-        doctor_name: '',
-        start_time: '',
-        end_time: '',
-        shift: '',
-        document_template: '',
-        document: '',
-        document_fields: '',
-        comment: ''
-    });
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setShiftData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [doctorsResp, templatesResp] = await Promise.all([
+          GET("/api/v0/employee/", { query: { page: 1, page_size: 100 } }),
+          GET("/api/v0/reseption-template/", { query: { page: 1, page_size: 100 } }),
+        ]);
+        setEmployees(doctorsResp.data?.results || []);
+        setTemplates(templatesResp.data?.results || []);
+      } catch (err) {
+        console.error("Ошибка загрузки данных:", err);
+      }
     };
+    fetchData();
+  }, []);
 
-    const handleSelectChange = (field: keyof Shift) => (value: string) => {
-        setShiftData(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
+  const handleChange = (field: keyof typeof formData) => (e: any) => {
+    const value = e?.target?.value ?? e;
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log(shiftData);
-    };
+  const handleSubmit = async () => {
+    try {
+      await POST("/api/v0/shift/", {
+        doctor: formData.doctor?.id,
+        start_time: formData.start_time,
+        end_time: formData.end_time,
+        document_template: formData.document_template?.id,
+        document: formData.document,
+        document_fields: formData.document_fields
+      });
+      alert("Смена успешно добавлена");
+    } catch (error) {
+      console.error("Ошибка при добавлении смены:", error);
+      alert("Ошибка при добавлении смены");
+    }
+  };
 
-    const isDocumentTemplateSelected = Boolean(shiftData.document_template);
+  return (
+    <Box sx={{ ...globalsStyleSx.container, p: 3 }}>
+      <Typography variant="h4" mb={2}>Добавление смены</Typography>
 
-    return (
-        <Box sx={{
-            ...globalsStyleSx.container, p: 4
-        }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <IconButton onClick={() => navigate('/doctor-shift')} sx={{ mr: 2 }} disableRipple>
-                    <ArrowBackIcon />
-                </IconButton>
-                <Typography variant="h2">Открытие смены</Typography>
-            </Box>
+      <Stack spacing={2}>
+        <CustomAutocomplete
+          value={formData.doctor}
+          onChange={(val) => handleChange("doctor")(val)}
+          options={employees}
+          placeholder="Выберите врача"
+          label="Врач"
+          isOptionEqualToValue={(a, b) => a?.id === b?.id}
+          getOptionLabel={getFullName}
+          renderInput={(params) => <TextField {...params} label="Врач" required />}
+        />
 
-            <Box>
-                <form onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, lg: 12 }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                <CustomSelect
-                                    value={shiftData.doctor}
-                                    onChange={handleSelectChange('doctor')}
-                                    options={availableShifts}
-                                    placeholder="Выберите врача"
-                                    label="Врач"
-                                    required
-                                    fullWidth
-                                />
-                                <Box sx={{
-                                    display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 2, '& > *': {
-                                        flex: '1 1 50%',
-                                    }
-                                }}>
-                                    <InputForm
-                                        type="datetime-local"
-                                        label="Начало смены"
-                                        name="start_time"
-                                        value={shiftData.start_time}
-                                        onChange={handleInputChange}
-                                        fullWidth
-                                        required
-                                    />
+        <TextField
+          label="Начало смены"
+          type="datetime-local"
+          fullWidth
+          value={formData.start_time}
+          onChange={handleChange("start_time")}
+          InputLabelProps={{ shrink: true }}
+        />
 
-                                    <InputForm
-                                        type="datetime-local"
-                                        label="Конец смены"
-                                        name="end_time"
-                                        value={shiftData.end_time}
-                                        onChange={handleInputChange}
-                                        fullWidth
-                                        required
-                                    />
-                                </Box>
+        <TextField
+          label="Окончание смены"
+          type="datetime-local"
+          fullWidth
+          value={formData.end_time}
+          onChange={handleChange("end_time")}
+          InputLabelProps={{ shrink: true }}
+        />
 
+        <CustomAutocomplete
+          value={formData.document_template}
+          onChange={(val) => handleChange("document_template")(val)}
+          options={templates}
+          placeholder="Выберите шаблон документа"
+          label="Шаблон документа"
+          isOptionEqualToValue={(a, b) => a?.id === b?.id}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => <TextField {...params} label="Шаблон документа" required />}
+        />
 
-                                <Box sx={{
-                                    display: 'flex',
-                                    gap: 2,
-                                    flexDirection: { xs: 'column', lg: 'row' },
-                                    '& > *': {
-                                        flex: '1 1 50%',
-                                    }
-                                }}>
-                                    <CustomSelect
-                                        value={shiftData.document_template || ''}
-                                        onChange={handleSelectChange('document_template')}
-                                        options={documentTemplates}
-                                        placeholder="Выберите шаблон"
-                                        label="Шаблон документа"
-                                        fullWidth
-                                    />
-                                    <InputForm
-                                        type="text"
-                                        label="Название документа"
-                                        name="document"
-                                        value={shiftData.document || ''}
-                                        onChange={handleInputChange}
-                                        fullWidth
-                                    />
-                                </Box>
-                                {isDocumentTemplateSelected && (
-                                    <>
-                                        <InputForm
-                                            type="text"
-                                            label="Поля документа"
-                                            name="document_fields"
-                                            value={shiftData.document_fields || ''}
-                                            onChange={handleInputChange}
-                                            multiline
-                                            rows={4}
-                                            fullWidth
-                                        />
-                                    </>
-                                )}
-                                <InputForm
-                                    type="text"
-                                    label="Комментарий"
-                                    name="comment"
-                                    value={shiftData.comment || ''}
-                                    onChange={handleInputChange}
-                                    multiline
-                                    rows={3}
-                                    fullWidth
-                                />
+        <InputForm
+          label="Название документа"
+          value={formData.document}
+          onChange={handleChange("document")}
+          fullWidth
+        />
 
-                                <Box>
-                                    <CustomButton
-                                        type="submit"
-                                        variant="contained"
-                                    >
-                                        Открыть смену
-                                    </CustomButton>
-                                </Box>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </form>
-            </Box>
-        </Box>
-    );
+        <InputForm
+          label="Поля документа"
+          value={formData.document_fields}
+          onChange={handleChange("document_fields")}
+          multiline
+          rows={4}
+          fullWidth
+        />
+
+        <Button variant="contained" onClick={handleSubmit}>
+          Сохранить смену
+        </Button>
+      </Stack>
+    </Box>
+  );
 };

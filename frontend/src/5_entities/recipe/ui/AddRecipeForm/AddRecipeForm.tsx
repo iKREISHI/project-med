@@ -9,8 +9,8 @@ import { CustomAutocomplete } from "@6_shared/Autocomplete";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
 import { GET, POST } from "@6_shared/api";
 import { useAppointmentsFormStore } from "@4_features/admission/model/store";
-import { useRecipeStore } from "../model/useRecipeStore";
 import { DocumentEditor } from "@2_widgets/documetEditor";
+import { useRecipeStore } from "@5_entities/recipe/model/useRecipeStore";
 
 export const AddRecipeForm: FC = () => {
   const { appointment, setField: setAppointmentField } = useAppointmentsFormStore();
@@ -270,6 +270,7 @@ export const AddRecipeForm: FC = () => {
         <Button variant="outlined" onClick={() => editorRef.current?.exportToPdf()}>
           Сохранить в PDF
         </Button>
+
       </Box>
     </Box>
   );

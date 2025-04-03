@@ -34,7 +34,7 @@ export function MainHeadDoctor() {
   };
 
   const listItems = [
-    { name: 'Дежурства', path: '/doctor-shift', icon: <AssignmentOutlinedIcon /> },
+    { name: 'Дежурства', path: '/doctor-shift/create/', icon: <AssignmentOutlinedIcon /> },
     { name: 'Чат', path: '/chat', icon: <ChatBubbleOutlineOutlinedIcon /> },
     { name: 'Сотрудники', path: '/staff', icon: <BadgeOutlinedIcon /> },
     { name: 'Пациенты', path: '/patients', icon: <PeopleAltOutlinedIcon />  },

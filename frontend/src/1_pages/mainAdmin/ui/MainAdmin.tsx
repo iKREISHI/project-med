@@ -27,6 +27,7 @@ export function MainAdmin() {
     { name: 'Пациенты', path: '/registry' },
     // { name: 'Пациенты', path: '/patients' },
     { name: 'Справочники', path: '/dictionaries' },
+    { name: 'Смена', path: '/shiftCreate' },
   ];
 
 
