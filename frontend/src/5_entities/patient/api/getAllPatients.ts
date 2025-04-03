@@ -2,18 +2,19 @@
 import { GET } from "@6_shared/api";
 import type {PaginatedPatientList, PatientListQueryParams} from "../../patient";
 
-//Получение списка всех пациентов с поддержкой пагинации
+//Получение списка всех пациентов с поддержкой пагинации 
 export const getAllPatients = async (
-  params: PatientListQueryParams = {}
+  params?: PatientListQueryParams
 ): Promise<PaginatedPatientList> => {
-  // Отправляем GET-запрос, передавая параметры в query
-  const response = await GET("/api/v0/patient/", {
-    query: params,
+  console.log('Request params:', params);
+  const response = await GET("/api/v0/patient/", { 
+    params: {
+      query: params 
+    } 
   });
-
-  if (!response || !response.data) {
+  console.log('Response data:', response.data);
+  if (!response.data) {
     throw new Error("Ошибка: сервер вернул пустой ответ");
   }
-
-  return response.data as PaginatedPatientList;
+  return response.data;
 };

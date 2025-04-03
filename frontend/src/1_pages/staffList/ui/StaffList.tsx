@@ -1,6 +1,6 @@
 // @ts-nocheck
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Paper, useTheme, useMediaQuery, Theme, Typography, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -10,17 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import { InputSearch } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
 import { StaffEditModal } from '@6_shared/Staff';
-
-const staffData = [
-    {
-        id: 1,
-        lastname: "Иванов",
-        firstname: "Иван",
-        patronymic: "Иванович",
-        position: "Главный врач",
-        date_created: "988-01-15"
-    },
-];
+import { getAllEmployee } from "@5_entities/emloyee/api/getAllEmployee";
+import { Employee } from "@5_entities/emloyee/model/model";
+import { getAllPositions } from "@5_entities/position/api/getAllPositions";
+import { Position } from "@5_entities/position/model/model";
 
 export const StaffList: React.FC = () => {
     const theme = useTheme();
@@ -30,19 +23,67 @@ export const StaffList: React.FC = () => {
     const isDarkText = !(theme.palette.mode === "dark");
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
+    const [staffData, setStaffData] = useState<Employee[]>([]);
+    const [positions, setPositions] = useState<Position[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [rowCount, setRowCount] = useState(0);
+    
+    const [paginationModel, setPaginationModel] = useState({
+        page: 0,
+        pageSize: 10,
+    });
 
-    // для мобильной версии
+    // Загрузка данных сотрудников и должностей
+    useEffect(() => {
+        fetchStaffData();
+    }, [paginationModel.page, paginationModel.pageSize, searchQuery]);
+
+    const fetchStaffData = async () => {
+        setLoading(true);
+        try {
+            // Загружаем данные параллельно
+            const [employeesResponse, positionsResponse] = await Promise.all([
+                getAllEmployee({
+                    page: paginationModel.page + 1,
+                    page_size: paginationModel.pageSize,
+                }),
+                getAllPositions()
+            ]);
+            
+            setStaffData(employeesResponse.results || []);
+            setRowCount(employeesResponse.count || 0);
+            setPositions(positionsResponse.results || []);
+        } catch (error) {
+            console.error("Ошибка загрузки данных:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Функция для получения названия должности по ID
+    const getPositionName = (positionId: number): string => {
+        const position = positions.find(p => p.id === positionId);
+        return position ? position.name : 'Не указано';
+    };
+
+    // Обработка данных для таблицы
     const processedStaff = staffData.map(staff => ({
         ...staff,
-        full_name: `${staff.lastname} ${staff.firstname[0]}.${staff.patronymic[0]}.`
+        full_name: `${staff.last_name} ${staff.first_name[0]}.${staff.patronymic ? staff.patronymic[0] + '.' : ''}`,
+        position_name: staff.position ? getPositionName(staff.position) : 'Не указано'
     }));
 
     const desktopColumns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 80 },
-        { field: 'lastname', headerName: 'Фамилия', flex: 1, minWidth: 120 },
-        { field: 'firstname', headerName: 'Имя', flex: 1, minWidth: 120 },
+        { field: 'last_name', headerName: 'Фамилия', flex: 1, minWidth: 120 },
+        { field: 'first_name', headerName: 'Имя', flex: 1, minWidth: 120 },
         { field: 'patronymic', headerName: 'Отчество', flex: 1, minWidth: 120 },
-        { field: 'position', headerName: 'Должность', flex: 1.5, minWidth: 150 },
+        { 
+            field: 'position_name', 
+            headerName: 'Должность', 
+            flex: 1.5, 
+            minWidth: 150,
+        },
         {
             field: 'actions',
             headerName: 'Действия',
@@ -64,7 +105,12 @@ export const StaffList: React.FC = () => {
             flex: 1,
             minWidth: 120,
         },
-        { field: 'position', headerName: 'Должность', flex: 1, minWidth: 120 },
+        { 
+            field: 'position_name', 
+            headerName: 'Должность', 
+            flex: 1, 
+            minWidth: 120,
+        },
         {
             field: 'actions',
             headerName: 'Действия',
@@ -78,12 +124,6 @@ export const StaffList: React.FC = () => {
             ),
         },
     ];
-
-    const filteredStaff = processedStaff.filter((staff) =>
-        `${staff.lastname} ${staff.firstname} ${staff.patronymic}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-    );
 
     const columns = isMobile ? mobileColumns : desktopColumns;
 
@@ -142,15 +182,15 @@ export const StaffList: React.FC = () => {
                 borderRadius: (theme: Theme) => theme.shape.borderRadius,
             }}>
                 <DataGrid
-                    rows={filteredStaff}
+                    rows={processedStaff}
                     columns={columns}
                     autoHeight
+                    loading={loading}
                     disableRowSelectionOnClick
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 13 },
-                        },
-                    }}
+                    paginationMode="server"
+                    paginationModel={paginationModel}
+                    onPaginationModelChange={setPaginationModel}
+                    rowCount={rowCount}
                     sx={{
                         borderRadius: (theme: Theme) => theme.shape.borderRadius,
                         '& .MuiDataGrid-cell': {

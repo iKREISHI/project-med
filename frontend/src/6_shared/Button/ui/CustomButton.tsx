@@ -47,7 +47,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         }),
       }}
     >
-      <Typography sx={{ textTransform: 'none' }}>
+      <Typography sx={{ textTransform: 'none' }} >
         {children}
       </Typography>
     </Button>

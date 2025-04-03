@@ -34,7 +34,7 @@ export const FilialDepartment: FC = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [currentId, setCurrentId] = useState<number | null>(null);
     const [newDepartment, setNewDepartment] = useState({
-        name: "",
+        title: "",
         director: "",
         filial: ""
     });
@@ -90,7 +90,7 @@ export const FilialDepartment: FC = () => {
         setIsEditing(false);
         setCurrentId(null);
         setNewDepartment({
-            name: "",
+            title: "",
             director: "",
             filial: ""
         });
@@ -128,7 +128,7 @@ export const FilialDepartment: FC = () => {
         setIsEditing(true);
         setCurrentId(department.id);
         setNewDepartment({
-            name: department.name,
+            title: department.name,
             director: department.director,
             filial: department.filial
         });

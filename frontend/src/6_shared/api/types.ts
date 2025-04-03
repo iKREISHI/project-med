@@ -2443,6 +2443,7 @@ export interface components {
             /** Город */
             city: string;
         };
+
         FilialDepartment: {
             readonly id: number;
             /** Название отделения */
@@ -2451,6 +2452,7 @@ export interface components {
             director?: number | null;
             /** Филиал */
             filial: number | null;
+
         };
         /**
          * @description * `M` - Мужской
@@ -2577,6 +2579,39 @@ export interface components {
             username: string;
             password: string;
         };
+        Laboratory: {
+            readonly id: number;
+            /** Уникальный идентификатор лаборатории */
+            guid: string;
+            /** Название лаборатории */
+            name: string;
+            /** Адрес лаборатории */
+            address: string;
+        };
+        LabResearch: {
+            readonly id: number;
+            /** Уникальный идентификатор направления */
+            lab_direction_guid: string;
+            /** Статус направления */
+            status: "completed" | "process";
+            /** Номер направления */
+            number: string;
+            /** Дата создания */
+            readonly create_date: string;
+            /** Дата направления */
+            direction_date: string;
+            /** GUID предыдущего исследования */
+            previous_research_guid?: string | null;
+            /** Флаг предыдущего исследования */
+            is_previous_research?: boolean;
+            /** Флаг приоритетности */
+            is_priority?: boolean;
+            /** ID пациента */
+            patient?: number;
+            /** ID лаборатории */
+            laboratory: number;
+        };
+
         MedicalCard: {
             readonly id: number;
             /** Подписано ЭП */
@@ -2630,86 +2665,6 @@ export interface components {
             begin_number?: string | null;
             /** Описание */
             description?: string | null;
-        };
-        MedicineModel: {
-            readonly id: number;
-            /** Внешний ID */
-            external_id: number;
-            /** Код КЛП */
-            klp_code: string;
-            /** Код узла СМНН */
-            smnn_code: string;
-            /** Код КТРУ */
-            ktru_code: string;
-            /** Торговое наименование */
-            name_trade: string;
-            /** Стандартизованное МНН */
-            standard_inn: string;
-            /** Стандартизованная лекарственная форма */
-            standard_form: string;
-            /** Стандартизованная лекарственная доза */
-            standard_doze: string;
-            /** Наименование производителя */
-            name_producer: string;
-            /** Код ОКСМ */
-            oksm_code: number;
-            /** Страна производителя */
-            country: string;
-            /** Номер регистрационного удостоверения */
-            number_registration: string;
-            /**
-             * Дата регистрационного удостоверения
-             * Format: date
-             * @description Формат: дд.мм.гггг
-             */
-            date_registration: string;
-            /** Наименование потребительской единицы */
-            name_unit: string;
-            /** Код ОКЕИ */
-            okei_code: number;
-            /** Нормализованная дозировка */
-            normalized_dosage: string;
-            /** Нормализованная форма */
-            normalized_form: string;
-            /** Наименование первичной упаковки */
-            name_1_packing: string;
-            /** Количество единиц в первичной упаковке */
-            number_units_1: string;
-            /** Наименование вторичной упаковки */
-            name_2_package: string;
-            /** Количество первичных упаковок во вторичной упаковке */
-            number_packages: number;
-            /** Количество единиц во вторичной упаковке */
-            number_units_2: string;
-            /** Код ОКПД 2 */
-            okpd_2_code: string;
-            /** ЖНВЛП */
-            essential_medicines: string;
-            /** Наличие наркотических/психотропных веществ */
-            narcotic_psychotropic: string;
-            /** Код АТХ */
-            code_atc: string;
-            /** Наименование АТХ */
-            name_atc: string;
-            /** Наименование ФТГ */
-            tn: string;
-            /** Комплектность упаковки */
-            completeness: string;
-        };
-        PaginatedBookingAppointmentList: {
-            /** @example 123 */
-            count: number;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=4
-             */
-            next?: string | null;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=2
-             */
-            previous?: string | null;
-            results: components["schemas"]["BookingAppointment"][];
         };
         PaginatedContractorList: {
             /** @example 123 */
@@ -2816,51 +2771,6 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["HospitalStays"][];
         };
-        PaginatedLaboratoryModelList: {
-            /** @example 123 */
-            count: number;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=4
-             */
-            next?: string | null;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=2
-             */
-            previous?: string | null;
-            results: components["schemas"]["LaboratoryModel"][];
-        };
-        PaginatedLaboratoryResearchModelList: {
-            /** @example 123 */
-            count: number;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=4
-             */
-            next?: string | null;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=2
-             */
-            previous?: string | null;
-            results: components["schemas"]["LaboratoryResearchModel"][];
-        };
-        PaginatedLaboratoryResearchPDFModelList: {
-            /** @example 123 */
-            count: number;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=4
-             */
-            next?: string | null;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=2
-             */
-            previous?: string | null;
-            results: components["schemas"]["LaboratoryResearchPDFModel"][];
-        };
         PaginatedMedicalCardList: {
             /** @example 123 */
             count: number;
@@ -2890,21 +2800,6 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["MedicalCardType"][];
-        };
-        PaginatedMedicineModelList: {
-            /** @example 123 */
-            count: number;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=4
-             */
-            next?: string | null;
-            /**
-             * Format: uri
-             * @example http://api.example.org/accounts/?page=2
-             */
-            previous?: string | null;
-            results: components["schemas"]["MedicineModel"][];
         };
         PaginatedPatientConditionList: {
             /** @example 123 */

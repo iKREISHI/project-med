@@ -1,6 +1,6 @@
 // @ts-nocheck
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Box, Paper, useTheme, useMediaQuery, Theme, Typography, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -10,33 +10,22 @@ import { InputSearch } from "@6_shared/Input";
 import { CustomButton } from "@6_shared/Button";
 import { useNavigate } from 'react-router-dom';
 import { MedicalRecordEditModal } from '@6_shared/MedicalRecordAdd';
+import { getAllMedicalCard } from '@5_entities/medicalCard/api/getAllMedicalCard';
+import { getAllPatients, Patient } from '@5_entities/patient';
+import { MedicalCard } from '@5_entities/medicalCard/model/model';
+import { getAllFilials } from '@5_entities/filial/api/getAllFilials';
+import { getAllMedicalCardType } from '@5_entities/medicalCardType/api/getAllMedicalCardType';
 
-const medicalRecordsData = [
-  {
-    id: 1,
-    cardNumber: "MC-0001",
-    patientInitials: "Иванов И.И.",
-    cardType: "Амбулаторная",
-    registrationDate: "2000-01-01",
-    branch: "Центральный филиал"
-  },
-  {
-    id: 2,
-    cardNumber: "MC-0002",
-    patientInitials: "Петрова А.В.",
-    cardType: "Стационарная",
-    registrationDate: "2000-01-01",
-    branch: "Северный филиал"
-  },
-  {
-    id: 3,
-    cardNumber: "MC-0003",
-    patientInitials: "Сидоров П.К.",
-    cardType: "Стоматологическая",
-    registrationDate: "2000-01-01",
-    branch: "Южный филиал"
-  },
-];
+interface CombinedMedicalRecord {
+  id: number;
+  cardNumber: string;
+  patientInitials: string;
+  cardType: string;
+  registrationDate: string;
+  branch: string;
+  is_signed: boolean;
+  clientId: number;
+}
 
 export const MedicalRecordList: React.FC = () => {
   const theme = useTheme();
@@ -46,6 +35,85 @@ export const MedicalRecordList: React.FC = () => {
   const navigate = useNavigate();
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedRecordId, setSelectedRecordId] = useState<number | null>(null);
+  const [medicalRecords, setMedicalRecords] = useState<CombinedMedicalRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [cardTypes, setCardTypes] = useState<Record<number, string>>({});
+  const [filials, setFilials] = useState<Record<number, string>>({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+ 
+        // Получаем типы медицинских карт
+        const cardTypesResponse = await getAllMedicalCardType();
+        const cardTypesMap: Record<number, string> = {};
+        cardTypesResponse.results.forEach(type => {
+          cardTypesMap[type.id] = type.name;
+        });
+        setCardTypes(cardTypesMap);
+
+        // Получаем филиалы
+        const filialsResponse = await getAllFilials();
+        const filialsMap: Record<number, string> = {};
+        filialsResponse.results.forEach(filial => {
+          filialsMap[filial.id] = filial.name;
+        });
+        setFilials(filialsMap);
+
+        // Получаем медицинские карты
+        const cardsResponse = await getAllMedicalCard();
+        const medicalCards: MedicalCard[] = cardsResponse.results;
+
+        // Получаем список всех пациентов
+        const patientsResponse = await getAllPatients();
+        const patients: Patient[] = patientsResponse.results;
+
+        // Создаем мап пациентов для быстрого поиска по ID
+        const patientsMap = new Map<number, Patient>();
+        patients.forEach(patient => {
+          patientsMap.set(patient.id, patient);
+        });
+
+        // Формируем объединенные данные
+        const combinedRecords: CombinedMedicalRecord[] = medicalCards.map(card => {
+          const patient = patientsMap.get(card.client);
+          const patientInitials = patient
+            ? `${patient.last_name} ${patient.first_name.charAt(0)}.${patient.patronymic ? patient.patronymic.charAt(0) + '.' : ''}`
+            : 'Неизвестный пациент';
+
+          const cardType = cardTypesMap[card.card_type] || 'Неизвестный тип';
+          const branch = filialsMap[card.filial] || 'Неизвестный филиал';
+
+          return {
+            id: card.id,
+            cardNumber: card.number,
+            patientInitials,
+            cardType,
+            registrationDate: formatDate(card.date_created),
+            branch,
+            is_signed: card.is_signed,
+            clientId: card.client
+          };
+        });
+
+        setMedicalRecords(combinedRecords);
+      } catch (err) {
+        setError('Ошибка при загрузке данных');
+        console.error('Error fetching data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ru-RU');
+  };
 
   const desktopColumns: GridColDef[] = [
     { field: 'cardNumber', headerName: 'Номер Карты', flex: 1, minWidth: 120 },
@@ -53,6 +121,15 @@ export const MedicalRecordList: React.FC = () => {
     { field: 'cardType', headerName: 'Вид Карты', flex: 1, minWidth: 150 },
     { field: 'registrationDate', headerName: 'Дата Регистрации', flex: 1, minWidth: 150 },
     { field: 'branch', headerName: 'Филиал', flex: 1.5, minWidth: 180 },
+    {
+      field: 'is_signed',
+      headerName: 'Статус',
+      flex: 1,
+      minWidth: 120,
+      renderCell: (params) => (
+        params.value ? 'Подписана' : 'Не подписана'
+      ),
+    },
     {
       field: 'actions',
       headerName: 'Действия',
@@ -96,12 +173,11 @@ export const MedicalRecordList: React.FC = () => {
     },
   ];
 
-  const filteredRecords = medicalRecordsData.filter(record =>
+  const filteredRecords = medicalRecords.filter(record =>
     `${record.cardNumber} ${record.patientInitials} ${record.cardType} ${record.branch}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
-
 
   const columns = isMobile ? mobileColumns : desktopColumns;
 
@@ -114,6 +190,10 @@ export const MedicalRecordList: React.FC = () => {
     setEditModalOpen(false);
     setSelectedRecordId(null);
   };
+
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
 
   return (
     <Box sx={{
@@ -164,6 +244,7 @@ export const MedicalRecordList: React.FC = () => {
           rows={filteredRecords}
           columns={columns}
           autoHeight
+          loading={loading}
           disableRowSelectionOnClick
           initialState={{
             pagination: {
@@ -188,10 +269,9 @@ export const MedicalRecordList: React.FC = () => {
         />
       </Paper>
 
-      {/* Модальное окно редактирования */}
       <MedicalRecordEditModal
         open={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
+        onClose={handleCloseModal}
         recordId={selectedRecordId || undefined}
       />
     </Box>

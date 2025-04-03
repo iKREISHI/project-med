@@ -1,16 +1,16 @@
 // @ts-nocheck
 import { PUT } from "@6_shared/api";
-import {Patient} from "@5_entities/patient";
+import { Position } from "../model/model.ts";
 
-//Обновление данных о ПАЦИЕНТЕ
-export const updatePatient = async (
+//Обновление данных о Должностях
+export const updatePositions = async (
   patientId: number,
-  patientData: Omit<Patient, "id" | "date_created">
+  patientData: Omit<Position, "id" | "date_created">
 ): Promise<void> => {
-  const response = await PUT('/api/v0/patient/{id}/', {
+  const response = await PUT('/api/v0/position/{id}/', {
     params: {
       path: { id: patientId },
-      query: undefined, // Явно указываем остальные параметры
+      query: undefined,
       header: undefined,
       cookie: undefined
     },

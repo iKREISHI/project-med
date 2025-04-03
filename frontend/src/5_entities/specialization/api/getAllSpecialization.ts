@@ -8,7 +8,9 @@ export const getAllSpecialization = async (
 ): Promise<PaginatedSpecializationList> => {
   // Отправляем GET-запрос, передавая параметры в query
   const response = await GET("/api/v0/specialization/", {
-    query: params,
+    params: {
+      query: params 
+    } 
   });
 
   if (!response || !response.data) {

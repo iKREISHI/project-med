@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box, Paper, useTheme } from "@mui/material";
+import { Box, Paper, Theme, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { ruRU } from "@mui/x-data-grid/locales";
 import { useNavigate } from "react-router-dom";
@@ -19,16 +19,34 @@ export const Registry: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState<number | null>(null);
   const navigate = useNavigate();
-  const isDarkText = !(theme.palette.mode === "dark");
+  const [rowCount, setRowCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
+  const isDarkText = !(theme.palette.mode === "dark");
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 10,
+  });
   useEffect(() => {
     fetchPatients();
-  }, []);
+  }, [paginationModel.page, paginationModel.pageSize, searchQuery]);
 
-  const fetchPatients = () => {
-    getAllPatients({ page: 1, page_size: 50 })
-      .then((data) => setPatients(data?.results || []))
-      .catch(console.error);
+  const fetchPatients = async () => {
+    setLoading(true);
+    try {
+      const data = await getAllPatients({
+        page: paginationModel.page + 1,
+        page_size: paginationModel.pageSize,
+      });
+      setPatients(data.results);
+      setRowCount(data.count);
+      console.log(patients)
+      console.log(rowCount)
+    } catch (error) {
+      console.error("Ошибка при загрузке пациентов:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleEditClick = (id: number) => {
@@ -60,11 +78,7 @@ export const Registry: React.FC = () => {
     setSelectedPatientId(null);
   };
 
-  const filteredPatients = patients.filter((patient) =>
-    `${patient.last_name} ${patient.first_name} ${patient.patronymic}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
+
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -89,19 +103,40 @@ export const Registry: React.FC = () => {
         </Box>
       </Box>
 
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      <Paper sx={{
+        width: {
+          xs: `91vw`,
+          sm: '100%'
+        },
+        overflow: 'hidden',
+        boxShadow: theme.shadows[0],
+        borderRadius: (theme: Theme) => theme.shape.borderRadius,
+      }}>
         <DataGrid
-          rows={filteredPatients}
+          paginationMode="server"
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          rowCount={rowCount}
+          rows={patients}
           columns={columns}
+          loading={loading}
           autoHeight
           disableRowSelectionOnClick
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-          sx={{'& .MuiDataGrid-columnHeaders': {
+          sx={{
+            borderRadius: (theme: Theme) => theme.shape.borderRadius,
+            '& .MuiDataGrid-cell': {
+              whiteSpace: 'normal',
+              lineHeight: '1.5',
+              padding: theme.spacing(1),
+            },
+            '& .MuiDataGrid-columnHeaders': {
               backgroundColor: 'transparent',
             },
             '& .css-ok32b7-MuiDataGrid-overlay': {
               bgcolor: 'transparent'
-            }}}
+            }
+          }}
         />
       </Paper>
 

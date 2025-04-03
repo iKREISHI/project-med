@@ -12,6 +12,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
+import BiotechIcon from '@mui/icons-material/Biotech';
 import { Header } from '../../../6_shared/Header';
 import { CustomDrawer } from '../../../6_shared/Drawer';
 import { Plane } from '../../../6_shared/Plane';
@@ -44,6 +45,7 @@ export function Main() {
     { name: 'Запись', path: '/booking-appointment', icon: <EditCalendarOutlinedIcon /> },
     { name: 'Дежурства', path: '/doctor-shift', icon: <AssignmentOutlinedIcon /> },
     { name: 'Рецепты', path: '/recipes', icon: <BallotOutlinedIcon /> },
+    { name: 'Лаборатория ', path: '/laboratory', icon: <BiotechIcon /> },
   ];
 
   const tasks = [
