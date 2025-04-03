@@ -1,6 +1,10 @@
 # Project Med
 Автоматизированное место дежурного врача
 
+
+Ветка с последними изменениями frontend:
+`dev/frontend_resetBranch`
+
 ## Setup backend:
 
 ### Для фронтенд разработчиков
