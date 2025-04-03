@@ -1,57 +1,37 @@
 // @ts-nocheck
-import { FC, useState, useEffect } from "react";
-import { Box, TextField, Typography, Stack, IconButton, Button } from "@mui/material";
+import { FC, useState, useEffect, useRef } from "react";
+import {
+  Box, TextField, Typography, Stack, IconButton, Button
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { InputForm } from "@6_shared/Input";
 import { CustomAutocomplete } from "@6_shared/Autocomplete";
 import { globalsStyleSx } from "@6_shared/styles/globalsStyleSx";
-import { GET } from "@6_shared/api";
+import { GET, POST } from "@6_shared/api";
 import { useAppointmentsFormStore } from "@4_features/admission/model/store";
 import { useRecipeStore } from "../model/useRecipeStore";
-
-interface Patient {
-  id: number;
-  last_name: string;
-  first_name: string;
-  patronymic?: string;
-}
-
-interface Employee {
-  id: number;
-  last_name: string;
-  first_name: string;
-  patronymic?: string;
-}
-
-interface Drug {
-  id: number;
-  name_trade: string;
-  standard_form: string;
-  standard_doze: string;
-  country: string;
-  name_producer: string;
-}
+import { DocumentEditor } from "@2_widgets/documetEditor";
 
 export const AddRecipeForm: FC = () => {
   const { appointment, setField: setAppointmentField } = useAppointmentsFormStore();
   const { setField } = useRecipeStore();
+  const editorRef = useRef<any>(null);
 
   const [formData, setFormData] = useState({
-    doctor: null as Employee | null,
-    patient: null as Patient | null,
+    doctor: null,
+    patient: null,
     description: "",
     diagnosis: ""
   });
 
   const [searchText, setSearchText] = useState('');
-  const [searchResults, setSearchResults] = useState<Drug[]>([]);
-  const [selectedDrugs, setSelectedDrugs] = useState<Drug[]>([]);
-
-  const [patients, setPatients] = useState<Patient[]>([]);
-  const [doctors, setDoctors] = useState<Employee[]>([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedDrugs, setSelectedDrugs] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState({ patients: false, doctors: false });
 
-  const getFullName = (person: any) =>
+  const getFullName = (person) =>
     person ? `${person.last_name} ${person.first_name} ${person.patronymic || ''}`.trim() : '';
 
   useEffect(() => {
@@ -62,7 +42,6 @@ export const AddRecipeForm: FC = () => {
           GET("/api/v0/patient/", { query: { page: 1, page_size: 100 } }),
           GET("/api/v0/employee/", { query: { page: 1, page_size: 100 } }),
         ]);
-
         setPatients(patientsResp.data?.results || []);
         setDoctors(doctorsResp.data?.results || []);
       } catch (error) {
@@ -75,11 +54,11 @@ export const AddRecipeForm: FC = () => {
     fetchData();
   }, []);
 
-  const handleInputChange = (field: keyof typeof formData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (field) => (e) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSelectChange = (field: 'doctor' | 'patient') => (value: any) => {
+  const handleSelectChange = (field) => (value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     setAppointmentField(field, value?.id || null);
   };
@@ -93,22 +72,106 @@ export const AddRecipeForm: FC = () => {
           page_size: 10
         }
       });
-
       setSearchResults(response.data?.results || []);
     } catch (err) {
       console.error("Ошибка поиска препаратов:", err);
     }
   };
 
-  const handleAddDrug = (drug: Drug) => {
+  const handleAddDrug = (drug) => {
     setSelectedDrugs(prev => [...prev, drug]);
     setSearchText('');
     setSearchResults([]);
   };
 
+  const handleDataExtract = (data) => {
+    Object.entries(data).forEach(([key, value]) => {
+      setField(key, value);
+    });
+  };
+
+  const handleSavePrescription = async () => {
+    if (!formData.patient || !formData.doctor) {
+      alert("Выберите пациента и врача");
+      return;
+    }
+
+    const html = editorRef.current?.getProcessedHtml();
+    const payload = {
+      is_signed: true,
+      is_send: true,
+      description: formData.description,
+      doc_content: html || '',
+      signed_by: formData.doctor.id,
+      patient: formData.patient.id
+    };
+
+    try {
+      const res = await POST("/api/v0/medicine-prescription/", {
+        body: payload
+      });
+
+      if (res?.data?.id) {
+        alert("Рецепт успешно сохранен");
+      } else {
+        alert("Ошибка при сохранении рецепта");
+      }
+    } catch (err) {
+      console.error("Ошибка при отправке:", err);
+      alert("Ошибка при сохранении рецепта");
+    }
+  };
+
+  const htmlTemplate = `
+    <div class="recipe-form">
+      <h2 style="text-align: center;">Рецепт</h2>
+      <div class="form-section">
+        <label>ФИО пациента:</label>
+        <input type="text" name="patientFullName" value="${getFullName(formData.patient)}" class="form-input" />
+      </div>
+      <div class="form-section">
+        <label>Дата рождения:</label>
+        <input type="date" name="patientBirthDate" value="${formData.patient?.date_of_birth || ''}" class="form-input" />
+      </div>
+      <div class="form-section">
+        <label>ФИО лечащего врача:</label>
+        <input type="text" name="doctorFullName" value="${getFullName(formData.doctor)}" class="form-input" />
+      </div>
+
+      ${selectedDrugs.map((drug, idx) => `
+        <div class="form-section">
+          <label>Rp${idx + 1}:</label>
+          <input type="text" name="medication${idx + 1}" class="form-input" value="${drug.name_trade} (${drug.standard_doze}, ${drug.standard_form})">
+        </div>
+      `).join('')}
+
+      <div class="form-section">
+        <label>Срок действия:</label>
+        <select name="validityPeriod" class="form-input">
+          <option value="10">10 дней</option>
+          <option value="30">1 месяц</option>
+          <option value="90">3 месяца</option>
+        </select>
+      </div>
+      <style>
+        .form-section {
+          margin-bottom: 15px;
+          display: flex;
+          flex-direction: column;
+        }
+        .form-input {
+          padding: 8px;
+          border: 1px solid #ccc;
+          font-size: 14pt;
+          border-radius: 4px;
+        }
+      </style>
+    </div>
+  `;
+
   return (
     <Box sx={{ ...globalsStyleSx.container, p: 3 }}>
-      <CustomAutocomplete<Employee>
+      <CustomAutocomplete
         value={formData.doctor}
         onChange={handleSelectChange('doctor')}
         options={doctors}
@@ -120,7 +183,7 @@ export const AddRecipeForm: FC = () => {
         renderInput={(params) => <TextField {...params} label="Врач" required />}
       />
 
-      <CustomAutocomplete<Patient>
+      <CustomAutocomplete
         value={formData.patient}
         onChange={handleSelectChange('patient')}
         options={patients}
@@ -191,6 +254,23 @@ export const AddRecipeForm: FC = () => {
           </ul>
         </Box>
       )}
+
+      <Box mt={4}>
+        <DocumentEditor
+          ref={editorRef}
+          templateHtml={htmlTemplate}
+          onDataExtract={handleDataExtract}
+        />
+      </Box>
+
+      <Box mt={3} display="flex" justifyContent="flex-end">
+        <Button variant="contained" color="primary" onClick={handleSavePrescription}>
+          Сохранить рецепт
+        </Button>
+        <Button variant="outlined" onClick={() => editorRef.current?.exportToPdf()}>
+          Сохранить в PDF
+        </Button>
+      </Box>
     </Box>
   );
 };
